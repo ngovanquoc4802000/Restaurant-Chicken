@@ -2,6 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import {} from 'colors'
+import pool from './database/connexion.js';
+import router from './router/category.js';
 //rest object
 const app = express();
 
@@ -12,18 +15,24 @@ dotenv.config();
 const PORT = process.env.PORT || 7777;
 
 //middlewares
+app.use('/category', router);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-
 //router
 app.get('/',(req,res) => {
   res.status(200).send('<h1>Xin chào Node Js</h1>')
 })
 
 //conditional listen
-
-//listen
-app.listen(PORT, () => {
-  console.log("Kết nối database thành công")
+pool.query('SELECT 1').then(() => {
+   console.log(`kết nối database thành công`.bgBlack.white)
+   
+   //listen
+   app.listen(PORT, () => {
+     console.log(`Server running on port: http://localhost:${process.env.PORT}`.bgMagenta.white)
+   })
+}).catch((error) => {
+  console.log(error)
 })
+
