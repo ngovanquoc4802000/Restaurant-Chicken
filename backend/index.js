@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import {} from 'colors'
 import pool from './database/connexion.js';
 import routerCategory from './router/category.js';
+import routerDishList from './router/dishList.js'
+import routerOrderDetails from './router/orderTable.js';
 //rest object
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use('/category', routerCategory);
+app.use('/dishList', routerDishList);
+app.use('/orderDetails',routerOrderDetails)
 //router
 app.get('/',(req,res) => {
   res.status(200).send('<h1>Xin chào Node Js</h1>')
