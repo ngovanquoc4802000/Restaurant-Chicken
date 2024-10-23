@@ -1,10 +1,10 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import bodyParser from 'body-parser';
 import {} from 'colors'
 import pool from './database/connexion.js';
-import router from './router/category.js';
+import routerCategory from './router/category.js';
 //rest object
 const app = express();
 
@@ -15,10 +15,10 @@ dotenv.config();
 const PORT = process.env.PORT || 7777;
 
 //middlewares
-app.use('/category', router);
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(bodyParser.json());
+app.use('/category', routerCategory);
 //router
 app.get('/',(req,res) => {
   res.status(200).send('<h1>Xin chào Node Js</h1>')
