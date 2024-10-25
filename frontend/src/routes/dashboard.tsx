@@ -1,13 +1,13 @@
 
-import React from "react";
+import Navigation from "../pages/Navigation";
+import Content from "../pages/content";
 
 function Dashboard() {
   return ( 
-    <section>
-        <div className="header"></div>
-        <div className="content"></div>
-        <div className="footer"></div>
-    </section>
+    <div id="dashboard">
+      <Navigation/>
+      <Content/>
+    </div>
    );
 }
 
