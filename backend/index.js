@@ -7,6 +7,7 @@ import pool from './database/connexion.js';
 import routerCategory from './router/category.js';
 import routerDishList from './router/dishList.js'
 import routerOrderDetails from './router/orderTable.js';
+import routerUser from './router/user.js'
 //rest object
 const app = express();
 
@@ -22,7 +23,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use('/category', routerCategory);
 app.use('/dishList', routerDishList);
-app.use('/orderDetails',routerOrderDetails)
+app.use('/orderDetails',routerOrderDetails);
+app.use('/user', routerUser)
 //router
 app.get('/',(req,res) => {
   res.status(200).send('<h1>Xin chào Node Js</h1>')

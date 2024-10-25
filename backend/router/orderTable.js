@@ -4,7 +4,7 @@ import orderTableControllers from '../controllers/orderTableControllers.js';
 const router = express.Router();
 
 router.get('/',orderTableControllers.orderTableAll);
-router.post('/',orderTableControllers.createOrderTable);
+/* router.post('/',orderTableControllers.createOrderTable); */
 
 router.route('/:id')
   .get(orderTableControllers.oderTableId)

@@ -55,7 +55,7 @@ const oderTableId = async (req, res) => {
     });
   }
 };
-const createOrderTable = async (req, res) => {
+/* const createOrderTable = async (req, res) => {
   try {
     const { order_id, img, title, price, content, order_id_danhmuc } = req.body;
     if (
@@ -96,8 +96,7 @@ const createOrderTable = async (req, res) => {
       message: "error orderTable",
     });
   }
-};
-
+}; */
 const updateOrderTable = async (req, res) => {
   try {
     const updateTableId = req.params.id;
@@ -137,7 +136,6 @@ const updateOrderTable = async (req, res) => {
     });
   }
 };
-
 const deleteOrderTable = async (req, res) => {
   try {
     const deleteParamsId = req.params.id;
@@ -163,7 +161,7 @@ const deleteOrderTable = async (req, res) => {
 export default {
   orderTableAll,
   oderTableId,
-  createOrderTable,
+ /*  createOrderTable, */
   updateOrderTable,
   deleteOrderTable,
 };
