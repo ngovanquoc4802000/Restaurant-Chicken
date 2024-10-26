@@ -9,14 +9,13 @@ import Error from './routes/error';
 function App() {
   return (
    <Routes >
-     <Route path='/' element={<Dashboard/>} errorElement={<Error/>} 
-     
+     <Route path='/' element={<Dashboard/>} 
      >
-      
      <Route path='/category' element={<Category/>} />
      <Route path='/demo' element={<DemoOrder/>} />
      <Route path='/dishlist' element={<Dishlist/>} />
      <Route path='/login' element={<Login/>} />
+     <Route path='*' element={<Error/>} />
      </Route>
    </Routes>
   )

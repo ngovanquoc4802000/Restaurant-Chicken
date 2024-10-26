@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import "../styles/nav.scss"
 
 function Navigation() {
+ 
   return (
     <nav>
       <ul>
@@ -17,7 +18,7 @@ function Navigation() {
         <li>
           <Link to="/login">User</Link>
         </li>
-      </ul> 
+      </ul>
       <Outlet />
     </nav>
   );

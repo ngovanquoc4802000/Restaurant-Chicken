@@ -1,5 +1,5 @@
 function Content() {
-  return ( <>Content Xin chào</> );
+  return ( <></> );
 }
 
 export default Content;

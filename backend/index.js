@@ -8,6 +8,7 @@ import routerCategory from './router/category.js';
 import routerDishList from './router/dishList.js'
 import routerOrderDetails from './router/orderTable.js';
 import routerUser from './router/user.js'
+import cors from 'cors';
 //rest object
 const app = express();
 
@@ -18,13 +19,14 @@ dotenv.config();
 const PORT = process.env.PORT || 7777;
 
 //middlewares
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use('/category', routerCategory);
 app.use('/dishList', routerDishList);
 app.use('/orderDetails',routerOrderDetails);
-app.use('/user', routerUser)
+app.use('/user', routerUser);
 //router
 app.get('/',(req,res) => {
   res.status(200).send('<h1>Xin chào Node Js</h1>')
