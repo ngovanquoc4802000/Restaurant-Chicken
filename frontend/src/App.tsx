@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Dashboard from './pages/dashboard';
-import Category from './pages/content/category';
+import Category from './pages/content/categoryForm/category';
 import DemoOrder from './pages/content/DemoOrder';
 import Dishlist from './pages/content/dishList';
 import Login from './pages/content/login';
