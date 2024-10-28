@@ -1,0 +1,34 @@
+.category {
+  display: grid;
+  gap: 10px;
+  grid-template-areas: "form showForm";
+  .form {
+    grid-area: form;
+  }
+  .showForm {
+    grid-area: showForm;
+  }
+  h2 {
+    margin-left: 5rem;
+  }
+  form {
+    label {
+      input {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        padding: 7px;
+        border-radius: 4px;
+        width: 65%;
+        border: 1px solid black;
+      }
+    }
+  }
+  .showForm {
+     thead {
+      tr {
+        th {
+        }
+      }
+     }
+  }
+}
