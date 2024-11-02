@@ -1,23 +1,29 @@
-import { Routes, Route } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './App.css';
-import Dashboard from './pages/dashboard';
-import Category from './pages/content/categoryForm/category';
-import DemoOrder from './pages/content/DemoOrder';
-import Dishlist from './pages/content/dishList';
-import Login from './pages/content/login';
-import Error from './routes/error';
+import './styles/nav.scss';
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 function App() {
   return (
-    <Routes >
-      <Route path='/' element={<Dashboard/>} 
-     >
-     <Route path='/category' element={<Category/>} />
-     <Route path='/demo' element={<DemoOrder/>} />
-     <Route path='/dishlist' element={<Dishlist/>} />
-     <Route path='/login' element={<Login/>} />
-     <Route path='*' element={<Error/>} />
-     </Route>
-    </Routes>
+    <div className="App">
+      <nav>
+        <ul className='navUl'>
+          <Link to="/category">
+            <li>Category</li>
+          </Link>
+          <Link to="/dishlist">
+            <li>DishList</li>
+          </Link>
+          <Link to="/user">
+            <li>User</li>
+          </Link>
+          <Link to="/order">
+            <li>Order</li>
+          </Link>
+        </ul>
+      </nav>
+      <Outlet />
+    </div>
   )
 }
 

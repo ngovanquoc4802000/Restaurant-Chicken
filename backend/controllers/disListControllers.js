@@ -146,7 +146,7 @@ const deleteDishList = async (req, res) => {
         message: "404 not found"
       })
     } 
-    await pool.query(`DELETE FROM dishList_ WHERE id=?`,[deleteParamsId]);
+    await pool.query(`DELETE FROM dishList_db WHERE id=?`,[deleteParamsId]);
     res.status(200).send({
       success: true,
       message:"success delete dishList"

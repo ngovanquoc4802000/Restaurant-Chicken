@@ -2,7 +2,7 @@ import pool from "../database/connexion.js";
 
 const categoryTableAll = async (req, res) => {
   try {
-    const [data] = await pool.query("SELECT * FROM category_db");
+    const [data] = await pool.query("SELECT * FROM category");
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -35,7 +35,7 @@ const categoryTableId = async (req, res) => {
     }
     const [data] = await pool.query(
       `
-       SELECT * FROM category_db WHERE id=?
+       SELECT * FROM category WHERE category_id=?
       `,
       [categoryId]
     );
@@ -61,19 +61,19 @@ const categoryTableId = async (req, res) => {
 
 const createCategory = async (req, res) => {
   try {
-    const { id, name, handle, email, address } = req.body;
-    if ((!id, !name || !handle || !email || !address)) {
+    const {name, handle, email, address } = req.body;
+    if (( !name || !handle || !email || !address)) {
       return res.status(500).send({
         success: false,
         message: "Invalid 500 category",
       });
     }
     const data = await pool.query(
-      `INSERT INTO category_db
-       (id,name , handle, email , address)
-      VALUES (? , ? , ? , ? , ?)
+      `INSERT INTO category
+       (name , handle, email , address)
+      VALUES ( ? , ? , ? , ?)
       `,
-      [id, name, handle, email, address]
+      [ name, handle, email, address]
     );
     if (!data) {
       return res.status(404).send({
@@ -81,7 +81,7 @@ const createCategory = async (req, res) => {
         message: "Please , Not found Category_db",
       });
     }
-    res.status(201).send({
+    res.status(200).send({
       success: true,
       message: "Success createCategory",
     });
@@ -105,11 +105,11 @@ const updateCategory = async (req, res) => {
     }
     const { name, handle, email, address } = req.body;
     const data = await pool.query(
-      `UPDATE category_db SET 
+      `UPDATE category SET 
       name = ? ,
        handle = ?, 
        email = ? ,
-        address = ? WHERE id = ?`,
+        address = ? WHERE category_id = ?`,
         [name , handle , email , address , upCategory]
     );
     if(!data) {
@@ -140,7 +140,7 @@ const deleteCategory = async(req,res) => {
           message: "404 , Not found deleteCategory"
         })
       }
-      await pool.query(`DELETE FROM category_db WHERE id =?`,[removeCategory])
+      await pool.query(`DELETE FROM category WHERE category_id =?`,[removeCategory])
       res.status(200).send({
         success: true,
         message: "Success delete Id category"

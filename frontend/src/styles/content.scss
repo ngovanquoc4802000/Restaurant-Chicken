@@ -1,17 +1,10 @@
 .category {
   display: grid;
   gap: 10px;
-  grid-template-areas: "form showForm";
-  .form {
-    grid-area: form;
-  }
-  .showForm {
-    grid-area: showForm;
-  }
   h2 {
     margin-left: 5rem;
   }
-  form {
+  .FormFields {
     label {
       input {
         margin-top: 1rem;
@@ -22,7 +15,7 @@
         border: 1px solid black;
       }
     }
-    .addNews {
+    .createPost {
       padding: 5px;
       border-radius: 6px;
       border: 1px solid blue;
@@ -37,12 +30,71 @@
       }
     }
   }
-  .showForm {
-     thead {
-      tr {
-        th {
+  .FormShow {
+    table {
+      width: 90%;
+      border: 1px solid black;
+      thead {
+        tr {
+          th {
+            border: 1px solid black;
+            text-align: center;
+          }
         }
       }
-     }
+      tbody {
+        tr {
+          td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            .view,
+            .edit,
+            .delete {
+              padding: 5px;
+              border-radius: 4px;
+              margin-right: 10px;
+              border: red;
+              cursor: pointer;
+            }
+            .view {
+              background-color: blue;
+              color: white;
+
+              &:hover {
+                background-color: chocolate;
+                color: black;
+              }
+            }
+            .edit {
+              background-color: yellow;
+              color: black;
+              &:hover {
+                background-color: chocolate;
+                color: black;
+              }
+            }
+            .delete {
+              background-color: red;
+              color: white;
+              &:hover {
+                background-color: chocolate;
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+    .create {
+      text-decoration: none;
+      padding: 8px;
+      background: black;
+      border-radius: 6px;
+      position: relative;
+      bottom: 11px;
+      color: #fff;
+    }
+   
   }
 }

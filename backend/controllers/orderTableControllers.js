@@ -165,3 +165,4 @@ export default {
   updateOrderTable,
   deleteOrderTable,
 };
+

@@ -6,7 +6,6 @@ const router = express.Router();
 router.get('/', tablesRouter.categoryTableAll);
 router.post('/', tablesRouter.createCategory)
 
-
 router.route('/:id')
    .get(tablesRouter.categoryTableId)
    .put(tablesRouter.updateCategory)
