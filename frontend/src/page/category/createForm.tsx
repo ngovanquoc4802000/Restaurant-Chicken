@@ -42,22 +42,22 @@ function CreateForm() {
       <form className="FormFields" onSubmit={handlefiels} action="">
         <label htmlFor="">
           Name
-          <input value={value.name} onChange={onChangeInput} name="name" type="text" />
+          <input  onChange={onChangeInput} name="name" type="text" />
         </label>
         <br />
         <label htmlFor="">
           Handle
-          <input value={value.handle} onChange={onChangeInput} name="handle" type="text" />
+          <input  onChange={onChangeInput} name="handle" type="text" />
         </label>
         <br />
         <label htmlFor="">
           Email
-          <input value={value.email} onChange={onChangeInput} name="email" type="email" />
+          <input onChange={onChangeInput} name="email" type="email" />
         </label>
         <br />
         <label htmlFor="">
           Address
-          <input value={value.address} onChange={onChangeInput} name="address" type="address" />
+          <input  onChange={onChangeInput} name="address" type="address" />
         </label>
         <br />
         <button className="createPost" onClick={handleCreate} >

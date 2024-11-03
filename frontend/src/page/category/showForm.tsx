@@ -28,19 +28,6 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
-  const handleDelete = (category_id: number) => {
-    const confirm = window.confirm("Would you like to Delete?");
-    if (!confirm) {
-      axios.delete("http://localhost:7777/category/" + category_id)
-        .then(res => {
-          location.reload();
-          navigator('/')
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
-  }
   return (
     <div className="FormShow">
       <Link className="create" to="/create">
@@ -83,7 +70,7 @@ function Showform() {
           }
         </tbody>
       </table>
-      <Outlet />
+      <Outlet/>
     </div>);
 }
 

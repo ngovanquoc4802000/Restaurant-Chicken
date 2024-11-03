@@ -7,7 +7,7 @@ import CreateForm from './page/category/createForm.tsx';
 import Views from './page/category/views.tsx';
 import Error from './router.tsx/error.tsx';
 import Delete from './page/category/delete.tsx';
-import Update from './page/category/edit.tsx';
+import Edit from './page/category/edit.tsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,10 +38,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/edit",
-        element: <Update/>,
+        element: <Edit/>,
         children: [
           {
-            path: "/edit/:category_id"
+            path: "/edit/:category_id",
+            element: <Edit/>
           }
         ]
       },
