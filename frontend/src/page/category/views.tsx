@@ -11,10 +11,10 @@ interface Form {
 }
 
 function Views() {
+  const [get, setGet] = useState<Form>();
   const params = useParams();
   const { category_id } = params;
   console.log(category_id)
-  const [get, setGet] = useState<Form[]>([]);
   useEffect(() => {
     axios.get(`http://localhost:7777/category/` + category_id)
       .then(res => {
@@ -41,15 +41,13 @@ function Views() {
         </thead>
         <tbody>
           {
-            get.map((item, id) => (
               <tr>
-                <th scope="row" key={id}>{item.category_id}</th>
-                <td>{item.name}</td>
-                <td>{item.handle}</td>
-                <td>{item.email}</td>
-                <td>{item.address}</td>
+                <th scope="row" >{get?.category_id}</th>
+                <td>{get?.name}</td>
+                <td>{get?.handle}</td>
+                <td>{get?.email}</td>
+                <td>{get?.address}</td>
               </tr>
-            ))
           }
         </tbody>
       </table>

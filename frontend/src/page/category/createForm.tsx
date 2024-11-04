@@ -31,7 +31,7 @@ function CreateForm() {
     })
       .then((res) => {
         setValue(res.data.data)
-        navigator('/success');
+        navigator('/category');
         console.log("success")
       }).catch(error => {
         console.log(error)

@@ -28,12 +28,29 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
+  const handleDelete = (category_id: Form) => {
+    axios.delete('http://localhost:7777/category/' + category_id)
+      .then(res => {
+        if (location.reload() === null) {
+          return setArray(array.filter((item) => {
+            item.category_id !== res.data.category_id
+          }))
+        }
+      })
+  }
   return (
     <div className="FormShow">
       <Link className="create" to="/create">
         Add Category
       </Link>
-      <input onChange={(e) => setSearch(e.target.value)} style={{ width: "100%" }} type="text" placeholder="Hãy nhập vào đây" />
+      <div className="input-group">
+        <div className="form-outline" data-mdb-input-init>
+          <input onChange={(e) => setSearch(e.target.value)} type="search" id="form1" className="form-control" />
+        </div>
+        <button type="button" className="btn btn-primary" data-mdb-ripple-init>
+          <i className="fas fa-search"></i>
+        </button>
+      </div>
       <table>
         <thead>
           <tr>
@@ -61,16 +78,14 @@ function Showform() {
                   <Link to={`/edit/${item.category_id}`}>
                     <button className="edit">edit</button>
                   </Link>
-                  <Link to={`/delete/${item.category_id}`}>
-                    <button className="delete">delete</button>
-                  </Link>
+                  <button onClick={() => handleDelete(item.category_id)} className="delete">delete</button>
                 </td>
               </tr>
             ))
           }
         </tbody>
       </table>
-      <Outlet/>
+      <Outlet />
     </div>);
 }
 

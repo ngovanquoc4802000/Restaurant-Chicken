@@ -28,7 +28,7 @@ const categoryTableId = async (req, res) => {
   try {
     const categoryId = req.params.id;
     if (!categoryId) {
-      return res.status(500).send({
+      return res.status(403).send({
         success: false,
         message: "Invalid , Please connect fields",
       });
@@ -37,7 +37,7 @@ const categoryTableId = async (req, res) => {
       `
        SELECT * FROM category WHERE category_id=?
       `,
-      [categoryId]
+      categoryId
     );
     if (!data) {
       return res.status(404).send({
@@ -48,7 +48,7 @@ const categoryTableId = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "success categoryId",
-      data,
+      data: data[0],
     });
   } catch (error) {
     console.log(error);
@@ -61,8 +61,8 @@ const categoryTableId = async (req, res) => {
 
 const createCategory = async (req, res) => {
   try {
-    const {name, handle, email, address } = req.body;
-    if (( !name || !handle || !email || !address)) {
+    const { name, handle, email, address } = req.body;
+    if (!name || !handle || !email || !address) {
       return res.status(500).send({
         success: false,
         message: "Invalid 500 category",
@@ -73,7 +73,7 @@ const createCategory = async (req, res) => {
        (name , handle, email , address)
       VALUES ( ? , ? , ? , ?)
       `,
-      [ name, handle, email, address]
+      [name, handle, email, address]
     );
     if (!data) {
       return res.status(404).send({
@@ -110,18 +110,18 @@ const updateCategory = async (req, res) => {
        handle = ?, 
        email = ? ,
         address = ? WHERE category_id = ?`,
-        [name , handle , email , address , upCategory]
+      [name, handle, email, address, upCategory]
     );
-    if(!data) {
+    if (!data) {
       return res.status(404).send({
         success: false,
-        message: "Error updateCategory"
-      })
+        message: "Error updateCategory",
+      });
     }
     res.status(200).send({
       success: true,
-      message: "Success Update"
-    })
+      message: "Success Update",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -131,33 +131,35 @@ const updateCategory = async (req, res) => {
   }
 };
 
-const deleteCategory = async(req,res) => {
-   try {
-      const removeCategory = req.params.id;
-      if(!removeCategory) {
-        return res.status(404).send({
-          success: false,
-          message: "404 , Not found deleteCategory"
-        })
-      }
-      await pool.query(`DELETE FROM category WHERE category_id =?`,[removeCategory])
-      res.status(200).send({
-        success: true,
-        message: "Success delete Id category"
-      }) 
-   } catch(error) {
-    console.log(error)
+const deleteCategory = async (req, res) => {
+  try {
+    const removeCategory = req.params.id;
+    if (!removeCategory) {
+      return res.status(404).send({
+        success: false,
+        message: "404 , Not found deleteCategory",
+      });
+    }
+    await pool.query(`DELETE FROM category WHERE category_id =?`, [
+      removeCategory,
+    ]);
+    res.status(200).send({
+      success: true,
+      message: "Success delete Id category",
+    });
+  } catch (error) {
+    console.log(error);
     return res.status(500).send({
-      success : true,
-      message: "Error deleteCategory"
-    })
-   }
-}
+      success: true,
+      message: "Error deleteCategory",
+    });
+  }
+};
 
 export default {
   categoryTableAll,
   categoryTableId,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
 };
