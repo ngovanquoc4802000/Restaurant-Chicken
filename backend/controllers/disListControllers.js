@@ -1,9 +1,7 @@
 import pool from "../database/connexion.js";
-import { v4 as uuid4 } from "uuid";
-
 const dishListAll = async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM dishList_db`);
+    const data = await pool.query(`SELECT * FROM dishlist`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -32,10 +30,11 @@ const dishListID = async (req, res) => {
         message: "Invalid is connect",
       });
     }
-    const [data] = await pool.query(`
-    SELECT * FROM dishList_db WHERE id=?`, [
-      distTableId,
-    ]);
+    const [data] = await pool.query(
+      `
+    SELECT * FROM dishList WHERE id=?`,
+      [distTableId]
+    );
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -45,7 +44,7 @@ const dishListID = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Success dishListId",
-      data,
+      data: data[0],
     });
   } catch (error) {
     console.log(error);
@@ -57,17 +56,8 @@ const dishListID = async (req, res) => {
 };
 const createDishList = async (req, res) => {
   try {
-    const { username, email, password, id, telephone, address, payment } =
-      req.body;
-    if (
-      !username ||
-      !email ||
-      !password ||
-      !id ||
-      !telephone ||
-      !address ||
-      !payment
-    ) {
+    const { title, content , price , address } = req.body;
+    if ( !title ||  !content || !price || !address) {
       return res.status(403).send({
         success: false,
         message: "Invalid is correct",
@@ -75,10 +65,10 @@ const createDishList = async (req, res) => {
     }
     const data = await pool.query(
       `
-       INSERT INTO dishList_db (username , email , password , id , telephone , address , payment)
-       VALUES (?, ? , ? , ? , ? , ? , ?)
+       INSERT INTO dishlist (title  , content, price, address)
+       VALUES ( ? , ? , ?, ?)
      `,
-      [username, email, password, id, telephone, address, payment]
+      [ title, content, price, address]
     );
     if (!data) {
       return res.status(404).send({
@@ -107,28 +97,27 @@ const updateDishList = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { username, email, password, telephone, address, payment } = req.body;
-    const data = await pool.query(
-      ` UPDATE dishList_db SET 
-        username = ?,  
-      email = ? ,
-      password = ? ,
-      telephone = ? ,
-      address = ? ,
-      payment = ? WHERE id = ?
+    const {  title, price, content, address } = req.body;
+    const [data] = await pool.query(
+      ` UPDATE dishlist SET 
+       
+      title = ? ,
+      price = ? ,
+      content = ?,
+      address = ?  WHERE id = ?
       `,
-      [username, email, password, telephone, address, payment, updateTable]
+      [ title, price, content, address ,updateTable]
     );
-    if(!data) {
+    if (!data) {
       return res.status(404).send({
-        success : false,
-        message : "404 not fount"
-      })
-    } 
+        success: false,
+        message: "404 not fount",
+      });
+    }
     res.status(201).send({
       success: true,
-      message: "success update dishList"
-    })
+      message: "success update dishList",
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -140,17 +129,17 @@ const updateDishList = async (req, res) => {
 const deleteDishList = async (req, res) => {
   try {
     const deleteParamsId = req.params.id;
-    if(!deleteParamsId) {
+    if (!deleteParamsId) {
       return res.status(404).send({
         success: false,
-        message: "404 not found"
-      })
-    } 
-    await pool.query(`DELETE FROM dishList_db WHERE id=?`,[deleteParamsId]);
+        message: "404 not found",
+      });
+    }
+    await pool.query(`DELETE FROM dishlist WHERE id=?`, [deleteParamsId]);
     res.status(200).send({
       success: true,
-      message:"success delete dishList"
-    })
+      message: "success delete dishList",
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({

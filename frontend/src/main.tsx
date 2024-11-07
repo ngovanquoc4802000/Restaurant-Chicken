@@ -2,18 +2,28 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Error from './router.tsx/error.tsx';
+
 import Category from './router.tsx/category.tsx';
 import CreateForm from './page/category/createForm.tsx';
 import Views from './page/category/views.tsx';
-import Error from './router.tsx/error.tsx';
 import Delete from './page/category/delete.tsx';
 import Edit from './page/category/edit.tsx';
+
+import User from './router.tsx/user.tsx';
+
+import DishList from './router.tsx/dishlist.tsx';
+import CreateDishList from './page/dishlist/create.tsx'
+import ViewsDishList from './page/dishlist/views.tsx';
+import EditDishList from './page/dishlist/edit.tsx';
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <Error />,
     children: [
+      /* Category */
       {
         path: "/category",
         element: <Category />,
@@ -49,10 +59,42 @@ const router = createBrowserRouter([
       {
         path: "/delete/:category_id",
         element: <Delete/>
+      },
+      /* Dish List */
+      {
+       path: "/dishlist",
+       element: <DishList/>
+      },
+      {
+       path: "/dishlist/create",
+       element: <CreateDishList/>
+      },
+      {
+        path: "/dishlist/views",
+        element: <ViewsDishList/>,
+        children: [
+          {
+            path: "/dishlist/views/:id",
+            element: <ViewsDishList/>
+          }
+        ]
+      },
+      {
+        path: "/dishlist/edit",
+        element: <EditDishList/>,
+        children : [
+          {
+            path: '/dishlist/edit/:id',
+            element: <EditDishList/>
+          }
+        ]
+      },
+      {
+        path: "/user",
+        element: <User/>
       }
     ],
   },
-
 ]);
 
 createRoot(document.getElementById('root')!).render(

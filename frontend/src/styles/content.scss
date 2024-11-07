@@ -1,6 +1,8 @@
 .category {
   display: grid;
   gap: 10px;
+  font-family: "Times New Roman", Times, serif;
+
   h2 {
     margin-left: 5rem;
   }
@@ -31,6 +33,10 @@
     }
   }
   .FormShow {
+    .input-group {
+      left: 62%;
+      top: -6%;
+    }
     table {
       width: 90%;
       border: 1px solid black;
@@ -48,8 +54,10 @@
             border: 1px solid black;
             padding: 5px;
             text-align: center;
-            .view,
+            .readview,
             .edit,
+            .cardRead {
+            }
             .delete {
               padding: 5px;
               border-radius: 4px;
@@ -57,9 +65,11 @@
               border: red;
               cursor: pointer;
             }
-            .view {
-              background-color: blue;
-              color: white;
+            .readview {
+              .back .cardRead {
+                ground-color: blue;
+                color: white;
+              }
 
               &:hover {
                 background-color: chocolate;
@@ -82,6 +92,24 @@
                 color: black;
               }
             }
+            .viewShow ,.editShow {
+              border: 1px solid black;
+              margin-right: 5px;
+              padding: 5px;
+              border-radius: 4px;
+              &:hover {
+                background-color: yellow;
+                color: black;
+              }
+            }
+            .editShow {
+              background-color: darkviolet;
+              color: #fff;
+              &:hover {
+                background-color: blue;
+                color: #fff;
+              }
+            }
           }
         }
       }
@@ -95,6 +123,222 @@
       bottom: 11px;
       color: #fff;
     }
-   
   }
 }
+.card {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  position: relative;
+  top: 9%;
+  border: none;
+  .title {
+    position: absolute;
+    top: -10%;
+    display: flex;
+    font-family: emoji;
+    left: 45%;
+  }
+  .card-body {
+    width: 18rem;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    &:hover .DeleteX {
+      display: block;
+    }
+    &:hover .EditIcons {
+      display: block;
+    }
+    .card-title {
+      font-weight: 600;
+    }
+    .card-address {
+      font-size: 14px;
+    }
+    .incre {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      p {
+        cursor: pointer;
+        font-size: 20px;
+        width: 20px;
+        height: 33px;
+        background-color: black;
+        position: relative;
+        text-align: center;
+        border-radius: 4px;
+        color: #fff;
+        &:hover {
+          background-color: yellow;
+          color: black;
+        }
+      }
+      span {
+      }
+    }
+
+    .buttonAddAndRead {
+      display: grid;
+      margin-top: 1rem;
+      padding: 1rem;
+      .AddDish {
+        text-decoration: none;
+        color: black;
+        text-align: center;
+      }
+      .ReadViews {
+        text-align: center;
+      }
+      .AddDish,
+      .ReadViews {
+        margin-bottom: 0.5rem;
+        border: 1px solid black;
+        &:hover {
+          background-color: yellow;
+        }
+      }
+    }
+    .DeleteX {
+      position: absolute;
+      margin-left: 14.8rem;
+      display: none;
+      font-family: 600;
+    }
+    .EditIcons {
+      position: absolute;
+      margin-left: 13rem;
+      display: none;
+      font-family: 600;
+      color: black;
+    }
+  }
+}
+.createDish {
+  margin-top: 4rem;
+  .buttonFooter {
+    margin-top: 2rem;
+    margin-left: -1rem;
+    button {
+      margin-left: 1rem;
+      width: 7rem;
+      height: 2.5rem;
+      border: 1px solid black;
+      border-radius: 4px;
+      &:hover {
+        background-color: blue;
+        color: #fff;
+      }
+    }
+  }
+}
+.Add {
+  position: absolute;
+  top: 2%;
+  width: 134px;
+  height: 40px;
+  right: 1%;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid black;
+  &:hover {
+    background-color: cadetblue;
+    color: wheat;
+  }
+}
+.cardEdit {
+  h1 {
+    margin-left: -4rem;
+    text-align: center;
+  }
+  .card-bodyEdit {
+    padding: 2rem;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50rem;
+    height: 20rem;
+    border: 1px solid black;
+    margin-top: -8rem;
+    border-radius: 4px;
+    .formEdit {
+      .labelEdit {
+      }
+      .inputEdit {
+        width: 100%;
+        border: 1px solid black;
+        border-radius: 4px;
+        padding: 2px;
+        margin-left: 2px;
+        padding-left: 15px;
+      }
+    }
+    .buttonEdit {
+      margin-top: 1rem;
+      .submitEdit,
+      .backEdit {
+        text-decoration: none;
+        color: black;
+        background-color: yellow;
+        font-weight: 500;
+        padding: 6px;
+        border-radius: 4px;
+        &:hover {
+          background-color: cadetblue;
+          color: yellow;
+        }
+      }
+      .backEdit {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+.read {
+  h1 {
+    text-align: center;
+  }
+  .cardRead {
+    .headerRead {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      .headerTitle {
+        text-align: left;
+        .headerFirst {
+          font-weight: 600;
+          font-size: 2rem;
+          font-family: "Times New Roman", Times, serif;
+        }
+        .headerSecond {
+          font-family: "Times New Roman", Times, serif;
+          font-size: 2rem;
+        }
+      }
+      .favorite {
+        margin-right: 8rem;
+      }
+    }
+    .card-bodyViews {
+      width: 50%;
+      height: 100%;
+      padding: 2rem;
+      border: 1px solid black;
+      border-radius: 4px;
+      .hours {
+        span {
+        }
+      }
+    }
+    .information {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+

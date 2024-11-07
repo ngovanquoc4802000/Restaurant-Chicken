@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import '../../styles/content.scss'
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 interface Form {
-  category_id: number
+  category_id: number | undefined
   name: string,
   handle: string,
   email: string,
@@ -12,7 +12,6 @@ interface Form {
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
   const [search, setSearch] = useState('');
-  const navigator = useNavigate()
   const onClickShow = () => {
     axios.get('http://localhost:7777/category')
       .then((res) => {
@@ -28,7 +27,7 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
-  const handleDelete = (category_id: Form) => {
+  const handleDelete = (category_id:number | undefined) => {
     axios.delete('http://localhost:7777/category/' + category_id)
       .then(res => {
         if (location.reload() === null) {
@@ -73,10 +72,10 @@ function Showform() {
                 <td>{item.address}</td>
                 <td>
                   <Link to={`/views/${item.category_id}`}>
-                    <button className="view">view</button>
+                    <button className="viewShow ">view</button>
                   </Link>
                   <Link to={`/edit/${item.category_id}`}>
-                    <button className="edit">edit</button>
+                    <button className="editShow">edit</button>
                   </Link>
                   <button onClick={() => handleDelete(item.category_id)} className="delete">delete</button>
                 </td>
