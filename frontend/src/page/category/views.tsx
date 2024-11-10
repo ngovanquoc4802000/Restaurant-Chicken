@@ -6,8 +6,6 @@ interface Form {
   category_id: number
   name: string
   handle: string
-  email: string
-  address: string
 }
 
 function Views() {
@@ -35,8 +33,6 @@ function Views() {
             <th  scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Handle</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
           </tr>
         </thead>
         <tbody>
@@ -45,8 +41,6 @@ function Views() {
                 <th scope="row" >{get?.category_id}</th>
                 <td>{get?.name}</td>
                 <td>{get?.handle}</td>
-                <td>{get?.email}</td>
-                <td>{get?.address}</td>
               </tr>
           }
         </tbody>

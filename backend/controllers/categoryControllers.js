@@ -61,8 +61,8 @@ const categoryTableId = async (req, res) => {
 
 const createCategory = async (req, res) => {
   try {
-    const { name, handle, email, address } = req.body;
-    if (!name || !handle || !email || !address) {
+    const { name, handle } = req.body;
+    if (!name || !handle) {
       return res.status(500).send({
         success: false,
         message: "Invalid 500 category",
@@ -70,10 +70,10 @@ const createCategory = async (req, res) => {
     }
     const data = await pool.query(
       `INSERT INTO category
-       (name , handle, email , address)
-      VALUES ( ? , ? , ? , ?)
+       (name , handle)
+      VALUES ( ? , ? )
       `,
-      [name, handle, email, address]
+      [name, handle]
     );
     if (!data) {
       return res.status(404).send({
@@ -84,6 +84,7 @@ const createCategory = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Success createCategory",
+      data
     });
   } catch (error) {
     console.log(error);
@@ -107,10 +108,9 @@ const updateCategory = async (req, res) => {
     const data = await pool.query(
       `UPDATE category SET 
       name = ? ,
-       handle = ?, 
-       email = ? ,
-        address = ? WHERE category_id = ?`,
-      [name, handle, email, address, upCategory]
+       handle = ?
+      WHERE category_id = ?`,
+      [name, handle, upCategory]
     );
     if (!data) {
       return res.status(404).send({

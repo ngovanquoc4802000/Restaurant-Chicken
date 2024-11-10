@@ -3,16 +3,14 @@ import '../styles/content.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { fa0 } from '@fortawesome/free-solid-svg-icons/fa0';
-import { faPenToSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
-import { faPenSquare, faSquareCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import ReactPaginate from 'react-paginate';
 
 
 type Dish = {
   id?: number | undefined
   title: string,
   price: string,
-  address: string,
   content: string
 }
 
@@ -32,6 +30,8 @@ function DishList() {
           return setArray(array.filter((item) => item.id !== res.data.id))
         }
       })
+  }
+  const handlePageClick = () => {
 
   }
   return (
@@ -50,7 +50,6 @@ function DishList() {
                 </Link>
                 <h5 className="card-title">{item.title}</h5>
                 <p className="card-text">{item.content}</p>
-                <p className="card-address">{item.address}</p>
                 <div className="incre" >
                   {/* <p>-</p> */}
                   <span>{item.price}</span>
@@ -68,7 +67,28 @@ function DishList() {
             </div>
           ))
         }
+        
       </div>
+      <ReactPaginate
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={2}
+        pageCount={70}
+        previousLabel="< previous"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakLabel="..."
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        containerClassName="pagination"
+        activeClassName="active"
+        renderOnZeroPageCount={null}
+      />
       <Link to="/dishlist/create">
         <button className='Add'>Add News</button>
       </Link>

@@ -6,8 +6,6 @@ interface Form {
   category_id: number | undefined
   name: string,
   handle: string,
-  email: string,
-  address: string
 }
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
@@ -55,8 +53,6 @@ function Showform() {
           <tr>
             <th>ID</th>
             <th>NAME</th>
-            <th>EMAIL</th>
-            <th>ADDRESS</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -68,8 +64,6 @@ function Showform() {
               <tr key={id}>
                 <td>{item.category_id}</td>
                 <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.address}</td>
                 <td>
                   <Link to={`/views/${item.category_id}`}>
                     <button className="viewShow ">view</button>

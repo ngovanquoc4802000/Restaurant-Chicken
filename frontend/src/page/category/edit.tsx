@@ -5,16 +5,12 @@ import { Link, useParams } from "react-router-dom";
 interface Form {
   name: string
   handle: string
-  email: string
-  address: string
 }
 
 function Edit() {
   const [values, setValues] = useState<Form>({
     name: "",
     handle: "",
-    email: "",
-    address: ""
   });
   console.log(values?.name)
   const { category_id } = useParams();
@@ -33,13 +29,11 @@ function Edit() {
     axios.put('http://localhost:7777/category/' + category_id, {
       name: values.name,
       handle: values.handle,
-      email: values.email,
-      address: values.address
     })
       .then(res => {
         setValues({
           ...values
-          , name: res.data.name, handle: res.data.handle, email: res.data.email, address: res.data.address
+          , name: res.data.name, handle: res.data.handle
         })
       })
       .catch(error => console.log(error))
@@ -65,18 +59,6 @@ function Edit() {
             <input
               value={values?.handle}
               type="text" name="handle" className="form-control" placeholder="Enter Handle" />
-          </div>
-          <div>
-            <label htmlFor="">Email</label>
-            <input
-              value={values?.email}
-              type="text" name="email" className="form-control" placeholder="Enter Handle" />
-          </div>
-          <div>
-            <label htmlFor="">Address</label>
-            <input
-              value={values?.address}
-              type="text" name="address" className="form-control" placeholder="Enter Handle" />
           </div>
           <Link to="/category">
             <button onClick={handleSubmitEdit}>Submit</button>

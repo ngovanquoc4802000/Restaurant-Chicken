@@ -8,14 +8,12 @@ type Edit = {
   title: string
   content: string
   price: string
-  address: string
 }
 
 function EditDishList() {
   const [valueEdit, setValueEdit] = useState<Edit>({
     title: "",
     content: "",
-    address: "",
     price: ""
   });
   const { id } = useParams();
@@ -41,7 +39,6 @@ function EditDishList() {
     axios.put('http://localhost:7777/dishlist/' + id, {
       title: valueEdit.title,
       content: valueEdit.content,
-      address: valueEdit.address,
       price: valueEdit.price,
     })
       .then(res => {
@@ -49,7 +46,6 @@ function EditDishList() {
           ...valueEdit,
           title: res.data.title,
           content: res.data.content,
-          address: res.data.address,
           price: res.data.price
         })
       })
@@ -68,10 +64,6 @@ function EditDishList() {
         <div className="formEdit">
           <label htmlFor="">Content :</label>
           <input className="inputEdit" onChange={(e) => setValueEdit({ ...valueEdit, content: e.target.value })} value={valueEdit.content} type="text" name="content" />
-        </div>
-        <div className="formEdit">
-          <label htmlFor="">address :</label>
-          <input className="inputEdit" onChange={(e) => setValueEdit({ ...valueEdit, address: e.target.value })} value={valueEdit.address} type="text" name="address" />
         </div>
         <div className="formEdit">
           <label htmlFor="">Price :</label>

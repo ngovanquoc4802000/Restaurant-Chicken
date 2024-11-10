@@ -7,7 +7,6 @@ import Error from './router.tsx/error.tsx';
 import Category from './router.tsx/category.tsx';
 import CreateForm from './page/category/createForm.tsx';
 import Views from './page/category/views.tsx';
-import Delete from './page/category/delete.tsx';
 import Edit from './page/category/edit.tsx';
 
 import User from './router.tsx/user.tsx';
@@ -16,6 +15,8 @@ import DishList from './router.tsx/dishlist.tsx';
 import CreateDishList from './page/dishlist/create.tsx'
 import ViewsDishList from './page/dishlist/views.tsx';
 import EditDishList from './page/dishlist/edit.tsx';
+import Login from './page/user/login.tsx';
+import ListLogin from './page/user/ListLogin.tsx';
 
 const router = createBrowserRouter([
   {
@@ -56,10 +57,6 @@ const router = createBrowserRouter([
           }
         ]
       },
-      {
-        path: "/delete/:category_id",
-        element: <Delete/>
-      },
       /* Dish List */
       {
        path: "/dishlist",
@@ -90,8 +87,16 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: "/user",
+        path: "/register",
         element: <User/>
+      },
+      {
+        path: "/login",
+        element: <Login/>
+      },
+      {
+        path: "/listLogin",
+        element: <ListLogin/>
       }
     ],
   },

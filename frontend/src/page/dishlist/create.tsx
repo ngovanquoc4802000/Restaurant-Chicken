@@ -6,7 +6,6 @@ type Create = {
   title: string,
   content: string,
   price: string,
-  address: string
 }
 
 function CreateDishList() {
@@ -14,7 +13,6 @@ function CreateDishList() {
     title: "",
     content: "",
     price: "",
-    address: ""
   });
   const navigator = useNavigate()
   const handleCreate = (e: { preventDefault: () => void; }) => {
@@ -25,7 +23,6 @@ function CreateDishList() {
       title: value.title,
       content: value.content,
       price: value.price,
-      address: value.address
     })
       .then((res) => {
         console.log(res.data)
@@ -51,10 +48,9 @@ function CreateDishList() {
         <label htmlFor="formGroupExampleInput2">Content</label>
         <textarea onChange={onChangInput} name="content" style={{ width: "80%" }} className="form-control" id="formGroupExampleInput2" placeholder="content..." />
       </div>
-      <div className="form-group">
-        <label htmlFor="formGroupExampleInput2">Address</label>
-        <input onChange={onChangInput} name="address" style={{ width: "80%" }} type="text" className="form-control" id="formGroupExampleInput2" placeholder="address..." />
-      </div>
+      <form method="POST" encType="multipart/form-data">
+         <input type="file" name="image"  />
+      </form>
       <div className="form-group">
         <label htmlFor="formGroupExampleInput2">Price</label>
         <input onChange={onChangInput} name="price" style={{ width: "80%" }} type="text" className="form-control" id="formGroupExampleInput2" placeholder="0.00" />

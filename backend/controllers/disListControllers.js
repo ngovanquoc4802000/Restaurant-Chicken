@@ -56,8 +56,8 @@ const dishListID = async (req, res) => {
 };
 const createDishList = async (req, res) => {
   try {
-    const { title, content , price , address } = req.body;
-    if ( !title ||  !content || !price || !address) {
+    const { title, content, price } = req.body;
+    if (!title || !content || !price) {
       return res.status(403).send({
         success: false,
         message: "Invalid is correct",
@@ -65,10 +65,10 @@ const createDishList = async (req, res) => {
     }
     const data = await pool.query(
       `
-       INSERT INTO dishlist (title  , content, price, address)
+       INSERT INTO dishlist (title  , content, price, currency )
        VALUES ( ? , ? , ?, ?)
      `,
-      [ title, content, price, address]
+      [title, content, price, "VND"]
     );
     if (!data) {
       return res.status(404).send({
@@ -97,16 +97,16 @@ const updateDishList = async (req, res) => {
         message: "403 not found",
       });
     }
-    const {  title, price, content, address } = req.body;
+    const { title, content, price } = req.body;
     const [data] = await pool.query(
       ` UPDATE dishlist SET 
-       
       title = ? ,
-      price = ? ,
       content = ?,
-      address = ?  WHERE id = ?
+      price = ? ,
+      currency = ?
+      WHERE id = ?
       `,
-      [ title, price, content, address ,updateTable]
+      [title, content, price, 'VND', updateTable]
     );
     if (!data) {
       return res.status(404).send({

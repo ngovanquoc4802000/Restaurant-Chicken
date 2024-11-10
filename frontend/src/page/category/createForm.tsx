@@ -5,12 +5,10 @@ import '../../styles/content.scss';
 interface Form {
   name: string,
   handle: string,
-  email: string,
-  address: string
 }
 
 function CreateForm() {
-  const [value, setValue] = useState<Form>({ name: "", handle: "", email: "", address: "" })
+  const [value, setValue] = useState<Form>({ name: "", handle: ""})
   const navigator = useNavigate()
 
   const handlefiels = (e: { preventDefault: () => void; }) => {
@@ -26,8 +24,6 @@ function CreateForm() {
     axios.post('http://localhost:7777/category', {
       name: value.name,
       handle: value.handle,
-      email: value.email,
-      address: value.address
     })
       .then((res) => {
         setValue(res.data.data)
@@ -40,24 +36,15 @@ function CreateForm() {
   return (
     <div className="category">
       <form className="FormFields" onSubmit={handlefiels} action="">
+      <h2 style={{marginRight: "4rem"}}>Post Category</h2>
         <label htmlFor="">
-          Name
+          Name:
           <input  onChange={onChangeInput} name="name" type="text" />
         </label>
         <br />
         <label htmlFor="">
-          Handle
+          Handle:
           <input  onChange={onChangeInput} name="handle" type="text" />
-        </label>
-        <br />
-        <label htmlFor="">
-          Email
-          <input onChange={onChangeInput} name="email" type="email" />
-        </label>
-        <br />
-        <label htmlFor="">
-          Address
-          <input  onChange={onChangeInput} name="address" type="address" />
         </label>
         <br />
         <button className="createPost" onClick={handleCreate} >

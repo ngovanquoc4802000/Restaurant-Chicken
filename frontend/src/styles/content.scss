@@ -7,13 +7,17 @@
     margin-left: 5rem;
   }
   .FormFields {
+    margin-top: 4rem;
     label {
+      display: flex;
+      align-items: baseline;
+      font-size: 18px;
       input {
         margin-top: 1rem;
         margin-left: 1rem;
         padding: 7px;
         border-radius: 4px;
-        width: 65%;
+        width: 70%;
         border: 1px solid black;
       }
     }

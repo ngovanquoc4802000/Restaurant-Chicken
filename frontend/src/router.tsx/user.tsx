@@ -1,5 +1,9 @@
+import Register from "../page/user/register";
+
 function User() {
-  return ( <>Xin chào User</> );
+  return (
+    <Register/>
+  )
 }
 
 export default User;

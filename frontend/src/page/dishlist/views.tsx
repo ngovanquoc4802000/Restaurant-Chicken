@@ -10,15 +10,14 @@ interface ViewDish {
   title: string
   content: string,
   price: string,
-  address: string
 }
 
 function ViewsDishList() {
+  /* const tiente = new Intl.NumberFormat() */
   const [valueRead, setValueRead] = useState<ViewDish>({
     title: "",
     content: "",
     price: "",
-    address: ""
   })
   const [isActive, setIsActive] = useState(false);
   const [arrayViews, setArrayViews] = useState<ViewDish[]>([]);
@@ -36,7 +35,6 @@ function ViewsDishList() {
   useEffect(() => {
     getViewsId();
   }, []);
-
   useEffect(() => {
     axios.get('http://localhost:7777/dishlist')
       .then(res => {
@@ -54,7 +52,6 @@ function ViewsDishList() {
           <div className="headerTitle">
             <p className="headerFirst">{valueRead.title}</p>
             <p className="headerSecond" >{valueRead.content}</p>
-            <p className="headerThree" >{valueRead.address}</p>
           </div>
           <div className="favorite">
             <FontAwesomeIcon icon={faHeart} />
@@ -71,7 +68,6 @@ function ViewsDishList() {
               <h5 className="card-titleViews ">Thông tin quán</h5>
               <p className="card-textViews">{valueRead.title}</p>
               <p>Địa chỉ</p>
-              <p>{valueRead.address}</p>
               <div className="hours">
                 <h6>Hour</h6>
                 <span>
@@ -125,7 +121,6 @@ function ViewsDishList() {
               </Link>
               <h5 className="card-title">{item.title}</h5>
               <p className="card-text">{item.content}</p>
-              <p className="card-address">{item.address}</p>
               <div className="incre" >
                 {/* <p>-</p> */}
                 <span>{item.price}</span>
