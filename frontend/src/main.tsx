@@ -37,66 +37,66 @@ const router = createBrowserRouter([
         path: "/success",
         element: <Category />
       },
-     {
+      {
         path: "/views",
         element: <Views />,
         children: [
-          {
-            path: "/views/:category_id",
+          { 
+            path: "/views/:category_id/:handle/:urlUnique",
             element: <Views />
           }
         ]
       },
       {
         path: "/edit",
-        element: <Edit/>,
+        element: <Edit />,
         children: [
           {
             path: "/edit/:category_id",
-            element: <Edit/>
+            element: <Edit />
           }
         ]
       },
       /* Dish List */
       {
-       path: "/dishlist",
-       element: <DishList/>
+        path: "/dishlist",
+        element: <DishList />
       },
       {
-       path: "/dishlist/create",
-       element: <CreateDishList/>
+        path: "/dishlist/create",
+        element: <CreateDishList />
       },
       {
         path: "/dishlist/views",
-        element: <ViewsDishList/>,
+        element: <ViewsDishList />,
         children: [
           {
             path: "/dishlist/views/:id",
-            element: <ViewsDishList/>
+            element: <ViewsDishList />
           }
         ]
       },
       {
         path: "/dishlist/edit",
-        element: <EditDishList/>,
-        children : [
+        element: <EditDishList />,
+        children: [
           {
             path: '/dishlist/edit/:id',
-            element: <EditDishList/>
+            element: <EditDishList />
           }
         ]
       },
       {
         path: "/register",
-        element: <User/>
+        element: <User />
       },
       {
         path: "/login",
-        element: <Login/>
+        element: <Login />
       },
       {
         path: "/listLogin",
-        element: <ListLogin/>
+        element: <ListLogin />
       }
     ],
   },

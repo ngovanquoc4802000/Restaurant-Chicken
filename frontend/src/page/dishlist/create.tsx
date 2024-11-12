@@ -48,9 +48,9 @@ function CreateDishList() {
         <label htmlFor="formGroupExampleInput2">Content</label>
         <textarea onChange={onChangInput} name="content" style={{ width: "80%" }} className="form-control" id="formGroupExampleInput2" placeholder="content..." />
       </div>
-      <form method="POST" encType="multipart/form-data">
+     {/*  <form method="POST" encType="multipart/form-data">
          <input type="file" name="image"  />
-      </form>
+      </form> */}
       <div className="form-group">
         <label htmlFor="formGroupExampleInput2">Price</label>
         <input onChange={onChangInput} name="price" style={{ width: "80%" }} type="text" className="form-control" id="formGroupExampleInput2" placeholder="0.00" />

@@ -4,8 +4,9 @@ import '../../styles/content.scss'
 import { Link, Outlet } from "react-router-dom";
 interface Form {
   category_id: number | undefined
+  url_id: number | undefined,
   name: string,
-  handle: string,
+  handle: string | number,
 }
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
@@ -25,7 +26,7 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
-  const handleDelete = (category_id:number | undefined) => {
+  const handleDelete = (category_id: number | undefined) => {
     axios.delete('http://localhost:7777/category/' + category_id)
       .then(res => {
         if (location.reload() === null) {
@@ -35,6 +36,7 @@ function Showform() {
         }
       })
   }
+  const uniqueUrl = new Date().getTime();
   return (
     <div className="FormShow">
       <Link className="create" to="/create">
@@ -65,7 +67,7 @@ function Showform() {
                 <td>{item.category_id}</td>
                 <td>{item.name}</td>
                 <td>
-                  <Link to={`/views/${item.category_id}`}>
+                  <Link to={`/views/${item.category_id}/${item.handle}/${uniqueUrl}`}>
                     <button className="viewShow ">view</button>
                   </Link>
                   <Link to={`/edit/${item.category_id}`}>
