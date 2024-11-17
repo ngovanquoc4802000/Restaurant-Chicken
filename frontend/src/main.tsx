@@ -17,6 +17,7 @@ import ViewsDishList from './page/dishlist/views.tsx';
 import EditDishList from './page/dishlist/edit.tsx';
 import Login from './page/user/login.tsx';
 import ListLogin from './page/user/ListLogin.tsx';
+import APiExample from './router.tsx/api.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
         element: <Category />,
       },
       {
-        path: "/create",
+        path: "/category/create",
         element: <CreateForm />,
       },
       {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
         element: <Views />,
         children: [
           { 
-            path: "/views/:category_id/:handle/:urlUnique",
+            path: "/views/:id",
             element: <Views />
           }
         ]
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
         element: <Edit />,
         children: [
           {
-            path: "/edit/:category_id",
+            path: "/edit/:id",
             element: <Edit />
           }
         ]
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
       {
         path: "/listLogin",
         element: <ListLogin />
+      },
+      {
+        path: "/api",
+        element: <APiExample/>
       }
     ],
   },

@@ -2,8 +2,8 @@ import pool from "../database/connexion.js";
 import md5 from "md5"
 
 const getUserApiAll = async (req, res) => {
-  const data = await pool.query(`SELECT * FROM user_db`);
   try {
+    const data = await pool.query(`SELECT * FROM user_db`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -23,7 +23,6 @@ const getUserApiAll = async (req, res) => {
     });
   }
 };
-
 const getUserApiID = async (req, res) => {
   try {
     const distTableId = req.params.id;
@@ -57,7 +56,6 @@ const getUserApiID = async (req, res) => {
     });
   }
 };
-
 const userAPIRegister = async (req, res) => {
   try {
     const { email, name, password, address } = req.body;

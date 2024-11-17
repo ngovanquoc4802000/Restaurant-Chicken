@@ -1,76 +1,93 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import { Form, Link, useNavigate, useParams } from "react-router-dom";
+import '../../styles/content.scss';
 interface Form {
-  name: string
-  handle: string
+  name: string,
+  handle: string,
+  image?: string
+  fileImage?: string
 }
 
 function Edit() {
-  const [values, setValues] = useState<Form>({
+  const [value, setValue] = useState<Form>({
     name: "",
     handle: "",
-  });
-  console.log(values?.name)
-  const { category_id } = useParams();
-  useEffect(() => {
-    axios.get('http://localhost:7777/category/' + category_id,)
+  })
+  const { id } = useParams();
+  const [image, setImage] = useState<Form>();
+  const [preview, setPreview] = useState<Form | undefined>();
+  const fetchEditId = () => {
+    axios.get("http://localhost:7777/category/" + id)
       .then(res => {
-        setValues(res.data.data)
+        setValue(res.data.data)
       })
       .catch(error => console.log(error))
-    return () => { console.log("delete catogeryId") }
-  }, []);
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
   }
-  const handleSubmitEdit = () => {
-    axios.put('http://localhost:7777/category/' + category_id, {
-      name: values.name,
-      handle: values.handle,
+  useEffect(() => {
+    fetchEditId();
+  }, [])
+  const navigator = useNavigate();
+  const handlefiels = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("name", value.name);
+    formData.append("handle", value.handle);
+    const result = await axios.put(
+      `http://localhost:7777/category/${id}`, formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    )
+    navigator('/category');
+    console.log(result)
+  }
+  const onChangeInput = (e: { target: { name: string; value: string; }; }) => {
+    setValue((prev) => {
+      return { ...prev, [e.target.name]: e.target.value }
     })
-      .then(res => {
-        setValues({
-          ...values
-          , name: res.data.name, handle: res.data.handle
-        })
-      })
-      .catch(error => console.log(error))
-
+  }
+  const onChangeFile = (e: { target: { files: any,  } }) => {
+    const image = e.target.files[0];
+    setImage(image);
+    setPreview(URL.createObjectURL(image));
   }
   return (
-    <div className="d-flex w-100 vh-50 justify-content-center align-items-center">
-      <div className="w-50 border bg-secondary text-white p-5">
-        <form onSubmit={handleSubmit} >
-          <div className="">
-            <label htmlFor="">Name: {values?.name}</label>
-            <input
-              type="text"
-              name="name"
-              className="form-control"
-              placeholder="Enter Name"
-              value={values?.name}
-              onChange={(e) => setValues({ ...values, name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label htmlFor="">Handle</label>
-            <input
-              value={values?.handle}
-              type="text" name="handle" className="form-control" placeholder="Enter Handle" />
-          </div>
-          <Link to="/category">
-            <button onClick={handleSubmitEdit}>Submit</button>
-          </Link>
-          <Link to="/category">
-            <button>Back</button>
-          </Link>
-        </form>
-      </div>
-
+    <div className="category">
+      <form className="FormFields" onSubmit={handlefiels} action="">
+        <h2 style={{ marginRight: "4rem" }}>Edit Category</h2>
+        <label htmlFor="">
+          Name:
+          <input
+            value={value.name}
+            onChange={onChangeInput} name="name" type="text" />
+        </label>
+        <br />
+        <label htmlFor="">
+          Handle:
+          <input
+            value={value.handle}
+            onChange={onChangeInput} name="handle" type="text" />
+        </label>
+        <br />
+        <input onChange={onChangeFile} type="file" name="file" accept="image/*" multiple={false} />
+        <button type="submit" className="createPost" >
+          Submit
+        </button>
+        <Link to="/category">
+          Back
+        </Link>
+        {preview ? (
+          <figure>
+             <img width={100} height={100} src={preview} alt="Preview Image" />
+          </figure>
+        ): 
+          ""
+        }
+      </form>;
     </div>
-  );
+  )
 }
 
 export default Edit;

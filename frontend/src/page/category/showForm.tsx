@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 import '../../styles/content.scss'
 import { Link, Outlet } from "react-router-dom";
 interface Form {
-  category_id: number | undefined
+  id: number | undefined
   url_id: number | undefined,
   name: string,
   handle: string | number,
+  image: string
 }
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
   const [search, setSearch] = useState('');
   const onClickShow = () => {
-    axios.get('http://localhost:7777/category')
+    axios.get('http://localhost:7777/category'
+    )
       .then((res) => {
         setArray(res.data.data);
         console.log('getCategory All success')
@@ -26,20 +28,18 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
-  const handleDelete = (category_id: number | undefined) => {
-    axios.delete('http://localhost:7777/category/' + category_id)
-      .then(res => {
-        if (location.reload() === null) {
-          return setArray(array.filter((item) => {
-            item.category_id !== res.data.category_id
-          }))
-        }
-      })
+  const handleDelete =  async(id: number | undefined) => {
+    try {
+      axios.delete(`http://localhost:7777/category/${id}`)
+      onClickShow();
+    }catch(error) {
+      console.log(error)
+    }
   }
   const uniqueUrl = new Date().getTime();
   return (
     <div className="FormShow">
-      <Link className="create" to="/create">
+      <Link className="create" to="/category/create">
         Add Category
       </Link>
       <div className="input-group">
@@ -55,6 +55,8 @@ function Showform() {
           <tr>
             <th>ID</th>
             <th>NAME</th>
+            <th>HANDLE</th>
+            <th>IMAGE</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -64,16 +66,20 @@ function Showform() {
               return search.toLowerCase() === "" ? item : item.name.includes(search);
             }).map((item, id) => (
               <tr key={id}>
-                <td>{item.category_id}</td>
+                <td>{item.id}</td>
                 <td>{item.name}</td>
+                <td>{item.handle}</td>
                 <td>
-                  <Link to={`/views/${item.category_id}/${item.handle}/${uniqueUrl}`}>
+                <img width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="image" />
+                </td>
+                <td>
+                  <Link to={`/views/${item.id}`}>
                     <button className="viewShow ">view</button>
                   </Link>
-                  <Link to={`/edit/${item.category_id}`}>
+                  <Link to={`/edit/${item.id}`}>
                     <button className="editShow">edit</button>
                   </Link>
-                  <button onClick={() => handleDelete(item.category_id)} className="delete">delete</button>
+                  <button onClick={() => handleDelete(item.id)} className="delete">delete</button>
                 </td>
               </tr>
             ))

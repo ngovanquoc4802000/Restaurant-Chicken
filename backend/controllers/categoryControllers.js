@@ -23,7 +23,6 @@ const categoryTableAll = async (req, res) => {
     });
   }
 };
-
 const categoryTableId = async (req, res) => {
   try {
     const categoryId = req.params.id;
@@ -58,7 +57,6 @@ const categoryTableId = async (req, res) => {
     });
   }
 };
-
 const createCategory = async (req, res) => {
   try {
     const { name, handle } = req.body;
@@ -68,7 +66,7 @@ const createCategory = async (req, res) => {
         message: "Invalid 500 category",
       });
     }
-    const data = await pool.query(
+    const [data] = await pool.query(
       `INSERT INTO category
        (name , handle)
       VALUES ( ? , ? )
@@ -84,7 +82,7 @@ const createCategory = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Success createCategory",
-      data
+      data: data[0]
     });
   } catch (error) {
     console.log(error);

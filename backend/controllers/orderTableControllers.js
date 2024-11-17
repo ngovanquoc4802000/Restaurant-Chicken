@@ -2,7 +2,7 @@ import pool from "../database/connexion.js";
 
 const orderTableAll = async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM orderdetails_db`);
+    const data = await pool.query(`SELECT * FROM order_db`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -11,14 +11,14 @@ const orderTableAll = async (req, res) => {
     }
     res.status(200).send({
       success: true,
-      message: "success orderTable",
+      message: "success orderTableAll",
       data: data[0],
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "error orderTable",
+      message: "error orderTableAll",
     });
   }
 };
@@ -55,7 +55,7 @@ const oderTableId = async (req, res) => {
     });
   }
 };
-/* const createOrderTable = async (req, res) => {
+/*  const createOrderTable = async (req, res) => {
   try {
     const { order_id, img, title, price, content, order_id_danhmuc } = req.body;
     if (
@@ -96,7 +96,7 @@ const oderTableId = async (req, res) => {
       message: "error orderTable",
     });
   }
-}; */
+};  */
 const updateOrderTable = async (req, res) => {
   try {
     const updateTableId = req.params.id;
@@ -106,7 +106,7 @@ const updateOrderTable = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { img, title, price, content, order_id_danhmuc,  } = req.body;
+    const { img, title, price, content, order_id_danhmuc } = req.body;
     const data = await pool.query(
       ` UPDATE orderdetails_db SET 
           img = ?,  
@@ -139,18 +139,20 @@ const updateOrderTable = async (req, res) => {
 const deleteOrderTable = async (req, res) => {
   try {
     const deleteParamsId = req.params.id;
-    if(!deleteParamsId) {
+    if (!deleteParamsId) {
       return res.status(403).send({
         success: false,
-        message: "403 not found"
-      })
+        message: "403 not found",
+      });
     }
-    await pool.query(`DELETE FROM orderdetails_db WHERE order_id = ?`,[deleteParamsId])
+    await pool.query(`DELETE FROM orderdetails_db WHERE order_id = ?`, [
+      deleteParamsId,
+    ]);
     res.status(200).send({
-        success: true,
-        message: "success delete ordertailsId"
-    })  
-} catch (error) {
+      success: true,
+      message: "success delete ordertailsId",
+    });
+  } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
@@ -158,11 +160,39 @@ const deleteOrderTable = async (req, res) => {
     });
   }
 };
+ const createOrderTable = async (req,res) => {
+  try {
+    const {name} = req.body;
+    const image = req?.file || req.file.fieldname
+    if(!name || !image) {
+      return res.status(403).send({
+        success: false,
+        message : "403 not found"
+      })
+    }
+    const data = await pool.query(
+      `INSERT INTO order_db (name,image) VALUES (?,?)`,
+      [name,image]
+    );
+    if(!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 fix client"
+      })
+    } 
+    
+  } catch(error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Error"
+    })
+  } 
+}; 
 export default {
   orderTableAll,
   oderTableId,
- /*  createOrderTable, */
+   createOrderTable,
   updateOrderTable,
   deleteOrderTable,
 };
-

@@ -1,55 +1,61 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import '../../styles/content.scss';
 interface Form {
   name: string,
   handle: string,
+  image?: string
 }
 
 function CreateForm() {
-  const [value, setValue] = useState<Form>({ name: "", handle: ""})
-  const navigator = useNavigate()
-
-  const handlefiels = (e: { preventDefault: () => void; }) => {
+  const [value, setValue] = useState<Form>({
+    name: "",
+    handle: "",
+  })
+  const [image, setImage] = useState<Form>();
+  const navigator = useNavigate();
+  const handlefiels = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("name", value.name);
+    formData.append("handle", value.handle);
+    const result = await axios.post(
+      "http://localhost:7777/api/image",formData, 
+      {
+          headers: {"Content-Type": "multipart/form-data"},
+      }
+      )
+      navigator('/category');
+      console.log(result)
   }
   const onChangeInput = (e: { target: { name: string; value: string; }; }) => {
     setValue((prev) => {
       return { ...prev, [e.target.name]: e.target.value }
     })
   }
-  const handleCreate = () => {
-    axios.post('http://localhost:7777/category', {
-      name: value.name,
-      handle: value.handle,
-    })
-      .then((res) => {
-        setValue(res.data.data)
-        navigator('/category');
-        console.log("success")
-      }).catch(error => {
-        console.log(error)
-      })
+  const onChangeFile = (e : { target: {  files: any } }) => {
+      setImage(e.target.files[0]);
   }
   return (
     <div className="category">
       <form className="FormFields" onSubmit={handlefiels} action="">
-      <h2 style={{marginRight: "4rem"}}>Post Category</h2>
+        <h2 style={{ marginRight: "4rem" }}>Post Category</h2>
         <label htmlFor="">
           Name:
-          <input  onChange={onChangeInput} name="name" type="text" />
+          <input onChange={onChangeInput} name="name" type="text" />
         </label>
         <br />
         <label htmlFor="">
           Handle:
-          <input  onChange={onChangeInput} name="handle" type="text" />
+          <input onChange={onChangeInput} name="handle" type="text" />
         </label>
         <br />
-        <button className="createPost" onClick={handleCreate} >
-          Create Post
-        </button>
+          <input onChange={onChangeFile} type="file" name="file" accept="image/*" multiple={false} />
+          <button type="submit" className="createPost" >
+            Create Post
+          </button>
       </form>;
     </div>
   )
