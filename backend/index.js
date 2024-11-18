@@ -4,11 +4,10 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
 import pool from "./database/connexion.js";
-import routerDishListApi from "./router/dishList.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
 import routerCategoryApi from './controllers/categoryApi.js'
-
+import router from "./router/dishList.js";
 //rest object
 const app = express();
 
@@ -24,13 +23,13 @@ app.use(
     origin: "*",
   })
 );
+app.use(express.static("uploads/category"));
+app.use(express.static("uploads/dishlist"));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/category", routerCategoryApi)
-app.use(express.static("uploads/category"));
-app.use("/dishList", routerDishListApi);
-app.use(express.static("uploads/dishlist"));
+app.use("/dishlist", router);
 app.use("/user", routerUser);
 
 

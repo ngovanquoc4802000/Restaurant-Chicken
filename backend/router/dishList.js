@@ -1,14 +1,170 @@
-import express from 'express';
-import disListControllers from '../controllers/disListControllers.js';
+import express from "express";
+import multer from "multer";
+import pool from "../database/connexion.js";
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/dishlist");
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 const router = express.Router();
 
-router.get('/', disListControllers.dishListAll);
-router.post('/', disListControllers.createDishList);
-
-router.route('/:id')
-  .get(disListControllers.dishListID)
-  .put(disListControllers.updateDishList)
-  .delete(disListControllers.deleteDishList)
+router.get("/", async (req, res) => {
+  try {
+    const data = await pool.query(`SELECT * FROM dishlist`);
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "get success dishList All",
+      data: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "error category",
+    });
+  }
+});
+router.post("/image", upload.single("file"), async (req, res) => {
+  try {
+    const ImageName = req.file.filename;
+    const { title, content, price } = req.body;
+    if (!title || !content || !price || !ImageName) {
+      return res.status(403).send({
+        success: false,
+        message: "Invalid Error",
+      });
+    }
+    const data = await pool.query(
+      `INSERT INTO dishlist
+       (title,content,currency,price,image)
+        VALUES(?,?,?,?,?)`,
+      [title, content, "VND", price, ImageName]
+    );
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success Dish List Post ",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error",
+    });
+  }
+});
+router.get("/:id", async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    if (!categoryId) {
+      return res.status(403).send({
+        success: false,
+        message: "Invalid , Please connect fields",
+      });
+    }
+    const data = await pool.query(
+      `
+       SELECT * FROM dishlist WHERE id = ?
+      `,
+      [categoryId]
+    );
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success DishList",
+      data: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Kết nối thất bại",
+    });
+  }
+});
+router.put("/:id", upload.single("file"), async (req, res) => {
+  try {
+    const updateDish = req.params.id;
+    if (!updateDish) {
+      return res.status(403).send({
+        success: false,
+        message: "403 not found",
+      });
+    }
+    const update = req.file.filename;
+    const { title, content, price } = req.body;
+    const data = await pool.query(
+      `
+      UPDATE dishlist SET
+      title = ? ,
+      content = ?,
+      currency = ?,
+      price = ?,
+      image = ? WHERE id = ?
+      `,
+      [title, content,"VND" , price, update, updateDish]
+    );
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success UpdateDishList",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Error Api Dishlist",
+    });
+  }
+});
+router.delete("/:id", async (req, res) => {
+  try {
+    const removeCategory = req.params.id;
+    if (!removeCategory) {
+      return res.status(404).send({
+        success: false,
+        message: "404 , Not found deleteCategory",
+      });
+    }
+    await pool.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
+    res.status(200).send({
+      success: true,
+      message: "Success delete Id category",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: true,
+      message: "Error deleteCategory",
+    });
+  }
+});
 
 export default router;
