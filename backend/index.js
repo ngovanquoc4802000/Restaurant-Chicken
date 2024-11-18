@@ -7,7 +7,7 @@ import pool from "./database/connexion.js";
 import routerDishList from "./router/dishList.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
-import routerApi from './router/api.js'
+import routerCategoryApi from './controllers/categoryApi.js'
 
 //rest object
 const app = express();
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.static("uploads"))
 app.use(morgan("dev"));
-app.use("/category", routerApi)
+app.use("/category", routerCategoryApi)
 app.use("/dishList", routerDishList);
 app.use("/user", routerUser);
 

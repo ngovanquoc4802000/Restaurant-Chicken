@@ -28,11 +28,11 @@ router.get("/", async (req, res) => {
       message: "get success api All",
       data: data[0],
     });
-  } catch (error) {
+  } catch(error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "",
+      message: "error category",
     });
   }
 });
@@ -77,7 +77,7 @@ router.get("/:id", async (req, res) => {
         message: "Invalid , Please connect fields",
       });
     }
-    const [data] = await pool.query(
+    const data = await pool.query(
       `
        SELECT * FROM api_db WHERE id = ?
       `,

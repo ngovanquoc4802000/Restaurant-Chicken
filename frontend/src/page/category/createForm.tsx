@@ -13,15 +13,15 @@ function CreateForm() {
     name: "",
     handle: "",
   })
-  const [image, setImage] = useState<Form>();
+  const [image1, setImage1] = useState<string>("");
   const navigator = useNavigate();
   const handlefiels = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("file", image);
+    formData.append("file", image1);
     formData.append("name", value.name);
     formData.append("handle", value.handle);
-    const result = await axios.post(
+    const result = await axios.post<Form>(
       "http://localhost:7777/api/image",formData, 
       {
           headers: {"Content-Type": "multipart/form-data"},
@@ -36,7 +36,7 @@ function CreateForm() {
     })
   }
   const onChangeFile = (e : { target: {  files: any } }) => {
-      setImage(e.target.files[0]);
+      setImage1(e.target.files[0]);
   }
   return (
     <div className="category">

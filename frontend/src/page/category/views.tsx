@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import '../../styles/content.scss'
 interface Form {
   id: number
   image?: string
   name: string
   handle: string
+  data: []
 }
 
 function Views() {
-  const [get, setGet] = useState<Form>();
+  const [get, setGet] = useState<Form[]>([]);
   const { id } = useParams();
   useEffect(() => {
-    axios.get(`http://localhost:7777/category/` + id)
+    axios.get<Form>(`http://localhost:7777/category/` + id)
       .then(res => {
         setGet(res.data.data)
       }).catch(err => {
@@ -34,14 +35,21 @@ function Views() {
           </tr>
         </thead>
         <tbody>
-          {
-            <tr style={{ color: "blue"}}>
-              <td scope="col">{get?.id}</td>
-              <td scope="col">{get?.name}</td>
-              <td scope="col">{get?.handle}</td>
-              <img width={100} height={100} src={`http://localhost:7777/${get?.image}`} alt="image" />
+           {
+             get.map((item,id) => (
+              <tr key={id} style={{ color: "blue"}}>
+              <td scope="col">{item.id}</td>
+              <td scope="col">{item.name}</td>
+              <td scope="col">{item.handle}</td>
+              <td>
+              <img width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="image" />
+              </td>
             </tr>
-          }
+             ))
+           }
+           <Link to="/category">
+           <button className="viewEdit">Back</button>
+           </Link>
         </tbody>
       </table>
     </div>

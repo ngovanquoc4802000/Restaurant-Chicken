@@ -7,6 +7,8 @@ interface Form {
   handle: string,
   image?: string
   fileImage?: string
+  data?: {};
+  preview?: string | undefined;
 }
 
 function Edit() {
@@ -15,12 +17,12 @@ function Edit() {
     handle: "",
   })
   const { id } = useParams();
-  const [image, setImage] = useState<Form>();
-  const [preview, setPreview] = useState<Form | undefined>();
+  const [image, setImage] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
   const fetchEditId = () => {
-    axios.get("http://localhost:7777/category/" + id)
+    axios.get<Form>("http://localhost:7777/category/" + id)
       .then(res => {
-        setValue(res.data.data)
+        setValue(res.data)
       })
       .catch(error => console.log(error))
   }
@@ -34,7 +36,7 @@ function Edit() {
     formData.append("file", image);
     formData.append("name", value.name);
     formData.append("handle", value.handle);
-    const result = await axios.put(
+    const result = await axios.put<Form>(
       `http://localhost:7777/category/${id}`, formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -48,10 +50,11 @@ function Edit() {
       return { ...prev, [e.target.name]: e.target.value }
     })
   }
-  const onChangeFile = (e: { target: { files: any,  } }) => {
+  const onChangeFile = (e: { target: { files: any, } }) => {
     const image = e.target.files[0];
     setImage(image);
-    setPreview(URL.createObjectURL(image));
+    let NameUrl = URL.createObjectURL(image);
+    setPreview(NameUrl);
   }
   return (
     <div className="category">
@@ -76,13 +79,15 @@ function Edit() {
           Submit
         </button>
         <Link to="/category">
-          Back
+          <button className="createBack">
+            Back  
+          </button>
         </Link>
         {preview ? (
           <figure>
-             <img width={100} height={100} src={preview} alt="Preview Image" />
+            <img width={100} height={100} src={preview} alt="Preview Image" />
           </figure>
-        ): 
+        ) :
           ""
         }
       </form>;

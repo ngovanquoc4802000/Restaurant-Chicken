@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import '../../styles/content.scss'
 import { Link, Outlet } from "react-router-dom";
 interface Form {
-  id: number | undefined
-  url_id: number | undefined,
+  id: number
   name: string,
   handle: string | number,
   image: string
+  data: Form[];
 }
+
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
   const [search, setSearch] = useState('');
   const onClickShow = () => {
-    axios.get('http://localhost:7777/category'
+    axios.get<Form>('http://localhost:7777/category'
     )
       .then((res) => {
         setArray(res.data.data);
@@ -28,11 +29,11 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
-  const handleDelete =  async(id: number | undefined) => {
+  const handleDelete = async (id: number | undefined) => {
     try {
-      axios.delete(`http://localhost:7777/category/${id}`)
+      axios.delete<Form>(`http://localhost:7777/category/${id}`)
       onClickShow();
-    }catch(error) {
+    } catch (error) {
       console.log(error)
     }
   }
@@ -70,7 +71,7 @@ function Showform() {
                 <td>{item.name}</td>
                 <td>{item.handle}</td>
                 <td>
-                <img width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="image" />
+                  <img width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="image" />
                 </td>
                 <td>
                   <Link to={`/views/${item.id}`}>

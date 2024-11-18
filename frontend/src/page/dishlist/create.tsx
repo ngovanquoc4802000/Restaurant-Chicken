@@ -19,7 +19,7 @@ function CreateDishList() {
     e.preventDefault();
   }
   const handleCreateDish = () => {
-    axios.post('http://localhost:7777/dishlist', {
+    axios.post<Create>('http://localhost:7777/dishlist', {
       title: value.title,
       content: value.content,
       price: value.price,
