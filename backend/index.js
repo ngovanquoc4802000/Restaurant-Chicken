@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
 import pool from "./database/connexion.js";
-import routerDishList from "./router/dishList.js";
+import routerDishListApi from "./router/dishList.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
 import routerCategoryApi from './controllers/categoryApi.js'
@@ -26,10 +26,11 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.static("uploads"))
 app.use(morgan("dev"));
 app.use("/category", routerCategoryApi)
-app.use("/dishList", routerDishList);
+app.use(express.static("uploads/category"));
+app.use("/dishList", routerDishListApi);
+app.use(express.static("uploads/dishlist"));
 app.use("/user", routerUser);
 
 

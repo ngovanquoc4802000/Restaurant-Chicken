@@ -88,9 +88,9 @@ function Edit() {
             <img width={100} height={100} src={preview} alt="Preview Image" />
           </figure>
         ) :
-          ""
+        ""
         }
-      </form>;
+      </form>
     </div>
   )
 }

@@ -22,7 +22,7 @@ function CreateForm() {
     formData.append("name", value.name);
     formData.append("handle", value.handle);
     const result = await axios.post<Form>(
-      "http://localhost:7777/api/image",formData, 
+      "http://localhost:7777/category/image",formData, 
       {
           headers: {"Content-Type": "multipart/form-data"},
       }

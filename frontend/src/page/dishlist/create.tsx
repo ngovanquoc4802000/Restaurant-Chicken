@@ -40,6 +40,9 @@ function CreateDishList() {
   }
   return (
     <form className="createDish" onSubmit={handleCreate}>
+      <div className="image">
+        <img src="" alt="" />
+      </div>
       <div className="form-group">
         <label htmlFor="formGroupExampleInput">Title</label>
         <input onChange={onChangInput} name="title" style={{ width: "80%" }} type="text" className="form-control" id="formGroupExampleInput" placeholder="title..." />
