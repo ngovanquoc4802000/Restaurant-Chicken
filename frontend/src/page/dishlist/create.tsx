@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type Create = {
   title: string,
   content: string,
   price: string,
+  currency?: string,
+  image?: string
 }
 
 function CreateDishList() {
@@ -14,30 +16,35 @@ function CreateDishList() {
     content: "",
     price: "",
   });
+  const [image, setImage] = useState<string>("");
+  const [previews,setPreViews] = useState<string>("");
   const navigator = useNavigate()
-  const handleCreate = (e: { preventDefault: () => void; }) => {
+  const handleCreate = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-  }
-  const handleCreateDish = () => {
-    axios.post<Create>('http://localhost:7777/dishlist', {
-      title: value.title,
-      content: value.content,
-      price: value.price,
-    })
-      .then((res) => {
-        console.log(res.data)
-        setValue(res.data.data);
-        navigator('/dishlist')
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-  const onChangInput = (e: { target: { name: any; value: any; }; }) => {
+    const formData = new FormData();
+    formData.append("file",image);
+    formData.append("title",value.title);
+    formData.append("content",value.content);
+    formData.append("price",value.price);
+    const result = await axios.post<Create>(
+      "http://localhost:7777/dishlist/image",formData, 
+      {
+          headers: {"Content-Type": "multipart/form-data"},
+      }
+      )
+      navigator('/dishlist');
+      console.log(result)
+  };
+  const onChangInput = (e: { target: { name: string; value: string; }; }) => {
     setValue((prev) => {
       return { ...prev, [e.target.name]: e.target.value }
     })
-  }
+  };
+  const onChangInputFile = (e: { target: { files: any; }; }) => {
+    const image = e.target.files[0];
+     setImage(image);
+     setPreViews(URL.createObjectURL(image))
+  };
   return (
     <form className="createDish" onSubmit={handleCreate}>
       <div className="image">
@@ -51,16 +58,26 @@ function CreateDishList() {
         <label htmlFor="formGroupExampleInput2">Content</label>
         <textarea onChange={onChangInput} name="content" style={{ width: "80%" }} className="form-control" id="formGroupExampleInput2" placeholder="content..." />
       </div>
-     {/*  <form method="POST" encType="multipart/form-data">
-         <input type="file" name="image"  />
-      </form> */}
       <div className="form-group">
         <label htmlFor="formGroupExampleInput2">Price</label>
-        <input onChange={onChangInput} name="price" style={{ width: "80%" }} type="text" className="form-control" id="formGroupExampleInput2" placeholder="0.00" />
+        <input onChange={onChangInput} name="price" style={{ width: "80%" }} type="number" className="form-control" id="formGroupExampleInput2" placeholder="0.00" />
       </div>
+      <div className="form-group">
+        <label htmlFor="formGroupExampleInput2">File</label>
+        <input onChange={onChangInputFile} name="file" style={{ width: "80%" }} type="file" className="form-control" id="formGroupExampleInput2"  />
+      </div>
+      {
+        previews ? (
+          <figure>
+            <img src={previews} width={100} height={100} alt="" />
+          </figure>
+        ):(
+         ""
+        )  
+      }
       <div className="buttonFooter">
+        <button type="submit">Submit</button>
         <Link to="/dishlist">
-          <button onClick={handleCreateDish}>Submit</button>
           <button>Back to</button>
         </Link>
       </div>

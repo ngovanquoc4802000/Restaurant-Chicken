@@ -12,24 +12,32 @@ type Dish = {
   title: string,
   price: string,
   content: string
+  image: string
+  data: Dish[];
 }
 
 function DishList() {
-  const [array, setArray] = useState<Dish[]>([])
-  useEffect(() => {
-    axios.get('http://localhost:7777/dishlist')
+  const [array, setArray] = useState<Dish[]>([]);
+  const getApiDish = () => {
+    axios.get<Dish>('http://localhost:7777/dishlist')
       .then(res => {
         setArray(res.data.data);
       })
       .catch(error => console.log(error))
+  }
+
+  useEffect(() => {
+    getApiDish();
   }, [])
-  const handleClickDish = (id: number | undefined) => {
-    axios.delete('http://localhost:7777/dishlist/' + id)
-      .then(res => {
-        if (location.reload() === null) {
-          return setArray(array.filter((item) => item.id !== res.data.id))
-        }
-      })
+  const handleDelete = async (id: number | undefined) => {
+    let Error = "bạn đã thất bại khi xoá"
+    try {
+       axios.delete<Dish>(`http://localhost:7777/dishlist/${id}`)
+       getApiDish();
+     } catch(error) {
+       console.log("Error" + Error)
+     }
+      
   }
   const handlePageClick = () => {
 
@@ -42,12 +50,13 @@ function DishList() {
           array.map((item, id) => (
             <div key={id}>
               <div className="card-body">
-                <strong className='DeleteX' onClick={() => handleClickDish(item.id)}>X</strong>
+                <button className='DeleteX' onClick={() => handleDelete(item.id)}>X</button>
                 <Link to={`/dishlist/edit/${item.id}`}>
                   <strong className="EditIcons">
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </strong>
                 </Link>
+                <img className="imageDish" width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="" />
                 <h5 className="card-title">{item.title}</h5>
                 <p className="card-text">{item.content}</p>
                 <div className="incre" >
@@ -60,14 +69,14 @@ function DishList() {
                     Đặt mua
                   </Link>
                   <Link className='ReadViews' style={{ textDecoration: "none", color: "black" }} to={`/dishlist/views/${item.id}`}>
-                      View
+                    View
                   </Link>
                 </div>
               </div>
             </div>
           ))
         }
-        
+
       </div>
       <ReactPaginate
         nextLabel="next >"

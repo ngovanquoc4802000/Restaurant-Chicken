@@ -138,21 +138,25 @@
   display: grid;
   grid-template-columns: auto auto auto auto;
   position: relative;
-  top: 9%;
+  top: 6%;
   border: none;
   .title {
     position: absolute;
-    top: -10%;
+    top: -5%;
     display: flex;
     font-family: emoji;
     left: 45%;
   }
   .card-body {
-    width: 18rem;
     height: auto;
+    width: 18rem;
     border: 1px solid black;
     border-radius: 4px;
     margin-bottom: 1rem;
+    .imageDish {
+      width: 200px;
+      height: 200px;
+    }
     cursor: pointer;
     &:hover .DeleteX {
       display: block;

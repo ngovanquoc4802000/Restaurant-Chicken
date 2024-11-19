@@ -19,7 +19,7 @@ function Edit() {
   const { id } = useParams();
   const [image, setImage] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
-  const fetchEditId = () => {
+  const EditCategoryId = () => {
     axios.get<Form>("http://localhost:7777/category/" + id)
       .then(res => {
         setValue(res.data)
@@ -27,7 +27,7 @@ function Edit() {
       .catch(error => console.log(error))
   }
   useEffect(() => {
-    fetchEditId();
+    EditCategoryId();
   }, [])
   const navigator = useNavigate();
   const handlefiels = async (e: { preventDefault: () => void; }) => {
@@ -53,8 +53,7 @@ function Edit() {
   const onChangeFile = (e: { target: { files: any, } }) => {
     const image = e.target.files[0];
     setImage(image);
-    let NameUrl = URL.createObjectURL(image);
-    setPreview(NameUrl);
+    setPreview(URL.createObjectURL(image));
   }
   return (
     <div className="category">
@@ -64,7 +63,8 @@ function Edit() {
           Name:
           <input
             value={value.name}
-            onChange={onChangeInput} name="name" type="text" />
+            onChange={onChangeInput} 
+            name="name" type="text" />
         </label>
         <br />
         <label htmlFor="">

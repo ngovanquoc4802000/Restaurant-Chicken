@@ -79,7 +79,7 @@ router.get("/:id", async (req, res) => {
         message: "Invalid , Please connect fields",
       });
     }
-    const data = await pool.query(
+    const [data] = await pool.query(
       `
        SELECT * FROM dishlist WHERE id = ?
       `,
@@ -150,19 +150,19 @@ router.delete("/:id", async (req, res) => {
     if (!removeCategory) {
       return res.status(404).send({
         success: false,
-        message: "404 , Not found deleteCategory",
+        message: "404 , Not found deleteDish",
       });
     }
-    await pool.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
+    await pool.query(`DELETE FROM dishlist WHERE id =?`, [removeCategory]);
     res.status(200).send({
       success: true,
-      message: "Success delete Id category",
+      message: "Success delete Id Dish",
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: true,
-      message: "Error deleteCategory",
+      message: "Error deleteDish",
     });
   }
 });
