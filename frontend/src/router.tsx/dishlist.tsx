@@ -3,9 +3,9 @@ import '../styles/content.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import ReactPaginate from 'react-paginate';
-
+import { faDeleteLeft, faList } from '@fortawesome/free-solid-svg-icons';
 
 type Dish = {
   id?: number | undefined
@@ -18,6 +18,7 @@ type Dish = {
 
 function DishList() {
   const [array, setArray] = useState<Dish[]>([]);
+  const [isActive, setIsActive] = useState<Boolean>(false);
   const getApiDish = () => {
     axios.get<Dish>('http://localhost:7777/dishlist')
       .then(res => {
@@ -32,15 +33,18 @@ function DishList() {
   const handleDelete = async (id: number | undefined) => {
     let Error = "bạn đã thất bại khi xoá"
     try {
-       axios.delete<Dish>(`http://localhost:7777/dishlist/${id}`)
-       getApiDish();
-     } catch(error) {
-       console.log("Error" + Error)
-     }
-      
+      axios.delete<Dish>(`http://localhost:7777/dishlist/${id}`)
+      getApiDish();
+    } catch (error) {
+      console.log("Error" + Error)
+    }
+
   }
   const handlePageClick = () => {
 
+  }
+  const handleIconList = () => {
+    setIsActive(!isActive);
   }
   return (
     <>
@@ -48,35 +52,42 @@ function DishList() {
         <h1 className='title'>Dish List</h1>
         {
           array.map((item, id) => (
-            <div key={id}>
+            <div key={id} className="card" style={{ width: "18rem" }}>
               <div className="card-body">
-                <button className='DeleteX' onClick={() => handleDelete(item.id)}>X</button>
-                <Link to={`/dishlist/edit/${item.id}`}>
-                  <strong className="EditIcons">
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                  </strong>
-                </Link>
-                <img className="imageDish" width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="" />
-                <h5 className="card-title">{item.title}</h5>
-                <p className="card-text">{item.content}</p>
-                <div className="incre" >
-                  {/* <p>-</p> */}
-                  <span>{item.price}</span>
-                  <p>+</p>
-                </div>
-                <div className="buttonAddAndRead">
-                  <Link to="" className='AddDish'>
-                    Đặt mua
-                  </Link>
+                <img src={`http://localhost:7777/${item.image}`} style={{ borderTopRightRadius: "0px", borderTopLeftRadius: "0px" }} className="card-img-top" alt="..." />
+                <div className="card-content">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p className="card-text">{item.content}</p>
+                  <p className="card-text">{item.price} VND</p>
+                  {
+                    isActive ? (
+                      <div className='card-service' >
+                        <Link className='card-link-edit' to={`/dishlist/edit/${item.id}`}>
+                          <p className='card-item-edit' >
+                            Chỉnh sửa <FontAwesomeIcon icon={faEdit} />
+                          </p>
+                        </Link>
+                        <p className='card-item-delete' onClick={() => handleDelete(item.id)}>
+                          Xoá <FontAwesomeIcon icon={faDeleteLeft} />
+                        </p>
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  }
+                  <div className='card-icon-list'>
+                    <strong onClick={handleIconList}>
+                      <FontAwesomeIcon icon={faList} />
+                    </strong>
+                  </div>
                   <Link className='ReadViews' style={{ textDecoration: "none", color: "black" }} to={`/dishlist/views/${item.id}`}>
-                    View
+                    <button type="button" className="btn btn-outline-primary" style={{ width: "100%" }}>Views</button>
                   </Link>
                 </div>
               </div>
             </div>
           ))
         }
-
       </div>
       <ReactPaginate
         nextLabel="next >"

@@ -9,22 +9,19 @@ interface Form {
   name: string,
   handle: string | number,
   image: string
-  data: Form[];
+  data: Form[] ;
+  success?: boolean,
+  message?: string;
+  dataPage?: Form[];
+  pagination?: { page?: number,  limit?: number , totalPage?: number | undefined} | number,
 }
 
-interface Page {
-  success: boolean,
-  message: string;
-  data: Page[];
-  pagination: { page: number,  limit: number , totalPage: number},
-
-}
 
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentLimit, setCurrentLimit] = useState<number>(5);
+  const [currentLimit, setCurrentLimit] = useState<number>(3);
   const [totalPages, setTotalPages] = useState<number>(0);
   const onClickShow = () => {
     axios.get<Form>('http://localhost:7777/category'
@@ -44,11 +41,10 @@ function Showform() {
   }, []);
 
  const pagination = () => {
-   axios.get<Page>(`http://localhost:7777/category/api/v1/product?page=${currentPage}&limit=${currentLimit}`)
+   axios.get<Form>(`http://localhost:7777/category/api/v1/product?page=${currentPage}&limit=${currentLimit}`)
    .then(res => {
     setArray(res.data.data)
-    setTotalPages(res.data.pagination.totalPage)
-   console.log(res.data.pagination.limit) 
+    setTotalPages(res.data.pagination?.totalPage)
   })
  }
  useEffect(() => {
@@ -63,7 +59,7 @@ function Showform() {
       console.log(error)
     }
   }
-  const handlePageClick = (event) => {
+  const handlePageClick = (event: { selected: number; }) => {
     setCurrentPage(event.selected + 1)
     
   }
@@ -118,7 +114,7 @@ function Showform() {
         </tbody>
       </table>
         {
-          totalPages > 0 &&
+          totalPages > 0  &&
           <div>
             <ReactPaginate
             nextLabel="next >"
