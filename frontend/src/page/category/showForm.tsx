@@ -2,7 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import '../../styles/content.scss'
 import { Link, Outlet } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 interface Form {
+  [x: string]: any;
   id: number
   name: string,
   handle: string | number,
@@ -10,9 +12,20 @@ interface Form {
   data: Form[];
 }
 
+interface Page {
+  success: boolean,
+  message: string;
+  data: Page[];
+  pagination: { page: number,  limit: number , totalPage: number},
+
+}
+
 function Showform() {
   const [array, setArray] = useState<Form[]>([]);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setCurrentLimit] = useState<number>(5);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const onClickShow = () => {
     axios.get<Form>('http://localhost:7777/category'
     )
@@ -29,6 +42,19 @@ function Showform() {
       console.log("Xoa du thua OnClickShow")
     }
   }, []);
+
+ const pagination = () => {
+   axios.get<Page>(`http://localhost:7777/category/api/v1/product?page=${currentPage}&limit=${currentLimit}`)
+   .then(res => {
+    setArray(res.data.data)
+    setTotalPages(res.data.pagination.totalPage)
+   console.log(res.data.pagination.limit) 
+  })
+ }
+ useEffect(() => {
+   pagination();
+ },[currentPage])
+
   const handleDelete = async (id: number | undefined) => {
     try {
       axios.delete<Form>(`http://localhost:7777/category/${id}`)
@@ -36,6 +62,10 @@ function Showform() {
     } catch (error) {
       console.log(error)
     }
+  }
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected + 1)
+    
   }
   const uniqueUrl = new Date().getTime();
   return (
@@ -87,6 +117,31 @@ function Showform() {
           }
         </tbody>
       </table>
+        {
+          totalPages > 0 &&
+          <div>
+            <ReactPaginate
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={totalPages}
+            previousLabel="< previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+          </div>
+        }
       <Outlet />
     </div>);
 }

@@ -28,11 +28,44 @@ router.get("/", async (req, res) => {
       message: "get success api All",
       data: data[0],
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       message: "error category",
+    });
+  }
+});
+
+router.get("/api/v1/product", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const offset = (page - 1) * limit;
+    const [data] = await pool.query(`SELECT * FROM api_db  limit ? offset ? `, [
+      +limit,
+      +offset,
+    ]);
+    const [totalPageData] = await pool.query(
+      `SELECT count(*) as count from api_db`
+    );
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+    console.log(totalPage);
+    res.status(200).send({
+      success: true,
+      message: "pagination success",
+      data: data,
+      pagination: {
+        page: +page,
+        limit: +limit,
+        totalPage,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "lỗi phân trang",
     });
   }
 });
@@ -102,7 +135,7 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-router.put("/:id", upload.single("file") ,async (req, res) => {
+router.put("/:id", upload.single("file"), async (req, res) => {
   try {
     const categoryTable = req.params.id;
     if (!categoryTable) {
@@ -112,7 +145,7 @@ router.put("/:id", upload.single("file") ,async (req, res) => {
       });
     }
     const file = req.file.filename;
-    const {name , handle} = req.body;
+    const { name, handle } = req.body;
     const data = await pool.query(
       `
       UPDATE api_db SET
@@ -121,24 +154,24 @@ router.put("/:id", upload.single("file") ,async (req, res) => {
       handle = ?
       WHERE id = ?
       `,
-      [file ,name,handle,categoryTable]
-    )
-    if(!data) {
+      [file, name, handle, categoryTable]
+    );
+    if (!data) {
       return res.status(404).send({
         success: false,
-        message: "404 not found"
-      })
+        message: "404 not found",
+      });
     }
     res.status(200).send({
       success: true,
-      message: "success api UpdateCategory"
-    })
+      message: "success api UpdateCategory",
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error Api Category"
-    })
+      message: "Error Api Category",
+    });
   }
 });
 router.delete("/:id", async (req, res) => {

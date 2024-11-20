@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type Create = {
@@ -45,6 +45,9 @@ function CreateDishList() {
      setImage(image);
      setPreViews(URL.createObjectURL(image))
   };
+  const handlePageClick = () => {
+
+  }
   return (
     <form className="createDish" onSubmit={handleCreate}>
       <div className="image">
@@ -71,9 +74,8 @@ function CreateDishList() {
           <figure>
             <img src={previews} width={100} height={100} alt="" />
           </figure>
-        ):(
+        ):
          ""
-        )  
       }
       <div className="buttonFooter">
         <button type="submit">Submit</button>
