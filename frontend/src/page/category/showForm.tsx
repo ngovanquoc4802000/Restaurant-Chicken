@@ -46,6 +46,7 @@ function Showform() {
     setArray(res.data.data)
     setTotalPages(res.data.pagination?.totalPage)
   })
+  .catch(error => console.log("lỗi phân trang Client Category"+ error))
  }
  useEffect(() => {
    pagination();
@@ -100,10 +101,10 @@ function Showform() {
                   <img width={100} height={100} src={`http://localhost:7777/${item.image}`} alt="image" />
                 </td>
                 <td>
-                  <Link to={`/views/${item.id}`}>
+                  <Link to={`/views/${item.id}/${item.handle}/${uniqueUrl}`}>
                     <button className="viewShow ">view</button>
                   </Link>
-                  <Link to={`/edit/${item.id}`}>
+                  <Link to={`/edit/${item.id}/${item.handle}/${uniqueUrl}`}>
                     <button className="editShow">edit</button>
                   </Link>
                   <button onClick={() => handleDelete(item.id)} className="delete">delete</button>
@@ -115,7 +116,7 @@ function Showform() {
       </table>
         {
           totalPages > 0  &&
-          <div>
+          <div style={{display: "flex" , justifyContent: "center" , marginTop: "2rem"}}>
             <ReactPaginate
             nextLabel="next >"
             onPageChange={handlePageClick}

@@ -1,9 +1,10 @@
-import { faHeart, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faEdit, faHeart, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import '../../styles/content.scss';
+import { faDeleteLeft, faList } from "@fortawesome/free-solid-svg-icons";
 
 interface ViewDish {
   id?: number;
@@ -21,7 +22,7 @@ function ViewsDishList() {
   })
   const [isActive, setIsActive] = useState(false);
   const [arrayViews, setArrayViews] = useState<ViewDish[]>([]);
-  const [search,setSearch] = useState('');
+  const [search, setSearch] = useState('');
   const { id } = useParams();
   const getViewsId = () => {
     axios.get('http://localhost:7777/dishlist/' + id)
@@ -43,6 +44,9 @@ function ViewsDishList() {
   }, [])
   const handleInformation = () => {
     setIsActive(!isActive)
+  }
+  const handleIconList = () => {
+    setIsActive(!isActive);
   }
   return (
     <div className="read">
@@ -107,37 +111,43 @@ function ViewsDishList() {
         <input type="search" onChange={(e) => setSearch(e.target.value)} id="form1" className="form-control" placeholder="Tìm kiếm" aria-label="Search" />
       </div>
       <div className="card">
-      {
-        arrayViews.filter((item) => {
-          return search.toLowerCase() === "" ? item : item.title.includes(search)
-        }).map((item, id) => (
-          <div key={id}>
-            <div className="card-body">
-              <strong className='DeleteX' >X</strong>
-              <Link to={`/dishlist/edit/${item.id}`}>
-                <strong className="EditIcons">
-                  <FontAwesomeIcon icon={faPenToSquare} />
-                </strong>
-              </Link>
-              <h5 className="card-title">{item.title}</h5>
-              <p className="card-text">{item.content}</p>
-              <div className="incre" >
-                {/* <p>-</p> */}
-                <span>{item.price}</span>
-                <p>+</p>
-              </div>
-              <div className="buttonAddAndRead">
-                <Link to="" className='AddDish'>
-                  Đặt mua
-                </Link>
-                <Link className='ReadViews' style={{ textDecoration: "none", color: "black" }} to={`/dishlist/views/${item.id}`}>
-                  View
-                </Link>
+        {
+          arrayViews.filter((item) => {
+            return search.toLowerCase() === "" ? item : item.title.includes(search)
+          }).map((item, id) => (
+            <div key={id}>
+              <div className="card-body">
+                <img src={`http://localhost:7777/${item.image}`} style={{ borderTopRightRadius: "0px", borderTopLeftRadius: "0px" }} className="card-img-top" alt="..." />
+                <div className="card-content">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p className="card-text">{item.content}</p>
+                  <p style={{ fontWeight: "700px", color: "black" }} className="card-text">{item.price} VND</p>
+                  {
+                    isActive ? (
+                      <div className='card-service' >
+                        <Link className='card-link-edit' to={`/dishlist/edit/${item.id}`}>
+                          <p className='card-item-edit' >
+                            Chỉnh sửa <FontAwesomeIcon icon={faEdit} />
+                          </p>
+                        </Link>
+                       {/*  <p className='card-item-delete' onClick={() => handleDelete(item.id)}>
+                          Xoá <FontAwesomeIcon icon={faDeleteLeft} />
+                        </p> */}
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  }
+                </div>
+                <div className='card-icon-list'>
+                    <strong onClick={handleIconList}>
+                      <FontAwesomeIcon icon={faList} />
+                    </strong>
+                  </div>
               </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
       </div>
     </div>
   );

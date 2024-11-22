@@ -24,14 +24,8 @@ function ListLogin() {
     getListApi()
   }, []);
   const handleDelete = (id: number | undefined) => {
-    axios.delete('http://localhost:7777/user/' + id)
-      .then(res => {
-        if(location.reload() === null) {
-          return setArray(array.filter((item) => {
-             item.id !== res.data.id
-          }))
-        }
-      })
+    axios.delete(`http://localhost:7777/user/${id}`)
+    getListApi();
   }
   return (
     <div className="row">

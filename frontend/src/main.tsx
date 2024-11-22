@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         element: <Views />,
         children: [
           { 
-            path: "/views/:id",
+            path: "/views/:id/:handle/:url",
             element: <Views />
           }
         ]
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         element: <Edit />,
         children: [
           {
-            path: "/edit/:id",
+            path: "/edit/:id/:handle/:url",
             element: <Edit />
           }
         ]
@@ -86,10 +86,6 @@ const router = createBrowserRouter([
             element: <EditDishList />
           }
         ]
-      },
-      {
-        path: "/register",
-        element: <User />
       },
       {
         path: "/login",

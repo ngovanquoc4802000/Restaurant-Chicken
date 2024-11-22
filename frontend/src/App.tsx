@@ -14,7 +14,7 @@ function App() {
           <Link to="/dishlist">
             <li>DishList</li>
           </Link>
-          <Link to="/Register">
+          <Link to="/login">
             <li>User</li>
           </Link>
           <Link to="/order">

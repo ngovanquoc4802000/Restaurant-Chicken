@@ -3,7 +3,7 @@ import '../styles/content.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import ReactPaginate from 'react-paginate';
 import { faDeleteLeft, faList } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,11 +14,22 @@ type Dish = {
   content: string
   image: string
   data: Dish[];
+  success?: boolean,
+  message?: string;
+  dataPage?: Dish[];
+  pagination?: {
+    page?: number, limit?:
+    number, totalPage?:
+    number | undefined
+  } | number,
 }
 
 function DishList() {
   const [array, setArray] = useState<Dish[]>([]);
   const [isActive, setIsActive] = useState<Boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setCurrentLimit] = useState<number>(3);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const getApiDish = () => {
     axios.get<Dish>('http://localhost:7777/dishlist')
       .then(res => {
@@ -26,7 +37,6 @@ function DishList() {
       })
       .catch(error => console.log(error))
   }
-
   useEffect(() => {
     getApiDish();
   }, [])
@@ -38,10 +48,22 @@ function DishList() {
     } catch (error) {
       console.log("Error" + Error)
     }
-
   }
-  const handlePageClick = () => {
 
+  const paginationDish = () => {
+    axios.get<Dish>(`http://localhost:7777/dishlist/api/v1/product?page=${currentPage}&limit=${currentLimit}`)
+      .then((res) => {
+        setArray(res.data.data)
+        setTotalPages(res.data.pagination?.totalPage)
+      })
+      .catch(error => console.log("Lỗi phân trang Client DishList" + error))
+  }
+
+  useEffect(() => {
+    paginationDish();
+  }, [currentPage])
+  const handlePageClick = (event: { selected: number; }) => {
+    setCurrentPage(event.selected + 1)
   }
   const handleIconList = () => {
     setIsActive(!isActive);
@@ -58,7 +80,7 @@ function DishList() {
                 <div className="card-content">
                   <h5 className="card-title">{item.title}</h5>
                   <p className="card-text">{item.content}</p>
-                  <p className="card-text">{item.price} VND</p>
+                  <p style={{fontWeight: "700px" , color: "black"}} className="card-text">{item.price} VND</p>
                   {
                     isActive ? (
                       <div className='card-service' >
@@ -89,26 +111,32 @@ function DishList() {
           ))
         }
       </div>
-      <ReactPaginate
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        pageCount={70}
-        previousLabel="< previous"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        containerClassName="pagination"
-        activeClassName="active"
-        renderOnZeroPageCount={null}
-      />
+      {
+        totalPages > 0 &&
+        <div>
+          <ReactPaginate
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={totalPages}
+            previousLabel="< previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+        </div>
+      }
+
       <Link to="/dishlist/create">
         <button className='Add'>Add News</button>
       </Link>

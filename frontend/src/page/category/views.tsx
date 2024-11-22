@@ -14,7 +14,7 @@ function Views() {
   const [get, setGet] = useState<Form[]>([]);
   const { id } = useParams();
   useEffect(() => {
-    axios.get<Form>(`http://localhost:7777/category/` + id)
+    axios.get<Form>(`http://localhost:7777/category/${id}`)
       .then(res => {
         setGet(res.data.data)
       }).catch(err => {

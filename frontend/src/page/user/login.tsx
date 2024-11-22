@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Loginface {
-  Email: string,
+  email: string,
   name: string,
   password: string,
   address?: string
@@ -11,7 +11,7 @@ interface Loginface {
 
 function Login() {
   const [value, setValue] = useState<Loginface>({
-    Email: "",
+    email: "",
     name: "",
     password: "",
     address:""
@@ -20,7 +20,7 @@ function Login() {
   const handleLogin = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setValue({
-      Email: "",
+      email: "",
       name: "",
       password: "",
       address:""
@@ -28,7 +28,7 @@ function Login() {
   }
   const handleClick = () => {
     axios.post('http://localhost:7777/user', {
-      Email: value.Email,
+      email: value.email,
       name: value.name,
       password: value.password,
       address: value.address
@@ -56,7 +56,7 @@ function Login() {
                         <i style={{marginTop:"2rem"}} className="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div data-mdb-input-init className="form-outline flex-fill mb-0">
                           <label className="form-label" htmlFor="form3Example1c">Email</label>
-                          <input onChange={(e) => setValue({...value, Email: e.target.value})} type="email" id="form3Example1c" className="form-control" name="Email" />
+                          <input onChange={(e) => setValue({...value, email: e.target.value})} type="email" id="form3Example1c" className="form-control" name="Email" />
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">

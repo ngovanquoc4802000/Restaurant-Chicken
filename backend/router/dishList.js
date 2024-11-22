@@ -36,6 +36,38 @@ router.get("/", async (req, res) => {
     });
   }
 });
+router.get("/api/v1/product", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const offset = (page - 1) * limit;
+    const [data] = await pool.query(`SELECT * FROM dishlist  limit ? offset ? `, [
+      +limit,
+      +offset,
+    ]);
+    const [totalPageData] = await pool.query(
+      `SELECT count(*) as count from dishlist`
+    );
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+    console.log(totalPage);
+    res.status(200).send({
+      success: true,
+      message: "pagination dishlist success",
+      data: data,
+      pagination: {
+        page: +page,
+        limit: +limit,
+        totalPage,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "lỗi phân trang",
+    });
+  }
+});
 router.post("/image", upload.single("file"), async (req, res) => {
   try {
     const ImageName = req.file.filename;
