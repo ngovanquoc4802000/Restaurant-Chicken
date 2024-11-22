@@ -1,7 +1,7 @@
-/* function GetOrder() {
+function GetOrder() {
   return ( 
     <></>
    );
 }
 
-export default GetOrder; */
+export default GetOrder; 

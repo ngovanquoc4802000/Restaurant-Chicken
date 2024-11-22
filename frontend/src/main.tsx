@@ -1,7 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import App from './App.tsx';
+import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
+
 import Error from './router.tsx/error.tsx';
 
 import Category from './router.tsx/category.tsx';
@@ -9,7 +12,6 @@ import CreateForm from './page/category/createForm.tsx';
 import Views from './page/category/views.tsx';
 import Edit from './page/category/edit.tsx';
 
-import User from './router.tsx/user.tsx';
 
 import DishList from './router.tsx/dishlist.tsx';
 import CreateDishList from './page/dishlist/create.tsx'
@@ -18,8 +20,10 @@ import EditDishList from './page/dishlist/edit.tsx';
 import Login from './page/user/login.tsx';
 import ListLogin from './page/user/ListLogin.tsx';
 import APiExample from './router.tsx/api.tsx';
+import GetOrder from './page/order/getOrder.tsx';
 
-const router = createBrowserRouter([
+const router = 
+ createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -42,7 +46,7 @@ const router = createBrowserRouter([
         path: "/views",
         element: <Views />,
         children: [
-          { 
+          {
             path: "/views/:id/:handle/:url",
             element: <Views />
           }
@@ -87,6 +91,7 @@ const router = createBrowserRouter([
           }
         ]
       },
+      /* User */
       {
         path: "/login",
         element: <Login />
@@ -97,7 +102,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/api",
-        element: <APiExample/>
+        element: <APiExample />
+      },
+      /* Order */
+      {
+        path: '/order',
+        element: <GetOrder />
       }
     ],
   },
@@ -105,6 +115,15 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SwitchTransition>
+      <CSSTransition
+      key={location.pathname}
+      classNames="fade"
+      timeout={300}
+      unmountOnExit
+      >
+        <RouterProvider router={router} />
+      </CSSTransition>
+    </SwitchTransition>
   </StrictMode>,
 )

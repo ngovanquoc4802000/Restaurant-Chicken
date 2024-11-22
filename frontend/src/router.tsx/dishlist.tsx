@@ -14,21 +14,22 @@ type Dish = {
   content: string
   image: string
   data: Dish[];
-  success?: boolean,
-  message?: string;
-  dataPage?: Dish[];
-  pagination?: {
-    page?: number, limit?:
-    number, totalPage?:
-    number | undefined
-  } | number,
+  success: boolean,
+  message: string;
+  dataPage: Dish[];
+  pagination:
+  {
+    page: number, limit:
+    number, totalPage:
+    number
+  } ,
 }
 
 function DishList() {
   const [array, setArray] = useState<Dish[]>([]);
   const [isActive, setIsActive] = useState<Boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentLimit, setCurrentLimit] = useState<number>(3);
+  const [currentLimit, setCurrentLimit] = useState<number>(4);
   const [totalPages, setTotalPages] = useState<number>(0);
   const getApiDish = () => {
     axios.get<Dish>('http://localhost:7777/dishlist')
@@ -54,7 +55,7 @@ function DishList() {
     axios.get<Dish>(`http://localhost:7777/dishlist/api/v1/product?page=${currentPage}&limit=${currentLimit}`)
       .then((res) => {
         setArray(res.data.data)
-        setTotalPages(res.data.pagination?.totalPage)
+        setTotalPages(res.data.pagination.totalPage)
       })
       .catch(error => console.log("Lỗi phân trang Client DishList" + error))
   }
@@ -80,7 +81,7 @@ function DishList() {
                 <div className="card-content">
                   <h5 className="card-title">{item.title}</h5>
                   <p className="card-text">{item.content}</p>
-                  <p style={{fontWeight: "700px" , color: "black"}} className="card-text">{item.price} VND</p>
+                  <p style={{ fontWeight: "700px", color: "black" }} className="card-text">{item.price} VND</p>
                   {
                     isActive ? (
                       <div className='card-service' >
@@ -113,7 +114,7 @@ function DishList() {
       </div>
       {
         totalPages > 0 &&
-        <div>
+        <div style={{ position: "absolute", bottom: "1%", left: "45%" }}>
           <ReactPaginate
             nextLabel="next >"
             onPageChange={handlePageClick}

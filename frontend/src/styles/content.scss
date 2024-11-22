@@ -151,11 +151,20 @@
   }
   .card-body {
     width: 18rem;
-    height: 50%;
+    height: max-content;
     padding: 0;
     border: 3px solid #c1c1c9;
     border-radius: 4px;
     margin-bottom: 1rem;
+    cursor: pointer;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s ease-in-out;
+      transition: .3s ease-in-out;
+      &:hover {
+        -webkit-transform: scale(1);
+        transform: scale(1.1);
+      }
     .card-delete {
       background-color: #575757;
       color: #fff;
@@ -171,60 +180,61 @@
         color: black;
       }
     }
-  }
-  .card-content {
-    position: relative;
-    padding: 11px;
-    .card-icon-list {
-      position: absolute;
-      right: 0;
-      margin-right: 14px;
-      font-size: 17px;
-      top: 48%;
-      cursor: pointer;
-    }
-    .card-service {
-      background-color: #f0f0f0;
-      color: black;
-      width: 7rem;
-      height: 4rem;
-      border-radius: 4px;
-      border: 1.5px solid black;
-      cursor: pointer;
-      position: absolute;
-      left: 60%;
-      top: 7%;
-      .card-link-edit {
-        text-decoration: none;
+    .card-content {
+      position: relative;
+      padding: 11px;
+      .card-icon-list {
+        position: absolute;
+        right: 0;
+        margin-right: 14px;
+        font-size: 17px;
+        top: 48%;
+        cursor: pointer;
+      }
+      .card-service {
+        background-color: #f0f0f0;
         color: black;
-        .card-item-edit {
+        width: 7rem;
+        height: 4rem;
+        border-radius: 4px;
+        border: 1.5px solid black;
+        cursor: pointer;
+        position: absolute;
+        left: 60%;
+        top: 7%;
+        display: none;
+        .card-link-edit {
+          text-decoration: none;
+          color: black;
+          .card-item-edit {
+            padding: 4px;
+            margin-bottom: 0;
+            &:hover {
+              background-color: yellow;
+            }
+          }
+        }
+        .card-item-delete {
           padding: 4px;
           margin-bottom: 0;
+  
           &:hover {
             background-color: yellow;
           }
         }
       }
-      .card-item-delete {
-        padding: 4px;
-        margin-bottom: 0;
-
-        &:hover {
-          background-color: yellow;
-        }
-      }
     }
-  }
-  .imageDish {
-    width: 200px;
-    height: 200px;
-    cursor: pointer;
-  }
-  .card-title {
-    font-weight: 600;
-  }
-  .card-address {
-    font-size: 14px;
+    .imageDish {
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+    }
+    .card-title {
+      font-weight: 600;
+    }
+    .card-address {
+      font-size: 14px;
+    }
   }
   .incre {
     display: flex;

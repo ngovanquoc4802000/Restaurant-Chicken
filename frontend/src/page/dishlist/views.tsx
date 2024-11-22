@@ -1,10 +1,10 @@
-import { faEdit, faHeart, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faEdit, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import '../../styles/content.scss';
-import { faDeleteLeft, faList } from "@fortawesome/free-solid-svg-icons";
+import {  faList } from "@fortawesome/free-solid-svg-icons";
 
 interface ViewDish {
   id?: number;
@@ -44,9 +44,6 @@ function ViewsDishList() {
   }, [])
   const handleInformation = () => {
     setIsActive(!isActive)
-  }
-  const handleIconList = () => {
-    setIsActive(!isActive);
   }
   return (
     <div className="read">
@@ -140,7 +137,7 @@ function ViewsDishList() {
                   }
                 </div>
                 <div className='card-icon-list'>
-                    <strong onClick={handleIconList}>
+                    <strong onClick={handleInformation}>
                       <FontAwesomeIcon icon={faList} />
                     </strong>
                   </div>
