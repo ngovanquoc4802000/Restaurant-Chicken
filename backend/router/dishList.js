@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res) => { 
   try {
     const data = await pool.query(`SELECT * FROM dishlist`);
     if (!data) {
@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
       success: true,
       message: "get success dishList All",
       data: data[0],
+      inscrease : newDate,
     });
   } catch (error) {
     console.log(error);
@@ -78,6 +79,7 @@ router.post("/image", upload.single("file"), async (req, res) => {
         message: "Invalid Error",
       });
     }
+    console.log(data);
     const data = await pool.query(
       `INSERT INTO dishlist
        (title,content,currency,price,image)
