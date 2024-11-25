@@ -8,6 +8,8 @@ import routerUser from "./router/user.js";
 import cors from "cors";
 import routerCategoryApi from './controllers/categoryApi.js'
 import router from "./router/dishList.js";
+import routerOrder from './router/orderTable.js'
+
 //rest object
 const app = express();
 
@@ -31,7 +33,7 @@ app.use(morgan("dev"));
 app.use("/category", routerCategoryApi)
 app.use("/dishlist", router);
 app.use("/user", routerUser);
-
+app.use("/order",routerOrder)
 
 /* app.use("/order", routerOrderDetails); */
 //router
