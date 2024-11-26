@@ -92,6 +92,5 @@ router.put("/:id", upload.single("file"), async (req, res) => {
 router
   .route("/:id")
   .get(orderDetails.oderDetailId)
-  .put(orderDetails.updateOrderDetail)
   .delete(orderDetails.deleteOrderDetail);
 export default router;

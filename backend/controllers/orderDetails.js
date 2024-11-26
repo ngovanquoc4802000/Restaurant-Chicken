@@ -18,7 +18,7 @@ const orderDetailAll = async (req, res) => {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "error orderTableAll",
+      message: "error orderDetailsAll",
     });
   }
 };
@@ -45,17 +45,6 @@ const oderDetailId = async (req, res) => {
       .status(200)
       .send({ success: true, message: "hiển thị chi tiết sản phẩm order",
     data });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
-      success: false,
-      message: "Error , Please connect disList",
-    });
-  }
-};
-const updateOrderDetail = async (req, res) => {
-  try {
-    res.json({ message: "update order thành công" });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -93,6 +82,5 @@ const deleteOrderDetail = async (req, res) => {
 export default {
   orderDetailAll,
   oderDetailId,
-  updateOrderDetail,
   deleteOrderDetail,
 };

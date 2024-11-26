@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `api_db`
+-- Table structure for table `order_product`
 --
 
-DROP TABLE IF EXISTS `api_db`;
+DROP TABLE IF EXISTS `order_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `api_db` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `handle` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `order_product` (
+  `id_product` int NOT NULL AUTO_INCREMENT,
+  `quantity` int NOT NULL,
+  `price` decimal(5,2) NOT NULL,
+  `note` varchar(256) NOT NULL,
+  `image_product` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_product`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `api_db`
+-- Dumping data for table `order_product`
 --
 
-LOCK TABLES `api_db` WRITE;
-/*!40000 ALTER TABLE `api_db` DISABLE KEYS */;
-INSERT INTO `api_db` VALUES (26,'2024-11-19T09-24-59.568Zget.png','ngô văn quốc111','ngdwdww'),(27,'2024-11-19T09-26-25.727Zedit1.png','232','2323322332'),(28,'2024-11-19T09-26-37.396ZScreenshot 2024-10-30 062913.png','123','ngdwdww'),(29,'2024-11-19T09-26-50.515Zs5.png','ngô văn quốc111222','âssasas'),(30,'2024-11-19T09-27-04.981Zedit3.png','ngô văn quốc111222','ngdwdww'),(31,'2024-11-19T09-27-13.900Ze1.png','ngô văn quốc111222','ngdwdww'),(32,'2024-11-19T09-27-27.951Zedit3.png','ngô văn quốc111222','22223333333333'),(33,'2024-11-19T17-18-53.086Zedit2.png','ngô văn quốc111222','ngdwdww'),(34,'2024-11-20T06-47-59.415Zedit2.png','ngô văn quốc111222','ngdwdww');
-/*!40000 ALTER TABLE `api_db` ENABLE KEYS */;
+LOCK TABLES `order_product` WRITE;
+/*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
+INSERT INTO `order_product` VALUES (1,1,29.00,'Pizzza 2222','2024-11-26T04-10-43.197Ze1.png');
+/*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-25 14:16:28
+-- Dump completed on 2024-11-26 22:19:49
