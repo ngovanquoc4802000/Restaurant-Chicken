@@ -1,5 +1,5 @@
 import pool from "../database/connexion.js";
-import upload from "../database/config.js";
+
 const dishListAll = async (req, res) => {
   try {
     const data = await pool.query(`SELECT * FROM dishlist`);
