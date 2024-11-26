@@ -1,6 +1,18 @@
 
 const orderTableAll = async (req, res) => {
   try {
+    const data = await pool.query(`SELECT * FROM order`);
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found ",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success orderDetails All",
+      data: data[0]
+    });
      res.json({message: "hiển thị tất cả sản phẩm order"})
   } catch (error) {
     console.log(error);

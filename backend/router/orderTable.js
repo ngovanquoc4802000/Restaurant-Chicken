@@ -1,6 +1,7 @@
 import express from 'express';
 import orderTableControllers from '../controllers/orderTableControllers.js';
 
+
 const router = express.Router();
 
 router.get("/",orderTableControllers.orderTableAll)
