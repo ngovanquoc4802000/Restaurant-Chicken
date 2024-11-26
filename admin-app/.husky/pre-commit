@@ -1,1 +1,1 @@
-cd admin-app && npx lint-staged
+cd admin-app && npx lint-staged && npm run lint
