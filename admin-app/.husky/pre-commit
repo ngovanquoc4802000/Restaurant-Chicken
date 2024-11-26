@@ -1,1 +1,1 @@
-cd client && npx lint-staged
+cd admin-app && npx lint-staged
