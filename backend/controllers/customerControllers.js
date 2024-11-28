@@ -1,8 +1,9 @@
 import pool from "../database/connexion.js";
 
-const orderCustomerAll = async (req, res) => {
+
+const customerAll = async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM order_customer`);
+    const data = await pool.query(`SELECT * FROM customer`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -11,7 +12,7 @@ const orderCustomerAll = async (req, res) => {
     }
     res.status(200).send({
       success: true,
-      message: "success orderCustomer All",
+      message: "success Customer All",
       data: data[0],
     });
   } catch (error) {
@@ -22,10 +23,10 @@ const orderCustomerAll = async (req, res) => {
     });
   }
 };
-const oderCustomerId = async (req, res) => {
+const customerId = async (req, res) => {
   try {
-    const customerId = req.params.id;
-    if (!customerId) {
+    const orderId = req.params.id;
+    if (!orderId) {
       return res.status(404).send({
         success: false,
         message: "",
@@ -33,18 +34,18 @@ const oderCustomerId = async (req, res) => {
     }
     const [data] = await pool.query(
       `
-    SELECT * FROM order_customer WHERE id = ?`,
-      [customerId]
+    SELECT * FROM customer WHERE id = ?`,
+      [orderId]
     );
     if (!data) {
       return res.status(403).send({
         success: false,
-        message: "403 Invalid customer",
+        message: "403 Invalid Customer",
       });
     }
     res.status(200).send({
       success: true,
-      message: "hiển thị chi tiết sản phẩm customer",
+      message: "success detail Customer",
       data,
     });
   } catch (error) {
@@ -55,51 +56,38 @@ const oderCustomerId = async (req, res) => {
     });
   }
 };
-const createOrderCustomer = async (req, res) => {
-  try {
-    const {
-      address,
-      customer_note,
-      customer_name,
-      total_price,
-      customer_phone,
-    } = req.body;
-    if (!address 
-      || !customer_note 
-      || !customer_name 
-      || !total_price 
-      || !customer_phone) {
+const createCustomer = async(req,res) => {
+   try {
+     const { address , name } = req.body;
+     if(!address || !name) {
       return res.status(404).send({
         success: false,
-        message: "404 not found",
-      });
-    }
-    const data = await pool.query(
-      `INSERT INTO order_customer
-      (address, customer_note
-         , customer_name 
-         , total_price, customer_phone) 
-         VALUES(? ,? ,? ,? ,?)`,
-      [address, customer_note, customer_name, total_price, customer_phone]
-    );
-    if (!data) {
-      return res.status(403).send({
+        message: "403 NOT FOUND"
+      })
+     }
+     const data = await pool.query(`INSERT INTO customer 
+     (address, name)
+     VALUES(?,?)
+     `,[address,name]);
+     if(!data) {
+      return res.status(404).send({
         success: false,
-        message: "403 Invalid Error",
-      });
-    }
-    res
-      .status(200)
-      .send({ success: true, message: "tạo order thành công", data });
-  } catch (error) {
+        message: "404 Error client"
+      })
+     }
+     res.status(200).send({
+      success: true,
+      message: "success Create Customer"
+     })
+   } catch(error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "error orderCustomer",
+      message: "Error 500",
     });
   }
-};
-const updateOrderCustomer = async (req, res) => {
+}
+const updateCustomerId = async (req, res) => {
   try {
     const updateCustomer = req.params.id;
     if (!updateCustomer) {
@@ -108,16 +96,15 @@ const updateOrderCustomer = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { address, customer_note , customer_name, total_price, customer_phone } = req.body;
+    const { address,name } = req.body;
     const data = await pool.query(
       `
-        UPDATE order_customer SET
+        UPDATE customer SET
         address = ? ,
-        customer_note = ?,
-        customer_name = ?,
-        total_price = ? , customer_phone  WHERE id = ?
+        name = ?,
+         WHERE id = ?
         `,
-      [address, customer_note , customer_name, total_price, customer_phone , updateCustomer]
+      [ address, name , updateCustomer]
     );
     if (!data) {
       return res.status(404).send({
@@ -127,17 +114,17 @@ const updateOrderCustomer = async (req, res) => {
     }
     res.status(200).send({
       success: true,
-      message: "success updateOrderCustomer",
+      message: "success update customer",
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error , Please connect Customer",
+      message: "Error , Please connect customer",
     });
   }
 };
-const deleteCustomer = async (req, res) => {
+const deleteCustomerId = async (req, res) => {
   try {
     const deleteCustomerId = req.params.id;
     if (!deleteCustomerId) {
@@ -148,27 +135,27 @@ const deleteCustomer = async (req, res) => {
     }
     await pool.query(
       `
-    DELETE FROM order_customer 
+    DELETE FROM customer
     WHERE id = ?`,
       [deleteCustomerId]
     );
     res.status(200).send({
       success: true,
-      message: "success delete customer",
+      message: "success delete Customer",
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "error orderTable",
+      message: "error Customer",
     });
   }
 };
 
 export default {
-  orderCustomerAll,
-  oderCustomerId,
-  createOrderCustomer,
-  updateOrderCustomer,
-  deleteCustomer,
-};
+  customerAll,
+  customerId,
+  createCustomer,
+  updateCustomerId,
+  deleteCustomerId
+}

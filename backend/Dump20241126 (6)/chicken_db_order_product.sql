@@ -28,6 +28,7 @@ CREATE TABLE `order_product` (
   `price` decimal(5,2) NOT NULL,
   `note` varchar(256) NOT NULL,
   `image_product` varchar(255) DEFAULT NULL,
+  `id_order` int DEFAULT NULL,
   PRIMARY KEY (`id_product`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +39,7 @@ CREATE TABLE `order_product` (
 
 LOCK TABLES `order_product` WRITE;
 /*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
-INSERT INTO `order_product` VALUES (1,1,29.00,'Pizzza 2222','2024-11-26T04-10-43.197Ze1.png');
+INSERT INTO `order_product` VALUES (1,1,29.00,'Pizzza 2222','2024-11-26T04-10-43.197Ze1.png',NULL);
 /*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 22:19:49
+-- Dump completed on 2024-11-26 22:51:09

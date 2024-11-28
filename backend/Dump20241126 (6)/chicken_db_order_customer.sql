@@ -29,6 +29,7 @@ CREATE TABLE `order_customer` (
   `customer_name` varchar(128) NOT NULL,
   `total_price` decimal(5,2) NOT NULL,
   `customer_phone` varchar(256) DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +40,7 @@ CREATE TABLE `order_customer` (
 
 LOCK TABLES `order_customer` WRITE;
 /*!40000 ALTER TABLE `order_customer` DISABLE KEYS */;
-INSERT INTO `order_customer` VALUES (1,'89A/3A,sqsqsq','nhanahssqjsq','okau',243.00,'23223232');
+INSERT INTO `order_customer` VALUES (1,'89A/3A,sqsqsq','nhanahssqjsq','okau',243.00,'23223232',NULL);
 /*!40000 ALTER TABLE `order_customer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 22:19:50
+-- Dump completed on 2024-11-26 22:51:08

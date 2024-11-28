@@ -1,5 +1,5 @@
 import express from 'express';
-import orderCustomerControllers from '../controllers/orderCustomerControllers.js';
+import orderControllers from '../controllers/orderControllers.js';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
@@ -12,15 +12,14 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 const router = express.Router();
 
-router.get('/', orderCustomerControllers.orderCustomerAll);
-router.post('/create',orderCustomerControllers.createOrderCustomer);
+router.get('/', orderControllers.orderAll);
+router.post('/create',orderControllers.createOrder);
 
-router.route("/:id")
-   .get(orderCustomerControllers.oderCustomerId)
-   .put(orderCustomerControllers.orderCustomerAll)
-   .delete(orderCustomerControllers.deleteCustomer)
+router.route("/:id")  
+   .get(orderControllers.oderId)
+   .put(orderControllers.updateOrder)
+   .delete(orderControllers.deleteOrder)
 
 export default router;

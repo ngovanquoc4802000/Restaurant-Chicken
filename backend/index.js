@@ -6,11 +6,13 @@ import {} from "colors";
 import pool from "./database/connexion.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
-import routerCategoryApi from './controllers/categoryApi.js'
-import router from "./router/dishList.js";
-import routerDetails from './router/orderDetails.js'
-import routerOrderCustomer from './router/orderCustomer.js'
+/* routerCategory có image nên chỉ file */
+import routerCategoryApi from "./controllers/categoryControllers.js";
 
+import router from "./router/dishList.js";
+import routerProduct from './router/orderProduct.js'
+import routerOrder from './router/order.js';
+import routerCustomer from "./router/customer.js";
 
 //rest object
 const app = express();
@@ -35,8 +37,9 @@ app.use(morgan("dev"));
 app.use("/category", routerCategoryApi)
 app.use("/dishlist", router);
 app.use("/user", routerUser);
-app.use("/order",routerOrderCustomer);
-app.use('/orderDetail',routerDetails);
+app.use("/order",routerOrder);
+app.use('/orderProduct',routerProduct);
+app.use('/customer', routerCustomer)
 
 /* app.use("/order", routerOrderDetails); */
 //router
