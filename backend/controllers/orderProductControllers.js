@@ -13,6 +13,7 @@ const orderProductAll = async (req, res) => {
       success: true,
       message: "success order Product All",
       data: data[0],
+      list_food: data[0]
     });
   } catch (error) {
     console.log(error);
@@ -42,13 +43,11 @@ const oderProductId = async (req, res) => {
         message: "403 Invalid",
       });
     }
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "success show detail order Product ",
-        data,
-      });
+    res.status(200).send({
+      success: true,
+      message: "success show detail order Product ",
+      data,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -60,16 +59,16 @@ const oderProductId = async (req, res) => {
 
 const orderCreate = async (req, res) => {
   try {
-    const { quantity, price, note } = req.body;
-    if (!quantity || !price || !note) {
+    const { quantity, price, note  } = req.body;
+    if (!quantity || !price || !note ) {
       return res.status(404).send({
         success: false,
         message: "404 not found order Product",
       });
     }
     const data = await pool.query(
-      `INSERT INTO order_product (quantity,price,note) 
-         VALUES(?,?,?)`,
+      `INSERT INTO order_product (quantity,price,note,id_order,id_dishlist) 
+         VALUES(?,?,?,?,?) `,
       [quantity, price, note]
     );
     if (!data) {
@@ -78,9 +77,11 @@ const orderCreate = async (req, res) => {
         message: "403 Invalid Error",
       });
     }
-    res
-      .status(200)
-      .send({ success: true, message: "success order Product", data });
+    res.status(200).send({
+      success: true,
+      message: "success order Product",
+      list_food: data[0]
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -106,7 +107,7 @@ const orderUpdate = async (req, res) => {
         quantity = ? ,
         price = ?,
         note = ?,
-     WHERE id_product = ?
+     WHERE id_order = ?
         `,
       [quantity, price, note, updateProduct]
     );

@@ -64,11 +64,13 @@ const createOrder = async (req, res) => {
       total_price,
       customer_phone,
     } = req.body;
-    if (!address 
-      || !customer_note 
-      || !customer_name 
-      || !total_price 
-      || !customer_phone) {
+    if (
+      !address ||
+      !customer_note ||
+      !customer_name ||
+      !total_price ||
+      !customer_phone
+    ) {
       return res.status(404).send({
         success: false,
         message: "404 not found",
@@ -79,18 +81,18 @@ const createOrder = async (req, res) => {
       (address, customer_note
          , customer_name 
          , total_price, customer_phone) 
-         VALUES(? ,? ,? ,? ,?)`,
+         VALUES(? ,? ,? ,? ,?)
+         `,
       [address, customer_note, customer_name, total_price, customer_phone]
     );
+    console.log(data[0].data) 
     if (!data) {
       return res.status(403).send({
         success: false,
         message: "403 Invalid Error",
       });
     }
-    res
-      .status(200)
-      .send({ success: true, message: "tạo order thành công"});
+    res.status(200).send({ success: true, message: "tạo order thành công", data: data[0].insertId });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -108,7 +110,13 @@ const updateOrder = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { address, customer_note , customer_name, total_price, customer_phone } = req.body;
+    const {
+      address,
+      customer_note,
+      customer_name,
+      total_price,
+      customer_phone,
+    } = req.body;
     const data = await pool.query(
       `
         UPDATE order_db SET
@@ -118,7 +126,14 @@ const updateOrder = async (req, res) => {
         total_price = ? ,
          customer_phone = ?  WHERE id = ?
         `,
-      [address, customer_note , customer_name, total_price, customer_phone , updateOrder]
+      [
+        address,
+        customer_note,
+        customer_name,
+        total_price,
+        customer_phone,
+        updateOrder,
+      ]
     );
     if (!data) {
       return res.status(404).send({
@@ -173,4 +188,3 @@ export default {
   updateOrder,
   deleteOrder,
 };
-  

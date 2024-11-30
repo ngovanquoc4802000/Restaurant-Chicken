@@ -80,7 +80,9 @@ router.post("/image", upload.single("file"), async (req, res) => {
       });
     }
     const data = await pool.query(
-      `INSERT INTO api_db (image, name , handle) VALUES(?,?,?)`,
+      `INSERT INTO api_db 
+      (image, name , handle) 
+      VALUES(?,?,?)`,
       [ImageName, name, handle]
     );
     if (!data) {

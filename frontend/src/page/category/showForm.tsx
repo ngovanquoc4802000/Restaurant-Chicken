@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import '../../styles/content.scss'
 import { Link, Outlet } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+
 interface Form {
   [x: string]: any;
   id: number

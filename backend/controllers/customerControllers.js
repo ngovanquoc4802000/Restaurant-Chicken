@@ -58,17 +58,18 @@ const customerId = async (req, res) => {
 };
 const createCustomer = async(req,res) => {
    try {
-     const { address , name } = req.body;
-     if(!address || !name) {
+     const { address , name , telephone } = req.body;
+     if(!address || !name || !telephone) {
       return res.status(404).send({
         success: false,
         message: "403 NOT FOUND"
       })
      }
-     const data = await pool.query(`INSERT INTO customer 
-     (address, name)
-     VALUES(?,?)
-     `,[address,name]);
+     const data = await pool.query(`
+     INSERT INTO customer 
+     (address, name,telephone)
+     VALUES(?,?,?)
+     `,[address,name,telephone]);
      if(!data) {
       return res.status(404).send({
         success: false,
@@ -96,15 +97,16 @@ const updateCustomerId = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { address,name } = req.body;
+    const { address,name,telephone } = req.body;
     const data = await pool.query(
       `
         UPDATE customer SET
         address = ? ,
         name = ?,
+        telephone =?
          WHERE id = ?
         `,
-      [ address, name , updateCustomer]
+      [ address, name, telephone , updateCustomer]
     );
     if (!data) {
       return res.status(404).send({
