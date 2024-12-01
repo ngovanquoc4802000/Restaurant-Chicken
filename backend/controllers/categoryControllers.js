@@ -112,7 +112,7 @@ router.get("/:id", async (req, res) => {
         message: "Invalid , Please connect fields",
       });
     }
-    const data = await pool.query(
+    const [data] = await pool.query(
       `
        SELECT * FROM api_db WHERE id = ?
       `,
