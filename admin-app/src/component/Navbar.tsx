@@ -2,28 +2,32 @@ import { Link, Outlet } from "react-router-dom";
 import "../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCartShopping, faHouse, faTable, faUser } from "@fortawesome/free-solid-svg-icons";
+import { ReactNode } from "react";
 
-function NavBar() {
+interface Child {
+  children: ReactNode;
+}
+function NavBar({ children }: Child) {
   return (
     <div
       className="container cursor-pointer 
-    grid grid-cols-[290px_683px_228px]
-    grid-rows-[10px_80.5vh_100px]
+    grid grid-rows-[545px_100px_65px]
+    grid-cols-[repeat(6,1fr)]
      grid-auto-rows-[min(60px_auto)] 
      gap-y-0
+     p-2
      "
     >
-      <div className="header"></div>
       <nav
         className="nav
       py-0 px-5
       bg-indigo-600
-      text-white rounded-t-lg 
-      rounded-b-lg text-lg
-      row-start-2 
-      row-end-5
+      text-white rounded-t-md 
+       text-lg
+      row-start-1
+      row-end-6
       col-start-1
-      col-end-5
+      col-end-4
         "
       >
         <Link to="/">
@@ -44,31 +48,31 @@ function NavBar() {
         </Link>
         <ul className="w-72">
           <Link to="/ ">
-            <li className="list hover:bg-indigo-800 text-white p-2 mt-5 w-60">
+            <li className="list rounded-lg hover:bg-indigo-800 text-white p-2 mt-5 w-40">
               <FontAwesomeIcon icon={faHouse} />
               <span className="mx-2">Dashboard</span>
             </li>
           </Link>
           <Link to="/category">
-            <li className="list hover:bg-indigo-800 text-white p-2 mt-5 w-60 ">
+            <li className="list rounded-lg hover:bg-indigo-800 text-white p-2 mt-5 w-40 ">
               <FontAwesomeIcon icon={faTable} />
               <span className="mx-2">Category</span>
             </li>
           </Link>
           <Link to="/dishlist">
-            <li className="list hover:bg-indigo-800 rounded-lg  text-white p-2 mt-5 w-60 ">
+            <li className="list rounded-lg hover:bg-indigo-800 rounded-lg  text-white p-2 mt-5 w-40 ">
               <FontAwesomeIcon icon={faCartShopping} />
               <span className="mx-2">Dish list</span>
             </li>
           </Link>
           <Link to="/order">
-            <li className="list hover:bg-indigo-800 text-white p-2 mt-5 w-60 ">
+            <li className="list rounded-lg hover:bg-indigo-800 text-white p-2 mt-5 w-40 ">
               <FontAwesomeIcon icon={faBell} />
               <span className="mx-2">Order</span>
             </li>
           </Link>
           <Link to="/user">
-            <li className="list hover:bg-indigo-800 text-white p-2 mt-5 w-60">
+            <li className="list rounded-lg hover:bg-indigo-800 text-white p-2 mt-5 w-40">
               <FontAwesomeIcon icon={faUser} />
               <span className="mx-2">User</span>
             </li>
@@ -78,12 +82,13 @@ function NavBar() {
       <div
         className="content 
       bg-white text-black 
-      row-start-2 
-      row-end-5
       col-start-2
-      col-end-5
+      col-end-7
+      row-start-7
+      row-end-1
       "
       >
+        {children}
         <Outlet />
       </div>
     </div>
