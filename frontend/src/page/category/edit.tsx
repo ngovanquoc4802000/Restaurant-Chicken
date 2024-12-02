@@ -7,7 +7,7 @@ interface Form {
   handle: string,
   image?: string
   fileImage?: string
-  data?: {};
+  data?: object;
   preview?: string | undefined;
 }
 
