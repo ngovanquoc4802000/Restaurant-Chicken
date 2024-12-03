@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js"
+    "serve": "nodemon index.js",
+    "serve:vuongnq": "nodemon node --env-file=.env.vuongnq index.js"
   },
   "author": "",
   "license": "ISC",
