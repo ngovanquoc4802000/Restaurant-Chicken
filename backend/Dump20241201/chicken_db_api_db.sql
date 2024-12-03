@@ -16,31 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `dishlist`
+-- Table structure for table `api_db`
 --
 
-DROP TABLE IF EXISTS `dishlist`;
+DROP TABLE IF EXISTS `api_db`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `dishlist` (
+CREATE TABLE `api_db` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(45) NOT NULL,
-  `content` varchar(45) NOT NULL,
-  `currency` varchar(45) DEFAULT NULL,
-  `price` decimal(10,3) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `handle` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `dishlist`
+-- Dumping data for table `api_db`
 --
 
-LOCK TABLES `dishlist` WRITE;
-/*!40000 ALTER TABLE `dishlist` DISABLE KEYS */;
-INSERT INTO `dishlist` VALUES (46,'Highland ','Nhà hàng cao cấp của việt nam','VND',39.000,'2024-11-21T01-53-57.056ZScreenshot 2024-10-31 181256.png'),(47,'Phở 3 ngon','Ngon nức mũi , đậm vị','VND',39.000,'2024-11-21T01-54-33.234Zedit3.png'),(48,'Pfive Coffee','coffee thom ngon đậm vị ','VND',26.000,'2024-11-22T08-46-04.998Zedit3.png'),(49,'bánh xèo miền trung','ngon nhức miền trung','VND',10.000,'2024-11-22T08-46-33.092ZtÃ¬nh Ãªu.png'),(50,'Pfive coffee','mùi vị cà phê ngon hơn ','VND',18.000,'2024-11-22T16-07-37.369ZScreenshot 2024-11-22 112049.png');
-/*!40000 ALTER TABLE `dishlist` ENABLE KEYS */;
+LOCK TABLES `api_db` WRITE;
+/*!40000 ALTER TABLE `api_db` DISABLE KEYS */;
+INSERT INTO `api_db` VALUES (26,'2024-11-19T09-24-59.568Zget.png','ngô văn quốc111','ngdwdww'),(27,'2024-11-19T09-26-25.727Zedit1.png','232','2323322332'),(28,'2024-11-19T09-26-37.396ZScreenshot 2024-10-30 062913.png','123','ngdwdww'),(29,'2024-11-19T09-26-50.515Zs5.png','ngô văn quốc111222','âssasas'),(30,'2024-11-19T09-27-04.981Zedit3.png','ngô văn quốc111222','ngdwdww'),(31,'2024-11-19T09-27-13.900Ze1.png','ngô văn quốc111222','ngdwdww'),(32,'2024-11-19T09-27-27.951Zedit3.png','ngô văn quốc111222','22223333333333'),(33,'2024-11-19T17-18-53.086Zedit2.png','ngô văn quốc111222','ngdwdww'),(34,'2024-11-20T06-47-59.415Zedit2.png','ngô văn quốc111222','ngdwdww'),(35,'2024-11-30T06-57-00.637Zaaa.png','ngovanquoc','ngdwdww');
+/*!40000 ALTER TABLE `api_db` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-25 14:16:29
+-- Dump completed on 2024-12-01  9:48:53

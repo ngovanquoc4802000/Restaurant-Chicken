@@ -100,15 +100,15 @@ const updateUserApiId = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { Email, name, password, address } = req.body;
+    const { email, name, password, address } = req.body;
     const data = await pool.query(
       ` UPDATE user_db SET 
-      Email = ? ,
+      email = ? ,
       name = ? ,
       password = ?,
       address = ? WHERE id = ?
       `,
-      [Email, name, md5(password), address, updateTable]
+      [email, name, md5(password), address, updateTable]
     );
     if (!data) {
       return res.status(404).send({

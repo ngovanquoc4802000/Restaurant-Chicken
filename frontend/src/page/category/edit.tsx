@@ -7,7 +7,7 @@ interface Form {
   handle: string,
   image?: string
   fileImage?: string
-  data?: {};
+  data?: object;
   preview?: string | undefined;
 }
 
@@ -20,9 +20,10 @@ function Edit() {
   const [image, setImage] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
   const EditCategoryId = () => {
-    axios.get<Form>("http://localhost:7777/category/" + id)
+    axios.get<Form>(`http://localhost:7777/category/${id}`)
       .then(res => {
-        setValue(res.data)
+        console.log(res.data)
+        setValue(res.data.data)
       })
       .catch(error => console.log(error))
   }

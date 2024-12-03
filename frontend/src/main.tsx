@@ -119,7 +119,7 @@ createRoot(document.getElementById('root')!).render(
       <CSSTransition
       key={location.pathname}
       classNames="fade"
-      timeout={300}
+      timeout={200}
       unmountOnExit
       >
         <RouterProvider router={router} />

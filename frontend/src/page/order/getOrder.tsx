@@ -1,7 +1,9 @@
 function GetOrder() {
-  return ( 
-    <></>
-   );
+  return (
+    <div className="container">
+   
+    </div>
+  );
 }
 
 export default GetOrder; 

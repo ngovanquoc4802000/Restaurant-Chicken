@@ -16,29 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `order_product`
+-- Table structure for table `customer`
 --
 
-DROP TABLE IF EXISTS `order_product`;
+DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order_product` (
-  `id_order` int NOT NULL,
-  `id_product` int NOT NULL AUTO_INCREMENT,
-  `quantity` int NOT NULL,
-  `price` decimal(5,2) NOT NULL,
-  `note` varchar(256) NOT NULL,
-  PRIMARY KEY (`id_product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `customer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(256) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `telephone` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `order_product`
+-- Dumping data for table `customer`
 --
 
-LOCK TABLES `order_product` WRITE;
-/*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES (1,'ngovanquoc','ngovanquoc480@gmail.com',2),(2,'ngovanquoc','ngovanquoc480@gmail.com',978285940),(3,'ngovanquoc','ngovanquoc480@gmail.com',978285940);
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-25 14:16:29
+-- Dump completed on 2024-12-01  9:48:53
