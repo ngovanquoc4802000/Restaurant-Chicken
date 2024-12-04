@@ -1,6 +1,6 @@
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Request } from "../../utils/http";
 import { Link } from "react-router-dom";
 import "../../App.css";
@@ -15,9 +15,13 @@ type CategoryType = {
 
 function Category() {
   const [value, setValue] = useState<CategoryType[]>([]);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [currentLimit, _] = useState<number>(5);
+
   const [totalPage, setTotalPage] = useState<number>(0);
+
   /* show get All */
   const categoryApiAll = async () => {
     try {
@@ -28,13 +32,16 @@ function Category() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     categoryApiAll();
   }, []);
+
   /* handlePage Pagination */
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
   };
+
   const pagination = async () => {
     try {
       await Request.get<CategoryType>(`api/v1/product`, {
@@ -50,9 +57,11 @@ function Category() {
       console.log("pagination + ", error);
     }
   };
+
   useEffect(() => {
     pagination();
   }, [currentPage]);
+
   const handleDelete = async (id: number) => {
     try {
       await Request.delete<CategoryType>(`${id}`);
