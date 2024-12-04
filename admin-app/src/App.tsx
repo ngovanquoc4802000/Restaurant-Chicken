@@ -6,6 +6,7 @@ import User from "./component/user/user";
 import Order from "./component/order/order";
 import NavBar from "./component/Navbar";
 import NotFound from "./component/error/error";
+import CreateCategory from "./component/category/createCategory";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         >
           <Route path="/" element={<Home />} />
           <Route path="/category" element={<Category />} />
+          <Route path="/create" element={<CreateCategory />} />
           <Route path="/dishlist" element={<Dishlist />} />
           <Route path="/order" element={<Order />} />
           <Route path="/user" element={<User />} />

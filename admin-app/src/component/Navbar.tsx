@@ -2,12 +2,8 @@ import { Link, Outlet } from "react-router-dom";
 import "../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCartShopping, faHouse, faTable, faUser } from "@fortawesome/free-solid-svg-icons";
-import { ReactNode } from "react";
 
-interface Child {
-  children: ReactNode;
-}
-function NavBar({ children }: Child) {
+function NavBar() {
   return (
     <div
       className="container cursor-pointer 
@@ -88,7 +84,6 @@ function NavBar({ children }: Child) {
       row-end-1
       "
       >
-        {children}
         <Outlet />
       </div>
     </div>
