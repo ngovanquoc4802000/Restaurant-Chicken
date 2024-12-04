@@ -13,7 +13,7 @@ type CategoryType = {
 };
 
 function Category() {
-  const [value, setValue] = useState<CategoryType[]>([]);
+  const [value, setValue] = useState<CategoryType[]>([]); // state for category
 
   const categoryApi = () => {
     axios
