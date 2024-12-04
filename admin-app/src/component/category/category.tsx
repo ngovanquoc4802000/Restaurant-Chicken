@@ -1,7 +1,7 @@
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { Request } from "../../utils/http";
 import { Link } from "react-router-dom";
 import "../../App.css";
 
@@ -16,7 +16,7 @@ type CategoryType = {
 function Category() {
   const [value, setValue] = useState<CategoryType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentLimit, setCurrentLimit] = useState<number>(5);
+  const [currentLimit, _] = useState<number>(5);
   const [totalPage, setTotalPage] = useState<number>(0);
   /* show get All */
   const categoryApiAll = async () => {
@@ -57,7 +57,7 @@ function Category() {
     try {
       await Request.delete<CategoryType>(`${id}`);
       categoryApiAll();
-    } catch (error) {
+    } catch (_) {
       console.log("the fail delete");
     }
   };
