@@ -1,9 +1,9 @@
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
-import { Request } from "../../utils/http";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../App.css";
+import { Request } from "../../utils/http";
 
 type CategoryType = {
   id: number;
