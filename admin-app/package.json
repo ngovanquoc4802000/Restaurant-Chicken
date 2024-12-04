@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "cd .. && husky ./admin-app/.husky"
+    "prepare": "cd .. && husky ./admin-app/.husky",
+    "postinstall": "npm run prepare"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
