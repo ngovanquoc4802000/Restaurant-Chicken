@@ -1,20 +1,15 @@
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import "../../App.css";
+import * as service from "../../services/categories";
+import { CategoryType } from "../../types/categories";
 import { Request } from "../../utils/http";
 
-type CategoryType = {
-  id: number;
-  name: string;
-  handle: string;
-  image: string;
-  data: CategoryType[];
-};
-
 function Category() {
-  const [value, setValue] = useState<CategoryType[]>([]);
+  const [value, setValue] = useState<CategoryType[] | undefined>([]);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -25,9 +20,8 @@ function Category() {
   /* show get All */
   const categoryApiAll = async () => {
     try {
-      await Request.get<CategoryType>("").then((res) => {
-        setValue(res.data.data);
-      });
+      const result = await service.getApiAll();
+      return setValue(result?.data);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +58,7 @@ function Category() {
 
   const handleDelete = async (id: number) => {
     try {
-      await Request.delete<CategoryType>(`${id}`);
+      await service.deleteApiId(id);
       categoryApiAll();
     } catch (_) {
       console.log("the fail delete");
@@ -93,7 +87,7 @@ function Category() {
             </tr>
           </thead>
           <tbody>
-            {value.map((item, id) => (
+            {value?.map((item, id) => (
               <tr className=" text-center border-2" key={id}>
                 <td className="border-2">{item.id}</td>
                 <td className="border-2">
