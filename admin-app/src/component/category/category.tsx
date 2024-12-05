@@ -20,7 +20,7 @@ function Category() {
   /* show get All */
   const categoryApiAll = async () => {
     try {
-      const result = await service.getApiAll();
+      const result = await service.getApiCategoriesAll();
       return setValue(result?.data);
     } catch (error) {
       console.log(error);
@@ -58,7 +58,7 @@ function Category() {
 
   const handleDelete = async (id: number) => {
     try {
-      await service.deleteApiId(id);
+      await service.deleteApiCategoriesId(id);
       categoryApiAll();
     } catch (_) {
       console.log("the fail delete");

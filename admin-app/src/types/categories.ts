@@ -10,3 +10,9 @@ export type CategoryType = {
     totalPage: number;
   };
 };
+
+export type CreateCategoriesType = {
+  name: string;
+  handle: string;
+  image?: string;
+};
