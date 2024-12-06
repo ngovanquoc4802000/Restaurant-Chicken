@@ -30,11 +30,7 @@ export const postApiCreateCate = async (formData: object) => {
   }
 };
 
-export const updateGetId = async (id: string | undefined) => {
-  try {
-    const res = await Request.get<UpdateFormFace>(`${id}`);
-    return res.data;
-  } catch (_) {
-    console.log("error delete");
-  }
+export const updateGetId = async (id: string | undefined): Promise<UpdateFormFace> => {
+  const { data } = await Request.get<UpdateFormFace>(`${id}`);
+  return data;
 };
