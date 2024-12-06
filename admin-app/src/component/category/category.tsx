@@ -36,33 +36,26 @@ function Category() {
     setCurrentPage(event.selected + 1);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const pagination = async () => {
-    try {
-      await Request.get<CategoryType>(`api/v1/product`, {
-        params: {
-          page: `${currentPage}`,
-          limit: `${currentLimit}`,
-        },
-      }).then((res) => {
-        setValue(res.data.data);
-        return setTotalPage(res.data.pagination.totalPage);
-      });
-    } catch (error) {
-      console.log("pagination + ", error);
-    }
+    await Request.get<CategoryType>(`api/v1/product`, {
+      params: {
+        page: `${currentPage}`,
+        limit: `${currentLimit}`,
+      },
+    }).then((res) => {
+      setValue(res.data.data);
+      return setTotalPage(res.data.pagination.totalPage);
+    });
   };
 
   useEffect(() => {
     pagination();
-  }, [currentPage]);
+  }, [currentPage, pagination]);
 
   const handleDelete = async (id: number) => {
-    try {
-      await service.deleteApiCategoriesId(id);
-      categoryApiAll();
-    } catch (_) {
-      console.log("the fail delete");
-    }
+    await service.deleteApiCategoriesId(id);
+    categoryApiAll();
   };
   const uniqueUrl = new Date().getTime();
   return (
@@ -70,7 +63,7 @@ function Category() {
       <div className="header">
         <h1 className="ml-2 text-lg font-bold">Category List</h1>
       </div>
-      <Link to="/create">
+      <Link to="/createCategories">
         <button className="ml-2 text-md font-bold border-2 p-2  rounded-lg hover:bg-blue-800 hover:text-white ">
           <FontAwesomeIcon icon={faPlus} className="" />
           <span className="ml-2">Add New Category</span>

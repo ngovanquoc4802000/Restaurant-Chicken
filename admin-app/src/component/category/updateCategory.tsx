@@ -1,7 +1,7 @@
 import axios from "axios";
-import * as service from "../../services/categories";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import * as service from "../../services/categories";
 import { UpdateFormFace } from "../../types/categories";
 
 function UpdateCategories() {
@@ -17,14 +17,11 @@ function UpdateCategories() {
   /* const [preview, setPreview] = useState<string | File>(""); */
 
   const EditCategoryId = async () => {
-    try {
-      const result = await service.updateGetId(id);
-      /*  setValue(result?.data); */
-      return result?.data;
-    } catch (_) {
-      console.log("Error Detail Update Id");
-    }
+    const { data } = await service.updateGetId(id);
+    const newDate = data !== undefined ? setValue(data) : undefined;
+    return newDate;
   };
+
   useEffect(() => {
     EditCategoryId();
   }, []);
@@ -67,7 +64,7 @@ function UpdateCategories() {
         <br />
         <label htmlFor="">
           Handle:
-          <input value={value?.handle} onChange={onChangeInput} name="handle" type="text" />
+          <input value={value.handle} onChange={onChangeInput} name="handle" type="text" />
         </label>
         <br />
         <input onChange={onChangeFile} type="file" name="file" accept="image/*" multiple={false} />

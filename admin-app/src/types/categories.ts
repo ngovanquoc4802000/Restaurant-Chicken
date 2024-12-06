@@ -29,5 +29,5 @@ export interface UpdateFormFace {
   name: string;
   handle: string;
   image?: string;
-  data?: DataFace | undefined;
+  data?: DataFace;
 }

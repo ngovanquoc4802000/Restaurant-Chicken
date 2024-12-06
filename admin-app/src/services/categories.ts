@@ -2,39 +2,23 @@ import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/cat
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
-  try {
-    const result = await Request.get<CategoryType>("");
-    return result.data;
-  } catch (_) {
-    console.log("error");
-  }
+  const result = await Request.get<CategoryType>("");
+  return result.data;
 };
 
 export const deleteApiCategoriesId = async (id: number | string) => {
-  try {
-    const res = await Request.delete<CategoryType>(`${id}`);
-    return res;
-  } catch (_) {
-    console.log("error delete");
-  }
+  const res = await Request.delete<CategoryType>(`${id}`);
+  return res;
 };
 
 export const postApiCreateCate = async (formData: object) => {
-  try {
-    const result = await Request.post<CreateCategoriesType>(`image`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return result;
-  } catch (_) {
-    console.log("Error postApiCreate");
-  }
+  const result = await Request.post<CreateCategoriesType>(`image`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return result;
 };
 
-export const updateGetId = async (id: string | undefined) => {
-  try {
-    const res = await Request.get<UpdateFormFace>(`${id}`);
-    return res.data;
-  } catch (_) {
-    console.log("error delete");
-  }
+export const updateGetId = async (id: string | undefined): Promise<UpdateFormFace> => {
+  const { data } = await Request.get<UpdateFormFace>(`${id}`);
+  return data;
 };
