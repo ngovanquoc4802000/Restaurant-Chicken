@@ -41,9 +41,6 @@ function CreateCategory() {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
-
-    console.log(target.files[0]);
-
     setImage(target.files[0]);
   };
 

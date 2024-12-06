@@ -16,3 +16,18 @@ export type CreateCategoriesType = {
   handle: string;
   image?: string;
 };
+
+export interface DataFace {
+  handle: string;
+  id: number;
+  image: string;
+  name: string;
+}
+
+export interface UpdateFormFace {
+  id?: number;
+  name: string;
+  handle: string;
+  image?: string;
+  data?: DataFace | undefined;
+}

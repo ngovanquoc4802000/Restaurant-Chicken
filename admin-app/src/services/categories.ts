@@ -1,4 +1,4 @@
-import { CategoryType, CreateCategoriesType } from "../types/categories";
+import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/categories";
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
@@ -27,5 +27,14 @@ export const postApiCreateCate = async (formData: object) => {
     return result;
   } catch (_) {
     console.log("Error postApiCreate");
+  }
+};
+
+export const updateGetId = async (id: string | undefined) => {
+  try {
+    const res = await Request.get<UpdateFormFace>(`${id}`);
+    return res.data;
+  } catch (_) {
+    console.log("error delete");
   }
 };

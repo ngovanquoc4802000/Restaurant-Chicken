@@ -64,7 +64,7 @@ function Category() {
       console.log("the fail delete");
     }
   };
-  /* const uniqueUrl = new Date().getTime(); */
+  const uniqueUrl = new Date().getTime();
   return (
     <div className="category">
       <div className="header">
@@ -100,10 +100,10 @@ function Category() {
                   <img className="w-40 h-25 border-1" src={`http://localhost:7777/${item.image}`} alt="image" />
                 </td>
                 <td className="">
-                  <Link to={`/views/${item.id}`}>
+                  <Link to={`/viewsCategories/${item.id}/${item.handle}/${uniqueUrl}`}>
                     <button className="bg-indigo-600 hover:bg-indigo-800 p-2 ml-2 rounded-lg text-white">view</button>
                   </Link>
-                  <Link to="">
+                  <Link to={`/updateCategories/${item.id}/${item.handle}/${uniqueUrl}`}>
                     <button className="bg-indigo-600 hover:bg-indigo-800 p-2 ml-2 rounded-lg text-white">update</button>
                   </Link>
                   <button
