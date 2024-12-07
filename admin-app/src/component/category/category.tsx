@@ -1,10 +1,9 @@
+import "../../App.css";
+import * as service from "../../services/categories";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import "../../App.css";
-import * as service from "../../services/categories";
 import { CategoryType } from "../../types/categories";
 import { Request } from "../../utils/http";
 
@@ -15,28 +14,19 @@ function Category() {
 
   const [currentLimit, _] = useState<number>(5);
 
-  const [totalPage, setTotalPage] = useState<number>(0);
-
+  const [totalPage, setTotalPage] = useState<number>(1);
   /* show get All */
+
   const categoryApiAll = async () => {
-    try {
-      const result = await service.getApiCategoriesAll();
-      return setValue(result?.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await service.getApiCategoriesAll();
+    return setValue(data);
   };
 
   useEffect(() => {
     categoryApiAll();
   }, []);
 
-  /* handlePage Pagination */
-  const handlePageClick = (event: { selected: number }) => {
-    setCurrentPage(event.selected + 1);
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  /* Pagination  */
   const pagination = async () => {
     await Request.get<CategoryType>(`api/v1/product`, {
       params: {
@@ -48,16 +38,46 @@ function Category() {
       return setTotalPage(res.data.pagination.totalPage);
     });
   };
-
   useEffect(() => {
     pagination();
-  }, [currentPage, pagination]);
+  }, [currentPage]);
+
+  const pageNumbers = [];
+  const len = pageNumbers.length;
+  const uniqueUrl = new Date().getTime();
+
+  for (let i = 1; i <= Math.ceil((totalPage - 1) * currentLimit); i++) {
+    console.log();
+    pageNumbers.push(i);
+  }
+
+  const renderCenter = pageNumbers.map((id) => {
+    return (
+      <>
+        {totalPage > 1 && (
+          <li key={id} onClick={() => handlePagination(id)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+            <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+              {id}
+            </a>
+          </li>
+        )}
+      </>
+    );
+  });
+
+  const handlePagination = (id: number) => {
+    if (id !== len || id !== 0) {
+      setCurrentPage(id);
+    } else {
+      return setCurrentPage(currentPage);
+    }
+  };
 
   const handleDelete = async (id: number) => {
     await service.deleteApiCategoriesId(id);
     categoryApiAll();
   };
-  const uniqueUrl = new Date().getTime();
+
   return (
     <div className="category">
       <div className="header">
@@ -110,30 +130,19 @@ function Category() {
             ))}
           </tbody>
         </table>
-        {totalPage > 0 && (
-          <ReactPaginate
-            containerClassName="pagination fixed top-[90%] right-[7%]  flex justify-center"
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={2}
-            pageCount={totalPage}
-            previousLabel="< "
-            pageClassName="page-item
-               bg-white border border-gray-300
-                rounded-md  py-2 m-1"
-            previousClassName="  page-item  border border-gray-300 rounded-md  py-2 m-1"
-            nextClassName="page-item bg-white border border-gray-300 rounded-md  py-2 m-1"
-            breakClassName="page-item bg-white border border-gray-300 rounded-md px-3 py-2 m-1"
-            previousLinkClassName="page-item px-3 py-3 text-blue-600 hover:text-blue-800 "
-            /* page-link */
-            pageLinkClassName="page-link px-3 py-3 m-1 hover:text-white text-blue-600 hover:text-blue-800"
-            nextLinkClassName="page-link px-3 py-3 text-blue-600 hover:text-blue-800"
-            breakLabel="..."
-            breakLinkClassName="page-link px-3 py-3 text-blue-600 hover:text-blue-800"
-            activeClassName="bg-blue-500 text-white font-bold rounded-md"
-          />
-        )}
+        <ul className="pagination fixed top-[90%] right-[7%]  flex justify-center">
+          <li onClick={() => setCurrentPage(currentPage - 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+            <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+              prev
+            </a>
+          </li>
+          {renderCenter}
+          <li onClick={() => setCurrentPage(currentPage + 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+            <a className="page-link px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+              next
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
