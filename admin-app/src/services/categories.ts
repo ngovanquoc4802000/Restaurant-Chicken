@@ -1,10 +1,36 @@
-import { CategoryType } from "../types/categories";
+import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/categories";
 import { Request } from "../utils/http";
 
-export const getApiAll = async () => {
+export const getApiCategoriesAll = async () => {
   try {
-    await Request.get<CategoryType>("");
+    const result = await Request.get<CategoryType>("");
+    return result.data;
   } catch (_) {
     console.log("error");
   }
+};
+
+export const deleteApiCategoriesId = async (id: number | string) => {
+  try {
+    const res = await Request.delete<CategoryType>(`${id}`);
+    return res;
+  } catch (_) {
+    console.log("error delete");
+  }
+};
+
+export const postApiCreateCate = async (formData: object) => {
+  try {
+    const result = await Request.post<CreateCategoriesType>(`image`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return result;
+  } catch (_) {
+    console.log("Error postApiCreate");
+  }
+};
+
+export const updateGetId = async (id: string | undefined): Promise<UpdateFormFace> => {
+  const { data } = await Request.get<UpdateFormFace>(`${id}`);
+  return data;
 };
