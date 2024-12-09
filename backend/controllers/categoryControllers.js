@@ -52,6 +52,7 @@ router.get("/api/v1/product", async (req, res) => {
     const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
     console.log(totalPage);
     res.status(200).send({
+      
       success: true,
       message: "pagination success",
       data: data,

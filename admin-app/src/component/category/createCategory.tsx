@@ -13,22 +13,18 @@ function CreateCategory() {
   const navigator = useNavigate();
 
   const handlefiels = async (e: { preventDefault: () => void }) => {
-    try {
-      e.preventDefault();
-      const formData = new FormData();
+    e.preventDefault();
+    const formData = new FormData();
 
-      formData.append("file", image);
+    formData.append("file", image);
 
-      formData.append("name", values.name);
+    formData.append("name", values.name);
 
-      formData.append("handle", values.handle);
+    formData.append("handle", values.handle);
 
-      await service.postApiCreateCate(formData);
+    await service.postApiCreateCate(formData);
 
-      navigator("/category");
-    } catch (_error) {
-      console.log("Error onSubmit Create Category ");
-    }
+    navigator("/category");
   };
 
   const onChangeInput = (e: { target: { name: string; value: string } }) => {

@@ -5,12 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CategoryType } from "../../types/categories";
-import { Request } from "../../utils/http";
+import { RequestAxios } from "../../utils/http";
 
 function Category() {
   const [value, setValue] = useState<CategoryType[] | undefined>([]);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  console.log(currentPage);
 
   const [currentLimit, _] = useState<number>(5);
 
@@ -28,7 +30,7 @@ function Category() {
 
   /* Pagination  */
   const pagination = async () => {
-    await Request.get<CategoryType>(`api/v1/product`, {
+    await RequestAxios.get<CategoryType>(`api/v1/product`, {
       params: {
         page: `${currentPage}`,
         limit: `${currentLimit}`,
@@ -43,10 +45,12 @@ function Category() {
   }, [currentPage]);
 
   const pageNumbers = [];
+
   const len = pageNumbers.length;
+
   const uniqueUrl = new Date().getTime();
 
-  for (let i = 1; i <= Math.ceil((totalPage - 1) * currentLimit); i++) {
+  for (let i = 1; i <= totalPage; i++) {
     console.log();
     pageNumbers.push(i);
   }
@@ -131,17 +135,21 @@ function Category() {
           </tbody>
         </table>
         <ul className="pagination fixed top-[90%] right-[7%]  flex justify-center">
-          <li onClick={() => setCurrentPage(currentPage - 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
-            <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
-              prev
-            </a>
-          </li>
+          <button disabled={currentPage === 1}>
+            <li onClick={() => setCurrentPage(currentPage - 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+              <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+                prev
+              </a>
+            </li>
+          </button>
           {renderCenter}
-          <li onClick={() => setCurrentPage(currentPage + 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
-            <a className="page-link px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
-              next
-            </a>
-          </li>
+          <button disabled={currentPage === totalPage}>
+            <li onClick={() => setCurrentPage(currentPage + 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+              <a className="page-link px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+                next
+              </a>
+            </li>
+          </button>
         </ul>
       </div>
     </div>
