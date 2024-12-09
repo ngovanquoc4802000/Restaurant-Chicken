@@ -10,8 +10,7 @@ import cors from "cors";
 import routerCategoryApi from "./controllers/categoryControllers.js";
 
 import router from "./router/dishList.js";
-import routerProduct from './router/orderProduct.js'
-import routerOrder from './router/order.js';
+import routerOrder from "./router/order.js";
 import routerCustomer from "./router/customer.js";
 
 //rest object
@@ -34,12 +33,11 @@ app.use(express.static("uploads/dishlist"));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use("/category", routerCategoryApi)
+app.use("/category", routerCategoryApi);
 app.use("/dishlist", router);
 app.use("/user", routerUser);
-app.use("/order",routerOrder);
-app.use('/orderProduct',routerProduct);
-app.use('/customer', routerCustomer)
+app.use("/order", routerOrder);
+app.use("/customer", routerCustomer);
 
 /* app.use("/order", routerOrderDetails); */
 //router

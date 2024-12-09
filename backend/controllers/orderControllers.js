@@ -22,6 +22,7 @@ const orderAll = async (req, res) => {
     });
   }
 };
+
 const oderId = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -55,52 +56,70 @@ const oderId = async (req, res) => {
     });
   }
 };
+
 const createOrder = async (req, res) => {
-  try {
-    const {
-      address,
-      customer_note,
-      customer_name,
-      total_price,
-      customer_phone,
-    } = req.body;
-    if (
-      !address ||
-      !customer_note ||
-      !customer_name ||
-      !total_price ||
-      !customer_phone
-    ) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    const data = await pool.query(
-      `INSERT INTO order_db
-      (address, customer_note
-         , customer_name 
-         , total_price, customer_phone) 
-         VALUES(? ,? ,? ,? ,?)
-         `,
-      [address, customer_note, customer_name, total_price, customer_phone]
-    );
-    console.log(data[0].data) 
-    if (!data) {
-      return res.status(403).send({
-        success: false,
-        message: "403 Invalid Error",
-      });
-    }
-    res.status(200).send({ success: true, message: "tạo order thành công", data: data[0].insertId });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+  const { address, customer_note, customer_name, customer_phone, list_order } =
+    req.body;
+
+  if (
+    !address ||
+    !customer_name ||
+    !customer_phone ||
+    !list_order ||
+    !Array.isArray(list_order) ||
+    list_order.length === 0
+  ) {
+    return res.status(400).send({
       success: false,
-      message: "error order",
+      message: "Invalid input data",
     });
   }
+
+  const connection = await pool.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const totalPrice = list_order.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+
+    // Insert into order table
+    const [orderResult] = await connection.query(
+      `INSERT INTO order (address, customer_note, customer_name, customer_phone, total_price ) VALUES (?, ?, ?, ?, ?)`,
+      [address, customer_note, customer_name, customer_phone, totalPrice]
+    );
+
+    const orderId = orderResult.insertId;
+
+    // Insert into order_product table
+    for (const item of list_order) {
+      const { id_dishlist, quantity, price, note } = item;
+      await connection.query(
+        `INSERT INTO order_product (order_id, id_dishlist, quantity, price, note) VALUES (?, ?, ?, ?, ?)`,
+        [orderId, id_dishlist, quantity, price, note]
+      );
+    }
+
+    await connection.commit();
+
+    res.status(201).send({
+      success: true,
+      message: "Order created successfully",
+      orderId,
+    });
+  } catch (error) {
+    await connection.rollback();
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error creating order",
+    });
+  } finally {
+    connection.release();
+  }
 };
+
 const updateOrder = async (req, res) => {
   try {
     const updateOrder = req.params.id;
@@ -153,6 +172,7 @@ const updateOrder = async (req, res) => {
     });
   }
 };
+
 const deleteOrder = async (req, res) => {
   try {
     const deleteOrderId = req.params.id;
@@ -181,10 +201,4 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-export default {
-  orderAll,
-  oderId,
-  createOrder,
-  updateOrder,
-  deleteOrder,
-};
+export { orderAll, oderId, createOrder, updateOrder, deleteOrder };
