@@ -1,4 +1,4 @@
-import pool from "../database/connexion.js";
+import pool from "../database/connection.js";
 import md5 from "md5"
 
 const getUserApiAll = async (req, res) => {
