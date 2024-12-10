@@ -1,5 +1,5 @@
 import pool from "../database/connection.js";
-import md5 from "md5"
+import md5 from "md5";
 
 const getUserApiAll = async (req, res) => {
   const connection = await pool.getConnection();
@@ -22,6 +22,8 @@ const getUserApiAll = async (req, res) => {
       success: false,
       message: "Error, Please connect User",
     });
+  } finally {
+    connection.release();
   }
 };
 const getUserApiID = async (req, res) => {
@@ -62,7 +64,7 @@ const userAPIRegister = async (req, res) => {
   const connection = await pool.getConnection();
   try {
     const { email, name, password, address } = req.body;
-    
+
     if (!email || !name || !password || !address) {
       return res.status(403).send({
         success: false,
@@ -74,7 +76,7 @@ const userAPIRegister = async (req, res) => {
        INSERT INTO user_db (email, name , password , address)
        VALUES (? , ? , ? , ?)
      `,
-      [email, name, md5(password) , address]
+      [email, name, md5(password), address]
     );
     if (!data) {
       return res.status(404).send({
@@ -92,6 +94,8 @@ const userAPIRegister = async (req, res) => {
       success: false,
       message: "Error , Please connect User",
     });
+  } finally {
+    connection.release();
   }
 };
 const updateUserApiId = async (req, res) => {
@@ -123,7 +127,7 @@ const updateUserApiId = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "success update User",
-      data: data[0]
+      data: data[0],
     });
   } catch (error) {
     console.log(error);
@@ -131,6 +135,8 @@ const updateUserApiId = async (req, res) => {
       success: false,
       message: "Error , Please connect User",
     });
+  } finally {
+    connection.release();
   }
 };
 const deleteUserApiId = async (req, res) => {
@@ -154,8 +160,9 @@ const deleteUserApiId = async (req, res) => {
       success: false,
       message: "Error , Please connect User",
     });
+  } finally {
+    connection.release();
   }
-
 };
 export default {
   userAPIRegister,
