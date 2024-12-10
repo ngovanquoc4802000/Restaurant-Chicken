@@ -1,8 +1,10 @@
 import pool from "../database/connection.js";
+import { upload } from "../router/dishList.js";
 
 const dishListAll = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM dishlist`);
+    const data = await connection.query(`SELECT * FROM dishlist `);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -107,7 +109,7 @@ const updateDishList = async (req, res) => {
       currency = ?
       WHERE id = ?
       `,
-      [title, content, price, 'VND', updateTable]
+      [title, content, price, "VND", updateTable]
     );
     if (!data) {
       return res.status(404).send({

@@ -1,9 +1,9 @@
 import pool from "../database/connection.js";
 
-
 const customerAll = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM customer`);
+    const data = await connection.query(`SELECT * FROM customer`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -21,9 +21,12 @@ const customerAll = async (req, res) => {
       success: false,
       message: "error",
     });
+  } finally {
+    connection.release();
   }
 };
 const customerId = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const orderId = req.params.id;
     if (!orderId) {
@@ -32,7 +35,7 @@ const customerId = async (req, res) => {
         message: "",
       });
     }
-    const [data] = await pool.query(
+    const [data] = await connection.query(
       `
     SELECT * FROM customer WHERE id = ?`,
       [orderId]
@@ -54,41 +57,50 @@ const customerId = async (req, res) => {
       success: false,
       message: "Error , Please connect Customer",
     });
+  } finally {
+    connection.release();
   }
 };
-const createCustomer = async(req,res) => {
-   try {
-     const { address , name , telephone } = req.body;
-     if(!address || !name || !telephone) {
+const createCustomer = async (req, res) => {
+  const connection = await pool.getConnection();
+  try {
+    const { address, name, telephone } = req.body;
+    if (!address || !name || !telephone) {
       return res.status(404).send({
         success: false,
-        message: "403 NOT FOUND"
-      })
-     }
-     const data = await pool.query(`
+        message: "403 NOT FOUND",
+      });
+    }
+    const data = await connection.query(
+      `
      INSERT INTO customer 
      (address, name,telephone)
      VALUES(?,?,?)
-     `,[address,name,telephone]);
-     if(!data) {
+     `,
+      [address, name, telephone]
+    );
+    if (!data) {
       return res.status(404).send({
         success: false,
-        message: "404 Error client"
-      })
-     }
-     res.status(200).send({
+        message: "404 Error client",
+      });
+    }
+    res.status(200).send({
       success: true,
-      message: "success Create Customer"
-     })
-   } catch(error) {
+      message: "success Create Customer",
+    });
+  } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error 500",
     });
+  } finally {
+    connection.release();
   }
-}
+};
 const updateCustomerId = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const updateCustomer = req.params.id;
     if (!updateCustomer) {
@@ -97,8 +109,8 @@ const updateCustomerId = async (req, res) => {
         message: "403 not found",
       });
     }
-    const { address,name,telephone } = req.body;
-    const data = await pool.query(
+    const { address, name, telephone } = req.body;
+    const data = await connection.query(
       `
         UPDATE customer SET
         address = ? ,
@@ -106,7 +118,7 @@ const updateCustomerId = async (req, res) => {
         telephone =?
          WHERE id = ?
         `,
-      [ address, name, telephone , updateCustomer]
+      [address, name, telephone, updateCustomer]
     );
     if (!data) {
       return res.status(404).send({
@@ -124,9 +136,12 @@ const updateCustomerId = async (req, res) => {
       success: false,
       message: "Error , Please connect customer",
     });
+  } finally {
+    connection.release();
   }
 };
 const deleteCustomerId = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const deleteCustomerId = req.params.id;
     if (!deleteCustomerId) {
@@ -135,11 +150,12 @@ const deleteCustomerId = async (req, res) => {
         message: "404 not found",
       });
     }
-    await pool.query(
+    await connection.query(
       `
     DELETE FROM customer
     WHERE id = ?`,
       [deleteCustomerId]
+      
     );
     res.status(200).send({
       success: true,
@@ -151,6 +167,8 @@ const deleteCustomerId = async (req, res) => {
       success: false,
       message: "error Customer",
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -159,5 +177,5 @@ export default {
   customerId,
   createCustomer,
   updateCustomerId,
-  deleteCustomerId
-}
+  deleteCustomerId,
+};

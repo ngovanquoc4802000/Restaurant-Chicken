@@ -2,8 +2,9 @@ import pool from "../database/connection.js";
 import md5 from "md5"
 
 const getUserApiAll = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM user_db`);
+    const data = await connection.query(`SELECT * FROM user_db`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -24,6 +25,7 @@ const getUserApiAll = async (req, res) => {
   }
 };
 const getUserApiID = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const distTableId = req.params.id;
     if (!distTableId) {
@@ -32,7 +34,7 @@ const getUserApiID = async (req, res) => {
         message: "Invalid is connect",
       });
     }
-    const [data] = await pool.query(
+    const [data] = await connection.query(
       `
     SELECT * FROM user_db WHERE id=?`,
       [distTableId]
@@ -57,6 +59,7 @@ const getUserApiID = async (req, res) => {
   }
 };
 const userAPIRegister = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const { email, name, password, address } = req.body;
     
@@ -66,7 +69,7 @@ const userAPIRegister = async (req, res) => {
         message: "Invalid is correct",
       });
     }
-    const data = await pool.query(
+    const data = await connection.query(
       `
        INSERT INTO user_db (email, name , password , address)
        VALUES (? , ? , ? , ?)
@@ -92,6 +95,7 @@ const userAPIRegister = async (req, res) => {
   }
 };
 const updateUserApiId = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const updateTable = req.params.id;
     if (!updateTable) {
@@ -101,7 +105,7 @@ const updateUserApiId = async (req, res) => {
       });
     }
     const { email, name, password, address } = req.body;
-    const data = await pool.query(
+    const data = await connection.query(
       ` UPDATE user_db SET 
       email = ? ,
       name = ? ,
@@ -130,6 +134,7 @@ const updateUserApiId = async (req, res) => {
   }
 };
 const deleteUserApiId = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const deleteParamsId = req.params.id;
     if (!deleteParamsId) {
@@ -138,7 +143,7 @@ const deleteUserApiId = async (req, res) => {
         message: "404 not found",
       });
     }
-    await pool.query(`DELETE FROM user_db WHERE id=?`, [deleteParamsId]);
+    await connection.query(`DELETE FROM user_db WHERE id=?`, [deleteParamsId]);
     res.status(200).send({
       success: true,
       message: "success delete User",
