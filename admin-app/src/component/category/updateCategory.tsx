@@ -16,7 +16,9 @@ function UpdateCategories() {
 
   const EditCategoryId = async () => {
     const { data } = await service.updateCategoryId(id);
+
     const newDate = data !== undefined ? setValue(data) : undefined;
+
     return newDate;
   };
 
@@ -58,6 +60,9 @@ function UpdateCategories() {
         onSubmit={handlefiels}
         className="font-std mb-10 w-full rounded-2xl bg-white p-10 font-normal leading-relaxed text-gray-900 shadow-xl"
       >
+        <Link to="/category">
+          <button className="bg-blue-600 py-2 px-4 text-white font-bold rounded-lg">Back</button>
+        </Link>
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row justify-between mb-5 items-start">
             <h2 className="mb-5 text-4xl font-bold text-blue-900">Update Profile</h2>
@@ -131,6 +136,8 @@ function UpdateCategories() {
                 value={value.handle}
               />
             </div>
+            <input onChange={onChangeFile} type="file" name="file" accept="image/*" multiple={false} />
+
             <div className="flex justify-end space-x-4">
               <button type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
                 Cancel
@@ -141,28 +148,6 @@ function UpdateCategories() {
             </div>
           </form>
         </div>
-      </div>
-      <div>
-        <form className="FormFields" action="">
-          <h2 style={{ marginRight: "4rem" }}>Edit Category</h2>
-          <label htmlFor="">
-            Name:
-            <input value={value.name} onChange={onChangeInput} name="name" type="text" />
-          </label>
-          <br />
-          <label htmlFor="">
-            Handle:
-            <input value={value.handle} onChange={onChangeInput} name="handle" type="text" />
-          </label>
-          <br />
-          <input onChange={onChangeFile} type="file" name="file" accept="image/*" multiple={false} />
-          <button type="submit" className="createPost">
-            Submit
-          </button>
-          <Link to="/category">
-            <button className="createBack">Back</button>
-          </Link>
-        </form>
       </div>
     </div>
   );

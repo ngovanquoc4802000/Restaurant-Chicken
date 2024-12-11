@@ -14,9 +14,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const router = express.Router();
 
-router.get("/", async (req, res) => { 
+router.get("/", async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM dishlist`);
+    const data = await pool.query(`SELECT * FROM \`dishlist\` `);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -27,7 +27,6 @@ router.get("/", async (req, res) => {
       success: true,
       message: "get success dishList All",
       data: data[0],
-      inscrease : newDate,
     });
   } catch (error) {
     console.log(error);
@@ -42,10 +41,10 @@ router.get("/api/v1/product", async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     const offset = (page - 1) * limit;
-    const [data] = await pool.query(`SELECT * FROM dishlist  limit ? offset ? `, [
-      +limit,
-      +offset,
-    ]);
+    const [data] = await pool.query(
+      `SELECT * FROM dishlist  limit ? offset ? `,
+      [+limit, +offset]
+    );
     const [totalPageData] = await pool.query(
       `SELECT count(*) as count from dishlist`
     );
@@ -79,7 +78,6 @@ router.post("/image", upload.single("file"), async (req, res) => {
         message: "Invalid Error",
       });
     }
-    console.log(data);
     const data = await pool.query(
       `INSERT INTO dishlist
        (title,content,currency,price,image)
@@ -158,7 +156,7 @@ router.put("/:id", upload.single("file"), async (req, res) => {
       price = ?,
       image = ? WHERE id = ?
       `,
-      [title, content,"VND" , price, update, updateDish]
+      [title, content, "VND", price, update, updateDish]
     );
     if (!data) {
       return res.status(404).send({

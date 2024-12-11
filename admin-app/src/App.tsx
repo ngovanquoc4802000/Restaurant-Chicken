@@ -9,6 +9,9 @@ import Home from "./component/home/home";
 import Order from "./component/order/order";
 import User from "./component/user/user";
 import UpdateCategories from "./component/category/updateCategory";
+import CreateDishlist from "./component/dishlist/create";
+import ShowAll from "./component/dishlist/showAll";
+import UpdateDishlist from "./component/dishlist/update";
 
 function App() {
   return (
@@ -26,6 +29,12 @@ function App() {
           <Route path="/updateCategories/:id/:handle/:url" element={<UpdateCategories />} />
 
           <Route path="/dishlist" element={<Dishlist />} />
+
+          <Route path="/dishlist/create" element={<CreateDishlist />} />
+
+          <Route path="/dishlist/showAll" element={<ShowAll />} />
+
+          <Route path="/dishlist/update/:id" element={<UpdateDishlist />} />
 
           <Route path="/order" element={<Order />} />
 

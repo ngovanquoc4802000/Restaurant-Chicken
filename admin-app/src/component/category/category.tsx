@@ -30,15 +30,14 @@ function Category() {
 
   /* Pagination  */
   const pagination = async () => {
-    await RequestAxios.get<CategoryType>(`api/v1/product`, {
+    const { data } = await RequestAxios.get<CategoryType>(`api/v1/product`, {
       params: {
         page: `${currentPage}`,
         limit: `${currentLimit}`,
       },
-    }).then((res) => {
-      setValue(res.data.data);
-      return setTotalPage(res.data.pagination.totalPage);
     });
+    setValue(data.data);
+    return setTotalPage(data.pagination.totalPage);
   };
   useEffect(() => {
     pagination();
