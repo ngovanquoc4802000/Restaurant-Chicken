@@ -1,6 +1,8 @@
-import pool from "../database/connexion.js";
+import pool from "../database/connection.js";
+import { upload } from "../router/dishList.js";
 
 const dishListAll = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const data = await pool.query(`SELECT * FROM \`dishlist\` `);
     if (!data) {

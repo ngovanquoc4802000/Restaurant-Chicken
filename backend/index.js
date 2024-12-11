@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
-import pool from "./database/connexion.js";
+import pool from "./database/connection.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
 /* routerCategory có image nên chỉ file */
@@ -33,6 +33,7 @@ app.use(express.static("uploads/dishlist"));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/category", routerCategoryApi);
 app.use("/category", routerCategoryApi);
 app.use("/dishlist", router);
 app.use("/user", routerUser);

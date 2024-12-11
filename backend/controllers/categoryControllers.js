@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import pool from "../database/connexion.js";
+import pool from "../database/connection.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -15,8 +15,9 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM api_db`);
+    const data = await connection.query(`SELECT * FROM api_db`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -34,10 +35,13 @@ router.get("/", async (req, res) => {
       success: false,
       message: "error category",
     });
+  } finally {
+    connection.release();
   }
 });
 
 router.get("/api/v1/product", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -68,9 +72,13 @@ router.get("/api/v1/product", async (req, res) => {
       success: false,
       message: "lỗi phân trang",
     });
+  } finally {
+    connection.release();
   }
 });
 router.post("/image", upload.single("file"), async (req, res) => {
+  const connection = await pool.getConnection();
+
   try {
     const ImageName = req.file.filename;
     const { name, handle } = req.body;
@@ -80,7 +88,7 @@ router.post("/image", upload.single("file"), async (req, res) => {
         message: "Invalid Error",
       });
     }
-    const data = await pool.query(
+    const data = await connection.query(
       `INSERT INTO api_db 
       (image, name , handle) 
       VALUES(?,?,?)`,
@@ -102,9 +110,13 @@ router.post("/image", upload.single("file"), async (req, res) => {
       success: false,
       message: "Error",
     });
+  } finally {
+    connection.release();
   }
 });
 router.get("/:id", async (req, res) => {
+  const connection = await pool.getConnection();
+
   try {
     const categoryId = req.params.id;
     if (!categoryId) {
@@ -113,7 +125,7 @@ router.get("/:id", async (req, res) => {
         message: "Invalid , Please connect fields",
       });
     }
-    const [data] = await pool.query(
+    const [data] = await connection.query(
       `
        SELECT * FROM api_db WHERE id = ?
       `,
@@ -136,9 +148,13 @@ router.get("/:id", async (req, res) => {
       success: false,
       message: "Kết nối thất bại",
     });
+  } finally {
+    connection.release();
   }
 });
 router.put("/:id", upload.single("file"), async (req, res) => {
+  const connection = await pool.getConnection();
+
   try {
     const categoryTable = req.params.id;
     if (!categoryTable) {
@@ -149,7 +165,7 @@ router.put("/:id", upload.single("file"), async (req, res) => {
     }
     const file = req.file.filename;
     const { name, handle } = req.body;
-    const data = await pool.query(
+    const data = await connection.query(
       `
       UPDATE api_db SET
       image = ? ,
@@ -175,9 +191,13 @@ router.put("/:id", upload.single("file"), async (req, res) => {
       success: false,
       message: "Error Api Category",
     });
+  } finally {
+    connection.release();
   }
 });
 router.delete("/:id", async (req, res) => {
+  const connection = await pool.getConnection();
+
   try {
     const removeCategory = req.params.id;
     if (!removeCategory) {
@@ -186,7 +206,7 @@ router.delete("/:id", async (req, res) => {
         message: "404 , Not found deleteCategory",
       });
     }
-    await pool.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
+    await connection.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
     res.status(200).send({
       success: true,
       message: "Success delete Id category",
@@ -197,7 +217,9 @@ router.delete("/:id", async (req, res) => {
       success: true,
       message: "Error deleteCategory",
     });
+  } finally {
+    connection.release();
   }
 });
 
-export   default router;
+export default router;

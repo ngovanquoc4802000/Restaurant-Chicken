@@ -1,29 +1,35 @@
-import pool from "../database/connexion.js";
+import pool from "../database/connection.js";
 
-export const getOrders = async (req, res) => {
+const getOrderAll = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM order_db`);
-    if (!data) {
+    /* get order all */
+    const [orderAll] = await connection.query(`SELECT * FROM \`order\` `); // Error order
+
+    if (orderAll.length === 0) {
       return res.status(404).send({
         success: false,
-        message: "404 not found",
+        message: "Order Details 404 not found",
       });
     }
+
     res.status(200).send({
       success: true,
       message: "success order All",
-      data: data[0],
+      orderAll: orderAll[0],
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "error",
+      message: "Error retrieving order",
     });
-  }
+  } finally {
+    connection.release();
+  };
 };
 
-export const getOrderDetails = async (req, res) => {
+const getOrderDetails = async (req, res) => {
   const orderId = req.params.id;
   const connection = await pool.getConnection();
 
@@ -84,7 +90,7 @@ export const getOrderDetails = async (req, res) => {
   }
 };
 
-export const createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   const { address, customer_note, customer_name, customer_phone, list_order } =
     req.body;
 
@@ -123,7 +129,7 @@ export const createOrder = async (req, res) => {
     for (const item of list_order) {
       const { id_dishlist, quantity, price, note } = item;
       await connection.query(
-        "INSERT INTO `order_product` (id_order, id_dishlist, quantity, price, note) VALUES(?, ?, ?, ?, ?)",
+        "INSERT INTO `order_details` (id_order, id_dishlist, quantity, price, note) VALUES(?, ?, ?, ?, ?)",
         [orderId, id_dishlist, quantity, price, note]
       );
     }
@@ -147,7 +153,7 @@ export const createOrder = async (req, res) => {
   }
 };
 
-export const updateOrder = async (req, res) => {
+const updateOrder = async (req, res) => {
   const {
     id,
     address,
@@ -221,9 +227,10 @@ export const updateOrder = async (req, res) => {
   }
 };
 
-export const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res) => {
+  const connection = pool.getConnection();
+  const deleteOrderId = req.params.id;
   try {
-    const deleteOrderId = req.params.id;
     if (!deleteOrderId) {
       return res.status(404).send({
         success: false,
@@ -246,5 +253,15 @@ export const deleteOrder = async (req, res) => {
       success: false,
       message: "error orderTable",
     });
+  } finally {
+    connection.release();
   }
+};
+
+export default {
+  getOrderAll,
+  getOrderDetails,
+  createOrder,
+  updateOrder,
+  deleteOrder,
 };

@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `customer`
+-- Table structure for table `order`
 --
 
-DROP TABLE IF EXISTS `customer`;
+DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer` (
+CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `address` varchar(256) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `telephone` int DEFAULT NULL,
+  `address` varchar(45) NOT NULL,
+  `customer_note` varchar(45) NOT NULL,
+  `customer_name` varchar(45) NOT NULL,
+  `customer_phone` varchar(45) NOT NULL,
+  `total_price` decimal(20,6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customer`
+-- Dumping data for table `order`
 --
 
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'ngovanquoc','ngovanquoc480@gmail.com',2),(2,'ngovanquoc','ngovanquoc480@gmail.com',978285940),(3,'ngovanquoc','ngovanquoc480@gmail.com',978285940);
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-01  9:48:53
+-- Dump completed on 2024-12-09 17:24:56

@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import pool from "../database/connexion.js";
+import pool from "../database/connection.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -11,12 +11,13 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+export const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const data = await pool.query(`SELECT * FROM \`dishlist\` `);
+    const data = await connection.query(`SELECT * FROM dishlist`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -34,18 +35,21 @@ router.get("/", async (req, res) => {
       success: false,
       message: "error category",
     });
+  } finally {
+    connection.release();
   }
 });
 router.get("/api/v1/product", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     const offset = (page - 1) * limit;
-    const [data] = await pool.query(
+    const [data] = await connection.query(
       `SELECT * FROM dishlist  limit ? offset ? `,
       [+limit, +offset]
     );
-    const [totalPageData] = await pool.query(
+    const [totalPageData] = await connection.query(
       `SELECT count(*) as count from dishlist`
     );
     const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
@@ -66,9 +70,12 @@ router.get("/api/v1/product", async (req, res) => {
       success: false,
       message: "lỗi phân trang",
     });
+  } finally {
+    connection.release();
   }
 });
 router.post("/image", upload.single("file"), async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const ImageName = req.file.filename;
     const { title, content, price } = req.body;
@@ -78,7 +85,8 @@ router.post("/image", upload.single("file"), async (req, res) => {
         message: "Invalid Error",
       });
     }
-    const data = await pool.query(
+    console.log(data);
+    const data = await connection.query(
       `INSERT INTO dishlist
        (title,content,currency,price,image)
         VALUES(?,?,?,?,?)`,
@@ -100,9 +108,12 @@ router.post("/image", upload.single("file"), async (req, res) => {
       success: false,
       message: "Error",
     });
+  } finally {
+    connection.release();
   }
 });
 router.get("/:id", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const categoryId = req.params.id;
     if (!categoryId) {
@@ -111,9 +122,9 @@ router.get("/:id", async (req, res) => {
         message: "Invalid , Please connect fields",
       });
     }
-    const [data] = await pool.query(
+    const [data] = await connection.query(
       `
-       SELECT * FROM dishlist WHERE id = ?
+       SELECT * FROM \`dishlist\` WHERE id = ?
       `,
       [categoryId]
     );
@@ -134,9 +145,12 @@ router.get("/:id", async (req, res) => {
       success: false,
       message: "Kết nối thất bại",
     });
+  } finally {
+    connection.release();
   }
 });
 router.put("/:id", upload.single("file"), async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const updateDish = req.params.id;
     if (!updateDish) {
@@ -147,7 +161,7 @@ router.put("/:id", upload.single("file"), async (req, res) => {
     }
     const update = req.file.filename;
     const { title, content, price } = req.body;
-    const data = await pool.query(
+    const data = await connection.query(
       `
       UPDATE dishlist SET
       title = ? ,
@@ -174,9 +188,12 @@ router.put("/:id", upload.single("file"), async (req, res) => {
       success: false,
       message: "Error Api Dishlist",
     });
+  } finally {
+    connection.release();
   }
 });
 router.delete("/:id", async (req, res) => {
+  const connection = await pool.getConnection();
   try {
     const removeCategory = req.params.id;
     if (!removeCategory) {
@@ -185,7 +202,7 @@ router.delete("/:id", async (req, res) => {
         message: "404 , Not found deleteDish",
       });
     }
-    await pool.query(`DELETE FROM dishlist WHERE id =?`, [removeCategory]);
+    await connection.query(`DELETE FROM dishlist WHERE id =?`, [removeCategory]);
     res.status(200).send({
       success: true,
       message: "Success delete Id Dish",
@@ -196,6 +213,8 @@ router.delete("/:id", async (req, res) => {
       success: true,
       message: "Error deleteDish",
     });
+  } finally {
+    connection.release()
   }
 });
 
