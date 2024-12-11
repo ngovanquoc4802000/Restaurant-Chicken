@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const Request = axios.create({
+export const RequestAxios = axios.create({
   baseURL: "http://localhost:7777/category/",
 });

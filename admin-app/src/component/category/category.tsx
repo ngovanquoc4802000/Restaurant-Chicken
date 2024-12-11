@@ -1,76 +1,92 @@
+import "../../App.css";
+import * as service from "../../services/categories";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import "../../App.css";
-import * as service from "../../services/categories";
 import { CategoryType } from "../../types/categories";
-import { Request } from "../../utils/http";
+import { RequestAxios } from "../../utils/http";
 
 function Category() {
   const [value, setValue] = useState<CategoryType[] | undefined>([]);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  console.log(currentPage);
+
   const [currentLimit, _] = useState<number>(5);
 
-  const [totalPage, setTotalPage] = useState<number>(0);
-
+  const [totalPage, setTotalPage] = useState<number>(1);
   /* show get All */
+
   const categoryApiAll = async () => {
-    try {
-      const result = await service.getApiCategoriesAll();
-      return setValue(result?.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await service.getApiCategoriesAll();
+    return setValue(data);
   };
 
   useEffect(() => {
     categoryApiAll();
   }, []);
 
-  /* handlePage Pagination */
-  const handlePageClick = (event: { selected: number }) => {
-    setCurrentPage(event.selected + 1);
-  };
-
+  /* Pagination  */
   const pagination = async () => {
-    try {
-      await Request.get<CategoryType>(`api/v1/product`, {
-        params: {
-          page: `${currentPage}`,
-          limit: `${currentLimit}`,
-        },
-      }).then((res) => {
-        setValue(res.data.data);
-        return setTotalPage(res.data.pagination.totalPage);
-      });
-    } catch (error) {
-      console.log("pagination + ", error);
-    }
+    const { data } = await RequestAxios.get<CategoryType>(`api/v1/product`, {
+      params: {
+        page: `${currentPage}`,
+        limit: `${currentLimit}`,
+      },
+    });
+    setValue(data.data);
+    return setTotalPage(data.pagination.totalPage);
   };
-
   useEffect(() => {
     pagination();
   }, [currentPage]);
 
-  const handleDelete = async (id: number) => {
-    try {
-      await service.deleteApiCategoriesId(id);
-      categoryApiAll();
-    } catch (_) {
-      console.log("the fail delete");
+  const pageNumbers = [];
+
+  const len = pageNumbers.length;
+
+  const uniqueUrl = new Date().getTime();
+
+  for (let i = 1; i <= totalPage; i++) {
+    console.log();
+    pageNumbers.push(i);
+  }
+
+  const renderCenter = pageNumbers.map((id) => {
+    return (
+      <>
+        {totalPage > 1 && (
+          <li key={id} onClick={() => handlePagination(id)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+            <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+              {id}
+            </a>
+          </li>
+        )}
+      </>
+    );
+  });
+
+  const handlePagination = (id: number) => {
+    if (id !== len || id !== 0) {
+      setCurrentPage(id);
+    } else {
+      return setCurrentPage(currentPage);
     }
   };
-  const uniqueUrl = new Date().getTime();
+
+  const handleDelete = async (id: number) => {
+    await service.deleteApiCategoriesId(id);
+    categoryApiAll();
+  };
+
   return (
     <div className="category">
       <div className="header">
         <h1 className="ml-2 text-lg font-bold">Category List</h1>
       </div>
-      <Link to="/create">
+      <Link to="/createCategories">
         <button className="ml-2 text-md font-bold border-2 p-2  rounded-lg hover:bg-blue-800 hover:text-white ">
           <FontAwesomeIcon icon={faPlus} className="" />
           <span className="ml-2">Add New Category</span>
@@ -117,30 +133,23 @@ function Category() {
             ))}
           </tbody>
         </table>
-        {totalPage > 0 && (
-          <ReactPaginate
-            containerClassName="pagination fixed top-[90%] right-[7%]  flex justify-center"
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={2}
-            pageCount={totalPage}
-            previousLabel="< "
-            pageClassName="page-item
-               bg-white border border-gray-300
-                rounded-md  py-2 m-1"
-            previousClassName="  page-item  border border-gray-300 rounded-md  py-2 m-1"
-            nextClassName="page-item bg-white border border-gray-300 rounded-md  py-2 m-1"
-            breakClassName="page-item bg-white border border-gray-300 rounded-md px-3 py-2 m-1"
-            previousLinkClassName="page-item px-3 py-3 text-blue-600 hover:text-blue-800 "
-            /* page-link */
-            pageLinkClassName="page-link px-3 py-3 m-1 hover:text-white text-blue-600 hover:text-blue-800"
-            nextLinkClassName="page-link px-3 py-3 text-blue-600 hover:text-blue-800"
-            breakLabel="..."
-            breakLinkClassName="page-link px-3 py-3 text-blue-600 hover:text-blue-800"
-            activeClassName="bg-blue-500 text-white font-bold rounded-md"
-          />
-        )}
+        <ul className="pagination fixed top-[90%] right-[7%]  flex justify-center">
+          <button disabled={currentPage === 1}>
+            <li onClick={() => setCurrentPage(currentPage - 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+              <a className="page-item px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+                prev
+              </a>
+            </li>
+          </button>
+          {renderCenter}
+          <button disabled={currentPage === totalPage}>
+            <li onClick={() => setCurrentPage(currentPage + 1)} className="page-item  border border-gray-300 rounded-md  py-2 m-1 disabled">
+              <a className="page-link px-3 py-3 text-blue-600 hover:text-blue-800" rel="prev">
+                next
+              </a>
+            </li>
+          </button>
+        </ul>
       </div>
     </div>
   );

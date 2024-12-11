@@ -12,6 +12,7 @@ interface Form {
 function Views() {
   const [get, setGet] = useState<Form | undefined>({ name: "", handle: "" });
   const { id } = useParams();
+
   useEffect(() => {
     axios
       .get<Form>(`http://localhost:7777/category/${id}`)
