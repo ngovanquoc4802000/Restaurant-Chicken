@@ -1,4 +1,3 @@
-import * as service from "../../services/dishlist";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,11 +13,9 @@ function UpdateDislist() {
   const { id } = useParams();
 
   const getDishAll = async () => {
-    const { data } = await service.updateDishListId(id);
-
-    const newData = data !== undefined ? setValue(data) : undefined;
-
-    return newData;
+    const { data } = await axios.get<UpdateFormDish>(`http://localhost:7777/dishlist/${id}`);
+    const isData = data.data !== undefined ? setValue(data.data) : undefined;
+    return isData;
   };
 
   useEffect(() => {
@@ -42,10 +39,10 @@ function UpdateDislist() {
 
     formData.append("price", value.price);
 
-    await axios.put<UpdateFormDish>(`http://localhost:7777/dishlist/image`, formData, {
+    const result = await axios.put<UpdateFormDish>(`http://localhost:7777/dishlist/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-
+    console.log(result);
     navigator("/dishlist");
   };
 
