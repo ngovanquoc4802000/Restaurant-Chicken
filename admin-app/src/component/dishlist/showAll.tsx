@@ -4,7 +4,7 @@ import { DishListFace } from "../../types/dishlist";
 import { Link } from "react-router-dom";
 
 function ShowAll() {
-  const [arrayAll, setArrayAll] = useState<DishListFace[] | undefined>([]);
+  const [arrayAll, setArrayAll] = useState<DishListFace[]>([]);
   const getDishAll = async () => {
     const { data } = await axios.get<DishListFace>(`http://localhost:7777/dishlist`);
     return setArrayAll(data.data);

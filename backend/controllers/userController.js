@@ -26,6 +26,7 @@ const getUserApiAll = async (req, res) => {
     connection.release();
   }
 };
+
 const getUserApiID = async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -60,6 +61,7 @@ const getUserApiID = async (req, res) => {
     });
   }
 };
+
 const userAPIRegister = async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -98,6 +100,7 @@ const userAPIRegister = async (req, res) => {
     connection.release();
   }
 };
+
 const updateUserApiId = async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -139,6 +142,7 @@ const updateUserApiId = async (req, res) => {
     connection.release();
   }
 };
+
 const deleteUserApiId = async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -164,6 +168,7 @@ const deleteUserApiId = async (req, res) => {
     connection.release();
   }
 };
+
 export default {
   userAPIRegister,
   getUserApiAll,

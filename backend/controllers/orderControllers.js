@@ -1,10 +1,10 @@
 import pool from "../database/connection.js";
 
-const getOrderAll = async (req, res) => {
+export const getOrders = async (req, res) => {
   const connection = await pool.getConnection();
   try {
     /* get order all */
-    const [orderAll] = await connection.query(`SELECT * FROM \`order\` `); // Error order
+    const [orderAll] = await connection.query(`SELECT * FROM \`order\` `); 
 
     if (orderAll.length === 0) {
       return res.status(404).send({
@@ -26,10 +26,10 @@ const getOrderAll = async (req, res) => {
     });
   } finally {
     connection.release();
-  };
+  }
 };
 
-const getOrderDetails = async (req, res) => {
+export const getOrderDetails = async (req, res) => {
   const orderId = req.params.id;
   const connection = await pool.getConnection();
 
@@ -90,7 +90,7 @@ const getOrderDetails = async (req, res) => {
   }
 };
 
-const createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   const { address, customer_note, customer_name, customer_phone, list_order } =
     req.body;
 
@@ -153,7 +153,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-const updateOrder = async (req, res) => {
+export const updateOrder = async (req, res) => {
   const {
     id,
     address,
@@ -227,7 +227,7 @@ const updateOrder = async (req, res) => {
   }
 };
 
-const deleteOrder = async (req, res) => {
+export const deleteOrder = async (req, res) => {
   const connection = pool.getConnection();
   const deleteOrderId = req.params.id;
   try {
@@ -256,12 +256,4 @@ const deleteOrder = async (req, res) => {
   } finally {
     connection.release();
   }
-};
-
-export default {
-  getOrderAll,
-  getOrderDetails,
-  createOrder,
-  updateOrder,
-  deleteOrder,
 };

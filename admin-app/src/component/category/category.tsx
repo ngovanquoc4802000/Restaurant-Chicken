@@ -113,7 +113,7 @@ function Category() {
                 </td>
                 <td className="border-2 ">{item.handle}</td>
                 <td className="border-2 flex justify-center  ">
-                  <img className="w-40 h-25 border-1" src={`http://localhost:7777/${item.image}`} alt="image" />
+                  <img className="w-40 h-25 border-1" width={80} height={80} src={`http://localhost:7777/${item.image}`} alt="image" />
                 </td>
                 <td className="">
                   <Link to={`/viewsCategories/${item.id}/${item.handle}/${uniqueUrl}`}>

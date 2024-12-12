@@ -1,5 +1,4 @@
 import pool from "../database/connection.js";
-import { upload } from "../router/dishList.js";
 
 const dishListAll = async (req, res) => {
   const connection = await pool.getConnection();
