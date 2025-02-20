@@ -1,3 +1,114 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 
+body {
+  font-family: "Roboto", serif;
+  font-size: 16px;
+}
+
+.section-header .header-logo-home {
+  display: flex;
+}
+.section-header .header-logo-home ul {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.section-header .header-logo-home ul li {
+  margin-left: 5px;
+  font-weight: 700;
+}
+.section-header .header-logo-home ul li a {
+  color: #000000;
+  text-decoration: none;
+}
+.section-header .header-logo-home ul li:hover {
+  text-decoration: underline;
+}
+.section-header .header-logo-menu {
+  /* offcanvas */
+}
+.section-header .header-logo-menu li {
+  margin-left: 10px;
+}
+.section-header .header-logo-menu .offcanvas-header {
+  position: relative;
+}
+.section-header .header-logo-menu .header-two-line {
+  display: flex;
+  position: absolute;
+  left: 45%;
+  top: 1px;
+}
+.section-header .header-logo-menu .header-two-line .line-one,
+.section-header .header-logo-menu .header-two-line .line-two,
+.section-header .header-logo-menu .header-two-line .line-three {
+  width: 11px;
+  height: 30px;
+  background-color: #e4002b;
+  margin: 0 5px;
+}
+
+.section-hero-nav {
+  height: 70px;
+  background-color: #202124;
+}
+.section-hero-nav p span {
+  color: #fff;
+  font-weight: 700;
+}
+.section-hero-nav button {
+  padding: 10px 30px;
+  background-color: #e4002b;
+  color: #fff;
+  font-weight: 700;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border: none;
+}
+.section-hero-nav button:hover {
+  background-color: #ed5b76;
+}
+
+.section-footer {
+  position: relative;
+  background: #202124;
+  width: 100%;
+}
+
+.header-two-line-footer {
+  position: absolute;
+  top: 92%;
+  right: 50%;
+}
+.header-two-line-footer .line-one-footer {
+  width: 11px;
+  height: 35px;
+  background-color: #fff;
+  float: left;
+  margin-left: 8px;
+}
+.header-two-line-footer .line-two-footer {
+  width: 11px;
+  height: 35px;
+  background-color: #fff;
+  float: right;
+  margin-left: 8px;
+}
+.header-two-line-footer .line-three-footer {
+  width: 11px;
+  height: 35px;
+  background-color: #fff;
+  float: right;
+  margin-left: 8px;
+}
 
 /*# sourceMappingURL=main.css.map */
