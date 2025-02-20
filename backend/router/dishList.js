@@ -27,7 +27,6 @@ router.get("/", async (req, res) => {
       success: true,
       message: "get success dishList All",
       data: data[0],
-      inscrease : newDate,
     });
   } catch (error) {
     console.log(error);

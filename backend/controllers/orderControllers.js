@@ -2,7 +2,7 @@ import pool from "../database/connexion.js";
 
 export const getOrders = async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM order_db`);
+    const data = await pool.query(`SELECT * FROM order`);
     if (!data) {
       return res.status(404).send({
         success: false,
