@@ -57,14 +57,20 @@
             <div class="header-logo-menu">
               <ul class="list-inline d-flex align-items-center justify-content-end">
                 <li class="ms-4">
-                  <a href="">
-                    <i class="fa-regular fa-circle-user fs-3 text-black"></i>
-                  </a>
+                  <i class="fa-regular fa-circle-user fs-3 text-black"></i>
                 </li>
                 <li class="ms-4">
-                  <a href="">
+                  <div class="cart-btn">
                     <i class="fa-solid fa-cart-shopping fs-3 text-black"></i>
-                  </a>
+                    <div id="cart-container">
+                      <button class="btn" id="clear-cart-btn">Clear Cart</button>
+                      <div id="products-container"></div>
+                      <p>Total number of items: <span id="total-items">0</span></p>
+                      <p>Subtotal: <span id="subtotal">$0</span></p>
+                      <p>Taxes: <span id="taxes">$0</span></p>
+                      <p>Total: <span id="total">$0</span></p>
+                    </div>
+                  </div>
                 </li>
                 <li class="ms-4">
                   <button class="btn btn-white" type="button" data-bs-toggle="offcanvas"
@@ -137,150 +143,60 @@
       <!-- nhiều sản phẩm -->
       <div class="container">
         <div class="row">
-          <h2>Danh mục món ăn</h2>
-          <div class="col-lg-3 mb-4">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/KHUYEN%20MAI.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/MON%20MOI.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/COMBO%201%20NGUOI.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/COMBO%20NHOM.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/GA.jpg?v=LK8X94" class="card-img-top"
-                  alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/COM.jpg?v=LK8X94" class="card-img-top"
-                  alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/MON%20AN%20NHE.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="https://static.kfcvietnam.com.vn/images/category/lg/TRANG%20MIENG.jpg?v=LK8X94"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                </div>
-              </div>
-            </div>
+          <div class="title">
+            <h1 style="float: left;margin-right: 12px;">Danh mục món ăn</h1>
+            <hr style="margin-top: 28px;" />
           </div>
         </div>
+        <div class="section-product row">
+        </div>
       </div>
-      <!-- banner cuoi footer -->
-      <div class="container-fluid mt-5">
-        <div class="row">
+    </div>
+    <!-- banner cuoi footer -->
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-lg-6">
+          <img height="230px"
+            src="https://static.kfcvietnam.com.vn/images/content/home/mobileappbanner/lg/banner.jpg?v=LK8X94" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-footer py-2">
+    <div class="container-fluid">
+      <div class="row footer p-2 ">
+      </div>
+      <p class="text-center text-white fs-6">Copyright © 2023 KFC Vietnam</p>
+      <hr style="border: 1px solid white;">
+      <div class="row">
+        <div class="introduce-company d-flex align-items-center">
           <div class="col-lg-6">
-            <img height="230px"
-              src="https://static.kfcvietnam.com.vn/images/content/home/mobileappbanner/lg/banner.jpg?v=LK8X94" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section-footer py-2">
-      <div class="container-fluid">
-        <div class="row footer p-2 ">
-        </div>
-        <p class="text-center text-white fs-6">Copyright © 2023 KFC Vietnam</p>
-        <hr style="border: 1px solid white;">
-        <div class="row">
-          <div class="introduce-company d-flex align-items-center" >
-            <div class="col-lg-6">
-              <div class="company">
-                <h3 class="text-white">CÔNG TY LIÊN DOANH TNHH KFC VIỆT NAM</h1>
-                  <p class="text-white"> Số 292 Bà Triệu, P. Lê Đại Hành, Q. Hai Bà Trưng, TP. Hà Nội.</p>
-                  <p class="text-white"> Điện thoại: (028) 38489828</p>
-                  <p class="text-white"> Email: lienhe@kfcvietnam.com.vn</p>
-                  <p class="text-white"> Mã số thuế: 0100773885</p>
-                  <p class="text-white">
-                    Ngày cấp: 29/10/1998 - Nơi cấp: Cục Thuế Thành Phố Hà Nội
-                  </p>
-              </div>
+            <div class="company">
+              <h3 class="text-white">CÔNG TY LIÊN DOANH TNHH KFC VIỆT NAM</h1>
+                <p class="text-white"> Số 292 Bà Triệu, P. Lê Đại Hành, Q. Hai Bà Trưng, TP. Hà Nội.</p>
+                <p class="text-white"> Điện thoại: (028) 38489828</p>
+                <p class="text-white"> Email: lienhe@kfcvietnam.com.vn</p>
+                <p class="text-white"> Mã số thuế: 0100773885</p>
+                <p class="text-white">
+                  Ngày cấp: 29/10/1998 - Nơi cấp: Cục Thuế Thành Phố Hà Nội
+                </p>
             </div>
-            <div class="col-lg-6 d-flex justify-content-center">
-              <div class="logo-bocongthuong">
-                <img src="https://kfcvn-static.cognizantorderserv.com/images/email/logo_footer.png" width="200px"
-                  height="77px" alt="">
-              </div>
+          </div>
+          <div class="col-lg-6 d-flex justify-content-center">
+            <div class="logo-bocongthuong">
+              <img src="https://kfcvn-static.cognizantorderserv.com/images/email/logo_footer.png" width="200px"
+                height="77px" alt="">
             </div>
           </div>
         </div>
       </div>
-      <div class="header-two-line-footer">
-        <div class="line-one-footer"></div>
-        <div class="line-two-footer"></div>
-        <div class="line-three-footer"></div>
-      </div>
     </div>
+    <div class="header-two-line-footer">
+      <div class="line-one-footer"></div>
+      <div class="line-two-footer"></div>
+      <div class="line-three-footer"></div>
+    </div>
+  </div>
   </div>
 </body>
 <script src="layout.js"></script>

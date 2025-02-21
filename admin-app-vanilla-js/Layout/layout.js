@@ -1,5 +1,7 @@
 const menuContent = document.querySelector(".menu-content");
 const footerSection = document.querySelector(".footer");
+const sectionProduct = document.querySelector(".section-product");
+
 const category = [
   {
     id: 0,
@@ -108,3 +110,42 @@ const renderFooter = (all = Footer) => {
 };
 renderMenu();
 renderFooter();
+
+fetch("http://localhost:7777/dishlist")
+  .then((res) => res.json())
+  .then((data) => {
+    const API = data.data;
+    renderContentProduct(API);
+  });
+
+const renderContentProduct = (data) => {
+  const HTMLString = data
+    .forEach(({image,name,price,currency,title}) => {
+      sectionProduct.innerHTML += `
+      <div class="col-lg-3 col-md-4 col-sm-6 col-12" >
+            <div class="category">
+              <div class="card" style="width: 18rem;">
+                <img src="${image}"
+                  class="card-img-top" alt="Sunset Over the Sea" />
+                <div class="card-body">
+                  <p class="card-text">
+                    <span class="">${name === null ? "" : name}</span>
+                    <span class="">${price === null ? " " : price}${currency}</span>
+                  </p>
+                  <div class="cart-content">${title === null ? " " : title}</div>
+                  <button class="cart-full btn btn-primary d-inline-block" >Add cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    `;
+    })
+};
+renderContentProduct()
+
+class ShoppingCart {
+  constructor() {
+    this.array = [];
+    this.total = 0;
+  }
+}

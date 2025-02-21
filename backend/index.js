@@ -9,7 +9,7 @@ import cors from "cors";
 /* routerCategory có image nên chỉ file */
 import routerCategoryApi from "./controllers/categoryControllers.js";
 
-import router from "./router/dishList.js";
+import routerDishlist from './router/dishList.js';
 import routerOrder from "./router/order.js";
 import routerCustomer from "./router/customer.js";
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/category", routerCategoryApi);
-app.use("/dishlist", router);
+app.use("/dishlist",routerDishlist)
 app.use("/user", routerUser);
 app.use("/order", routerOrder);
 app.use("/customer", routerCustomer);
