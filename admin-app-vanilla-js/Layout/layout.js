@@ -5,9 +5,12 @@ const btnCart = document.querySelector(".btn-cart");
 const cartContainer = document.querySelector(".cart-container");
 
 const productsContainer = document.getElementById("products-container");
-const subTotal = document.getElementById("subtotal");
-const taxes = document.getElementById("taxes");
-const total = document.getElementById("total");
+const totalNumberOf = document.querySelector(".total-items");
+const subTotalCart = document.querySelector(".subtotal");
+const taxesCart = document.querySelector(".taxes");
+const totalCart = document.querySelector(".total");
+
+const clearBtn = document.getElementById("clear-cart-btn");
 
 const category = [
   {
@@ -165,7 +168,7 @@ class ShoppingCart {
   }
   addItemsCart(id, data) {
     const product = data.find((item) => item.id === id);
-    const { name, price,currency } = product;
+    const { name, price, currency } = product;
     this.items.push(product);
 
     const totalCountPerProduct = {};
@@ -174,17 +177,39 @@ class ShoppingCart {
         (totalCountPerProduct[dessert.id] || 0) + 1;
     });
     const currentProductCount = totalCountPerProduct[product.id];
-    const currentProductCountSpan = document.getElementById(`product-count-for-id${id}`)
-    currentProductCount > 1 ?
-      currentProductCountSpan.textContent = `${currentProductCount}x ${name}`
-     : (productsContainer.innerHTML += `
-       <div class="product" id="dessert-${id}">
+    const currentProductCountSpan = document.getElementById(
+      `product-count-for-id${id}`
+    );
+    currentProductCount > 1
+      ? (currentProductCountSpan.textContent = `${currentProductCount}x ${name}${currency}`)
+      : (productsContainer.innerHTML += `<div class="product" id="dessert-${id}">
          <p>
            <span class="product-count" id="product-count-for-id${id}">${name}</span>
          </p>
-         <p>${price}${currency}</p>
+         <p>${price}</p>
        </div>
-      `)
+      `);
+  }
+  getCount() {
+    return (totalNumberOf.innerText = this.items.length);
+  }
+  calculatorTaxes(amount) {
+    return parseFloat((this.taxes / 100) * amount).toFixed(3);
+  }
+  calculator() {
+    const subTotal = this.items.reduce((acc, el) => acc + Number(el.price), 0);
+    const taxes = this.calculatorTaxes(subTotal);
+    const total = Number(subTotal) + Number(taxes);
+    subTotalCart.textContent = `${subTotal.toFixed(3)}VND`;
+    taxesCart.textContent = `$${taxes}VND`;
+    totalCart.textContent = `$${total.toFixed(3)}VND`;
+  }
+  clearShopping() {
+    productsContainer.innerHTML = ``;
+    totalNumberOf.textContent = 0;
+    subTotalCart.textContent = 0;
+    taxesCart.textContent = 0;
+    totalCart.textContent = 0;
   }
 }
 
@@ -193,9 +218,14 @@ const addItems = (items, data) => {
   items.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       cart.addItemsCart(Number(event.target.id), data);
+      cart.getCount();
+      cart.calculator();
     });
   });
 };
+clearBtn.addEventListener("click", () => {
+  cart.clearShopping();
+});
 
 btnCart.addEventListener("click", () => {
   cartContainer.classList.toggle("active");

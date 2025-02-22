@@ -72,9 +72,9 @@ body {
 }
 .section-header .header-logo-menu .cart-btn .cart-container {
   display: none;
-  position: absolute;
-  top: 38px;
-  right: -73px;
+  position: fixed;
+  top: 66px;
+  right: -6px;
   background-color: #202124;
   color: #fff;
   width: 280px;

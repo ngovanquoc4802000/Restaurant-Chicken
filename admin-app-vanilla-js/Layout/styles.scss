@@ -79,9 +79,9 @@ body {
       }
       .cart-container {
         display: none;
-        position: absolute;
-        top: 38px;
-        right: -73px;
+        position: fixed;
+        top: 66px;
+        right: -6px;
         background-color: $color-main;
         color: $color-white;
         width: 280px;
