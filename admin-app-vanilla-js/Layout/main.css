@@ -11,6 +11,9 @@ body {
   font-size: 16px;
 }
 
+.section-header {
+  cursor: pointer;
+}
 .section-header .header-logo-home {
   display: flex;
 }
@@ -32,6 +35,7 @@ body {
   text-decoration: underline;
 }
 .section-header .header-logo-menu {
+  cursor: pointer;
   /* offcanvas */
 }
 .section-header .header-logo-menu li {
@@ -54,6 +58,44 @@ body {
   background-color: #e4002b;
   margin: 0 5px;
 }
+.section-header .header-logo-menu .cart-btn {
+  position: relative;
+}
+.section-header .header-logo-menu .cart-btn .btn-cart {
+  border: none;
+  background: #fff;
+  padding: 5px;
+}
+.section-header .header-logo-menu .cart-btn .btn-cart:hover {
+  background-color: rgb(232, 223, 223);
+  border-radius: 5px;
+}
+.section-header .header-logo-menu .cart-btn .cart-container {
+  display: none;
+  position: absolute;
+  top: 38px;
+  right: -73px;
+  background-color: #202124;
+  color: #fff;
+  width: 280px;
+  height: 400px;
+  border: 8px double #fff;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+  overflow-y: scroll;
+  z-index: 999;
+}
+.section-header .header-logo-menu .cart-btn .cart-container #clear-cart-btn {
+  padding: 2px 10px;
+  background-color: #e4002b;
+}
+.section-header .header-logo-menu .cart-btn .cart-container #clear-cart-btn:hover {
+  background-color: #d6d0d1;
+}
+.section-header .header-logo-menu .cart-btn .cart-container.active {
+  display: block;
+}
 
 .section-hero-nav {
   height: 70px;
@@ -75,6 +117,35 @@ body {
   border: none;
 }
 .section-hero-nav button:hover {
+  background-color: #ed5b76;
+}
+
+.section-content {
+  cursor: pointer;
+}
+.section-content .section-product .name {
+  font-weight: 700;
+}
+.section-content .section-product .price {
+  font-weight: 700;
+}
+.section-content .section-product .cart-content {
+  font-style: oblique;
+}
+.section-content .section-product .cart-full {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 30px;
+  background-color: #e4002b;
+  color: #fff;
+  font-weight: 700;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border: none;
+}
+.section-content .section-product .cart-full:hover {
   background-color: #ed5b76;
 }
 

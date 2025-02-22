@@ -22,6 +22,7 @@ body {
 }
 
 .section-header {
+  cursor: pointer;
   .header-logo-home {
     display: flex;
     ul {
@@ -43,6 +44,7 @@ body {
     }
   }
   .header-logo-menu {
+    cursor: pointer;
     li {
       margin-left: 10px;
     }
@@ -64,8 +66,44 @@ body {
         margin: 0 5px;
       }
     }
-  }
-  .cart-container {
+    .cart-btn {
+      position: relative;
+      .btn-cart {
+        border: none;
+        background: #fff;
+        padding: 5px;
+        &:hover {
+          background-color: rgb(232 223 223);
+          border-radius: 5px;
+        }
+      }
+      .cart-container {
+        display: none;
+        position: absolute;
+        top: 38px;
+        right: -73px;
+        background-color: $color-main;
+        color: $color-white;
+        width: 280px;
+        height: 400px;
+        border: 8px double $color-white;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        overflow-y: scroll;
+        z-index: 999;
+        #clear-cart-btn {
+          padding: 2px 10px;
+          background-color: $color-red;
+          &:hover {
+            background-color: #d6d0d1;
+          }
+        }
+      }
+      .cart-container.active {
+        display: block;
+      }
+    }
   }
 }
 
@@ -93,6 +131,38 @@ body {
     }
   }
 }
+
+.section-content {
+  cursor: pointer;
+  .section-product {
+    .name {
+      font-weight: 700;
+    }
+    .price {
+      font-weight: 700;
+    }
+    .cart-content {
+      font-style: oblique;
+    }
+    .cart-full {
+      display: inline-block;
+      width: 100%;
+      padding: 10px 30px;
+      background-color: $color-red;
+      color: $color-white;
+      font-weight: $font-weight;
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      border: $border-none;
+      &:hover {
+        background-color: #ed5b76;
+      }
+    }
+  }
+}
+
 .section-footer {
   position: relative;
   background: $color-main;

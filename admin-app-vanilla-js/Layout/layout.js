@@ -1,6 +1,9 @@
 const menuContent = document.querySelector(".menu-content");
 const footerSection = document.querySelector(".footer");
 const sectionProduct = document.querySelector(".section-product");
+const btnCart = document.querySelector(".btn-cart");
+const cartContainer = document.querySelector(".cart-container")
+
 
 const category = [
   {
@@ -119,21 +122,22 @@ fetch("http://localhost:7777/dishlist")
   });
 
 const renderContentProduct = (data) => {
+  data.splice(0,2)
   const HTMLString = data
-    .forEach(({image,name,price,currency,title}) => {
+    .forEach(({image,name,price,currency,title},index) => {
       sectionProduct.innerHTML += `
       <div class="col-lg-3 col-md-4 col-sm-6 col-12" >
             <div class="category">
-              <div class="card" style="width: 18rem;">
-                <img src="${image}"
+              <div class="card" >
+                <img src="../../backend/uploads/dishlist/${image}"
                   class="card-img-top" alt="Sunset Over the Sea" />
                 <div class="card-body">
                   <p class="card-text">
-                    <span class="">${name === null ? "" : name}</span>
-                    <span class="">${price === null ? " " : price}${currency}</span>
+                    <span class="">${name }</span>
+                    <span class="">${price}${currency}</span>
                   </p>
-                  <div class="cart-content">${title === null ? " " : title}</div>
-                  <button class="cart-full btn btn-primary d-inline-block" >Add cart</button>
+                  <div class="cart-content">${title.length > 28 ? title.slice(0,28) + "..." : ""}</div>
+                  <button id="${index}" class="cart-full add-to-cart btn btn-primary d-inline-block" >Add cart</button>
                 </div>
               </div>
             </div>
@@ -141,7 +145,6 @@ const renderContentProduct = (data) => {
     `;
     })
 };
-renderContentProduct()
 
 class ShoppingCart {
   constructor() {
@@ -149,3 +152,12 @@ class ShoppingCart {
     this.total = 0;
   }
 }
+
+const addToCart = document.getElementsByName(".add-to-cart");
+[...addToCart].forEach((btn) => {
+  console.log("Aaa")
+})
+
+btnCart.addEventListener("click",() => {
+  cartContainer.classList.toggle("active")
+})
