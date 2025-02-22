@@ -2,8 +2,12 @@ const menuContent = document.querySelector(".menu-content");
 const footerSection = document.querySelector(".footer");
 const sectionProduct = document.querySelector(".section-product");
 const btnCart = document.querySelector(".btn-cart");
-const cartContainer = document.querySelector(".cart-container")
+const cartContainer = document.querySelector(".cart-container");
 
+const productsContainer = document.getElementById("products-container");
+const subTotal = document.getElementById("subtotal");
+const taxes = document.getElementById("taxes");
+const total = document.getElementById("total");
 
 const category = [
   {
@@ -117,47 +121,82 @@ renderFooter();
 fetch("http://localhost:7777/dishlist")
   .then((res) => res.json())
   .then((data) => {
-    const API = data.data;
+    let API = data.data;
     renderContentProduct(API);
   });
-
 const renderContentProduct = (data) => {
-  data.splice(0,2)
-  const HTMLString = data
-    .forEach(({image,name,price,currency,title},index) => {
-      sectionProduct.innerHTML += `
+  data.splice(0, 2);
+  sectionProduct.innerHTML = data.map((item) => {
+    return `
       <div class="col-lg-3 col-md-4 col-sm-6 col-12" >
             <div class="category">
               <div class="card" >
-                <img src="../../backend/uploads/dishlist/${image}"
+                <img src="../../backend/uploads/dishlist/${item.image}"
                   class="card-img-top" alt="Sunset Over the Sea" />
                 <div class="card-body">
                   <p class="card-text">
-                    <span class="">${name }</span>
-                    <span class="">${price}${currency}</span>
+                    <span class="">${item.name}</span>
+                    <span class="">${item.price}${item.currency}</span>
                   </p>
-                  <div class="cart-content">${title.length > 28 ? title.slice(0,28) + "..." : ""}</div>
-                  <button id="${index}" class="cart-full add-to-cart btn btn-primary d-inline-block" >Add cart</button>
+                  <div class="cart-content">${
+                    item.title.length > 28
+                      ? item.title.slice(0, 28) + "..."
+                      : ""
+                  }</div>
+                  <button id="${
+                    item.id
+                  }" class="cart-full btn btn-primary d-inline-block" >Add cart</button>
                 </div>
               </div>
             </div>
           </div>
     `;
-    })
+  });
+  /* truyền tham số */
+  const cartFull = [...document.querySelectorAll(".cart-full")];
+  addItems(cartFull, data);
 };
 
 class ShoppingCart {
   constructor() {
-    this.array = [];
+    this.items = [];
     this.total = 0;
+    this.taxes = 8.25;
+  }
+  addItemsCart(id, data) {
+    const product = data.find((item) => item.id === id);
+    const { name, price,currency } = product;
+    this.items.push(product);
+
+    const totalCountPerProduct = {};
+    this.items.forEach((dessert) => {
+      totalCountPerProduct[dessert.id] =
+        (totalCountPerProduct[dessert.id] || 0) + 1;
+    });
+    const currentProductCount = totalCountPerProduct[product.id];
+    const currentProductCountSpan = document.getElementById(`product-count-for-id${id}`)
+    currentProductCount > 1 ?
+      currentProductCountSpan.textContent = `${currentProductCount}x ${name}`
+     : (productsContainer.innerHTML += `
+       <div class="product" id="dessert-${id}">
+         <p>
+           <span class="product-count" id="product-count-for-id${id}">${name}</span>
+         </p>
+         <p>${price}${currency}</p>
+       </div>
+      `)
   }
 }
 
-const addToCart = document.getElementsByName(".add-to-cart");
-[...addToCart].forEach((btn) => {
-  console.log("Aaa")
-})
+const cart = new ShoppingCart();
+const addItems = (items, data) => {
+  items.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      cart.addItemsCart(Number(event.target.id), data);
+    });
+  });
+};
 
-btnCart.addEventListener("click",() => {
-  cartContainer.classList.toggle("active")
-})
+btnCart.addEventListener("click", () => {
+  cartContainer.classList.toggle("active");
+});
