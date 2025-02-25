@@ -19,6 +19,8 @@ $border-none: none;
 body {
   font-family: $font-family;
   font-size: $font-size;
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 }
 
 .section-header {
@@ -47,24 +49,6 @@ body {
     cursor: pointer;
     li {
       margin-left: 10px;
-    }
-    /* offcanvas */
-    .offcanvas-header {
-      position: relative;
-    }
-    .header-two-line {
-      display: flex;
-      position: absolute;
-      left: 45%;
-      top: 1px;
-      .line-one,
-      .line-two,
-      .line-three {
-        width: 11px;
-        height: 30px;
-        background-color: $color-red;
-        margin: 0 5px;
-      }
     }
     .cart-btn {
       position: relative;
@@ -104,6 +88,25 @@ body {
         display: block;
       }
     }
+    /* offcanvas */
+    .offcanvas-header {
+      position: relative;
+    }
+    .header-two-line {
+      display: flex;
+      position: absolute;
+      left: 45%;
+      top: 1px;
+      .line-one,
+      .line-two,
+      .line-three {
+        width: 11px;
+        height: 30px;
+        background-color: $color-red;
+        margin: 0 5px;
+      }
+    }
+    
   }
 }
 
@@ -167,31 +170,31 @@ body {
   position: relative;
   background: $color-main;
   width: 100%;
+  .header-two-line-footer {
+    position: absolute;
+    top: 92%;
+    right: 50%;
+    .line-one-footer {
+      width: 11px;
+      height: 35px;
+      background-color: $color-white;
+      float: left;
+      margin-left: 8px;
+    }
+    .line-two-footer {
+      width: 11px;
+      height: 35px;
+      background-color: $color-white;
+      float: right;
+      margin-left: 8px;
+    }
+    .line-three-footer {
+      width: 11px;
+      height: 35px;
+      background-color: $color-white;
+      float: right;
+      margin-left: 8px;
+    }
+  }
 }
 
-.header-two-line-footer {
-  position: absolute;
-  top: 92%;
-  right: 50%;
-  .line-one-footer {
-    width: 11px;
-    height: 35px;
-    background-color: $color-white;
-    float: left;
-    margin-left: 8px;
-  }
-  .line-two-footer {
-    width: 11px;
-    height: 35px;
-    background-color: $color-white;
-    float: right;
-    margin-left: 8px;
-  }
-  .line-three-footer {
-    width: 11px;
-    height: 35px;
-    background-color: $color-white;
-    float: right;
-    margin-left: 8px;
-  }
-}

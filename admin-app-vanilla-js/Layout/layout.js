@@ -19,6 +19,8 @@ const category = [
     story: "Danh mục",
     news: "Món mới",
     historyChicken: "Lịch sử đặt hàng",
+    happyBirthDay: "Đặt sinh nhật",
+    bigShopping: "Thức ăn",
   },
   {
     id: 1,
@@ -124,42 +126,39 @@ renderFooter();
 fetch("http://localhost:7777/dishlist")
   .then((res) => res.json())
   .then((data) => {
-    let API = data.data;
+    const API = data.data;
     renderContentProduct(API);
   });
 const renderContentProduct = (data) => {
   data.splice(0, 2);
-  sectionProduct.innerHTML = data.map((item) => {
-    return `
-      <div class="col-lg-3 col-md-4 col-sm-6 col-12" >
-            <div class="category">
-              <div class="card" >
-                <img src="../../backend/uploads/dishlist/${item.image}"
-                  class="card-img-top" alt="Sunset Over the Sea" />
-                <div class="card-body">
-                  <p class="card-text">
-                    <span class="">${item.name}</span>
-                    <span class="">${item.price}${item.currency}</span>
-                  </p>
-                  <div class="cart-content">${
-                    item.title.length > 28
-                      ? item.title.slice(0, 28) + "..."
-                      : ""
-                  }</div>
-                  <button id="${
-                    item.id
-                  }" class="cart-full btn btn-primary d-inline-block" >Add cart</button>
-                </div>
+  data.map((item) => {
+    sectionProduct.innerHTML +=  `
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" >
+          <div class="category">
+            <div class="card" >
+              <img src="../../backend/uploads/dishlist/${item.image}"
+                class="card-img-top" alt="Sunset Over the Sea" />
+              <div class="card-body">
+                <p class="card-text">
+                  <span class="">${item.name}</span>
+                  <span class="">${item.price}${item.currency}</span>
+                </p>
+                <div class="cart-content">${
+                  item.title.length > 28 ? item.title.slice(0, 28) + "..." : ""
+                }</div>
+                <button id="${
+                  item.id
+                }" class="cart-full btn btn-primary" >Add cart</button>
               </div>
             </div>
           </div>
+        </div>
     `;
-  });
+  })
   /* truyền tham số */
   const cartFull = [...document.querySelectorAll(".cart-full")];
   addItems(cartFull, data);
 };
-
 class ShoppingCart {
   constructor() {
     this.items = [];
@@ -206,7 +205,7 @@ class ShoppingCart {
   }
   clearShopping() {
     productsContainer.innerHTML = ``;
-    totalNumberOf.textContent = 0;
+    totalNumberOf.textContent = "";
     subTotalCart.textContent = 0;
     taxesCart.textContent = 0;
     totalCart.textContent = 0;
@@ -223,10 +222,12 @@ const addItems = (items, data) => {
     });
   });
 };
-clearBtn.addEventListener("click", () => {
-  cart.clearShopping();
-});
+
 
 btnCart.addEventListener("click", () => {
   cartContainer.classList.toggle("active");
+});
+
+clearBtn.addEventListener("click", () => {
+  cart.clearShopping();
 });
