@@ -123,10 +123,7 @@ const renderFooter = (all = Footer) => {
 renderMenu();
 renderFooter();
 
-/* chỗ gọi API để render */
-const dataAPi = "http://localhost:7777/dishlist"
-
-fetch(dataAPi)
+fetch("./mockup/diskList.json")
   .then((res) => res.json())
   .then((data) => {
     const API = data.data;

@@ -1,0 +1,84 @@
+{
+  "data": [
+    {
+      "id": 47,
+      "image": null,
+      "name": null,
+      "title": null,
+      "currency": null,
+      "price": null
+    },
+    {
+      "id": 49,
+      "image": null,
+      "name": null,
+      "title": null,
+      "currency": null,
+      "price": null
+    },
+    {
+      "id": 60,
+      "image": "2025-02-21T09-41-26.961Z1-miếng-Chicken.jpg",
+      "name": "1 Miếng Gà Rán",
+      "title": "Miếng Gà Giòn Cay/Gà Truyền Thống/Gà Giòn Không Cay",
+      "currency": "VND",
+      "price": "35.000"
+    },
+    {
+      "id": 61,
+      "image": "2025-02-21T09-42-35.267Z2-miếng-Chicken.jpg",
+      "name": "2 Miếng gà rán",
+      "title": "2 Miếng Gà Giòn Cay/Gà Truyền Thống/Gà Giòn Không Cay",
+      "currency": "VND",
+      "price": "70.000"
+    },
+    {
+      "id": 62,
+      "image": "2025-02-21T09-43-25.034Z6-miếng-Chicken-new.jpg",
+      "name": "6 Miếng gà rán",
+      "title": "6 Miếng Gà Giòn Cay/Gà Truyền Thống/Gà Giòn Không Cay",
+      "currency": "VND",
+      "price": "204.000"
+    },
+    {
+      "id": 63,
+      "image": "2025-02-21T09-45-54.134ZTRANG MIENG 4.jpg",
+      "name": "4 Bánh trứng & Trà vải",
+      "title": "Bánh Trứng hương thị thơm ngon",
+      "currency": "VND",
+      "price": "58.000"
+    },
+    {
+      "id": 69,
+      "image": "2025-02-21T15-28-30.078Zmy y.jpg",
+      "name": "Combo Mỳ ý gà",
+      "title": "1 Mì Ý Gà Rán + 1 Pepsi (lớn)",
+      "currency": "VND",
+      "price": "77.000"
+    },
+    {
+      "id": 70,
+      "image": "2025-02-21T15-30-40.885Zchiazza.jpg",
+      "name": "Chizza",
+      "title": "1 Miếng Chizza: Gà giòn phủ phô mai, ớt chuông, hành tây và lá oregano thơm lừng.",
+      "currency": "VND",
+      "price": "45.000"
+    },
+    {
+      "id": 71,
+      "image": "2025-02-21T15-37-46.164ZCBO-CHIZZA-A.jpg",
+      "name": "Combo HD Chizza A",
+      "title": "1 Miếng Chizza + 1 Khoai Tây Chiên (vừa) + 1 Ly Pepsi (lớn)",
+      "currency": "VND",
+      "price": "75.000"
+    },
+    {
+      "id": 72,
+      "image": "2025-02-21T15-38-34.959ZD-CBO-Big-Juicy.jpg",
+      "name": "Combo Gà Quay",
+      "title": "1 Đùi Gà Quay Flava + 1 Salad Hạt + 1 Lipton (lớn)",
+      "currency": "VND",
+      "price": "117.000"
+    }
+  ]
+}
