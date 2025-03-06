@@ -1,5 +1,5 @@
 function Dishlist() {
-  return <>Hello Dishlist</>;
+  return <div>Hello Dishlist</div>;
 }
 
 export default Dishlist;
