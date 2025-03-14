@@ -1,5 +1,5 @@
 import { Profile } from "./Profile";
-import { Object } from "../mockup/profile/profile";
+import { Object } from "../../mockup/profile/profile";
 
 const profile: Object = {
   src: "https://i.imgur.com/MK3eW3As.jpg",
@@ -9,6 +9,7 @@ const profile: Object = {
 export default function ParentProfile() {
   return (
     <>
+      <Profile style={{ padding: profile.px }} src={profile.src} alt={profile.alt} />
       <Profile style={{ padding: profile.px }} src={profile.src} alt={profile.alt} />
     </>
   );

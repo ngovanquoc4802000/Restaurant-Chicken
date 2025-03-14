@@ -1,0 +1,2 @@
+- condition rending hiển thị những thứ khác tuỳ thuộc vào các điều kiện khác nhau.
+- if...else ? : hoặc &&

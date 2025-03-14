@@ -1,7 +1,7 @@
 import { People } from "./data";
 
 interface List {
-  marginBottm: string;
+  marginBottom: string;
   display: string;
   gridtemplatecolumns: string;
   alignItems: string;
@@ -9,7 +9,7 @@ interface List {
 }
 
 const styleList: List = {
-  marginBottm: "10px",
+  marginBottom: "10px",
   display: "gird",
   gridtemplatecolumns: "1fr 1fr",
   alignItems: "center",
@@ -24,14 +24,14 @@ export default function List() {
           display: styleList.display,
           alignItems: styleList.alignItems,
           gridTemplateColumns: styleList.gridtemplatecolumns,
-          marginBottom: styleList.marginBottm,
+          marginBottom: styleList.marginBottom,
           listStyle: styleList.styleNone,
         }}
         key={id}
       >
+        <img src={`https://i.imgur.com/${item.imageId}s.jpg`} alt="" />
         <strong>{item.name}</strong>
       </li>
-      <img src={item.imageId} alt="" />
     </>
   ));
   return (

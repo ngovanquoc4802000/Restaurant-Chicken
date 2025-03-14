@@ -1,0 +1,2 @@
+- use Prop: sử dụng đạo cụ để giao tiếp với nhau
+- thành phần cha mẹ truyền sang thành phần con
