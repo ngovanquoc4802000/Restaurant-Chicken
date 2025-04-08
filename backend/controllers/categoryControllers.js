@@ -1,22 +1,8 @@
-import express from "express";
-import multer from "multer";
-import pool from "../database/connexion.js";
+import pool from "../database/connectdatabase.js";
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/category");
-  },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-const router = express.Router();
-
-router.get("/", async (req, res) => {
+const getCatetoryAll = async(req,res) => {
   try {
-    const data = await pool.query(`SELECT * FROM api_db`);
+    const data = await pool.query(`SELECT * FROM category`);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -35,14 +21,81 @@ router.get("/", async (req, res) => {
       message: "error category",
     });
   }
-});
-
-router.get("/api/v1/product", async (req, res) => {
+}
+const getCategoryId = async(req,res) => {
+  try {
+    const categoryId = req.params.id;
+    if (!categoryId) {
+      return res.status(403).send({
+        success: false,
+        message: "Invalid , Please connect fields",
+      });
+    }
+    const [data] = await pool.query(
+      `
+       SELECT * FROM category WHERE id = ?
+      `,
+      [categoryId]
+    );
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success categoryId",
+      data: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Kết nối thất bại",
+    });
+  }
+}
+const createCategory = async(req,res) => {
+  try {
+    const { name, handle,image } = req.body;
+    if (!name || !handle) {
+      return res.status(403).send({
+        success: false,
+        message: "Invalid Error",
+      });
+    }
+    const data = await pool.query(
+      `INSERT INTO category 
+      (name, handle , image) 
+      VALUES(?,?,?)`,
+      [name, handle,image]
+    );
+    if (!data) {
+      return res.status(404).send({
+        success: false,
+        message: "404 not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "success api ",
+      data: data[0]
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error",
+    });
+  }
+}
+const categoryPagination = async(req,res) => {
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     const offset = (page - 1) * limit;
-    const [data] = await pool.query(`SELECT * FROM api_db  limit ? offset ? `, [
+    const [data] = await pool.query(`SELECT * FROM category  limit ? offset ? `, [
       +limit,
       +offset,
     ]);
@@ -68,76 +121,8 @@ router.get("/api/v1/product", async (req, res) => {
       message: "lỗi phân trang",
     });
   }
-});
-router.post("/image", upload.single("file"), async (req, res) => {
-  try {
-    const ImageName = req.file.filename;
-    const { name, handle } = req.body;
-    if (!ImageName || !name || !handle) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid Error",
-      });
-    }
-    const data = await pool.query(
-      `INSERT INTO api_db 
-      (image, name , handle) 
-      VALUES(?,?,?)`,
-      [ImageName, name, handle]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success api ",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error",
-    });
-  }
-});
-router.get("/:id", async (req, res) => {
-  try {
-    const categoryId = req.params.id;
-    if (!categoryId) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid , Please connect fields",
-      });
-    }
-    const [data] = await pool.query(
-      `
-       SELECT * FROM api_db WHERE id = ?
-      `,
-      [categoryId]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success categoryId",
-      data: data[0],
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Kết nối thất bại",
-    });
-  }
-});
-router.put("/:id", upload.single("file"), async (req, res) => {
+}
+const updateCategoryId = async(req,res) => {
   try {
     const categoryTable = req.params.id;
     if (!categoryTable) {
@@ -146,17 +131,16 @@ router.put("/:id", upload.single("file"), async (req, res) => {
         message: "403 not found",
       });
     }
-    const file = req.file.filename;
-    const { name, handle } = req.body;
+    const { name, handle,image } = req.body;
     const data = await pool.query(
       `
-      UPDATE api_db SET
-      image = ? ,
-      name = ?,
-      handle = ?
+      UPDATE category SET
+      name = ? ,
+      handle = ?,
+      image = ?
       WHERE id = ?
       `,
-      [file, name, handle, categoryTable]
+      [ name, handle, image]
     );
     if (!data) {
       return res.status(404).send({
@@ -175,8 +159,8 @@ router.put("/:id", upload.single("file"), async (req, res) => {
       message: "Error Api Category",
     });
   }
-});
-router.delete("/:id", async (req, res) => {
+}
+const deleteCategoryId = async(req,res) => {
   try {
     const removeCategory = req.params.id;
     if (!removeCategory) {
@@ -185,7 +169,7 @@ router.delete("/:id", async (req, res) => {
         message: "404 , Not found deleteCategory",
       });
     }
-    await pool.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
+    await pool.query(`DELETE FROM category WHERE id =?`, [removeCategory]);
     res.status(200).send({
       success: true,
       message: "Success delete Id category",
@@ -197,6 +181,13 @@ router.delete("/:id", async (req, res) => {
       message: "Error deleteCategory",
     });
   }
-});
+}
 
-export   default router;
+export default {
+  getCatetoryAll,
+  getCategoryId,
+  createCategory,
+  categoryPagination,
+  updateCategoryId,
+  deleteCategoryId
+};

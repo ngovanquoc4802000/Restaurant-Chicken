@@ -1,4 +1,4 @@
-import pool from "../database/connexion.js";
+import pool from "../database/connectdatabase.js";
 
 export const getOrders = async (req, res) => {
   try {

@@ -3,11 +3,11 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
-import pool from "./database/connexion.js";
+import pool from "./database/connectdatabase.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
-/* routerCategory có image nên chỉ file */
-import routerCategoryApi from "./controllers/categoryControllers.js";
+import routerCategoryApi from "./router/category.js";
+/* done category */
 
 import routerDishlist from './router/dishList.js';
 import routerOrder from "./router/order.js";
