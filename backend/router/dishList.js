@@ -1,6 +1,6 @@
+import pool from "../database/connectdatabase.js";
 import express from "express";
 import multer from "multer";
-import pool from "../database/connexion.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

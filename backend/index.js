@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
-import pool from "./database/connexion.js";
+import pool from "./database/connectdatabase.js";
 import routerUser from "./router/user.js";
 import cors from "cors";
 /* routerCategory có image nên chỉ file */

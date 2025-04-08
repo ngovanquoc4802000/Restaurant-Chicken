@@ -1,5 +1,4 @@
-import pool from "../database/connexion.js";
-
+import pool from "../database/connectdatabase.js";
 
 const customerAll = async (req, res) => {
   try {
