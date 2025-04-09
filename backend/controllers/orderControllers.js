@@ -1,18 +1,28 @@
 import pool from "../database/connectdatabase.js";
 
-export const getOrdersAll = async (req, res) => {
+export const getOrders = async (req, res) => {
   try {
-    const data = await pool.query(`SELECT * FROM order`);
+    const [data] = await pool.query(`SELECT * FROM \`order_table\``);
     if (!data) {
       return res.status(404).send({
         success: false,
         message: "404 not found",
       });
-    }
+    };
+    const dataWithDetails = await Promise.all(
+      data.map(async(item) => {
+          const [details] = await pool.query(
+            `SELECT id_dishlist , quantity,price,note FROM order_details WHERE id_order = ?`
+            ,[item.id]
+          )
+          return {...item,details}
+      })
+    )
+
     res.status(200).send({
       success: true,
       message: "success order All",
-      data: data[0],
+      data: dataWithDetails,
     });
   } catch (error) {
     console.log(error);
@@ -22,15 +32,18 @@ export const getOrdersAll = async (req, res) => {
     });
   }
 };
-export const getOrderDetailsId = async (req, res) => {
+
+export const getOrderDetails = async (req, res) => {
   const orderId = req.params.id;
   const connection = await pool.getConnection();
 
   try {
     // Get order details
     const [orderResult] = await connection.query(
-      `SELECT id AS id_order, address, customer_note, customer_name, customer_phone, total_price
-       FROM \`order\`
+      `SELECT id AS id_order,
+       address, customer_note, customer_name, customer_phone,
+        total_price
+       FROM order_table
        WHERE id = ?`,
       [orderId]
     );
@@ -82,11 +95,13 @@ export const getOrderDetailsId = async (req, res) => {
     connection.release();
   }
 };
+
 export const createOrder = async (req, res) => {
-  const { address, customer_note, customer_name, customer_phone, list_order } =
+  const { user_id,address, customer_note, customer_name, customer_phone, list_order } =
     req.body;
 
   if (
+    !user_id ||
     !address ||
     !customer_name ||
     !customer_phone ||
@@ -109,20 +124,20 @@ export const createOrder = async (req, res) => {
       return total + item.price * item.quantity;
     }, 0);
 
-    // Insert into order table
+    // Insert into order table (đã loại bỏ cột 'id')
     const [orderResult] = await connection.query(
-      "INSERT INTO `order` (address, customer_note, customer_name, customer_phone, total_price) VALUES(?, ?, ?, ?, ?)",
-      [address, customer_note, customer_name, customer_phone, totalPrice]
+      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price) VALUES(?, ?, ?, ?, ?,?)",
+      [user_id,address, customer_note, customer_name, customer_phone, totalPrice]
     );
 
     const orderId = orderResult.insertId;
 
-    // Insert into order_product table
+    // Insert into order_product table (đã sửa lỗi số lượng và thứ tự giá trị)
     for (const item of list_order) {
       const { id_dishlist, quantity, price, note } = item;
       await connection.query(
-        "INSERT INTO `order_product` (id_order, id_dishlist, quantity, price, note) VALUES(?, ?, ?, ?, ?)",
-        [orderId, id_dishlist, quantity, price, note]
+        "INSERT INTO `order_details` (quantity, price, note, id_dishlist, id_order) VALUES(?, ?, ?, ?, ?)",
+        [quantity, price, note, id_dishlist, orderId]
       );
     }
 
@@ -131,7 +146,7 @@ export const createOrder = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Order created successfully",
-      orderId,
+      orderId
     });
   } catch (error) {
     await connection.rollback();
@@ -144,7 +159,8 @@ export const createOrder = async (req, res) => {
     connection.release();
   }
 };
-export const updateOrderId = async (req, res) => {
+
+export const updateOrder = async (req, res) => {
   const {
     id,
     address,
@@ -176,7 +192,7 @@ export const updateOrderId = async (req, res) => {
 
     // Update order details
     await connection.query(
-      `UPDATE \`order\`
+      `UPDATE \`order_table\`
        SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?
        WHERE id = ?`,
       [address, customer_note, customer_name, customer_phone, id]
@@ -217,7 +233,8 @@ export const updateOrderId = async (req, res) => {
     connection.release();
   }
 };
-export const deleteOrderId = async (req, res) => {
+
+export const deleteOrder = async (req, res) => {
   try {
     const deleteOrderId = req.params.id;
     if (!deleteOrderId) {
@@ -246,9 +263,9 @@ export const deleteOrderId = async (req, res) => {
 };
 
 export default {
-  getOrdersAll,
-  getOrderDetailsId,
+  getOrders,
+  getOrderDetails,
   createOrder,
-  updateOrderId,
-  deleteOrderId
+  updateOrder,
+  deleteOrder
 }

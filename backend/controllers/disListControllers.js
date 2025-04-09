@@ -14,11 +14,11 @@ export const getDishlistAll = async (req, res) => {
         const [images] = await pool.query(
           `SELECT * FROM dishlist_images WHERE id_dishlist = ?`,
           [item.id]
-        )
-        return {...item,images}
+        );
+        return { ...item, images };
       })
-    )
-      
+    );
+
     res.status(200).send({
       success: true,
       message: "get success api All",
@@ -33,25 +33,25 @@ export const getDishlistAll = async (req, res) => {
   }
 };
 export const getDishlistId = async (req, res) => {
+  const categoryId = req.params.id;
+  if (!categoryId) {
+    return res.status(403).send({
+      success: false,
+      message: "Invalid , Please connect fields",
+    });
+  }
   try {
-    const categoryId = req.params.id;
-    if (!categoryId) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid , Please connect fields",
-      });
-    }
     const [data] = await pool.query(
       `
        SELECT * FROM dishlist WHERE id = ?
       `,
       [categoryId]
     );
-     const dish = data[0];
-     const [images] = await pool.query(
+    const dish = data[0];
+    const [images] = await pool.query(
       `SELECT * FROM dishlist_images WHERE id_dishlist = ?`,
       [categoryId]
-     )
+    );
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -62,7 +62,8 @@ export const getDishlistId = async (req, res) => {
       success: true,
       message: "success dislistId",
       data: {
-        ...dish, images
+        ...dish,
+        images,
       },
     });
   } catch (error) {
@@ -74,7 +75,8 @@ export const getDishlistId = async (req, res) => {
   }
 };
 export const createDishlist = async (req, res) => {
-  const { category_id, name, title, currency, price, description,images } = req.body;
+  const { category_id, name, title, currency, price, description, images } =
+    req.body;
   if (!name || !title || !price) {
     return res.status(400).send({
       success: false,
@@ -95,41 +97,40 @@ export const createDishlist = async (req, res) => {
       });
     }
     const dishId = data.insertId;
-      /* chèn bảng nếu images được cung cấp */
+    /* chèn bảng nếu images được cung cấp */
     const insertImages = [];
-    if(images && Array.isArray(images) && images.length > 0) {
-     
-      for(const image of images) {
-      
-        const {alt_text,image: imageUrl} = image;
+    if (images && Array.isArray(images) && images.length > 0) {
+      for (const image of images) {
+        const { alt_text, image: imageUrl } = image;
 
         const [imageResult] = await pool.query(
           `INSERT INTO dishlist_images (id_dishlist,alt_text,image)
           VALUES(?,?,?)
           `,
-      
-          [dishId,alt_text,imageUrl]
-      
+
+          [dishId, alt_text, imageUrl]
         );
-        if(imageResult) {
+        if (imageResult) {
           insertImages.push({
             id: imageResult.insertId,
             id_dishlist: dishId,
             alt_text,
-            image: imageUrl
-          })
+            image: imageUrl,
+          });
         }
       }
     }
-     // lấy món ăn mới được tạo ra
-     const [newDish] = await pool.query(`SELECT * FROM dishlist WHERE id= ?`,[dishId]) 
+    // lấy món ăn mới được tạo ra
+    const [newDish] = await pool.query(`SELECT * FROM dishlist WHERE id= ?`, [
+      dishId,
+    ]);
     res.status(200).send({
       success: true,
       message: "success api ",
       data: {
         id: dishId,
         ...newDish,
-        images: insertImages
+        images: insertImages,
       },
     });
   } catch (error) {
@@ -139,7 +140,6 @@ export const createDishlist = async (req, res) => {
       message: "Error creating dishlist",
     });
   }
-
 };
 export const updateDishlistId = async (req, res) => {
   const dishId = req.params.id;
@@ -159,8 +159,14 @@ export const updateDishlistId = async (req, res) => {
       [category_id, name, title, currency || "VND", price, description, dishId]
     );
     /* lấy món ăn được cập nhật và hình ảnh cập nhật của nó */
-    const [updateDish] = await pool.query(`SELECT * FROM dishlist WHERE id = ?`, [dishId]);
-    const [images] = await pool.query(`SELECT * FROM dishlist_images WHERE id_dishlist = ?`,[dishId]);
+    const [updateDish] = await pool.query(
+      `SELECT * FROM dishlist WHERE id = ?`,
+      [dishId]
+    );
+    const [images] = await pool.query(
+      `SELECT * FROM dishlist_images WHERE id_dishlist = ?`,
+      [dishId]
+    );
 
     if (!data) {
       return res.status(404).send({
@@ -171,11 +177,11 @@ export const updateDishlistId = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "success api UpdateDishlist",
-      data : {
-        id: dishId, 
+      data: {
+        id: dishId,
         ...updateDish[0],
-        images : images
-      }
+        images: images,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -184,13 +190,16 @@ export const updateDishlistId = async (req, res) => {
       message: "Error Api dishlist",
     });
   }
-
 };
 export const deleteDishlistId = async (req, res) => {
   const removeDishlist = req.params.id;
   try {
-     await pool.query(`SELECT FROM dishlist_images WHERE id_dishlist = ? `,[removeDishlist])
-    const [data] = await pool.query(`DELETE FROM dishlist WHERE id = ?`, [removeDishlist]);
+    await pool.query(`SELECT FROM dishlist_images WHERE id_dishlist = ? `, [
+      removeDishlist,
+    ]);
+    const [data] = await pool.query(`DELETE FROM dishlist WHERE id = ?`, [
+      removeDishlist,
+    ]);
     if (!data) {
       return res.status(404).send({
         success: false,
@@ -201,8 +210,8 @@ export const deleteDishlistId = async (req, res) => {
       success: true,
       message: "Success delete Id Dishlist",
       data: {
-        id: removeDishlist
-      }
+        id: removeDishlist,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -211,7 +220,6 @@ export const deleteDishlistId = async (req, res) => {
       message: "Error deleteDishlist",
     });
   }
-
 };
 
 export default {

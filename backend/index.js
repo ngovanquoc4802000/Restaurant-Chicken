@@ -11,7 +11,6 @@ import routerCategoryApi from "./router/category.js";
 
 import routerDishlist from './router/dishList.js';
 import routerOrder from "./router/order.js";
-import routerCustomer from "./router/customer.js";
 
 //rest object
 const app = express();
@@ -37,7 +36,6 @@ app.use("/category", routerCategoryApi);
 app.use("/dishlist",routerDishlist)
 app.use("/user", routerUser);
 app.use("/order", routerOrder);
-app.use("/customer", routerCustomer);
 
 /* app.use("/order", routerOrderDetails); */
 //router
