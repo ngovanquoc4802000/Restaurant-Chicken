@@ -1,77 +1,45 @@
 import pool from "../database/connectdatabase.js";
-import md5 from "md5"
+import { createHash } from "crypto";
 
-const getUserApiAll = async (req, res) => {
-  try {
-    const data = await pool.query(`SELECT * FROM user_db`);
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success user all",
-      data: data[0],
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+/* 
+{
+    "fullname": "John Doe",
+    "email": "john.doe@example.com",
+    "phone_number": "0987654321",
+    "address": "123 Main Street",
+    "password": "securepassword"
+}
+    api postman
+*/
+
+const generateMD5 = (password) => {
+  return createHash("md5").update(password).digest("hex");
+};
+
+const userAPIRegister = async (req, res) => {
+  const { fullname, email, phone_number, address, password } = req.body;
+
+  if (!fullname || !email || !password) {
+    return res.status(400).send({
       success: false,
-      message: "Error, Please connect User",
+      message: "'Please provide fullname, email, and password",
     });
   }
-};
-const getUserApiID = async (req, res) => {
   try {
-    const distTableId = req.params.id;
-    if (!distTableId) {
-      return res.status(500).send({
-        success: false,
-        message: "Invalid is connect",
-      });
+    const hasedPassword = generateMD5(password);
+    const [existingUser] = await pool.query(
+      "SELECT * FROM user WHERE email = ? ",
+      [email]
+    );
+    if(existingUser.length > 0) {
+      return res.status(409).json({success: false, message: "Email already exists"});
     }
     const [data] = await pool.query(
       `
-    SELECT * FROM user_db WHERE id=?`,
-      [distTableId]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "Success getUserId",
-      data: data[0],
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
-      success: false,
-      message: "Error , Please connect disList",
-    });
-  }
-};
-const userAPIRegister = async (req, res) => {
-  try {
-    const { email, name, password, address } = req.body;
-    
-    if (!email || !name || !password || !address) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid is correct",
-      });
-    }
-    const data = await pool.query(
-      `
-       INSERT INTO user_db (email, name , password , address)
-       VALUES (? , ? , ? , ?)
+       INSERT INTO user (fullname, email , phone_number, address , password,create_at)
+       VALUES (? , ? , ? , ?, ?,NOW())
      `,
-      [email, name, md5(password) , address]
+      [fullname, email, phone_number, address, hasedPassword]
     );
     if (!data) {
       return res.status(404).send({
@@ -82,6 +50,9 @@ const userAPIRegister = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "success create User",
+      data: {
+        id: data.insertId, email
+      }
     });
   } catch (error) {
     console.log(error);
@@ -91,71 +62,30 @@ const userAPIRegister = async (req, res) => {
     });
   }
 };
-const updateUserApiId = async (req, res) => {
-  try {
-    const updateTable = req.params.id;
-    if (!updateTable) {
-      return res.status(403).send({
-        success: false,
-        message: "403 not found",
-      });
-    }
-    const { email, name, password, address } = req.body;
-    const data = await pool.query(
-      ` UPDATE user_db SET 
-      email = ? ,
-      name = ? ,
-      password = ?,
-      address = ? WHERE id = ?
-      `,
-      [email, name, md5(password), address, updateTable]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not fount",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success update User",
-      data: data[0]
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
-      success: false,
-      message: "Error , Please connect User",
-    });
-  }
-};
-const deleteUserApiId = async (req, res) => {
-  try {
-    const deleteParamsId = req.params.id;
-    if (!deleteParamsId) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    await pool.query(`DELETE FROM user_db WHERE id=?`, [deleteParamsId]);
-    res.status(200).send({
-      success: true,
-      message: "success delete User",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
-      success: false,
-      message: "Error , Please connect User",
-    });
-  }
+const userAPILogin = async (req, res) => {
+  const { email, password } = req.body;
 
+  if (!email ||!password) {
+    return res.status(403).send({
+      success: false,
+      message: "Please provide email and password",
+    });
+  }
+  try {
+    const hasedPassword = generateMD5(password);
+    const [data] = await pool.query(`SELECT * FROM user WHERE email = ? AND password=?`,[email,hasedPassword]);
+    if(data.length === 1) {
+      const user = data[0];
+      res.status(200).json({ success: true, message: 'Login successful', data: { id: user.id, email: user.email, fullname: user.fullname } });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ success: false, message: 'Error during login' });
+  }
 };
 export default {
   userAPIRegister,
-  getUserApiAll,
-  getUserApiID,
-  updateUserApiId,
-  deleteUserApiId,
+  userAPILogin,
 };

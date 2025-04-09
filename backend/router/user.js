@@ -3,13 +3,7 @@ import routerUser from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.get('/',routerUser.getUserApiAll);
-router.post('/',routerUser.userAPIRegister);
-
-router.route('/:id')
-   .get(routerUser.getUserApiID)
-   .put(routerUser.updateUserApiId)
-   .delete(routerUser.deleteUserApiId)
-
+router.post('/register',routerUser.userAPIRegister);
+router.post('/login',routerUser.userAPILogin)
 
 export default router;
