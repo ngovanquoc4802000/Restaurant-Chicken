@@ -1,4 +1,4 @@
-import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/categories";
+/* import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/categories";
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
@@ -34,3 +34,4 @@ export const updateGetId = async (id: string | undefined): Promise<UpdateFormFac
   const { data } = await Request.get<UpdateFormFace>(`${id}`);
   return data;
 };
+*/
