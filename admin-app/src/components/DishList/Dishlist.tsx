@@ -1,3 +1,4 @@
+import "./Dishlist.css";
 interface Dish {
   id: number;
   name: string;
@@ -13,7 +14,7 @@ const DishList = () => {
   ];
 
   return (
-    <div>
+    <div className="dishlist">
       <h3>Dish List</h3>
       <table>
         <thead>

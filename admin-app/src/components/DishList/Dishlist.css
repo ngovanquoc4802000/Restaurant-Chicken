@@ -1,0 +1,60 @@
+/* src/components/DishList/Dishlist.css */
+.dish-list {
+  background-color: #f5f5f5; /* Màu nền nhạt cho khu vực chứa bảng */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.dish-list h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.dish-list table {
+  width: 100%;
+  border-collapse: collapse; /* Gộp đường viền của các ô */
+  margin-top: 10px;
+  background-color: white; /* Màu nền cho bảng */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
+}
+
+.dish-list th,
+.dish-list td {
+  border: 1px solid #ddd; /* Đường viền cho các ô */
+  padding: 12px;
+  text-align: left;
+}
+
+.dish-list th {
+  background-color: #f0f0f0; /* Màu nền cho header */
+  font-weight: bold;
+}
+
+.dish-list tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Màu nền cho các hàng chẵn */
+}
+
+.dish-list tbody tr:hover {
+  background-color: #e0f7fa; /* Màu nền khi hover vào hàng */
+}
+
+.dish-list button {
+  background-color: #eee; /* Màu nền nút */
+  color: #333; /* Màu chữ nút */
+  border: 1px solid #ccc; /* Viền nút */
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-right: 5px;
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+}
+
+.dish-list button:hover {
+  background-color: #ddd; /* Màu nền nút khi hover */
+}
+
+.dish-list button:last-child {
+  margin-right: 0; /* Loại bỏ margin bên phải của nút cuối cùng */
+}
