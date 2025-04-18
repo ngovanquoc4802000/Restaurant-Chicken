@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { getApiCategoriesAll } from "../../../services/categories";
+import { createApiCategory, getApiCategoriesAll } from "../../../services/categories";
 import { CategoryTs, ValueCategory } from "../../../types/categories";
-import { Request } from "../../../utils/http";
 
 interface CreateTs {
   stateValue: ValueCategory;
@@ -23,7 +22,7 @@ const CreateCategory = ({ stateValue, setCategory, setShowForm, stateCategory, s
           handle: handle,
           image: image,
         };
-        const result = await Request.post<CategoryTs>("category/create", newCategory);
+        const result = await createApiCategory(newCategory);
         if (result) {
           const { data } = await getApiCategoriesAll();
           setCategory(data);
