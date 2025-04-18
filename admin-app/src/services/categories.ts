@@ -1,16 +1,25 @@
-/* import { CategoryType, CreateCategoriesType, UpdateFormFace } from "../types/categories";
+import { CategoryTs } from "../types/categories";
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
   try {
-    const result = await Request.get<CategoryType>("");
+    const result = await Request.get<CategoryTs>("category");
     return result.data;
   } catch (_) {
-    console.log("error");
+    return {
+      success: false,
+      message: "",
+      data: [],
+    };
   }
 };
 
-export const deleteApiCategoriesId = async (id: number | string) => {
+export const deleteApiCategory = async (id: number) => {
+  const response = await Request.delete<CategoryTs>(`category/${id}`);
+  return response.data;
+};
+
+/* export const deleteApiCategoriesId = async (id: number | string) => {
   try {
     const res = await Request.delete<CategoryType>(`${id}`);
     return res;
@@ -34,4 +43,4 @@ export const updateGetId = async (id: string | undefined): Promise<UpdateFormFac
   const { data } = await Request.get<UpdateFormFace>(`${id}`);
   return data;
 };
-*/
+ */

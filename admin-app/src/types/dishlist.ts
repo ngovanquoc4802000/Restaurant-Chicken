@@ -1,10 +1,19 @@
 export interface DishTs {
-  id: number;
-  category_id: string;
+  id?: number;
+  category_id?: number;
   name: string;
   title: string;
   currency: string;
-  price: number;
+  price: number | string;
   description: string;
-  images: string[];
+  images: Image[];
+}
+export interface ApiGetAllDishList {
+  success: boolean;
+  message: string;
+  data: DishTs[];
+}
+export interface Image {
+  alt_text: string;
+  image: string;
 }

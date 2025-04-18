@@ -98,7 +98,10 @@ export const createDishlist = async (req, res) => {
     }
     const dishId = data.insertId;
     /* chèn bảng nếu images được cung cấp */
-    const insertImages = [];
+    const insertImages = [
+      
+    ];
+    
     if (images && Array.isArray(images) && images.length > 0) {
       for (const image of images) {
         const { alt_text, image: imageUrl } = image;
