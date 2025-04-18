@@ -27,7 +27,7 @@
 }
 
 .edit-button:hover {
-  background-color: #1976d2;
+  background-color: #526e8a;
 }
 
 .delete-button {
@@ -44,4 +44,11 @@
 
 .read-button:hover {
   background-color: #f57c00;
+}
+.save-button {
+  background-color: #4caf50; /* Màu xanh lá cây cho Save */
+}
+
+.save-button:hover {
+  background-color: #388e3c;
 }

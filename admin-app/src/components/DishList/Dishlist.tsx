@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { getApiCategoriesAll } from "../../services/categories";
 import { getApiDishListAll } from "../../services/dishlist";
+import { CategoryTs } from "../../types/categories";
 import { DishTs } from "../../types/dishlist";
-import { Request } from "../../utils/http";
 import Button from "../button/button";
+import CreateDishList from "./createDishlist";
 import "./DishList.css";
 
 const DishList = () => {
   const [dishes, setDishes] = useState<DishTs[]>([]);
+
   const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const [categories, setCategories] = useState<CategoryTs[]>([]);
+
   const [formData, setFormData] = useState<DishTs>({
     name: "",
     title: "",
@@ -15,6 +21,7 @@ const DishList = () => {
     price: "",
     description: "",
     images: [{ alt_text: "", image: "" }],
+    category_id: 0,
   });
   useEffect(() => {
     const fetchDishes = async () => {
@@ -27,7 +34,16 @@ const DishList = () => {
         console.log(true);
       }
     };
+    const fetchCategories = async () => {
+      try {
+        const { data } = await getApiCategoriesAll();
+        setCategories(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchDishes();
+    fetchCategories();
   }, []);
   const handleCreateClick = () => {
     setShowCreateForm(true);
@@ -36,111 +52,23 @@ const DishList = () => {
   const handleCloseForm = () => {
     setShowCreateForm(false);
   };
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    const createForm = async () => {
-      try {
-        const { name, title, currency, price, description, images } = formData;
-        const newDish: DishTs = {
-          name: name,
-          title: title,
-          currency: currency,
-          price: price,
-          description: description,
-          images: images,
-        };
-        const result = await Request.post<DishTs>("dishlist/create", newDish);
-        if (result) {
-          const { data } = await getApiDishListAll();
-          setDishes(data);
-          setShowCreateForm(false);
-          setFormData({
-            name: "",
-            title: "",
-            currency: "VND",
-            price: "",
-            description: "",
-            images: [{ alt_text: "", image: "" }],
-          });
-        } else {
-          console.warn("API create result is empty or undefined");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    createForm();
-  };
   useEffect(() => {
     console.log("Current dishlist state:", dishes);
   }, [dishes]);
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    if (name === "image") {
-      setFormData((prev) => ({
-        ...prev,
-        images: [{ alt_text: "", image: value }],
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
+
   return (
     <div className="dish-list-container">
       <h2>Dish List</h2>
       <Button action="create" onClick={handleCreateClick} />
       {showCreateForm && (
-        <div className="create-dish-form-overlay">
-          <div className="create-dish-form">
-            <h1 style={{ fontSize: "25px", textAlign: "center" }}>Create New Dish</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="category">Category:</label>
-                <input type="text" id="category" name="category_id" value={formData.category_id} onChange={handleInputChange} required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="title">Title:</label>
-                <input type="text" id="title" name="title" title="title" value={formData.title} onChange={handleInputChange} required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="currency">Currency:</label>
-                <input type="text" id="currency" name="currency" value={formData.currency} required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="price">Price:</label>
-                <input type="number" id="price" name="price" value={formData.price} onChange={handleInputChange} required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="description">Description:</label>
-                <textarea id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
-              </div>
-              <div className="form-group">
-                <label htmlFor="image">Image Link:</label>
-                <input
-                  type="text"
-                  name="image"
-                  placeholder="...URL"
-                  id="image"
-                  onChange={handleInputChange}
-                  value={formData.images[0]?.image || ""}
-                  required
-                />
-              </div>
-              <div className="form-actions">
-                <button type="submit" className="save-button">
-                  Save
-                </button>
-                <button type="button" className="cancel-button" onClick={handleCloseForm}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <CreateDishList
+          stateSetDishShes={setDishes}
+          stateSetFormData={setFormData}
+          stateSetCreateForm={setShowCreateForm}
+          stateFormData={formData}
+          stateCategories={categories}
+          onClose={handleCloseForm}
+        />
       )}
       {
         <table className="dish-table">
@@ -168,11 +96,17 @@ const DishList = () => {
                 <td>{dish.price}</td>
                 <td>{dish.description}</td>
                 <td>
-                  <img src={dish.images[1].image} alt="" />
+                  {dish.images && dish.images.length > 1 && dish.images[1]?.image ? (
+                    <img src={dish.images[1].image} alt={dish.images[1]?.alt_text || ""} />
+                  ) : dish.images && dish.images.length > 0 && dish.images[0]?.image ? (
+                    <img src={dish.images[0].image} alt={dish.images[0]?.alt_text || ""} />
+                  ) : (
+                    <span>No Image</span>
+                  )}
                 </td>
                 <td>
-                  <button className="edit-button">Edit</button>
-                  <button className="delete-button">Delete</button>
+                  <Button action="edit" />
+                  <Button action="delete" />
                 </td>
               </tr>
             ))}
