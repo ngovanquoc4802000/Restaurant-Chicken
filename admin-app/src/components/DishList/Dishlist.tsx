@@ -21,7 +21,7 @@ const DishList = () => {
     price: "",
     description: "",
     images: [{ alt_text: "", image: "" }],
-    category_id: 0,
+    category_id: "",
   });
   useEffect(() => {
     const fetchDishes = async () => {
@@ -55,10 +55,13 @@ const DishList = () => {
   useEffect(() => {
     console.log("Current dishlist state:", dishes);
   }, [dishes]);
-
+  const getCategoryName = (categoryId: string | number) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category ? category.name : "undefined category";
+  };
   return (
     <div className="dish-list-container">
-      <h2>Dish List</h2>
+      <h1 style={{ textAlign: "center", fontSize: "1.5rem" }}>Dish List</h1>
       <Button action="create" onClick={handleCreateClick} />
       {showCreateForm && (
         <CreateDishList
@@ -75,21 +78,21 @@ const DishList = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Category</th>
-              <th>Name</th>
-              <th>Title</th>
-              <th>Currency</th>
-              <th>Price</th>
-              <th>Description</th>
-              <th>Actions</th>
-              <th>Image</th>
+              <th>CATEGORY</th>
+              <th>NAME</th>
+              <th>TITLE</th>
+              <th>CURRENCY</th>
+              <th>PRICE</th>
+              <th>DESCRIPTION</th>
+              <th>IMAGE</th>
+              <th>ACTION</th>
             </tr>
           </thead>
           <tbody>
             {dishes.map((dish) => (
               <tr key={dish.id}>
                 <td>{dish.id}</td>
-                <td>{dish.category_id}</td>
+                <td>{getCategoryName(dish.category_id)}</td>
                 <td>{dish.name}</td>
                 <td>{dish.title}</td>
                 <td>{dish.currency}</td>

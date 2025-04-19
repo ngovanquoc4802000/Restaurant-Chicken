@@ -1,7 +1,6 @@
-import { getApiDishListAll } from "../../../services/dishlist";
+import { getApiDishListAll, postApiDishlist } from "../../../services/dishlist";
 import { CategoryTs } from "../../../types/categories";
 import { DishTs } from "../../../types/dishlist";
-import { Request } from "../../../utils/http";
 import Button from "../../button/button";
 import "./createForm.css";
 
@@ -36,7 +35,7 @@ const CreateDishList = ({
           images,
           category_id,
         };
-        const result = await Request.post<DishTs>("dishlist/create", newDish);
+        const result = await postApiDishlist(newDish);
         if (result) {
           const { data } = await getApiDishListAll();
           stateSetDishShes(data);

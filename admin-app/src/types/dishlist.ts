@@ -1,6 +1,6 @@
 export interface DishTs {
   id?: number;
-  category_id?: number;
+  category_id: number | string;
   name: string;
   title: string;
   currency: string;

@@ -1,4 +1,4 @@
-import { ApiGetAllDishList } from "../types/dishlist";
+import { ApiGetAllDishList, DishTs } from "../types/dishlist";
 import { Request } from "../utils/http";
 
 export const getApiDishListAll = async () => {
@@ -14,11 +14,11 @@ export const getApiDishListAll = async () => {
   }
 };
 
-/* export const postApiDishlist = async (newDish: Omit<DishTs, "id">) => {
+export const postApiDishlist = async (newDish: DishTs) => {
   try {
     const { data } = await Request.post<DishTs>("dishlist/create", newDish);
     return data;
   } catch (error) {
     console.log(error);
   }
-}; */
+};

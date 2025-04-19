@@ -3,6 +3,7 @@ import { deleteApiCategory, getApiCategoriesAll } from "../../services/categorie
 import { CategoryTs, ValueCategory } from "../../types/categories";
 import "./CategoryList.css";
 import CreateCategory from "./createCategory";
+import Button from "../button/button";
 
 const CategoryList = () => {
   const [category, setCategory] = useState<CategoryTs[]>([]);
@@ -76,10 +77,8 @@ const CategoryList = () => {
                 <img style={{ width: "150px", borderRadius: "4px" }} src={item.image} alt="Hình Ảnh" />
               </td>
               <td>
-                <button className="edit-button">Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(Number(item.id))}>
-                  Delete
-                </button>
+                <Button action="edit" />
+                <Button action="delete" onClick={() => handleDelete(Number(item.id))} />
               </td>
             </tr>
           ))}
