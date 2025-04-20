@@ -22,34 +22,12 @@ export const createApiCategory = async (newCategory: ValueCategory) => {
     console.log(error);
   }
 };
+export const updateCategoryId = async (id: number | undefined | null, update: ValueCategory): Promise<ValueCategory> => {
+  const data = await Request.put<ValueCategory>(`category/${id}`, update);
+  return data.data;
+};
 
 export const deleteApiCategory = async (id: number) => {
   const response = await Request.delete<CategoryTs>(`category/${id}`);
   return response.data;
 };
-
-/* export const deleteApiCategoriesId = async (id: number | string) => {
-  try {
-    const res = await Request.delete<CategoryType>(`${id}`);
-    return res;
-  } catch (_) {
-    console.log("error delete");
-  }
-};
-
-export const postApiCreateCate = async (formData: object) => {
-  try {
-    const result = await Request.post<CreateCategoriesType>(`image`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return result;
-  } catch (_) {
-    console.log("Error postApiCreate");
-  }
-};
-
-export const updateGetId = async (id: string | undefined): Promise<UpdateFormFace> => {
-  const { data } = await Request.get<UpdateFormFace>(`${id}`);
-  return data;
-};
- */

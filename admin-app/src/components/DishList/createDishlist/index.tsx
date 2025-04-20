@@ -1,5 +1,5 @@
 import { getApiDishListAll, postApiDishlist } from "../../../services/dishlist";
-import { CategoryTs } from "../../../types/categories";
+import { ValueCategory } from "../../../types/categories";
 import { DishTs } from "../../../types/dishlist";
 import Button from "../../button/button";
 import "./createForm.css";
@@ -9,7 +9,7 @@ interface CreateDishTs {
   stateSetFormData: React.Dispatch<React.SetStateAction<DishTs>>;
   stateSetCreateForm: React.Dispatch<React.SetStateAction<boolean>>;
   stateFormData: DishTs;
-  stateCategories: CategoryTs[];
+  stateCategories: ValueCategory[];
   onClose: () => void;
 }
 

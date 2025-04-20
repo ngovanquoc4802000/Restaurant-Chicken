@@ -1,41 +1,67 @@
 import React, { useEffect } from "react";
-import { createApiCategory, getApiCategoriesAll } from "../../../services/categories";
-import { CategoryTs, ValueCategory } from "../../../types/categories";
+import { createApiCategory, getApiCategoriesAll, updateCategoryId } from "../../../services/categories";
+import { ValueCategory } from "../../../types/categories";
 
 interface CreateTs {
   stateValue: ValueCategory;
   setValue: React.Dispatch<React.SetStateAction<ValueCategory>>;
-  stateCategory: CategoryTs[];
-  setCategory: React.Dispatch<React.SetStateAction<CategoryTs[]>>;
+  stateCategory: ValueCategory[];
+  setCategory: React.Dispatch<React.SetStateAction<ValueCategory[]>>;
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   onCancel: () => void;
+  onUpdate: (updatedCategory: ValueCategory) => void;
+  editingUpdateId: number | null | undefined;
 }
 
-const CreateCategory = ({ stateValue, setCategory, setShowForm, stateCategory, setValue, onCancel }: CreateTs) => {
+const CreateCategory = ({
+  stateValue,
+  setCategory,
+  setShowForm,
+  stateCategory,
+  setValue,
+  onCancel,
+  onUpdate,
+  editingUpdateId,
+}: CreateTs) => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const createForm = async () => {
+    const createOrUpdate = async () => {
       try {
         const { name, handle, image } = stateValue;
         const newCategory: ValueCategory = {
-          name: name,
-          handle: handle,
-          image: image,
+          name,
+          handle,
+          image,
         };
-        const result = await createApiCategory(newCategory);
-        if (result) {
-          const { data } = await getApiCategoriesAll();
-          setCategory(data);
-          setShowForm(false);
-          setValue({ name: "", handle: "", image: "" }); // Reset form after successful creation
+
+        if (editingUpdateId !== null && editingUpdateId !== undefined) {
+          // Update
+          const updatedData = await updateCategoryId(editingUpdateId, newCategory);
+          if (updatedData) {
+            onUpdate(updatedData);
+            const { data } = await getApiCategoriesAll();
+            setCategory(data);
+          } else {
+            console.warn("Update failed.");
+          }
         } else {
-          console.warn("API create result is empty or undefined. Category not added.");
+          // Create
+          const createdData = await createApiCategory(newCategory);
+          if (createdData) {
+            const { data } = await getApiCategoriesAll();
+            setCategory(data);
+          } else {
+            console.warn("Create failed.");
+          }
         }
+        setValue({ name: "", handle: "", image: "", status: true });
+        setShowForm(false);
       } catch (error) {
-        console.error("Error creating category:", error);
+        console.error("Error during create/update:", error);
       }
     };
-    createForm();
+
+    createOrUpdate();
   };
   useEffect(() => {
     console.log("Current category state:", stateCategory);
@@ -90,9 +116,17 @@ const CreateCategory = ({ stateValue, setCategory, setShowForm, stateCategory, s
           </div>
           <div className="form-actions">
             <button type="submit" className="save-button">
-              Save
+              {editingUpdateId ? "Update" : "Save"} {/* Hiển thị "Update" khi có `editingUpdateId` */}
             </button>
-            <button type="submit" onClick={onCancel} className="cancel-button">
+            <button
+              type="button"
+              onClick={() => {
+                setValue({ name: "", handle: "", image: "", status: true });
+                setShowForm(false);
+                onCancel(); // gọi thêm nếu cần xử lý ngoài
+              }}
+              className="cancel-button"
+            >
               Cancel
             </button>
           </div>

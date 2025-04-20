@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { getApiCategoriesAll } from "../../services/categories";
 import { getApiDishListAll } from "../../services/dishlist";
-import { CategoryTs } from "../../types/categories";
 import { DishTs } from "../../types/dishlist";
 import Button from "../button/button";
 import CreateDishList from "./createDishlist";
 import "./DishList.css";
+import { ValueCategory } from "../../types/categories";
 
 const DishList = () => {
   const [dishes, setDishes] = useState<DishTs[]>([]);
 
   const [showCreateForm, setShowCreateForm] = useState(false);
 
-  const [categories, setCategories] = useState<CategoryTs[]>([]);
+  const [categories, setCategories] = useState<ValueCategory[]>([]);
 
   const [formData, setFormData] = useState<DishTs>({
     name: "",

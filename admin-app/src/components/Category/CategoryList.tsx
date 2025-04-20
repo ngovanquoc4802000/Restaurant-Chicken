@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { deleteApiCategory, getApiCategoriesAll } from "../../services/categories";
-import { CategoryTs, ValueCategory } from "../../types/categories";
+import { ValueCategory } from "../../types/categories";
+import Button from "../button/button";
 import "./CategoryList.css";
 import CreateCategory from "./createCategory";
-import Button from "../button/button";
 
 const CategoryList = () => {
-  const [category, setCategory] = useState<CategoryTs[]>([]);
+  const [category, setCategory] = useState<ValueCategory[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [value, setValue] = useState<ValueCategory>({
     name: "",
     handle: "",
     image: "",
+    status: true,
   });
-
+  const [editingUpdateId, setEditingUpdateId] = useState<number | null | undefined>(null);
   useEffect(() => {
     const fetchDishes = async () => {
       try {
@@ -27,11 +28,9 @@ const CategoryList = () => {
     };
     fetchDishes();
   }, []);
-
   const handleShow = () => {
     setShowForm(!showForm);
   };
-
   const handleCancel = () => {
     setShowForm(false);
   };
@@ -42,6 +41,28 @@ const CategoryList = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleUpdate = (id: number | undefined) => {
+    const categoryFind: ValueCategory | undefined = category.find((item) => item.id === id);
+    if (categoryFind) {
+      setValue({
+        name: categoryFind.name,
+        handle: categoryFind.handle,
+        image: categoryFind.image,
+        status: categoryFind.status ? 1 : 0,
+      });
+      setEditingUpdateId(id);
+      setShowForm(true);
+    }
+  };
+  const onUpdate = (updatedCategory: ValueCategory) => {
+    setCategory((prevCategories) => prevCategories.map((cat) => (cat.id === updatedCategory.id ? updatedCategory : cat)));
+    setShowForm(false);
+    setValue({
+      name: "",
+      handle: "",
+      image: "",
+    });
   };
   return (
     <div className="category-list">
@@ -57,6 +78,8 @@ const CategoryList = () => {
           stateCategory={category}
           setShowForm={setShowForm}
           onCancel={handleCancel}
+          onUpdate={onUpdate}
+          editingUpdateId={editingUpdateId}
         />
       )}
       <table>
@@ -66,6 +89,7 @@ const CategoryList = () => {
             <th>HANDLE</th>
             <th>IMAGE</th>
             <th>ACTION</th>
+            <th>STATUS</th>
           </tr>
         </thead>
         <tbody>
@@ -77,9 +101,10 @@ const CategoryList = () => {
                 <img style={{ width: "150px", borderRadius: "4px" }} src={item.image} alt="Hình Ảnh" />
               </td>
               <td>
-                <Button action="edit" />
+                <Button action="edit" onClick={() => handleUpdate(item.id)} />
                 <Button action="delete" onClick={() => handleDelete(Number(item.id))} />
               </td>
+              <td>{item.status == 1 ? "False" : "True"}</td>
             </tr>
           ))}
         </tbody>
