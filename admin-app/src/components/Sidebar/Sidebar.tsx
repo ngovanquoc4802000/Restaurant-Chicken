@@ -15,8 +15,18 @@ const Sidebar: React.FC = () => {
           <li>
             <NavLink to="/dishlist">Dish List</NavLink>
           </li>
-          <li>
-            <NavLink to="/user">Users</NavLink>
+          <li className="has-submenu">
+            <span className="submenu-title">
+              <NavLink to="/user"> Users</NavLink>
+            </span>
+            <ul className="submenu">
+              <li>
+                <NavLink to="/user/login">Login</NavLink>
+              </li>
+              <li>
+                <NavLink to="/user/register">Register</NavLink>
+              </li>
+            </ul>
           </li>
           <li>
             <NavLink to="/order">Orders</NavLink>

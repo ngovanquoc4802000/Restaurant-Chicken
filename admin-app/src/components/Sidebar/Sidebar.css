@@ -24,18 +24,51 @@
 
 .sidebar nav ul li a {
   display: block;
-  padding: 15px 20px;
+  padding: 1.2rem;
   text-decoration: none;
   color: white;
   transition: background-color 0.3s ease;
   text-align: left;
 }
 
-.sidebar nav ul li a:hover,
-.sidebar nav ul li a.active {
-  background-color: #1a237e;
+.has-submenu {
+  position: relative;
 }
 
-.sidebar nav ul li a.active {
-  font-weight: bold;
+.submenu-title {
+  cursor: pointer;
+  display: block;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.submenu-title:hover {
+  background-color: #ddd;
+}
+
+.submenu {
+  display: none;
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.3rem;
+}
+
+.has-submenu:hover .submenu {
+  display: block;
+}
+
+.submenu li {
+  margin-bottom: 0.3rem;
+}
+
+.submenu a {
+  text-decoration: none;
+  color: #555;
+  padding: 0.4rem;
+  display: block;
+  border-radius: 4px;
+}
+
+.submenu a:hover {
+  background-color: #eee;
 }
