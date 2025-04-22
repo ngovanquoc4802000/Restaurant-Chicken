@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { createApiCategory, getApiCategoriesAll, updateCategoryId } from "../../../services/categories";
 import { ValueCategory } from "../../../types/categories";
+import Button from "../../button/button";
 
 interface CreateTs {
   stateValue: ValueCategory;
@@ -118,17 +119,14 @@ const CreateCategory = ({
             <button type="submit" className="save-button">
               {editingUpdateId ? "Update" : "Save"} {/* Hiển thị "Update" khi có `editingUpdateId` */}
             </button>
-            <button
-              type="button"
+            <Button
+              action="cancel"
               onClick={() => {
                 setValue({ name: "", handle: "", image: "", status: true });
                 setShowForm(false);
                 onCancel(); // gọi thêm nếu cần xử lý ngoài
               }}
-              className="cancel-button"
-            >
-              Cancel
-            </button>
+            />
           </div>
         </form>
       </div>

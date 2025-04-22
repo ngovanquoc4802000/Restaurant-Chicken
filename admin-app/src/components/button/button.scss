@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .action-button {
   padding: 8px 15px;
   border: none;
@@ -8,51 +7,43 @@
   color: white;
   transition: background-color 0.3s ease;
   margin-right: 5px;
+  &:last-child {
+    margin-right: 0;
+  }
 }
-.action-button:last-child {
-  margin-right: 0;
-}
-
 .create-button {
   background-color: #4caf50; /* Màu xanh lá cây cho Create */
+  &:hover {
+    background-color: #388e3c;
+  }
 }
-.create-button:hover {
-  background-color: #388e3c;
-}
-
 .edit-button {
   background-color: #2196f3; /* Màu xanh dương cho Edit */
+  &:hover {
+    background-color: #526e8a;
+  }
 }
-.edit-button:hover {
-  background-color: #526e8a;
-}
-
 .delete-button {
   background-color: #f44336; /* Màu đỏ cho Delete */
+  &:hover {
+    background-color: #d32f2f;
+  }
 }
-.delete-button:hover {
-  background-color: #d32f2f;
-}
-
 .read-button {
   background-color: #ff9800; /* Màu cam cho Read */
+  &:hover {
+    background-color: #f57c00;
+  }
 }
-.read-button:hover {
-  background-color: #f57c00;
-}
-
 .save-button {
   background-color: #4caf50; /* Màu xanh lá cây cho Save */
+  &:hover {
+    background-color: #388e3c;
+  }
 }
-.save-button:hover {
-  background-color: #388e3c;
-}
-
 .cancel-button {
   background-color: black;
+  &:hover {
+    background-color: #526e8a;
+  }
 }
-.cancel-button:hover {
-  background-color: #526e8a;
-}
-
-/*# sourceMappingURL=button.css.map */

@@ -1,71 +1,37 @@
-/* src/components/DishList/DishList.css */
 .dish-list-container {
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 5px;
 }
-
-.dish-list-container h2 {
+.dish-list-container h1 {
   color: #333;
   margin-top: 0;
   margin-bottom: 20px;
 }
-
-.dish-table {
+.dish-list-container .dish-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-.dish-table th,
-.dish-table td {
+.dish-list-container .dish-table thead tr th {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+.dish-list-container .dish-table tbody tr td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
 }
-
-.dish-table th {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
-
-.dish-table tbody tr:nth-child(even) {
+.dish-list-container .dish-table tbody tr td:nth-child(even) {
   background-color: #f9f9f9;
 }
-
-.dish-table tbody tr:hover {
+.dish-list-container .dish-table tbody tr td:hover {
   background-color: #e0f7fa;
 }
 
-.dish-table .edit-button,
-.dish-table .delete-button {
-  background-color: #eee;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9em;
-  margin-right: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.dish-table .edit-button:hover {
-  background-color: #d4edda; /* Light green */
-  border-color: #c3e6cb;
-  color: #155724;
-}
-
-.dish-table .delete-button:hover {
-  background-color: #f8d7da; /* Light red */
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-
-.dish-table .delete-button {
-  background-color: #f44336; /* Red */
-  color: white;
-  border-color: #d32f2f;
-}
+/*# sourceMappingURL=Dishlist.css.map */

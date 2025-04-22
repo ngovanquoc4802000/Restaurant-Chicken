@@ -2,7 +2,7 @@ import { getApiDishListAll, postApiDishlist } from "../../../services/dishlist";
 import { ValueCategory } from "../../../types/categories";
 import { DishTs } from "../../../types/dishlist";
 import Button from "../../button/button";
-import "./createForm.css";
+import "./styles.css";
 
 interface CreateDishTs {
   stateSetDishShes: React.Dispatch<React.SetStateAction<DishTs[]>>;
@@ -75,7 +75,7 @@ const CreateDishList = ({
   return (
     <div className="create-dish-form-overlay">
       <div className="create-dish-form">
-        <h1 style={{ fontSize: "25px", textAlign: "center" }}>Create New Dish</h1>
+        <h1>Create New Dish</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="category_id">Category:</label>

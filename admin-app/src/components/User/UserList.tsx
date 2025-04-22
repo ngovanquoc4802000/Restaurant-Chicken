@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UsersTs } from "../../types/users";
-import { getUserAll } from "../../services/users";
+import { getUserAll, updateUser } from "../../services/users";
 import "./User.css";
 import Button from "../button/button";
 
@@ -12,10 +12,12 @@ const UserList = () => {
     phone_number: "",
     address: "",
     password: "",
-    status: true,
     create_at: new Date(),
   });
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false); // Trạng thái cho modal thành công
   const [showIsModal, setShowIsModal] = useState<boolean>(false);
+  const [editingUpdateId, setEditingUpdateId] = useState<number | null | undefined>(null);
+
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -28,7 +30,7 @@ const UserList = () => {
     fetch();
   }, []);
   const handleEdit = (id: number | undefined) => {
-    const userFind = userList.find((item) => item.id === id);
+    const userFind: UsersTs | undefined = userList.find((item) => item.id === id);
     if (userFind) {
       setValueUser({
         fullname: userFind.fullname,
@@ -36,14 +38,54 @@ const UserList = () => {
         phone_number: userFind.phone_number,
         address: userFind.address,
         password: userFind.password,
-        status: userFind.status ? 1 : 0,
         create_at: new Date(),
       });
+      setEditingUpdateId(id);
       setShowIsModal(true);
     }
   };
+  const resetForm = () => {
+    setShowIsModal(false);
+    setValueUser({
+      fullname: "",
+      email: "",
+      phone_number: "",
+      address: "",
+      password: "",
+      create_at: new Date(),
+    });
+    setEditingUpdateId(null);
+  };
+  const onUpdate = (update: UsersTs) => {
+    setUserList((prev) => prev.map((cat) => (cat.id === update.id ? update : cat)));
+    setShowSuccessModal(true);
+    resetForm();
+  };
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    const submit = async () => {
+      try {
+        const { fullname, email, address, phone_number, password, create_at } = valueUser;
+        const newUpdate: UsersTs = {
+          fullname,
+          email,
+          address,
+          phone_number,
+          password,
+          create_at,
+        };
+        const result: UsersTs | undefined = await updateUser(editingUpdateId, newUpdate);
+        if (result) {
+          onUpdate(result);
+          const { data } = await getUserAll();
+          setUserList(data);
+          resetForm();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    submit();
   };
   const handleChange = (e: { target: { name: string; value: string | number } }) => {
     const { name, value } = e.target;
@@ -52,9 +94,26 @@ const UserList = () => {
   const handleCancel = () => {
     setShowIsModal(false);
   };
+  const handleCloseModalSuccess = () => {
+    setShowSuccessModal(false);
+  };
   return (
     <div className="user-list-container">
       <h3>User List</h3>
+      {showSuccessModal && (
+        <div id="successModal" className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseModalSuccess}>
+              &times;
+            </span>
+            <h2>Success!</h2>
+            <p>Congratulations function has been updated successfully.</p>
+            <button id="confirmButton" onClick={handleCloseModalSuccess}>
+              Agree
+            </button>
+          </div>
+        </div>
+      )}
       {showIsModal && (
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -67,7 +126,7 @@ const UserList = () => {
           </div>
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number</label>
-            <input type="tel" id="phoneNumber" name="phoneNumber" value={valueUser.phone_number} onChange={handleChange} required />
+            <input type="text" id="phoneNumber" name="phoneNumber" value={valueUser.phone_number} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="address">Address</label>
@@ -127,5 +186,4 @@ const UserList = () => {
     </div>
   );
 };
-
 export default UserList;

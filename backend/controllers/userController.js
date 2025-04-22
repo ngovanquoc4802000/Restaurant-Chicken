@@ -81,7 +81,7 @@ const userAPIRegister = async (req, res) => {
        INSERT INTO user (fullname, email , phone_number, address , password,create_at,status)
        VALUES (? , ? , ? , ?, ?,NOW(),?)
      `,
-      [fullname, email, phone_number, address, hasedPassword,statusTinyInt]
+      [fullname, email, phone_number, address, hasedPassword, statusTinyInt]
     );
     if (!data) {
       return res.status(404).send({
@@ -105,6 +105,93 @@ const userAPIRegister = async (req, res) => {
     });
   }
 };
+
+const updateApiRegister = async (req, res) => {
+  try {
+    const updateId = req.params.id;
+    const { fullname, email, phone_number, address, password, status } =
+      req.body;
+    if (!updateId) {
+      return res.status(400).send({
+        success: false,
+        message: "User ID is required for update",
+      });
+    }
+    if (status !== undefined && typeof status !== "boolean") {
+      return res.status(400).send({
+        success: false,
+        message: "Status must be a boolean value (true/false).",
+      });
+    }
+    const statusTinyInt = status !== undefined ? (status ? 1 : 0) : undefined;
+    let updateFields = [];
+    let queryParams = [];
+    if (fullname !== undefined) {
+      updateFields.push("fullname = ?");
+      queryParams.push(fullname);
+    }
+    if (email !== undefined) {
+      updateFields.push("email = ?");
+      queryParams.push(email);
+    }
+    if (phone_number !== undefined) {
+      updateFields.push("phone_number = ?");
+      queryParams.push(phone_number);
+    }
+    if (address !== undefined) {
+      updateFields.push("address = ?");
+      queryParams.push(address);
+    }
+    if (password !== undefined) {
+      updateFields.push("password = ?");
+      queryParams.push(password);
+    }
+    if (statusTinyInt !== undefined) {
+      // Use the converted status value
+      updateFields.push("status = ?");
+      queryParams.push(statusTinyInt);
+    }
+    if (updateFields.length === 0) {
+      return res.status(400).send({
+        success: false,
+        message: "No fields provided for update.",
+      });
+    }
+    const updateQuery = `UPDATE user SET ${updateFields.join(
+      ", "
+    )} WHERE id = ?`;
+    queryParams.push(updateId);
+    const [result] = await pool.query(updateQuery, queryParams);
+    if (!result || result.affectedRows === 0) {
+      const [existingUser] = await pool.query(
+        `SELECT id FROM user WHERE id = ?`,
+        [updateId]
+      );
+      if (existingUser.length === 0) {
+        return res.status(404).send({
+          success: false,
+          message: `User with ID ${updateId} not found.`,
+        });
+      } else {
+        // Category exists but no rows affected (data was the same)
+        return res.status(200).send({
+          // Still return 200 but indicate no change
+          success: false, // Indicate no change happened technically
+          message: " data was already up to date, no changes made.",
+        });
+      }
+    }
+    const [updatedUser] = await pool.query(`SELECT * FROM user WHERE id = ?`, [updateId]);
+    res.status(200).send({
+      success: true,
+      message: "User updated successfully", // More descriptive message
+      data: updatedUser[0] // Return updated data
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const userAPILogin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -139,8 +226,10 @@ const userAPILogin = async (req, res) => {
     res.status(500).json({ success: false, message: "Error during login" });
   }
 };
+
 export default {
   getAllRegister,
   userAPIRegister,
   userAPILogin,
+  updateApiRegister
 };

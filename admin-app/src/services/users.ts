@@ -1,4 +1,4 @@
-import { UserAll } from "../types/users";
+import { UserAll, UsersTs } from "../types/users";
 import { Request } from "../utils/http";
 export const getUserAll = async () => {
   try {
@@ -13,10 +13,10 @@ export const getUserAll = async () => {
   }
 };
 
-export const updateUser = async (id: number | undefined, user: UserAll) => {
+export const updateUser = async (id: number | null | undefined, user: UsersTs) => {
   try {
-    const data = await Request.put(`user/${id}`, user);
-    return data;
+    const data = await Request.put<UsersTs>(`user/${id}`, user);
+    return data.data;
   } catch (error) {
     console.log(error);
   }
