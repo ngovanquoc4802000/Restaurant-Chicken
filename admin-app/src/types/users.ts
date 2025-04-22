@@ -5,12 +5,13 @@ export interface UserAll {
 }
 
 export interface UsersTs {
-  id: number;
+  id?: number;
   fullname: string;
   email: string;
-  phone_number?: string;
-  address?: string;
+  phone_number: string;
+  address: string;
   password: string; // lưu hashed password trong thực tế
-  create_at: string;
-  update_at: string;
+  create_at: Date;
+  update_at?: string;
+  status: boolean | number;
 }

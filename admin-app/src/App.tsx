@@ -1,11 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CategoryList from "./components/Category/CategoryList";
+import DishList from "./components/DishList/Dishlist";
+import AdminLayout from "./components/Layout/AdminLayout";
 import OrderList from "./components/Order/OrderList";
 import UserList from "./components/User/UserList";
-import AdminLayout from "./components/Layout/AdminLayout";
-import DishList from "./components/DishList/Dishlist";
-import Login from "./components/User/login";
-import Register from "./components/User/register";
 
 function App() {
   return (
@@ -15,8 +13,6 @@ function App() {
           <Route path="category" element={<CategoryList />} />
           <Route path="dishlist" element={<DishList />} />
           <Route path="user" element={<UserList />} />
-          <Route path="user/login" element={<Login />} />
-          <Route path="user/register" element={<Register />} />
           <Route path="order" element={<OrderList />} />
         </Route>
       </Routes>

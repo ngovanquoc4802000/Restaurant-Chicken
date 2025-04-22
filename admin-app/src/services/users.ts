@@ -12,3 +12,12 @@ export const getUserAll = async () => {
     };
   }
 };
+
+export const updateUser = async (id: number | undefined, user: UserAll) => {
+  try {
+    const data = await Request.put(`user/${id}`, user);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

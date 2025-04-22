@@ -143,6 +143,7 @@ const createCategory = async (req, res) => {
       error: error.message // Include error detail for debugging
     });
   }
+
 };
 
 // Pagination for categories
