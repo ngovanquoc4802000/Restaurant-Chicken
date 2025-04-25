@@ -1,6 +1,6 @@
 import "./button.css";
 interface ActionButtonProps {
-  action: "create" | "delete" | "edit" | "read" | "save" | "cancel";
+  action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails";
   onClick?: () => void;
 }
 
@@ -31,6 +31,10 @@ const Button = ({ action, onClick }: ActionButtonProps) => {
     case "cancel":
       buttonText = "Cancel";
       buttonClassName = "cancel-button";
+      break;
+    case "showDetails":
+      buttonText = "Details";
+      buttonClassName = "showDetails-button";
       break;
     default:
       buttonText = "not font";

@@ -22,3 +22,12 @@ export const postApiDishlist = async (newDish: DishTs) => {
     console.log(error);
   }
 };
+
+export const updateApiDishList = async (id: number | undefined | null, update: DishTs) => {
+  try {
+    const result = await Request.put(`dishlist/${id}`, update);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

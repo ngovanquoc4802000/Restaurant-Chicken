@@ -62,7 +62,7 @@
     border-radius: 8px;
     overflow: hidden;
     thead {
-      background-color: #4a90e2;
+      background-color: #303f9f;
       color: #ffffff;
       tr {
         th {
@@ -95,9 +95,10 @@
     padding: 15px;
     position: absolute;
     left: 33%;
-    background-color: #4a90e2;
+    background-color: #303f9f;
     border-radius: 4px;
     top: 8%;
+    border: none;
     .form-group {
       margin-bottom: 15px;
 

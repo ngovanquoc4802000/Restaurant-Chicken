@@ -2,22 +2,24 @@ import pool from "../database/connectdatabase.js";
 
 export const getOrders = async (req, res) => {
   try {
-    const [data] = await pool.query(`SELECT * FROM \`order_table\``);
+    const [data] = await pool.query(
+      `SELECT * , status, paid FROM \`order_table\``
+    );
     if (!data) {
       return res.status(404).send({
         success: false,
         message: "404 not found",
       });
-    };
+    }
     const dataWithDetails = await Promise.all(
-      data.map(async(item) => {
-          const [details] = await pool.query(
-            `SELECT id_dishlist , quantity,price,note FROM order_details WHERE id_order = ?`
-            ,[item.id]
-          )
-          return {...item,details}
+      data.map(async (item) => {
+        const [details] = await pool.query(
+          `SELECT id_dishlist , quantity,price,note FROM order_details WHERE id_order = ?`,
+          [item.id]
+        );
+        return { ...item, details };
       })
-    )
+    );
 
     res.status(200).send({
       success: true,
@@ -42,7 +44,7 @@ export const getOrderDetails = async (req, res) => {
     const [orderResult] = await connection.query(
       `SELECT id AS id_order,
        address, customer_note, customer_name, customer_phone,
-        total_price
+        total_price, status, paid
        FROM order_table
        WHERE id = ?`,
       [orderId]
@@ -51,7 +53,7 @@ export const getOrderDetails = async (req, res) => {
     if (orderResult.length === 0) {
       return res.status(404).send({
         success: false,
-        message: "Order not found",
+        message: `Order with Id ${orderId} not found`,
       });
     }
 
@@ -73,6 +75,8 @@ export const getOrderDetails = async (req, res) => {
       customer_name: order.customer_name,
       customer_phone: order.customer_phone,
       total_price: order.total_price,
+      status: order.status,
+      paid: order.paid,
       detail: detailsResult.map((detail) => ({
         id_dishlist: detail.id_dishlist,
         quantity: detail.quantity,
@@ -97,8 +101,14 @@ export const getOrderDetails = async (req, res) => {
 };
 
 export const createOrder = async (req, res) => {
-  const { user_id,address, customer_note, customer_name, customer_phone, list_order } =
-    req.body;
+  const {
+    user_id,
+    address,
+    customer_note,
+    customer_name,
+    customer_phone,
+    list_order,
+  } = req.body;
 
   if (
     !user_id ||
@@ -121,13 +131,27 @@ export const createOrder = async (req, res) => {
     await connection.beginTransaction();
 
     const totalPrice = list_order.reduce((total, item) => {
-      return total + item.price * item.quantity;
+      const price = parseFloat(item.price);
+      const quantity = parseInt(item.quantity, 10);
+      if (isNaN(price) || isNaN(quantity) || quantity < 0) {
+        console.log(`price and quantify not is number`);
+      }
+      return total + price * quantity;
     }, 0);
 
     // Insert into order table (đã loại bỏ cột 'id')
     const [orderResult] = await connection.query(
-      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price) VALUES(?, ?, ?, ?, ?,?)",
-      [user_id,address, customer_note, customer_name, customer_phone, totalPrice]
+      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price, status, paid) VALUES(?, ?, ?, ?, ?,?, ? , ?)",
+      [
+        user_id,
+        address,
+        customer_note,
+        customer_name,
+        customer_phone,
+        totalPrice,
+        false,
+        false,
+      ]
     );
 
     const orderId = orderResult.insertId;
@@ -146,7 +170,7 @@ export const createOrder = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Order created successfully",
-      orderId
+      orderId,
     });
   } catch (error) {
     await connection.rollback();
@@ -167,6 +191,8 @@ export const updateOrder = async (req, res) => {
     customer_note,
     customer_name,
     customer_phone,
+    status,
+    paid,
     list_order,
   } = req.body;
 
@@ -190,12 +216,33 @@ export const updateOrder = async (req, res) => {
   try {
     await connection.beginTransaction();
 
+    // Tính lại total_price dựa trên list_order mới được gửi lên
+    const newTotalPrice = list_order.reduce((total, item) => {
+      const price = parseFloat(item.price);
+      const quantity = parseInt(item.quantity, 10);
+      if (isNaN(price) || isNaN(quantity) || quantity < 0) {
+        throw new Error(
+          `Invalid price (${item.price}) or quantity (${item.quantity}) in updated order list`
+        );
+      }
+      return total + price * quantity;
+    }, 0);
+
     // Update order details
     await connection.query(
       `UPDATE \`order_table\`
-       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?
+       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?,
        WHERE id = ?`,
-      [address, customer_note, customer_name, customer_phone, id]
+      [
+        address,
+        customer_note,
+        customer_name,
+        customer_phone,
+        status,
+        paid,
+        newTotalPrice,
+        id,
+      ]
     );
 
     // Delete existing order details
@@ -207,6 +254,19 @@ export const updateOrder = async (req, res) => {
 
     // Insert new order details
     const orderDetailsPromises = list_order.map((detail) => {
+      const { id_dishlist, quantity, price, note } = detail;
+      const detailQuantity = parseInt(quantity, 10);
+      const detailPrice = parseFloat(price);
+      if (
+        isNaN(detailQuantity) ||
+        detailQuantity < 1 ||
+        isNaN(detailPrice) ||
+        detailPrice < 0
+      ) {
+        console.log(
+          `Invalid quantiy ${quantity} or price ${price} for Dishlist Id in update: ${id_dishlist}`
+        );
+      }
       return connection.query(
         `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note)
          VALUES (?, ?, ?, ?, ?)`,
@@ -235,23 +295,43 @@ export const updateOrder = async (req, res) => {
 };
 
 export const deleteOrder = async (req, res) => {
+  const deleteOrderId = req.params.id;
+  const connection = await pool.getConnection();
   try {
-    const deleteOrderId = req.params.id;
     if (!deleteOrderId) {
       return res.status(404).send({
         success: false,
         message: "404 not found",
       });
     }
+    await connection.beginTransaction();
+    // Xóa các chi tiết đơn hàng trước (do ràng buộc khóa ngoại)
+    await connection.query(`DELETE FROM order_details WHERE id_order = ?`, [
+      deleteOrderId,
+    ]);
     await pool.query(
       `
     DELETE FROM order_db
     WHERE id = ?`,
       [deleteOrderId]
     );
+    // Sau đó xóa đơn hàng chính
+    const [deleteResult] = await connection.query(
+      `DELETE FROM order_table WHERE id = ?`,
+      [deleteOrderId]
+    );
+    // Kiểm tra xem có đơn hàng nào bị xóa không
+    if (deleteResult.affectedRows === 0) {
+      await connection.rollback();
+      return res.status(404).send({
+        success: false,
+        message: `Order with ID ${deleteOrderId} not found`,
+      });
+    }
+    await connection.commit();
     res.status(200).send({
       success: true,
-      message: "success delete customer",
+      message: `Order with ID ${deleteOrderId} deleted successfully`,
     });
   } catch (error) {
     console.log(error);
@@ -267,5 +347,5 @@ export default {
   getOrderDetails,
   createOrder,
   updateOrder,
-  deleteOrder
-}
+  deleteOrder,
+};

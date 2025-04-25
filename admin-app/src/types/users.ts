@@ -12,6 +12,6 @@ export interface UsersTs {
   address: string;
   password: string; // lưu hashed password trong thực tế
   create_at: Date;
-  update_at?: string;
+  update_at?: Date;
   status?: boolean | number;
 }

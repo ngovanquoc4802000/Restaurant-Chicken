@@ -1,4 +1,4 @@
-import { getApiDishListAll, postApiDishlist } from "../../../services/dishlist";
+import { getApiDishListAll, postApiDishlist, updateApiDishList } from "../../../services/dishlist";
 import { ValueCategory } from "../../../types/categories";
 import { DishTs } from "../../../types/dishlist";
 import Button from "../../button/button";
@@ -11,15 +11,20 @@ interface CreateDishTs {
   stateFormData: DishTs;
   stateCategories: ValueCategory[];
   onClose: () => void;
+  onUpdate: (updateDish: DishTs) => void;
+  editUpdateId: number | null | undefined;
+  resetForm: () => void;
 }
 
 const CreateDishList = ({
   stateSetDishShes,
   stateSetFormData,
-  stateSetCreateForm,
   stateFormData,
   stateCategories,
   onClose,
+  onUpdate,
+  editUpdateId,
+  resetForm,
 }: CreateDishTs) => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -35,23 +40,25 @@ const CreateDishList = ({
           images,
           category_id,
         };
-        const result = await postApiDishlist(newDish);
-        if (result) {
-          const { data } = await getApiDishListAll();
-          stateSetDishShes(data);
-          stateSetCreateForm(false);
-          stateSetFormData({
-            name: "",
-            title: "",
-            currency: "VND",
-            price: "",
-            description: "",
-            images: [{ alt_text: "", image: "" }],
-            category_id: 0,
-          });
+        if (editUpdateId !== undefined && editUpdateId !== null) {
+          const update = await updateApiDishList(editUpdateId, newDish);
+          if (update) {
+            onUpdate(update);
+            const { data } = await getApiDishListAll();
+            stateSetDishShes(data);
+          } else {
+            console.warn("Update dish Failed.");
+          }
         } else {
-          console.warn("API create result is empty or undefined");
+          const result = await postApiDishlist(newDish);
+          if (result) {
+            const { data } = await getApiDishListAll();
+            stateSetDishShes(data);
+          } else {
+            console.warn("API create result is empty or undefined");
+          }
         }
+        resetForm();
       } catch (error) {
         console.log(error);
       }

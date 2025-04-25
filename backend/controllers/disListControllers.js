@@ -75,8 +75,16 @@ export const getDishlistId = async (req, res) => {
   }
 };
 export const createDishlist = async (req, res) => {
-  const { category_id, name, title, currency, price, description, images } =
-    req.body;
+  const {
+    category_id,
+    name,
+    title,
+    currency,
+    price,
+    description,
+    images,
+    status = true,
+  } = req.body;
   if (!name || !title || !price) {
     return res.status(400).send({
       success: false,
@@ -86,9 +94,9 @@ export const createDishlist = async (req, res) => {
   try {
     const [data] = await pool.query(
       `INSERT INTO dishlist 
-      (category_id, name, title,currency, price,description) 
-      VALUES(?,?,?,?,?,?)`,
-      [category_id, name, title, currency || "VND", price, description]
+      (category_id, name, title,currency, price,description,status) 
+      VALUES(?,?,?,?,?,?,?)`,
+      [category_id, name, title, currency || "VND", price, description,statusTinyInt]
     );
     if (!data) {
       return res.status(404).send({
@@ -96,12 +104,18 @@ export const createDishlist = async (req, res) => {
         message: "404 not found",
       });
     }
+    // Validate status if it was provided in the request body
+    if (status !== undefined && typeof status !== "boolean") {
+      return res.status(400).send({
+        success: false,
+        message: "Status must be a boolean value (true/false).",
+      });
+    }
+    const statusTinyInt = status ? 1 : 0;
     const dishId = data.insertId;
     /* chèn bảng nếu images được cung cấp */
-    const insertImages = [
-      
-    ];
-    
+    const insertImages = [];
+
     if (images && Array.isArray(images) && images.length > 0) {
       for (const image of images) {
         const { alt_text, image: imageUrl } = image;
@@ -146,7 +160,7 @@ export const createDishlist = async (req, res) => {
 };
 export const updateDishlistId = async (req, res) => {
   const dishId = req.params.id;
-  const { category_id, name, title, currency, price, description } = req.body;
+  const { category_id, name, title, currency, price, description , status } = req.body;
   if (!name || !title || !price) {
     return res.status(400).json({
       success: false,
@@ -157,10 +171,16 @@ export const updateDishlistId = async (req, res) => {
     const [data] = await pool.query(
       `
       UPDATE dishlist SET
-      category_id = ?, name = ?, title = ?, currency = ?, price = ?, description = ? WHERE id = ?
+      category_id = ?, name = ?, title = ?, currency = ?, price = ?, description = ?, status = ? WHERE id = ?
       `,
-      [category_id, name, title, currency || "VND", price, description, dishId]
+      [category_id, name, title, currency || "VND", price, description, dishId , status]
     );
+    if(!data) {
+      return res.status(400).send({
+        success: false,
+        message: "Dishlist ID is required for update"
+      })
+    }
     /* lấy món ăn được cập nhật và hình ảnh cập nhật của nó */
     const [updateDish] = await pool.query(
       `SELECT * FROM dishlist WHERE id = ?`,

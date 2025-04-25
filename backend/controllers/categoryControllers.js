@@ -45,25 +45,24 @@ const getCategoryId = async (req, res) => {
       [categoryId]
     );
 
-    // Check if any row was returned
     if (!data || data.length === 0) {
       return res.status(404).send({
         success: false,
-        message: `Category with ID ${categoryId} not found`, // More specific message
+        message: `Category with ID ${categoryId} not found`, 
       });
     }
 
     res.status(200).send({
       success: true,
-      message: "Successfully retrieved category by ID", // More descriptive message
-      data: data[0], // Send the first row found
+      message: "Successfully retrieved category by ID", 
+      data: data[0], 
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error retrieving category by ID", // More descriptive message
-      error: error.message // Include error detail for debugging
+      message: "Error retrieving category by ID", 
+      error: error.message
     });
   }
 };
@@ -192,7 +191,7 @@ const categoryPagination = async (req, res) => {
       pagination: {
         page: page,
         limit: limit,
-        totalItems: totalItems, // Include total items count
+        totalItems: totalItems, 
         totalPage: totalPage,
       },
     });

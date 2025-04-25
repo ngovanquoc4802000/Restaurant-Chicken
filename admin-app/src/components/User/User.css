@@ -64,7 +64,7 @@
   overflow: hidden;
 }
 .user-list-container .user-table thead {
-  background-color: #4a90e2;
+  background-color: #303f9f;
   color: #ffffff;
 }
 .user-list-container .user-table thead tr th {
@@ -90,9 +90,10 @@
   padding: 15px;
   position: absolute;
   left: 33%;
-  background-color: #4a90e2;
+  background-color: #303f9f;
   border-radius: 4px;
   top: 8%;
+  border: none;
 }
 .user-list-container .form .form-group {
   margin-bottom: 15px;

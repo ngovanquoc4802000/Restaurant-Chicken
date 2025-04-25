@@ -55,4 +55,11 @@
   background-color: #526e8a;
 }
 
+.showDetails-button {
+  background-color: #f57c00;
+}
+.showDetails-button:hover {
+  background-color: #f44336;
+}
+
 /*# sourceMappingURL=button.css.map */

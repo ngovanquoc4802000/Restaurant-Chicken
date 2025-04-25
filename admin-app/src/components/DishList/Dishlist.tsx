@@ -23,6 +23,9 @@ const DishList = () => {
     images: [{ alt_text: "", image: "" }],
     category_id: "",
   });
+
+  const [editUpdateId, setEditUpdateId] = useState<number | null | undefined>(null);
+
   useEffect(() => {
     const fetchDishes = async () => {
       try {
@@ -45,6 +48,7 @@ const DishList = () => {
     fetchDishes();
     fetchCategories();
   }, []);
+
   const handleCreateClick = () => {
     setShowCreateForm(true);
   };
@@ -55,10 +59,46 @@ const DishList = () => {
   useEffect(() => {
     console.log("Current dishlist state:", dishes);
   }, [dishes]);
+
   const getCategoryName = (categoryId: string | number) => {
     const category = categories.find((cat) => cat.id === categoryId);
     return category ? category.name : "undefined category";
   };
+
+  const handleEditDish = (id: number | undefined) => {
+    const findDishId: DishTs | undefined = dishes.find((item) => item.id === id);
+    if (findDishId) {
+      setFormData({
+        category_id: findDishId.category_id,
+        name: findDishId.name,
+        currency: findDishId.currency,
+        title: findDishId.title,
+        price: findDishId.price,
+        description: findDishId.description,
+        images: findDishId.images,
+      });
+      setEditUpdateId(id);
+      setShowCreateForm(true);
+    }
+  };
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      title: "",
+      currency: "VND",
+      price: "",
+      description: "",
+      images: [{ alt_text: "", image: "" }],
+      category_id: "",
+    });
+    setShowCreateForm(false);
+  };
+
+  const onUpdateDish = (updateDish: DishTs) => {
+    setDishes((prev) => prev.map((cat) => (cat.id === updateDish.id ? updateDish : cat)));
+    resetForm();
+  };
+
   return (
     <div className="dish-list-container">
       <h1 style={{ textAlign: "center", fontSize: "1.5rem" }}>Dish List</h1>
@@ -71,6 +111,9 @@ const DishList = () => {
           stateFormData={formData}
           stateCategories={categories}
           onClose={handleCloseForm}
+          onUpdate={onUpdateDish}
+          editUpdateId={editUpdateId}
+          resetForm={resetForm}
         />
       )}
       {
@@ -108,7 +151,7 @@ const DishList = () => {
                   )}
                 </td>
                 <td>
-                  <Button action="edit" />
+                  <Button action="edit" onClick={() => handleEditDish(dish.id)} />
                   <Button action="delete" />
                 </td>
               </tr>
