@@ -1,7 +1,7 @@
 export interface CategoryTs {
   success: boolean;
   message: string;
-  data: [];
+  data: ValueCategory[];
 }
 
 export interface ValueCategory {
