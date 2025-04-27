@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getApiCategoriesAll, updateCategoryId } from "../../services/categories";
 import { ValueCategory } from "../../types/categories";
 import Button from "../button/button";
-import "./CategoryList.css";
+import "./category.scss";
 import CreateCategory from "./createCategory";
 
 const CategoryList = () => {
