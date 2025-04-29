@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CategoryList from "./components/Category/CategoryList";
-import CategorySupperList from "./components/Category/vuongnqCategory/list";
+import CategorySupperQuoc from "./components/Category/listQuoc";
 import DishList from "./components/DishList/Dishlist";
 import AdminLayout from "./components/Layout/AdminLayout";
 import OrderList from "./components/Order/OrderList";
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminLayout />}>
             <Route path="category" element={<CategoryList />} />
-            <Route path="category-supper" element={<CategorySupperList />} />
+            <Route path="category-quoc" element={<CategorySupperQuoc />} />
             <Route path="dishlist" element={<DishList />} />
             <Route path="user" element={<UserList />} />
             <Route path="order" element={<OrderList />} />

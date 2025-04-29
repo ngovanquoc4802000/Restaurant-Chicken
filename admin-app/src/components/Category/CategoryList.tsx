@@ -7,14 +7,18 @@ import CreateCategory from "./createCategory";
 
 const CategoryList = () => {
   const [category, setCategory] = useState<ValueCategory[]>([]);
+
   const [showForm, setShowForm] = useState(false);
+
   const [value, setValue] = useState<ValueCategory>({
     name: "",
     handle: "",
     image: "",
     status: true,
   });
+
   const [editingUpdateId, setEditingUpdateId] = useState<number | null | undefined>(null);
+
   useEffect(() => {
     const fetchDishes = async () => {
       try {

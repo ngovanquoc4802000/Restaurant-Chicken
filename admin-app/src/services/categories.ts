@@ -1,4 +1,4 @@
-import { CategoryTs, IResponseUpdateCategory, ValueCategory } from "../types/categories";
+import { CategoryTs, ValueCategory } from "../types/categories";
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
@@ -16,14 +16,14 @@ export const getApiCategoriesAll = async () => {
 
 export const createApiCategory = async (newCategory: ValueCategory) => {
   try {
-    const result = await Request.post<IResponseUpdateCategory>("category/create", newCategory);
+    const result = await Request.post<ValueCategory>("category/create", newCategory);
     return result;
   } catch (error) {
     console.log(error);
   }
 };
-export const updateCategoryId = async (id: number | undefined | null, update: ValueCategory): Promise<ValueCategory> => {
-  const data = await Request.put<ValueCategory>(`category/${id}`, update);
+export const updateCategoryId = async (id: number | undefined | null, update: ValueCategory) => {
+  const data = await Request.put(`category/${id}`, update);
   return data.data;
 };
 

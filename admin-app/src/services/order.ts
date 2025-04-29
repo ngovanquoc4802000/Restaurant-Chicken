@@ -22,3 +22,12 @@ export const createOrder = async (payload: CreateOrderPayload) => {
     throw error;
   }
 };
+
+export const updateOrder = async (id: number | undefined | null, update: CreateOrderPayload) => {
+  try {
+    const data = await Request.put(`order/${id}`, update);
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

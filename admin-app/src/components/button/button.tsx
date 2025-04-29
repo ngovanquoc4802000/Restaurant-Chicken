@@ -2,11 +2,12 @@ import "./button.css";
 interface ActionButtonProps {
   action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails";
   onClick?: () => void;
+  buttonText?: string;
+  disable?: boolean;
 }
 
-let buttonText: string;
 let buttonClassName: string;
-const Button = ({ action, onClick }: ActionButtonProps) => {
+const Button = ({ action, onClick, buttonText, disable }: ActionButtonProps) => {
   switch (action) {
     case "create":
       buttonText = "Create";
@@ -42,7 +43,7 @@ const Button = ({ action, onClick }: ActionButtonProps) => {
       break;
   }
   return (
-    <button type="submit" className={`action-button ${buttonClassName}`} onClick={onClick}>
+    <button disabled={disable} type="submit" className={`action-button ${buttonClassName}`} onClick={onClick}>
       {buttonText}
     </button>
   );

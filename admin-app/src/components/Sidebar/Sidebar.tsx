@@ -1,16 +1,14 @@
-// src/components/Sidebar.tsx
-import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="admin-panel-title">Admin Panel</div>
       <nav>
         <ul>
           <li>
-            <NavLink to="/category">Categories</NavLink>
+            <NavLink to="/category-quoc">Categories</NavLink>
           </li>
           <li>
             <NavLink to="/dishlist">Dish List</NavLink>
