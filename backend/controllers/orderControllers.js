@@ -40,7 +40,6 @@ export const getOrderDetails = async (req, res) => {
   const connection = await pool.getConnection();
 
   try {
-    // Get order details
     const [orderResult] = await connection.query(
       `SELECT id AS id_order,
        address, customer_note, customer_name, customer_phone,
@@ -216,14 +215,11 @@ export const updateOrder = async (req, res) => {
   try {
     await connection.beginTransaction();
 
-    // Tính lại total_price dựa trên list_order mới được gửi lên
     const newTotalPrice = list_order.reduce((total, item) => {
       const price = parseFloat(item.price);
       const quantity = parseInt(item.quantity, 10);
       if (isNaN(price) || isNaN(quantity) || quantity < 0) {
-        throw new Error(
-          `Invalid price (${item.price}) or quantity (${item.quantity}) in updated order list`
-        );
+        console.log(`Invalid price ${item.price} or quantity ${item.quantity}`);
       }
       return total + price * quantity;
     }, 0);
@@ -245,14 +241,12 @@ export const updateOrder = async (req, res) => {
       ]
     );
 
-    // Delete existing order details
     await connection.query(
       `DELETE FROM order_details
        WHERE id_order = ?`,
       [id]
     );
 
-    // Insert new order details
     const orderDetailsPromises = list_order.map((detail) => {
       const { id_dishlist, quantity, price, note } = detail;
       const detailQuantity = parseInt(quantity, 10);
@@ -295,8 +289,11 @@ export const updateOrder = async (req, res) => {
 };
 
 export const deleteOrder = async (req, res) => {
+  
   const deleteOrderId = req.params.id;
+
   const connection = await pool.getConnection();
+  
   try {
     if (!deleteOrderId) {
       return res.status(404).send({
@@ -305,7 +302,6 @@ export const deleteOrder = async (req, res) => {
       });
     }
     await connection.beginTransaction();
-    // Xóa các chi tiết đơn hàng trước (do ràng buộc khóa ngoại)
     await connection.query(`DELETE FROM order_details WHERE id_order = ?`, [
       deleteOrderId,
     ]);
@@ -315,12 +311,10 @@ export const deleteOrder = async (req, res) => {
     WHERE id = ?`,
       [deleteOrderId]
     );
-    // Sau đó xóa đơn hàng chính
     const [deleteResult] = await connection.query(
       `DELETE FROM order_table WHERE id = ?`,
       [deleteOrderId]
     );
-    // Kiểm tra xem có đơn hàng nào bị xóa không
     if (deleteResult.affectedRows === 0) {
       await connection.rollback();
       return res.status(404).send({

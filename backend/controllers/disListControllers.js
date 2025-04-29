@@ -32,6 +32,7 @@ export const getDishlistAll = async (req, res) => {
     });
   }
 };
+
 export const getDishlistId = async (req, res) => {
   const categoryId = req.params.id;
   if (!categoryId) {
@@ -74,6 +75,7 @@ export const getDishlistId = async (req, res) => {
     });
   }
 };
+
 export const createDishlist = async (req, res) => {
   const {
     category_id,
@@ -104,7 +106,6 @@ export const createDishlist = async (req, res) => {
         message: "404 not found",
       });
     }
-    // Validate status if it was provided in the request body
     if (status !== undefined && typeof status !== "boolean") {
       return res.status(400).send({
         success: false,
@@ -113,7 +114,6 @@ export const createDishlist = async (req, res) => {
     }
     const statusTinyInt = status ? 1 : 0;
     const dishId = data.insertId;
-    /* chèn bảng nếu images được cung cấp */
     const insertImages = [];
 
     if (images && Array.isArray(images) && images.length > 0) {
@@ -137,7 +137,6 @@ export const createDishlist = async (req, res) => {
         }
       }
     }
-    // lấy món ăn mới được tạo ra
     const [newDish] = await pool.query(`SELECT * FROM dishlist WHERE id= ?`, [
       dishId,
     ]);
@@ -158,6 +157,7 @@ export const createDishlist = async (req, res) => {
     });
   }
 };
+
 export const updateDishlistId = async (req, res) => {
   const dishId = req.params.id;
   const { category_id, name, title, currency, price, description , status } = req.body;
@@ -214,6 +214,7 @@ export const updateDishlistId = async (req, res) => {
     });
   }
 };
+
 export const deleteDishlistId = async (req, res) => {
   const removeDishlist = req.params.id;
   try {
