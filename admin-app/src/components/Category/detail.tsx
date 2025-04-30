@@ -11,7 +11,7 @@ interface DetaiTs {
   isDetail: number | null | undefined;
 }
 
-const DetailQuoc = ({ isDetail, onHideModal }: DetaiTs) => {
+const DetailCategory = ({ isDetail, onHideModal }: DetaiTs) => {
   /* khởi tạo biến lấy dữ liệu từ global */
   const queryClient = useQueryClient();
   /* khởi tạo state để lưu lại form khi edit */
@@ -117,4 +117,4 @@ const DetailQuoc = ({ isDetail, onHideModal }: DetaiTs) => {
   );
 };
 
-export default DetailQuoc;
+export default DetailCategory;

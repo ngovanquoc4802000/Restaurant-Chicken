@@ -8,7 +8,7 @@ const Sidebar = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/category-quoc">Categories</NavLink>
+            <NavLink to="/category">Categories</NavLink>
           </li>
           <li>
             <NavLink to="/dishlist">Dish List</NavLink>

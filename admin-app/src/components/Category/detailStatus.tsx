@@ -6,7 +6,7 @@ import { ValueCategory } from "../../types/categories";
 interface DetailTs {
   item: ValueCategory;
 }
-const DetailStatus = ({ item }: DetailTs) => {
+const DetailStatusCategory = ({ item }: DetailTs) => {
   const queryClient = useQueryClient();
 
   const handleDeactivate = async (id: number | undefined | null) => {
@@ -44,4 +44,4 @@ const DetailStatus = ({ item }: DetailTs) => {
   );
 };
 
-export default DetailStatus;
+export default DetailStatusCategory;

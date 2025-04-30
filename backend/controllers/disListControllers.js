@@ -98,7 +98,15 @@ export const createDishlist = async (req, res) => {
       `INSERT INTO dishlist 
       (category_id, name, title,currency, price,description,status) 
       VALUES(?,?,?,?,?,?,?)`,
-      [category_id, name, title, currency || "VND", price, description,statusTinyInt]
+      [
+        category_id,
+        name,
+        title,
+        currency || "VND",
+        price,
+        description,
+        status,
+      ]
     );
     if (!data) {
       return res.status(404).send({
@@ -160,26 +168,46 @@ export const createDishlist = async (req, res) => {
 
 export const updateDishlistId = async (req, res) => {
   const dishId = req.params.id;
-  const { category_id, name, title, currency, price, description , status } = req.body;
-  if (!name || !title || !price) {
+  const { category_id, name, title, currency, price, description, status } =
+    req.body;
+  if (!category_id || !name || !title || !price || !description) {
     return res.status(400).json({
       success: false,
-      message: "Please provide name, title, and price",
+      message: "Please provide category_id, name, title, price, and description",
     });
   }
   try {
+    const [existingDish] = await pool.query(
+      `SELECT * FROM dishlist WHERE id = ?`,
+      [dishId]
+    );
+    if (existingDish.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Dish not found",
+      });
+    }
     const [data] = await pool.query(
       `
       UPDATE dishlist SET
       category_id = ?, name = ?, title = ?, currency = ?, price = ?, description = ?, status = ? WHERE id = ?
       `,
-      [category_id, name, title, currency || "VND", price, description, dishId , status]
+      [
+        category_id,
+        name,
+        title,
+        currency || "VND",
+        price,
+        description,
+        status || 1,
+        dishId
+      ]
     );
-    if(!data) {
+    if (!data) {
       return res.status(400).send({
         success: false,
-        message: "Dishlist ID is required for update"
-      })
+        message: "Dishlist ID is required for update",
+      });
     }
     /* lấy món ăn được cập nhật và hình ảnh cập nhật của nó */
     const [updateDish] = await pool.query(

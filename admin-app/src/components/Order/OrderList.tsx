@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { getOrderAll } from "../../services/order";
 import { OrderDetailsTs, OrderTableTs } from "../../types/order";
 import Button from "../button/button";
-import "./OrderList.css";
 import CreateOrderForm from "./createOrder";
+import "./OrderList.scss";
 
 const OrderList = () => {
   const [orderList, setOrderList] = useState<OrderTableTs[]>([]);

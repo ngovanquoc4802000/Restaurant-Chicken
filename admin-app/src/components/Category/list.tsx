@@ -3,10 +3,10 @@ import { useState } from "react";
 import queriesCategories from "../../queries/categories";
 import Button from "../button/button";
 import "./category.scss";
-import DetailQuoc from "./detailQuoc";
-import DetailStatus from "./detailStatus";
+import DetailCategory from "./detail";
+import DetailStatusCategory from "./detailStatus";
 
-const ListQuoc = () => {
+const ListCategory = () => {
   /* state show hide form */
   const [showForm, setShowForm] = useState<boolean>(false);
   /* state id details cho trường hợp update */
@@ -34,7 +34,7 @@ const ListQuoc = () => {
       <button className="create-button" onClick={() => setShowForm(true)}>
         + Create
       </button>
-      {showForm && <DetailQuoc isDetail={isDetail} onHideModal={handleHideModal} />}
+      {showForm && <DetailCategory isDetail={isDetail} onHideModal={handleHideModal} />}
       <table>
         <thead>
           <tr>
@@ -69,7 +69,7 @@ const ListQuoc = () => {
               </td>
               <td>
                 <Button action="edit" onClick={() => handleEditClick(item.id)} />
-                <DetailStatus item={item} />
+                <DetailStatusCategory item={item} />
               </td>
               <td>{item.status ? "True" : "False"}</td>
             </tr>
@@ -80,4 +80,4 @@ const ListQuoc = () => {
   );
 };
 
-export default ListQuoc;
+export default ListCategory;

@@ -1,7 +1,6 @@
-// src/components/Layout/MainLayout.tsx
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
-import "./AdminLayout.css";
+import "./layout.scss";
 
 const AdminLayout = () => {
   return (
