@@ -1,7 +1,7 @@
 export interface OrderAllTs {
   success: boolean;
   message: string;
-  data: [];
+  data: OrderTableTs[];
 }
 
 export interface OrderTableTs {
