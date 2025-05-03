@@ -17,7 +17,7 @@ const Sidebar = () => {
             <NavLink to="/user">User</NavLink>
           </li>
           <li>
-            <NavLink to="/order">Orders</NavLink>
+            <NavLink to="/order_quoc">Orders</NavLink>
           </li>
         </ul>
       </nav>

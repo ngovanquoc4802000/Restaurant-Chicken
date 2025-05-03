@@ -2,9 +2,10 @@ import { OrderDetailsTs } from "../../types/order";
 
 interface OrderTs {
   item: OrderDetailsTs[];
+  onHideModal: () => void;
 }
 
-function OrderDetails({ item }: OrderTs) {
+function OrderDetails({ item, onHideModal }: OrderTs) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -17,7 +18,7 @@ function OrderDetails({ item }: OrderTs) {
             <p>Note: {note}</p>
           </div>
         ))}
-        <button /* onClick={onClose} */>Close</button>
+        <button onClick={onHideModal}>Close</button>
       </div>
     </div>
   );

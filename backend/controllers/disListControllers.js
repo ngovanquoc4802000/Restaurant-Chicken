@@ -168,14 +168,25 @@ export const createDishlist = async (req, res) => {
 
 export const updateDishlistId = async (req, res) => {
   const dishId = req.params.id;
-  const { category_id, name, title, currency, price, description, status } =
-    req.body;
+  const {
+    category_id,
+    name,
+    title,
+    currency,
+    price,
+    description,
+    status,
+    images = [],
+  } = req.body;
+
+  // Bỏ kiểm tra !images vì [] hợp lệ
   if (!category_id || !name || !title || !price || !description) {
     return res.status(400).json({
       success: false,
       message: "Please provide category_id, name, title, price, and description",
     });
   }
+
   try {
     const [existingDish] = await pool.query(
       `SELECT * FROM dishlist WHERE id = ?`,
@@ -187,11 +198,9 @@ export const updateDishlistId = async (req, res) => {
         message: "Dish not found",
       });
     }
+
     const [data] = await pool.query(
-      `
-      UPDATE dishlist SET
-      category_id = ?, name = ?, title = ?, currency = ?, price = ?, description = ?, status = ? WHERE id = ?
-      `,
+      `UPDATE dishlist SET category_id = ?, name = ?, title = ?, currency = ?, price = ?, description = ?, status = ? WHERE id = ?`,
       [
         category_id,
         name,
@@ -200,38 +209,41 @@ export const updateDishlistId = async (req, res) => {
         price,
         description,
         status || 1,
-        dishId
+        dishId,
       ]
     );
-    if (!data) {
+
+    if (data.affectedRows === 0) {
       return res.status(400).send({
         success: false,
-        message: "Dishlist ID is required for update",
+        message: "Update failed or dishlist not modified",
       });
     }
-    /* lấy món ăn được cập nhật và hình ảnh cập nhật của nó */
-    const [updateDish] = await pool.query(
-      `SELECT * FROM dishlist WHERE id = ?`,
-      [dishId]
-    );
-    const [images] = await pool.query(
+
+    // Cập nhật ảnh
+    await pool.query(`DELETE FROM dishlist_images WHERE id_dishlist = ?`, [dishId]);
+    for (const img of images) {
+      if (img.image) {
+        await pool.query(
+          `INSERT INTO dishlist_images (id_dishlist, alt_text, image) VALUES (?, ?, ?)`,
+          [dishId, img.alt_text || "", img.image]
+        );
+      }
+    }
+
+    const [updateDish] = await pool.query(`SELECT * FROM dishlist WHERE id = ?`, [dishId]);
+    const [updatedImages] = await pool.query(
       `SELECT * FROM dishlist_images WHERE id_dishlist = ?`,
       [dishId]
     );
 
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       message: "success api UpdateDishlist",
       data: {
         id: dishId,
         ...updateDish[0],
-        images: images,
+        images: updatedImages,
       },
     });
   } catch (error) {
@@ -242,6 +254,7 @@ export const updateDishlistId = async (req, res) => {
     });
   }
 };
+
 
 export const deleteDishlistId = async (req, res) => {
   const removeDishlist = req.params.id;

@@ -3,20 +3,42 @@ import queriesOrder from "../../queries/orders";
 import Button from "../button/button";
 import { useState } from "react";
 import OrderDetails from "./orderDetail";
+import queriesUser from "../../queries/users";
+import { OrderDetailsTs } from "../../types/order";
+import OrderForm from "./orderForm";
 
 const Order = () => {
-  const [showOrder, _] = useState<boolean>(false);
+  const [showOrder, setShowOrder] = useState<boolean>(false);
+
+  const [showForm, setShowForm] = useState<boolean>(false);
+
+  const [selectedDetails, setSelectedDetails] = useState<OrderDetailsTs[] | null>(null);
 
   const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
-  if (isLoading || !orderList) return <div>Loading...</div>;
+
+  const { data: userName } = useQuery({ ...queriesUser.list });
+
+  if (isLoading || !orderList || !userName) return <div>Loading...</div>;
+
   if (isError) return <div>Error...</div>;
+
+  const findUserName = (id: number) => {
+    const find = userName.find((item) => item.id === id);
+    return find ? find.fullname : "undefined";
+  };
+
+  const handleDetails = (item: OrderDetailsTs[]) => {
+    setSelectedDetails(item);
+    setShowOrder(true);
+  };
 
   return (
     <div className="order-list">
       <h2 style={{ textAlign: "center", fontSize: "20px" }}>Order List</h2>
       {isLoading && <h2>Loading...</h2>}
-      <Button action="create" />
-      {showOrder && orderList.map((item) => <OrderDetails item={item.details} />)}
+      <Button action="create" onClick={() => setShowForm(true)} />
+      {showForm && <OrderForm onHideModal={() => setShowForm(false)} />}
+      {showOrder && selectedDetails && <OrderDetails item={selectedDetails} onHideModal={() => setShowOrder(false)} />}
       <table>
         <thead>
           <tr>
@@ -37,7 +59,7 @@ const Order = () => {
           {orderList?.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-              <td>{item.user_id}</td>
+              <td>{findUserName(item.user_id)}</td>
               <td>{item.address}</td>
               <td>{item.customer_name}</td>
               <td>{item.customer_phone}</td>
@@ -47,7 +69,7 @@ const Order = () => {
               <td>{item.paid ? "Đã thanh toán" : "Chưa thanh toán"}</td>
               <td></td>
               <td>
-                <Button action="showDetails" /* onClick={() => handleDetails(item.details)}  */ />
+                <Button action="showDetails" onClick={() => handleDetails(item.details)} />
                 <Button action="edit" /* onClick={() => handleEditOrder(item.id)} */ />
               </td>
             </tr>

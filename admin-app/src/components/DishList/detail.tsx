@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { postApiDishlist, updateApiDishList } from "../../services/dishlist";
 import { DishTs } from "../../types/dishlist";
-import { useQuery } from "@tanstack/react-query";
+import queriesCategories from "../../queries/categories";
 import queriesDishlist from "../../queries/dishlist";
 import Button from "../button/button";
-import queriesCategories from "../../queries/categories";
 import "./Dishlist.scss";
 
 interface DetailsTs {
@@ -23,14 +22,18 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
     images: [{ alt_text: "", image: "" }],
     category_id: "",
   });
+
   const queryClient = useQueryClient();
 
   const { data: stateCategory } = useQuery({ ...queriesCategories.list });
+
+  const { data: details } = useQuery(queriesDishlist.detail(idDetail));
 
   const isEdit = idDetail !== null && idDetail !== undefined;
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
     createOrUpdateDishList();
   };
 
@@ -41,19 +44,38 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
     return await postApiDishlist(value);
   }, [isEdit, value, idDetail]);
 
+  const resetForm = () => {
+    setValue({
+      name: "",
+      title: "",
+      currency: "VND",
+      price: "",
+      description: "",
+      images: [{ alt_text: "", image: "" }],
+      category_id: "",
+    });
+  };
+
   const { isPending, mutate: createOrUpdateDishList } = useMutation({
     mutationFn: createOrUpdate,
-    onSuccess: () => {
+
+    onSuccess: (data: DishTs) => {
       queryClient.invalidateQueries({ queryKey: queriesDishlist.list.queryKey });
-      setValue({
-        name: "",
-        title: "",
-        currency: "VND",
-        price: "",
-        description: "",
-        images: [{ alt_text: "", image: "" }],
-        category_id: "",
+
+      queryClient.setQueryData(queriesDishlist.list.queryKey, (update: DishTs[] | undefined | null) => {
+        /* nếu không update được thì trả về [] */
+
+        if (!update) return [];
+
+        /* trả về dữ liệu mới */
+        return update.map((item) => (item.id === idDetail ? { ...item, ...data } : item));
       });
+
+      // Cập nhật detail món mới nhé đẩu
+      if (idDetail) {
+        queryClient.setQueryData(queriesDishlist.detail(idDetail).queryKey, data);
+      }
+      resetForm();
       onHideModal();
     },
     onError: (error) => {
@@ -62,47 +84,46 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
   });
 
   useEffect(() => {
-    if (isEdit && idDetail !== null) {
-      const list = queryClient.getQueryData<DishTs[]>(queriesDishlist.list.queryKey);
-
-      const update = list?.find((item) => item.id === idDetail);
-
-      if (update) {
-        console.log("Set category_id to:", String(update.category_id));
-        setValue({
-          ...update,
-          category_id: String(update.category_id),
-          price: update.price.toString(),
-        });
-      }
-    } else {
+    if (isEdit && details) {
       setValue({
-        name: "",
-        title: "",
-        currency: "VND",
-        price: "",
-        description: "",
-        images: [{ alt_text: "", image: "" }],
-        category_id: "",
+        name: details.name,
+        title: details.title,
+        currency: details.currency,
+        price: details.price,
+        description: details.description,
+        images: details.images,
+        category_id: details.category_id,
       });
+    } else {
+      resetForm();
     }
-  }, [idDetail, isEdit, queryClient]);
+  }, [details, idDetail, isEdit, queryClient]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    if (name === "image") {
-      setValue((prev) => ({
-        ...prev,
-        images: [{ alt_text: "", image: value }],
-      }));
-    } else {
-      setValue((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const handleImageChange = (id: number, newValue: string) => {
+    setValue((prev) => {
+      const updateImages = [...prev.images];
+
+      updateImages[id] = { alt_text: "", image: newValue };
+
+      return { ...prev, images: updateImages };
+    });
+  };
+
+  const addImageField = () => {
+    setValue((prev) => ({
+      ...prev,
+      images: [...prev.images, { alt_text: "", image: "" }],
+    }));
+  };
+
   return (
     <div className="create-dish-form-overlay">
       <div className="create-dish-form">
@@ -142,15 +163,29 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
           </div>
           <div className="form-group">
             <label htmlFor="image">Image Link:</label>
-            <input
-              type="text"
-              name="image"
-              placeholder="...URL"
-              id="image"
-              onChange={handleInputChange}
-              value={value.images[0]?.image || ""}
-              required
-            />
+            {value.images.map((item, index) => (
+              <div key={index} style={{ display: "flex", marginBottom: "5px" }}>
+                <input
+                  type="text"
+                  name="image"
+                  placeholder="...URL"
+                  id="image"
+                  onChange={(e) => handleImageChange(index, e.target.value)}
+                  value={item.image || ""}
+                  required
+                />
+                {item.image && (
+                  <img
+                    src={item.image}
+                    alt={`Preview ${index}`}
+                    style={{ width: "60px", height: "60px", objectFit: "cover", border: "1px solid #ccc" }}
+                  />
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={addImageField}>
+              + Add Image
+            </button>
           </div>
           <div className="form-actions">
             <button type="submit" className="save-button" disabled={isPending}>

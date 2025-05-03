@@ -14,6 +14,15 @@ export const getApiDishListAll = async () => {
   }
 };
 
+export const getApiDishlistId = async (id: number | null | undefined) => {
+  try {
+    const result = await Request.get<ApiGetAllDishList>(`dishlist/${id}`);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const postApiDishlist = async (newDish: DishTs) => {
   try {
     const { data } = await Request.post<DishTs>("dishlist/create", newDish);
