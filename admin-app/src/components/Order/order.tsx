@@ -5,7 +5,7 @@ import { useState } from "react";
 import OrderDetails from "./orderDetail";
 
 const Order = () => {
-  const [showOrder, setShowOrder] = useState<boolean>(false);
+  const [showOrder, _] = useState<boolean>(false);
 
   const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
   if (isLoading || !orderList) return <div>Loading...</div>;
