@@ -227,7 +227,7 @@ export const updateOrder = async (req, res) => {
     // Update order details
     await connection.query(
       `UPDATE \`order_table\`
-       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?,
+       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?
        WHERE id = ?`,
       [
         address,

@@ -13,6 +13,7 @@ interface UserDetailTs {
 
 function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
   const [value, setValue] = useState<UsersTs>({
     fullname: "",
     email: "",
@@ -46,7 +47,9 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
   useEffect(() => {
     if (idDetail !== null && idDetail !== undefined) {
       const foundIdOrder = queryClient.getQueryData(queriesUser.list.queryKey);
+
       const update = foundIdOrder?.find((item) => item.id === idDetail);
+
       if (update) {
         setValue({
           fullname: update.fullname,

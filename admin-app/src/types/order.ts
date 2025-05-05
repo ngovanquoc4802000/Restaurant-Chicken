@@ -6,7 +6,7 @@ export interface OrderAllTs {
 
 export interface OrderTableTs {
   id?: number;
-  user_id: number;
+  user_id: number | string;
   address: string;
   customer_note: string;
   customer_name: string;
@@ -18,20 +18,20 @@ export interface OrderTableTs {
   paid?: boolean;
   details: OrderDetailsTs[];
 }
-
-export interface OrderDetailsTs {
-  id_dishlist: number;
-  quantity: number;
-  price: number;
-  note: string;
-  create_at?: Date;
-  update_at?: Date;
-}
 export interface CreateOrderPayload {
-  user_id: number;
+  user_id: number | string;
   address: string;
   customer_note: string;
   customer_name: string;
   customer_phone: string;
   list_order: OrderDetailsTs[];
+}
+
+export interface OrderDetailsTs {
+  id_dishlist: number | string;
+  quantity: number;
+  price: number;
+  note: string;
+  create_at?: Date;
+  update_at?: Date;
 }

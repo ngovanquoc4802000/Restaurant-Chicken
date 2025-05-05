@@ -34,6 +34,7 @@ const DishList = () => {
   const handleDetail = useCallback((images: Image[]) => {
     setDishState((prev) => ({ ...prev, showOrder: true, selectedDetails: images }));
   }, []);
+
   const handleHideDetail = useCallback(() => {
     setDishState((prev) => ({ ...prev, showOrder: false, selectedDetails: null }));
   }, []);

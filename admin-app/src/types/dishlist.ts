@@ -1,3 +1,8 @@
+export interface ApiGetAllDishList {
+  success: boolean;
+  message: string;
+  data: DishTs[];
+}
 export interface DishTs {
   id?: number;
   category_id: number | string;
@@ -7,11 +12,6 @@ export interface DishTs {
   price: number | string;
   description: string;
   images: Image[];
-}
-export interface ApiGetAllDishList {
-  success: boolean;
-  message: string;
-  data: DishTs[];
 }
 export interface Image {
   alt_text: string;

@@ -47,14 +47,8 @@ const ListCategory = () => {
         </thead>
         <tbody>
           {categories?.map((item, index) => (
-            <tr
-              key={index}
-              style={{
-                opacity: item.status ? 1 : 0.5,
-                backgroundColor: item.status ? "inherit" : "#f0f0f0",
-              }}
-            >
-              <td>{item.name}</td>
+            <tr key={index}>
+              <td> {item.name}</td>
               <td>{item.handle}</td>
               <td>
                 <img

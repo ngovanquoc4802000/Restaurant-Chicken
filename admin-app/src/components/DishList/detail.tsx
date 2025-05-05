@@ -12,16 +12,18 @@ interface DetailsTs {
   idDetail: number | undefined | null;
 }
 
+const initialState: DishTs = {
+  name: "",
+  title: "",
+  currency: "VND",
+  price: "",
+  description: "",
+  images: [{ alt_text: "", image: "" }],
+  category_id: "",
+};
+
 const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
-  const [value, setValue] = useState<DishTs>({
-    name: "",
-    title: "",
-    currency: "VND",
-    price: "",
-    description: "",
-    images: [{ alt_text: "", image: "" }],
-    category_id: "",
-  });
+  const [value, setValue] = useState<DishTs>(initialState);
 
   const queryClient = useQueryClient();
 
@@ -38,28 +40,14 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
   };
 
   const createOrUpdate = useCallback(async () => {
-    if (isEdit && typeof idDetail === "number") {
-      return await updateApiDishList(idDetail, value);
-    }
-    return await postApiDishlist(value);
+    return isEdit && typeof idDetail === "number" ? await updateApiDishList(idDetail, value) : await postApiDishlist(value);
   }, [isEdit, value, idDetail]);
-
-  const resetForm = () => {
-    setValue({
-      name: "",
-      title: "",
-      currency: "VND",
-      price: "",
-      description: "",
-      images: [{ alt_text: "", image: "" }],
-      category_id: "",
-    });
-  };
 
   const { isPending, mutate: createOrUpdateDishList } = useMutation({
     mutationFn: createOrUpdate,
 
     onSuccess: (data: DishTs) => {
+      alert("Update Suceess");
       queryClient.invalidateQueries({ queryKey: queriesDishlist.list.queryKey });
 
       queryClient.setQueryData(queriesDishlist.list.queryKey, (update: DishTs[] | undefined | null) => {
@@ -75,7 +63,8 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
       if (idDetail) {
         queryClient.setQueryData(queriesDishlist.detail(idDetail).queryKey, data);
       }
-      resetForm();
+      setValue(initialState);
+
       onHideModal();
     },
     onError: (error) => {
@@ -85,17 +74,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
 
   useEffect(() => {
     if (isEdit && details) {
-      setValue({
-        name: details.name,
-        title: details.title,
-        currency: details.currency,
-        price: details.price,
-        description: details.description,
-        images: details.images,
-        category_id: details.category_id,
-      });
+      setValue(details);
     } else {
-      resetForm();
+      setValue(initialState);
     }
   }, [details, idDetail, isEdit, queryClient]);
 
@@ -133,7 +114,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
           <div className="form-group">
             <label htmlFor="category_id">Category:</label>
             <select id="category_id" name="category_id" value={value.category_id} onChange={handleInputChange} required>
-              <option value={""}>Select Category</option> {/* Giá trị mặc định */}
+              <option value={""}>Select Category</option>
               {stateCategory?.map((category) => (
                 <option key={category.id} value={String(category.id)}>
                   {category.name}
@@ -164,7 +145,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
           <div className="form-group">
             <label htmlFor="image">Image Link:</label>
             {value.images.map((item, index) => (
-              <div key={index} style={{ display: "flex", marginBottom: "5px" }}>
+              <div className="imageUrl" key={index}>
                 <input
                   type="text"
                   name="image"
@@ -174,13 +155,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
                   value={item.image || ""}
                   required
                 />
-                {item.image && (
-                  <img
-                    src={item.image}
-                    alt={`Preview ${index}`}
-                    style={{ width: "60px", height: "60px", objectFit: "cover", border: "1px solid #ccc" }}
-                  />
-                )}
+                {item.image && <img src={item.image} alt={`Preview ${index}`} />}
               </div>
             ))}
             <button type="button" onClick={addImageField}>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import queriesOrder from "../../queries/orders";
 import Button from "../button/button";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import OrderDetails from "./orderDetail";
 import queriesUser from "../../queries/users";
 import { OrderDetailsTs } from "../../types/order";
@@ -14,31 +14,52 @@ const Order = () => {
 
   const [selectedDetails, setSelectedDetails] = useState<OrderDetailsTs[] | null>(null);
 
+  const [idDetail, setIdDetail] = useState<number | undefined | null>(null);
+
   const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
 
   const { data: userName } = useQuery({ ...queriesUser.list });
 
+  const findUserMap = useMemo(() => {
+    const map = new Map();
+    userName?.forEach((cat) => map.set(cat.id, cat.fullname));
+    return map;
+  }, [userName]);
+
+  const getFindUser = useCallback((id: string | number) => findUserMap.get(id) || "undefined", [findUserMap]);
+
   if (isLoading || !orderList || !userName) return <div>Loading...</div>;
 
   if (isError) return <div>Error...</div>;
-
-  const findUserName = (id: number) => {
-    const find = userName.find((item) => item.id === id);
-    return find ? find.fullname : "undefined";
-  };
 
   const handleDetails = (item: OrderDetailsTs[]) => {
     setSelectedDetails(item);
     setShowOrder(true);
   };
 
+  const handleEditOrder = (id: number | undefined | null) => {
+    setIdDetail(id);
+    setShowForm(true);
+  };
+
+  const handleHideDetail = () => {
+    setShowForm(false);
+    setSelectedDetails(null);
+    setIdDetail(null);
+  };
+
   return (
     <div className="order-list">
       <h2 style={{ textAlign: "center", fontSize: "20px" }}>Order List</h2>
+
       {isLoading && <h2>Loading...</h2>}
+
       <Button action="create" onClick={() => setShowForm(true)} />
-      {showForm && <OrderForm onHideModal={() => setShowForm(false)} />}
+
+      {showForm && <OrderForm idDetail={idDetail} onHideModal={handleHideDetail} />}
+
       {showOrder && selectedDetails && <OrderDetails item={selectedDetails} onHideModal={() => setShowOrder(false)} />}
+
       <table>
         <thead>
           <tr>
@@ -59,7 +80,7 @@ const Order = () => {
           {orderList?.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-              <td>{findUserName(item.user_id)}</td>
+              <td>{getFindUser(item.user_id)}</td>
               <td>{item.address}</td>
               <td>{item.customer_name}</td>
               <td>{item.customer_phone}</td>
@@ -70,7 +91,7 @@ const Order = () => {
               <td></td>
               <td>
                 <Button action="showDetails" onClick={() => handleDetails(item.details)} />
-                <Button action="edit" /* onClick={() => handleEditOrder(item.id)} */ />
+                <Button action="edit" onClick={() => handleEditOrder(item.id)} />
               </td>
             </tr>
           ))}
