@@ -1,11 +1,11 @@
-import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useCallback, useEffect, useState } from "react";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import queriesDishlist from "../../queries/dishlist";
 import queriesOrder from "../../queries/orders";
 import queriesUser from "../../queries/users";
 import { createOrder, updateOrder } from "../../services/order";
 import { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../types/order";
 import Button from "../button/button";
-import queriesDishlist from "../../queries/dishlist";
 
 interface OrderFormTs {
   idDetail: number | undefined | null;
@@ -36,6 +36,8 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
   const queryClient = useQueryClient();
 
+  const isEdit = idDetail !== null && idDetail !== undefined;
+
   const result = useQueries({
     queries: [
       {
@@ -45,12 +47,14 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         ...queriesOrder.detail(idDetail),
         enabled: idDetail !== null && idDetail !== undefined,
       },
+      {
+        ...queriesDishlist.list,
+      },
     ],
   });
-  const userData = result[0];
-  const detail = result[1];
-
-  const isEdit = idDetail !== null && idDetail !== undefined;
+  const userData = result[0].data;
+  const detail = result[1].data;
+  const dishListId = result[2].data;
 
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,7 +118,6 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
   const handleAddDish = (e: React.MouseEvent) => {
     e.preventDefault();
-
     if (orderDetails.id_dishlist && orderDetails.quantity && orderDetails.price) {
       setOrderData((prev) => ({
         ...prev,
@@ -137,9 +140,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     }));
   };
 
-  const handleOrderInputDetails = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleOrderInputDetails = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === "quantity" || name === "price") {
+    if (name === "quantity" || name === "price" || name === "id_dishlist") {
       const numValue = Number(value);
       setOrderDetails((prev) => ({
         ...prev,
@@ -152,7 +155,14 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       }));
     }
   };
-  const { data: dishListId } = useQuery({ ...queriesDishlist.list });
+  const dishlistName = useMemo(() => {
+    const map = new Map();
+    dishListId?.forEach((item) => map.set(item.id, item.name));
+    return map;
+  }, [dishListId]);
+
+  const findNameDishList = useCallback((id: string | number) => dishlistName.get(id) || undefined, [dishlistName]);
+
   return (
     <form onSubmit={handleSubmitOrder} className="form">
       <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#fff" }}>Tạo Đơn Hàng Mới</h2>
@@ -166,7 +176,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           <label htmlFor="user_id">User:</label>
           <select id="user_id" name="user_id" value={String(orderData.user_id)} onChange={handleOrderInputChange} required>
             <option value={""}>Select User</option>
-            {userData.data?.map((user) => (
+            {userData?.map((user) => (
               <option key={user.id} value={String(user.id)}>
                 {user.fullname}
               </option>
@@ -218,7 +228,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         <h3 style={{ marginBottom: "10px", color: "#fff" }}>Thêm món ăn</h3>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: "10px", marginBottom: "10px" }}>
           <div>
-            <select name="id_dishlist" id="id_dislist">
+            <select name="id_dishlist" id="id_dislist" value={String(orderDetails.id_dishlist)} onChange={handleOrderInputDetails}>
               <label style={{ display: "block", marginBottom: "5px" }}>ID Món:</label>
               <option value={""}>Chọn món ăn</option>
               {dishListId?.map((dishlist) => (
@@ -227,13 +237,6 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
                 </option>
               ))}
             </select>
-            <input
-              type="number"
-              name="id_dishlist"
-              value={orderDetails.id_dishlist}
-              onChange={handleOrderInputDetails}
-              style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-            />
           </div>
           <div>
             <label style={{ display: "block", marginBottom: "5px" }}>Số lượng:</label>
@@ -293,7 +296,8 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {orderData.details?.map((item, index) => (
               <li key={index} style={{ borderBottom: "1px dashed #eee", paddingBottom: "10px", marginBottom: "10px", color: "#fff" }}>
-                Món {index + 1}: ID {item.id_dishlist}, SL {item.quantity}, Giá {item.price} - Ghi chú: {item.note || "Không"}
+                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL {item.quantity}, Giá {item.price} - Ghi chú:
+                {item.note || "Không"}
               </li>
             ))}
           </ul>

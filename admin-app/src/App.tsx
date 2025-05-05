@@ -4,7 +4,6 @@ import Category from "./components/Category/list";
 import DishList from "./components/DishList/Dishlist";
 import AdminLayout from "./components/Layout/AdminLayout";
 import Order from "./components/Order/order";
-import OrderList from "./components/Order/OrderList";
 import User from "./components/User/user";
 
 const queryClient = new QueryClient();
@@ -18,8 +17,7 @@ function App() {
             <Route path="category" element={<Category />} />
             <Route path="dishlist" element={<DishList />} />
             <Route path="user" element={<User />} />
-            <Route path="order" element={<OrderList />} />
-            <Route path="order_quoc" element={<Order />} />
+            <Route path="order" element={<Order />} />
           </Route>
         </Routes>
       </BrowserRouter>
