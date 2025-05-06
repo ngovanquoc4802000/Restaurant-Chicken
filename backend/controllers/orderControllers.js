@@ -185,20 +185,18 @@ export const createOrder = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
   const {
-    id,
     address,
     customer_note,
     customer_name,
     customer_phone,
-    status,
-    paid,
+    status = 0,
+    paid = 0,
     list_order,
   } = req.body;
-
+  const id = req.params.id; 
   const connection = await pool.getConnection();
 
   if (
-    !id ||
     !address ||
     !customer_name ||
     !customer_phone ||
@@ -225,7 +223,7 @@ export const updateOrder = async (req, res) => {
     }, 0);
 
     // Update order details
-    await connection.query(
+    const [updateResult] =  await connection.query(
       `UPDATE \`order_table\`
        SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?
        WHERE id = ?`,
@@ -240,31 +238,35 @@ export const updateOrder = async (req, res) => {
         id,
       ]
     );
-
+    if (updateResult.affectedRows === 0) {
+      throw new Error(`No order found with id = ${id}`);
+    }
     await connection.query(
       `DELETE FROM order_details
        WHERE id_order = ?`,
       [id]
     );
 
-    const orderDetailsPromises = list_order.map((detail) => {
-      const { id_dishlist, quantity, price, note } = detail;
-      const detailQuantity = parseInt(quantity, 10);
-      const detailPrice = parseFloat(price);
-      if (
-        isNaN(detailQuantity) ||
-        detailQuantity < 1 ||
-        isNaN(detailPrice) ||
-        detailPrice < 0
-      ) {
-        console.log(
-          `Invalid quantiy ${quantity} or price ${price} for Dishlist Id in update: ${id_dishlist}`
-        );
-      }
+    const validOrderDetails = list_order.filter(detail => {
+      const quantity = parseInt(detail.quantity, 10);
+      const price = parseFloat(detail.price);
+      return (
+        !isNaN(quantity) &&
+        quantity > 0 &&
+        !isNaN(price) &&
+        price >= 0
+      );
+    });
+    
+    if (validOrderDetails.length === 0) {
+      throw new Error("No valid order details provided.");
+    }
+    
+    const orderDetailsPromises = validOrderDetails.map(detail => {
       return connection.query(
         `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note)
          VALUES (?, ?, ?, ?, ?)`,
-        [id, detail.id_dishlist, detail.quantity, detail.price, detail.note]
+        [id, detail.id_dishlist, detail.quantity, detail.price, detail.note || ""]
       );
     });
 
@@ -279,9 +281,11 @@ export const updateOrder = async (req, res) => {
   } catch (error) {
     await connection.rollback();
     console.log(error);
+    console.error("❌ Error updating order:", error); // in lỗi chi tiết
     res.status(500).send({
       success: false,
       message: "Error updating order",
+      error: error.message // gửi chi tiết lỗi về Postman
     });
   } finally {
     connection.release();
@@ -289,11 +293,10 @@ export const updateOrder = async (req, res) => {
 };
 
 export const deleteOrder = async (req, res) => {
-  
   const deleteOrderId = req.params.id;
 
   const connection = await pool.getConnection();
-  
+
   try {
     if (!deleteOrderId) {
       return res.status(404).send({

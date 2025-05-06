@@ -1,11 +1,12 @@
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { createOrder, updateOrder } from "../../services/order";
+import { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../types/order";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import queriesDishlist from "../../queries/dishlist";
 import queriesOrder from "../../queries/orders";
 import queriesUser from "../../queries/users";
-import { createOrder, updateOrder } from "../../services/order";
-import { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../types/order";
 import Button from "../button/button";
+import "./OrderList.scss";
 
 interface OrderFormTs {
   idDetail: number | undefined | null;
@@ -52,27 +53,35 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       },
     ],
   });
+
   const userData = result[0].data;
+
   const detail = result[1].data;
+
   const dishListId = result[2].data;
 
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
     submitOrder();
   };
-
   /* create or update Order || */
   const createOrUpdate = useCallback(async () => {
+    const sanitizedDetails = orderData.details.map((item) => ({
+      id: idDetail,
+      id_dishlist: Number(item.id_dishlist),
+      quantity: Number(item.quantity),
+      price: Number(item.price),
+      note: item.note || "",
+    }));
     const payload: CreateOrderPayload = {
       user_id: Number(orderData.user_id),
       address: orderData.address,
       customer_note: orderData.customer_note,
       customer_name: orderData.customer_name,
       customer_phone: orderData.customer_phone,
-      list_order: orderData.details,
+      list_order: sanitizedDetails,
     };
-
-    return isEdit && idDetail ? updateOrder(idDetail, payload) : await createOrder(payload);
+    return isEdit && idDetail ? await updateOrder(idDetail, payload) : await createOrder(payload);
   }, [orderData, idDetail, isEdit]);
 
   /* use useMutation PUT/PATCH/CREATE/DELETE */
@@ -81,6 +90,12 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
     onSuccess: (data: OrderTableTs) => {
       queryClient.invalidateQueries({ queryKey: queriesOrder.list.queryKey });
+
+      queryClient.setQueryData(queriesOrder.list.queryKey, (update: OrderTableTs[] | undefined | null) => {
+        if (!update) return [];
+
+        return update.map((item) => (item.id === idDetail ? { ...item, ...data } : item));
+      });
 
       if (isEdit && idDetail) {
         queryClient.setQueryData(queriesOrder.detail(idDetail).queryKey, data);
@@ -132,6 +147,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       });
     }
   };
+
   const handleOrderInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setOrderData((prev) => ({
@@ -155,6 +171,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       }));
     }
   };
+
   const dishlistName = useMemo(() => {
     const map = new Map();
     dishListId?.forEach((item) => map.set(item.id, item.name));
@@ -165,17 +182,16 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
   return (
     <form onSubmit={handleSubmitOrder} className="form">
-      <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#fff" }}>Tạo Đơn Hàng Mới</h2>
+      <h2>Tạo Đơn Hàng Mới</h2>
 
-      <div style={{ marginBottom: "20px" }}>
-        <h3 style={{ marginBottom: "10px", color: "#fff" }}>Thông tin khách hàng</h3>
-
+      <div>
+        <h3>Thông tin khách hàng</h3>
         {isPending && <h1>Save...</h1>}
 
         <div className="form-group">
           <label htmlFor="user_id">User:</label>
           <select id="user_id" name="user_id" value={String(orderData.user_id)} onChange={handleOrderInputChange} required>
-            <option value={""}>Select User</option>
+            <option value="">Select User</option>
             {userData?.map((user) => (
               <option key={user.id} value={String(user.id)}>
                 {user.fullname}
@@ -183,54 +199,36 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
             ))}
           </select>
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Địa chỉ:</label>
-          <input
-            type="text"
-            name="address"
-            value={orderData.address}
-            onChange={handleOrderInputChange}
-            style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          />
+
+        <div className="form-group">
+          <label>Địa chỉ:</label>
+          <input type="text" name="address" value={orderData.address} onChange={handleOrderInputChange} />
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Ghi chú khách hàng:</label>
-          <textarea
-            name="customer_note"
-            value={orderData.customer_note || ""}
-            onChange={handleOrderInputChange}
-            style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          />
+
+        <div className="form-group">
+          <label>Ghi chú khách hàng:</label>
+          <textarea name="customer_note" value={orderData.customer_note || ""} onChange={handleOrderInputChange} />
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Tên khách hàng:</label>
-          <input
-            type="text"
-            name="customer_name"
-            value={orderData.customer_name || ""}
-            onChange={handleOrderInputChange}
-            style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          />
+
+        <div className="form-group">
+          <label>Tên khách hàng:</label>
+          <input type="text" name="customer_name" value={orderData.customer_name || ""} onChange={handleOrderInputChange} />
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Số điện thoại:</label>
-          <input
-            type="text"
-            name="customer_phone"
-            value={orderData.customer_phone || ""}
-            onChange={handleOrderInputChange}
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          />
+
+        <div className="form-group">
+          <label>Số điện thoại:</label>
+          <input type="text" name="customer_phone" value={orderData.customer_phone || ""} onChange={handleOrderInputChange} />
         </div>
       </div>
-      {/* Form thêm chi tiết món ăn */}
-      <div style={{ marginBottom: "20px", borderTop: "1px solid #eee", paddingTop: "20px" }}>
-        <h3 style={{ marginBottom: "10px", color: "#fff" }}>Thêm món ăn</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: "10px", marginBottom: "10px" }}>
-          <div>
+
+      {/* Thêm món ăn */}
+      <div className="dish-form">
+        <h3>Thêm món ăn</h3>
+        <div className="dish-grid">
+          <div className="form-group">
+            <label>ID Món:</label>
             <select name="id_dishlist" id="id_dislist" value={String(orderDetails.id_dishlist)} onChange={handleOrderInputDetails}>
-              <label style={{ display: "block", marginBottom: "5px" }}>ID Món:</label>
-              <option value={""}>Chọn món ăn</option>
+              <option value="">Chọn món ăn</option>
               {dishListId?.map((dishlist) => (
                 <option key={dishlist.id} value={String(dishlist.id)}>
                   {dishlist.name}
@@ -238,87 +236,49 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
               ))}
             </select>
           </div>
+
           <div>
-            <label style={{ display: "block", marginBottom: "5px" }}>Số lượng:</label>
-            <input
-              type="number"
-              name="quantity"
-              value={orderDetails.quantity}
-              onChange={handleOrderInputDetails}
-              style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-            />
+            <label>Số lượng:</label>
+            <input type="number" name="quantity" value={orderDetails.quantity} onChange={handleOrderInputDetails} />
           </div>
+
           <div>
-            <label style={{ display: "block", marginBottom: "5px" }}>Giá:</label>
-            <input
-              type="number"
-              name="price"
-              value={orderDetails.price}
-              onChange={handleOrderInputDetails}
-              style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-            />
+            <label>Giá:</label>
+            <input type="number" name="price" value={orderDetails.price} onChange={handleOrderInputDetails} />
           </div>
-          <div style={{ alignSelf: "flex- end" }}>
-            <button
-              onClick={handleAddDish}
-              style={{
-                padding: "9px 15px",
-                backgroundColor: "#007bff",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                position: "relative",
-                top: "32%",
-              }}
-            >
-              Thêm
-            </button>
+
+          <div>
+            <button onClick={handleAddDish}>Thêm</button>
           </div>
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Ghi chú món ăn:</label>
-          <input
-            type="text"
-            name="note"
-            value={orderDetails.note}
-            onChange={handleOrderInputDetails}
-            style={{ width: "100% ", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          />
+
+        <div className="dish-note">
+          <label>Ghi chú món ăn:</label>
+          <input type="text" name="note" value={orderDetails.note} onChange={handleOrderInputDetails} />
         </div>
       </div>
-      {/* Danh sách các món đã thêm */}
-      <div style={{ marginBottom: "20px", borderTop: "1px solid #eee", paddingTop: "20px" }}>
-        <h3 style={{ marginBottom: "10px", color: "#fff" }}>Chi tiết đơn hàng ({orderData.details?.length} món)</h3>
+
+      {/* Chi tiết đơn hàng */}
+      <div className="order-summary">
+        <h3>Chi tiết đơn hàng ({orderData.details?.length} món)</h3>
         {orderData.details?.length === 0 ? (
-          <p style={{ color: "#fff" }}>Chưa có món nào được thêm.</p>
+          <p>Chưa có món nào được thêm.</p>
         ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          <ul>
             {orderData.details?.map((item, index) => (
-              <li key={index} style={{ borderBottom: "1px dashed #eee", paddingBottom: "10px", marginBottom: "10px", color: "#fff" }}>
-                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL {item.quantity}, Giá {item.price} - Ghi chú:
+              <li key={index}>
+                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL {item.quantity}, Giá {item.price} - Ghi chú:{" "}
                 {item.note || "Không"}
               </li>
             ))}
           </ul>
         )}
       </div>
-      <button
-        disabled={isPending}
-        type="submit"
-        style={{
-          width: "100%",
-          padding: "10px",
-          backgroundColor: "revert-layer",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
+
+      <button className="submit-button" disabled={isPending} type="submit">
         Tạo Đơn Hàng
       </button>
+
       <div className="form-actions">
         <button type="submit" className="save-button" disabled={isPending}>
           {idDetail ? "Update" : "Save"}

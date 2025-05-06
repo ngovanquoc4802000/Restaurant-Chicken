@@ -35,11 +35,7 @@ export const createOrder = async (payload: CreateOrderPayload) => {
 
 export const updateOrder = async (id: number | undefined | null, update: CreateOrderPayload) => {
   try {
-    const convertedPayload = {
-      ...update,
-    };
-
-    const data = await Request.put(`order/${id}`, convertedPayload);
+    const data = await Request.put(`order/${id}`, update);
     return data.data;
   } catch (error) {
     console.log(error);

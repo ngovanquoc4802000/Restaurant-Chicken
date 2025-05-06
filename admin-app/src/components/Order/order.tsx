@@ -70,7 +70,7 @@ const Order = () => {
             <th>Customer_phone</th>
             <th>Customer_note</th>
             <th>Total Price</th>
-            <th>Status</th>
+            <th>Process</th>
             <th>Paid</th>
             <th>Create_at</th>
             <th>Actions</th>
