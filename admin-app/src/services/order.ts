@@ -1,4 +1,4 @@
-import { CreateOrderPayload, OrderAllTs, OrderProcess, OrderTableTs } from "../types/order";
+import { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
 import { Request } from "../utils/http";
 
 export const getOrderAll = async () => {

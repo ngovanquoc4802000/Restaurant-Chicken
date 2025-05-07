@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
-import queriesDishlist from "../../queries/dishlist";
 import { updateOrderProcess } from "../../services/order";
 import { OrderDetailsTs, OrderTableTs } from "../../types/order";
+import queriesDishlist from "../../queries/dishlist";
 
 interface OrderTs {
   item: OrderDetailsTs[];
