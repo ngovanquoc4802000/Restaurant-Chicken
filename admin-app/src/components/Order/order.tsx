@@ -7,14 +7,23 @@ import queriesUser from "../../queries/users";
 import { OrderDetailsTs } from "../../types/order";
 import OrderForm from "./orderForm";
 
+interface OrderStateTs {
+  showOrder: boolean;
+  showForm: boolean;
+  selectedDetails: OrderDetailsTs[] | null;
+  idDetail: number | undefined | null;
+  currentStep: string;
+}
+const initialOrderTs: OrderStateTs = {
+  showOrder: false,
+  showForm: false,
+  selectedDetails: null,
+  idDetail: null,
+  currentStep: "",
+};
+
 const Order = () => {
-  const [showOrder, setShowOrder] = useState<boolean>(false);
-
-  const [showForm, setShowForm] = useState<boolean>(false);
-
-  const [selectedDetails, setSelectedDetails] = useState<OrderDetailsTs[] | null>(null);
-
-  const [idDetail, setIdDetail] = useState<number | undefined | null>(null);
+  const [stateOrder, setStateOrder] = useState<OrderStateTs>(initialOrderTs);
 
   const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
 
@@ -28,37 +37,38 @@ const Order = () => {
 
   const getFindUser = useCallback((id: string | number) => findUserMap.get(id) || "undefined", [findUserMap]);
 
+  const handleDetails = useCallback((item: OrderDetailsTs[], id: number | null | undefined, process: string) => {
+    setStateOrder((prev) => ({ ...prev, selectedDetails: item, idDetail: id, currentStep: process, showOrder: true }));
+  }, []);
+
+  const handleEditOrder = useCallback((id: number | undefined | null) => {
+    setStateOrder((prev) => ({ ...prev, idDetail: id, showForm: true }));
+  }, []);
+
+  const handleHideDetail = useCallback(() => {
+    setStateOrder((prev) => ({ ...prev, showForm: false, selectedDetails: null, idDetail: null }));
+  }, []);
+
   if (isLoading || !orderList || !userName) return <div>Loading...</div>;
 
   if (isError) return <div>Error...</div>;
-
-  const handleDetails = (item: OrderDetailsTs[]) => {
-    setSelectedDetails(item);
-    setShowOrder(true);
-  };
-
-  const handleEditOrder = (id: number | undefined | null) => {
-    setIdDetail(id);
-    setShowForm(true);
-  };
-
-  const handleHideDetail = () => {
-    setShowForm(false);
-    setSelectedDetails(null);
-    setIdDetail(null);
-  };
 
   return (
     <div className="order-list">
       <h2 style={{ textAlign: "center", fontSize: "20px" }}>Order List</h2>
 
-      {isLoading && <h2>Loading...</h2>}
+      <Button action="create" onClick={() => setStateOrder((prev) => ({ ...prev, showForm: true }))} />
 
-      <Button action="create" onClick={() => setShowForm(true)} />
+      {stateOrder.showForm && <OrderForm idDetail={stateOrder.idDetail} onHideModal={handleHideDetail} />}
 
-      {showForm && <OrderForm idDetail={idDetail} onHideModal={handleHideDetail} />}
-
-      {showOrder && selectedDetails && <OrderDetails item={selectedDetails} onHideModal={() => setShowOrder(false)} />}
+      {stateOrder.showOrder && stateOrder.selectedDetails && (
+        <OrderDetails
+          item={stateOrder.selectedDetails}
+          onHideModal={() => setStateOrder((prev) => ({ ...prev, showOrder: false }))}
+          orderId={stateOrder.idDetail}
+          currentStep={stateOrder.currentStep}
+        />
+      )}
 
       <table>
         <thead>
@@ -86,17 +96,18 @@ const Order = () => {
               <td>{item.customer_phone}</td>
               <td>{item.customer_note}</td>
               <td>{item.total_price}</td>
-              <td>{item.status ? "Hoàn thành" : "Đang xử lý"}</td>
+              <td>{item.process || "Chưa xác định"}</td>
               <td>{item.paid ? "Đã thanh toán" : "Chưa thanh toán"}</td>
-              <td></td>
+              <td>{new Date(item.create_at).toLocaleString()}</td>
               <td>
-                <Button action="showDetails" onClick={() => handleDetails(item.details)} />
+                <Button action="showDetails" onClick={() => handleDetails(item.details, item.id, item.process || "")} />
                 <Button action="edit" onClick={() => handleEditOrder(item.id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
       {orderList.length === 0 && <p>No orders found.</p>}
     </div>
   );

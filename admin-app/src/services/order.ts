@@ -1,4 +1,4 @@
-import { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
+import { CreateOrderPayload, OrderAllTs, OrderProcess, OrderTableTs } from "../types/order";
 import { Request } from "../utils/http";
 
 export const getOrderAll = async () => {
@@ -39,5 +39,15 @@ export const updateOrder = async (id: number | undefined | null, update: CreateO
     return data.data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateOrderProcess = async (id: number | undefined | null) => {
+  try {
+    const data = await Request.put(`order/process/${id}`);
+    return data.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };

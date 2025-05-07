@@ -193,7 +193,7 @@ export const updateOrder = async (req, res) => {
     paid = 0,
     list_order,
   } = req.body;
-  const id = req.params.id; 
+  const id = req.params.id;
   const connection = await pool.getConnection();
 
   if (
@@ -223,7 +223,7 @@ export const updateOrder = async (req, res) => {
     }, 0);
 
     // Update order details
-    const [updateResult] =  await connection.query(
+    const [updateResult] = await connection.query(
       `UPDATE \`order_table\`
        SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?
        WHERE id = ?`,
@@ -247,26 +247,27 @@ export const updateOrder = async (req, res) => {
       [id]
     );
 
-    const validOrderDetails = list_order.filter(detail => {
+    const validOrderDetails = list_order.filter((detail) => {
       const quantity = parseInt(detail.quantity, 10);
       const price = parseFloat(detail.price);
-      return (
-        !isNaN(quantity) &&
-        quantity > 0 &&
-        !isNaN(price) &&
-        price >= 0
-      );
+      return !isNaN(quantity) && quantity > 0 && !isNaN(price) && price >= 0;
     });
-    
+
     if (validOrderDetails.length === 0) {
       throw new Error("No valid order details provided.");
     }
-    
-    const orderDetailsPromises = validOrderDetails.map(detail => {
+
+    const orderDetailsPromises = validOrderDetails.map((detail) => {
       return connection.query(
         `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note)
          VALUES (?, ?, ?, ?, ?)`,
-        [id, detail.id_dishlist, detail.quantity, detail.price, detail.note || ""]
+        [
+          id,
+          detail.id_dishlist,
+          detail.quantity,
+          detail.price,
+          detail.note || "",
+        ]
       );
     });
 
@@ -285,10 +286,47 @@ export const updateOrder = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error updating order",
-      error: error.message // gửi chi tiết lỗi về Postman
+      error: error.message, // gửi chi tiết lỗi về Postman
     });
   } finally {
     connection.release();
+  }
+};
+
+export const updateOrderProcess = async (req, res) => {
+  const orderId = req.params.id;
+  const steps = ["Xử lý", "Đang chờ", "Đang thực hiện", "Hoàn thành"];
+
+  try {
+    const [[order]] = await pool.query(
+      `SELECT process FROM order_table WHERE id = ?`,
+      [orderId]
+    );
+    if (!order) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Order not found" });
+    }
+
+    const currentIndex = steps.findIndex((step) => step === order.process);
+    const nextStep = steps[currentIndex + 1];
+
+    if (!nextStep) {
+      return res
+        .status(400)
+        .send({ success: false, message: "Order already completed" });
+    }
+    await pool.query(`UPDATE order_table SET process = ? WHERE id = ?`, [
+      nextStep,
+      orderId,
+    ]);
+
+    res
+      .status(200)
+      .send({ success: true, message: "Order process updated", nextStep });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ success: false, message: "Server error" });
   }
 };
 
@@ -343,6 +381,7 @@ export default {
   getOrders,
   getOrderDetails,
   createOrder,
+  updateOrderProcess,
   updateOrder,
   deleteOrder,
 };

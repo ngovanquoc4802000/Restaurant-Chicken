@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
-import { postApiDishlist, updateApiDishList } from "../../services/dishlist";
-import { DishTs } from "../../types/dishlist";
 import queriesCategories from "../../queries/categories";
 import queriesDishlist from "../../queries/dishlist";
+import { postApiDishlist, updateApiDishList } from "../../services/dishlist";
+import { DishTs } from "../../types/dishlist";
 import Button from "../button/button";
 import "./Dishlist.scss";
 
@@ -47,7 +47,6 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
     mutationFn: createOrUpdate,
 
     onSuccess: (data: DishTs) => {
-      alert("Update Suceess");
       queryClient.invalidateQueries({ queryKey: queriesDishlist.list.queryKey });
 
       queryClient.setQueryData(queriesDishlist.list.queryKey, (update: DishTs[] | undefined | null) => {
@@ -73,11 +72,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
   });
 
   useEffect(() => {
-    if (isEdit && details) {
-      setValue(details);
-    } else {
-      setValue(initialState);
-    }
+    return isEdit && details ? setValue(details) : setValue(initialState);
   }, [details, idDetail, isEdit, queryClient]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -150,7 +145,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
                   type="text"
                   name="image"
                   placeholder="...URL"
-                  id="image"
+                  className="image"
                   onChange={(e) => handleImageChange(index, e.target.value)}
                   value={item.image || ""}
                   required
@@ -158,7 +153,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
                 {item.image && <img src={item.image} alt={`Preview ${index}`} />}
               </div>
             ))}
-            <button type="button" onClick={addImageField}>
+            <button type="button" className="addImage" onClick={addImageField}>
               + Add Image
             </button>
           </div>

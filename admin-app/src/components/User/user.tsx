@@ -1,29 +1,38 @@
 import { useQuery } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
+import UserDetail from "./userDetail";
 import queriesUser from "../../queries/users";
 import Button from "../button/button";
-import UserDetail from "./userDetail";
-import { useState } from "react";
+
+interface UserStateTs {
+  showIsModal: boolean;
+  idDetail: number | undefined | null;
+}
+
+const initialUserTs: UserStateTs = {
+  showIsModal: false,
+  idDetail: null,
+};
 
 function User() {
   const { isLoading, isError, data: userList } = useQuery({ ...queriesUser.list });
 
-  const [showIsModal, setShowIsModal] = useState<boolean>(false);
+  const [stateUser, setStateUser] = useState<UserStateTs>(initialUserTs);
 
-  const [idDetail, setIdDetail] = useState<number | null | undefined>(null);
+  const handleEdit = useCallback((id: number | undefined) => {
+    setStateUser((prev) => ({ ...prev, showIsModal: true, idDetail: id }));
+  }, []);
 
   if (isLoading || !userList) return <div>Loading...</div>;
 
   if (isError) return <div>Error</div>;
 
-  const handleEdit = (id: number | undefined) => {
-    setShowIsModal(true);
-    setIdDetail(id);
-  };
-
   return (
     <div className="user-list-container">
       <h3>User List</h3>
-      {showIsModal && <UserDetail idDetail={idDetail} onHideModal={() => setShowIsModal(false)} />}
+      {stateUser.showIsModal && (
+        <UserDetail idDetail={stateUser.idDetail} onHideModal={() => setStateUser((prev) => ({ ...prev, showIsModal: false }))} />
+      )}
       <table className="user-table">
         <thead>
           <tr>
@@ -46,7 +55,7 @@ function User() {
               <td>{item.email}</td>
               <td>{item.phone_number}</td>
               <td>{item.address}</td>
-              <td>•••••••</td> {/* hoặc item.password nếu bạn muốn show */}
+              <td>•••••••</td>
               <td>
                 {new Intl.DateTimeFormat("vi-VN", {
                   day: "2-digit",

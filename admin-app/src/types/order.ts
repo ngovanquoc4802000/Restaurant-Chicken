@@ -16,6 +16,7 @@ export interface OrderTableTs {
   create_at: Date;
   update_at?: Date;
   paid?: boolean;
+  process?: string;
   details: OrderDetailsTs[];
 }
 export interface CreateOrderPayload {
@@ -34,4 +35,10 @@ export interface OrderDetailsTs {
   note: string;
   create_at?: Date;
   update_at?: Date;
+}
+
+export interface OrderProcess {
+  success: boolean;
+  message: string;
+  nextStep: string;
 }

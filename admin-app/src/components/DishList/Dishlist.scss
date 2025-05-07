@@ -48,6 +48,16 @@
               margin-bottom: 5px;
             }
           }
+          .addImage {
+            padding: 5px;
+            background-color: #2dde71;
+            border-radius: 5px;
+            color: #fff;
+            margin-top: 5px;
+            &:hover {
+              background-color: #007bff;
+            }
+          }
           input[type="text"] {
             width: 100%;
             padding: 6px;

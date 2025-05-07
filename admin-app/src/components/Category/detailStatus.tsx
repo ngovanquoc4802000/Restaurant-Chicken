@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import queriesCategories from "../../queries/categories";
 import { updateCategoryId } from "../../services/categories";
 import { ValueCategory } from "../../types/categories";
+import queriesCategories from "../../queries/categories";
 
 interface DetailTs {
   item: ValueCategory;
@@ -10,9 +10,10 @@ const DetailStatusCategory = ({ item }: DetailTs) => {
   const queryClient = useQueryClient();
 
   const handleDeactivate = async (id: number | undefined | null) => {
-    /* lấy dữ liệu  */
     const findActive = queryClient.getQueryData<ValueCategory[]>(queriesCategories.list.queryKey)?.find((item) => item.id === id);
+
     if (!findActive) return;
+
     try {
       const updated = { ...findActive, status: !findActive.status };
 

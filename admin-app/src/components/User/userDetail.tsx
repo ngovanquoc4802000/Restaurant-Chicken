@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "../button/button";
 import queriesUser from "../../queries/users";
 import "./user.scss";
+import ModalSuccess from "../modal/modalSuccess";
 
 interface UserDetailTs {
   idDetail: number | undefined | null;
@@ -22,6 +23,7 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
     password: "",
     create_at: new Date(),
   });
+
   const queryClient = useQueryClient();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -30,7 +32,7 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
   };
 
   const update = useCallback(async () => {
-    if (idDetail !== null && idDetail !== undefined) return await updateUser(idDetail, value);
+    return idDetail !== null && idDetail !== undefined ? await updateUser(idDetail, value) : "No idDetail";
   }, [idDetail, value]);
 
   const { isPending, mutate: UpdateOrSave } = useMutation({
@@ -81,21 +83,10 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
   };
   return (
     <form className="form" onSubmit={handleSubmit}>
-      {showSuccessModal && (
-        <div id="successModal" className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={onHideModal}>
-              &times;
-            </span>
-            <h2>Success!</h2>
-            <p>Congratulations function has been updated successfully.</p>
-            <button id="confirmButton" onClick={onHideModal}>
-              Agree
-            </button>
-          </div>
-        </div>
-      )}
+      {showSuccessModal && <ModalSuccess onHideModal={onHideModal} />}
+
       {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
+
       <div className="form-group">
         <label htmlFor="fullname">Full Name</label>
         <input type="text" id="fullname" name="fullname" value={value.fullname} onChange={handleChange} />

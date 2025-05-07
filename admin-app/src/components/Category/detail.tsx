@@ -6,12 +6,12 @@ import queriesCategories from "../../queries/categories";
 import Button from "../button/button";
 import "./category.scss";
 
-interface DetaiTs {
+interface DetailTs {
   onHideModal: () => void;
   isDetail: number | null | undefined;
 }
 
-const DetailCategory = ({ isDetail, onHideModal }: DetaiTs) => {
+const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
   /* khởi tạo biến lấy dữ liệu từ global */
   const queryClient = useQueryClient();
   /* khởi tạo state để lưu lại form khi edit */
@@ -56,9 +56,10 @@ const DetailCategory = ({ isDetail, onHideModal }: DetaiTs) => {
   };
   useEffect(() => {
     if (isEdit && isDetail != null) {
-      /* tìm id của edit trong này  */
       const list = queryClient.getQueryData<ValueCategory[]>(queriesCategories.list.queryKey);
+
       const foundCategory = list?.find((item) => item.id === isDetail);
+
       if (foundCategory) {
         setValue({
           name: foundCategory.name,
@@ -105,7 +106,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetaiTs) => {
             <input type="text" name="image" placeholder="...URL" id="image" onChange={handleOnChangeInput} value={value.image} required />
           </div>
           <div className="form-actions">
-            <button type="submit" className="save-button" disabled={isPending} onClick={() => createOrUpdateCategory}>
+            <button type="submit" className="save-button" disabled={isPending}>
               {isDetail ? "Update" : "Save"}
               {isPending && <span className="spinner-border spinner-border-sm"></span>}
             </button>

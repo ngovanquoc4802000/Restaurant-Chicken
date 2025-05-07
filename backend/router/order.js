@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get("/", orderControllers.getOrders);
 router.post("/create", orderControllers.createOrder);
+router.put("/process/:id",orderControllers.updateOrderProcess);
 
 router
   .route("/:id")
