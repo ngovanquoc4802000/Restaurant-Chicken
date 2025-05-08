@@ -1,6 +1,6 @@
 import "./button.css";
 interface ActionButtonProps {
-  action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails";
+  action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails" | "deactivate";
   onClick?: () => void;
   buttonText?: string;
   disable?: boolean;
@@ -36,6 +36,10 @@ const Button = ({ action, onClick, buttonText, disable }: ActionButtonProps) => 
     case "showDetails":
       buttonText = "Details";
       buttonClassName = "showDetails-button";
+      break;
+    case "deactivate":
+      buttonText = "Deactivate";
+      buttonClassName = "deactivate-button";
       break;
     default:
       buttonText = "not font";

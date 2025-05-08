@@ -27,7 +27,8 @@ function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
           ...oldData,
           currentStep: result.nextStep,
         }));
-        await queryClient.invalidateQueries({ queryKey: ["order", orderId], refetchType: "all" });
+
+        /* queryClient.invalidateQueries(["order", orderId]); */
       } else {
         alert("Không thể cập nhật tiến trình đơn hàng.");
       }
@@ -36,7 +37,6 @@ function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
       alert("Đã xảy ra lỗi khi cập nhật đơn hàng.");
     }
   };
-
   const orderMap = useMemo(() => {
     const map = new Map();
     dishlistName?.forEach((cat) => map.set(cat.id, cat.name));

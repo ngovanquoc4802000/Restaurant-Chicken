@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import queriesOrder from "../../queries/orders";
-import Button from "../button/button";
 import { useCallback, useMemo, useState } from "react";
-import OrderDetails from "./orderDetail";
-import queriesUser from "../../queries/users";
 import { OrderDetailsTs } from "../../types/order";
+import OrderDetails from "./orderDetail";
+import queriesOrder from "../../queries/orders";
+import queriesUser from "../../queries/users";
 import OrderForm from "./orderForm";
+import Button from "../button/button";
 
 interface OrderStateTs {
   showOrder: boolean;
@@ -102,6 +102,33 @@ const Order = () => {
               <td>
                 <Button action="showDetails" onClick={() => handleDetails(item.details, item.id, item.process || "")} />
                 <Button action="edit" onClick={() => handleEditOrder(item.id)} />
+                {item.process === "Hoàn thành" ? (
+                  <button
+                    style={{
+                      background: "#6c757d",
+                      color: "white",
+                      border: "none",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Deactivate
+                  </button>
+                ) : (
+                  <button
+                    style={{
+                      background: "#dc3545",
+                      color: "white",
+                      border: "none",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Deactivated
+                  </button>
+                )}
               </td>
             </tr>
           ))}
