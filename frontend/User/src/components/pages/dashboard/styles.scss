@@ -67,9 +67,11 @@ $breakpoint-desktop: 1024px;
       .header__menu-item-inline {
         a {
           text-decoration: none;
-          color: $text-color;
+          color: #201224;
+          font-weight: 600;
           padding: 0.5rem 0;
           display: block;
+          font-size: 18px;
           &:hover {
             color: darken($text-color, 20%);
           }
@@ -118,30 +120,34 @@ $breakpoint-desktop: 1024px;
   }
 
   @media (min-width: $breakpoint-tablet) {
-    display: grid;
-    grid-template-areas: "left nav right"; // Định nghĩa lại khu vực
-    grid-template-columns: auto 1fr auto; // Logo (auto) | Menu (1fr) | Icons (auto)
-    row-gap: 0; // Bỏ khoảng cách hàng
-    align-items: center; // Căn giữa theo chiều dọc
+    row-gap: 0;
+    align-items: center;
     padding: 15px 60px;
+    display: flex;
+    justify-content: space-around;
     &__left {
-      grid-area: left; // Gán vào khu vực 'left'
+      grid-area: left;
       justify-content: flex-start;
-      // Bỏ justify-content: space-between; nếu menu inline không còn ở đây
     }
 
     &__right {
-      grid-area: right; // Gán vào khu vực 'right'
-      gap: 1.5rem; // Tăng khoảng cách giữa các item bên phải
+      grid-area: right;
+      gap: 1rem;
     }
-
-    // Ẩn icon menu hamburger trên tablet+
+    .header__icon--cart {
+      .icon-cart {
+      }
+    }
+    .header__icon--login {
+      font-size: 27px;
+    }
     .header__icon--menu {
-      display: none;
+      font-size: 25px;
     }
 
     .header__nav-inline {
       display: flex;
+      padding: 10px;
       grid-area: nav;
       justify-content: center;
       align-items: center;
@@ -150,10 +156,69 @@ $breakpoint-desktop: 1024px;
 
   @media (min-width: $breakpoint-desktop) {
     .header__nav-inline .header__menu-inline {
-      gap: 2rem; // Tăng khoảng cách giữa các mục menu inline
+      align-items: center;
     }
     &__right {
-      gap: 2rem;
+      align-items: baseline;
+    }
+  }
+}
+
+.order-options {
+  background-color: #202124;
+  padding: 10px 20px;
+  color: $secondary-color;
+  display: grid;
+  grid-template-areas:
+    "links"
+    "button";
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+  align-items: center;
+  justify-items: center;
+  &__container {
+    display: flex;
+    align-items: center;
+  }
+  &__links {
+    padding: 5px 15px;
+    a {
+      color: $secondary-color;
+      padding: 5px 15px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    img {
+      width: 27px;
+    }
+    span {
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+    }
+  }
+  &__separator {
+    color: white; // Màu chữ "hoặc" trắng
+    font-size: 0.8rem;
+    margin: 0 5px; // Khoảng cách xung quanh chữ "hoặc"
+  }
+  &__button {
+    grid-area: button; // Gán vào khu vực 'button'
+    background-color: $primary-color; // Màu đỏ chính
+    color: white; // Màu chữ trắng
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: $cursor;
+    transition: background-color 0.3s ease; // Hiệu ứng hover
+    &:hover {
+      background-color: darken($primary-color, 10%); // Tối màu khi hover
     }
   }
 }
@@ -208,29 +273,29 @@ $breakpoint-desktop: 1024px;
 }
 
 .offcanvas__close-button {
-  position: absolute; 
+  position: absolute;
   top: 10px;
   right: 10px;
   font-size: 1.5rem;
   background: none;
   border: none;
-  cursor: $cursor; 
+  cursor: $cursor;
   color: $text-color;
-  z-index: 10; 
+  z-index: 10;
 }
 
 .offcanvas__content {
-  padding: 20px; 
-  padding-top: 40px; 
+  padding: 20px;
+  padding-top: 40px;
 }
 
 .offcanvas__title {
   margin-top: 15px;
   margin-bottom: 10px;
-  color: $primary-color; 
+  color: $primary-color;
   font-size: 1.1rem;
   font-weight: bold;
-  border-bottom: 1px solid $border-color; 
+  border-bottom: 1px solid $border-color;
   padding-bottom: 5px;
   opacity: 0;
   transform: translateX(-20px);
@@ -239,9 +304,9 @@ $breakpoint-desktop: 1024px;
 .offcanvas__menu {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0; 
+  margin: 0 0 20px 0;
   .offcanvas__menu-item {
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
     opacity: 0;
     transform: translateX(-20px);
     a {
@@ -249,7 +314,7 @@ $breakpoint-desktop: 1024px;
       color: $text-color;
       font-size: 1rem;
       display: block;
-      padding: 5px 0; 
+      padding: 5px 0;
       &:hover {
         color: darken($text-color, 20%);
       }
@@ -260,7 +325,7 @@ $breakpoint-desktop: 1024px;
 @keyframes slideInText {
   to {
     opacity: 1;
-    transform: translateX(0); 
+    transform: translateX(0);
   }
 }
 
@@ -271,7 +336,7 @@ $breakpoint-desktop: 1024px;
 }
 
 .header__icon--login-placeholder {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: bold;
   color: $text-color;
   cursor: $cursor;
