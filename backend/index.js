@@ -28,8 +28,6 @@ app.use(
     origin: "*",
   })
 );
-app.use(express.static("uploads/category"));
-app.use(express.static("uploads/dishlist"));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));

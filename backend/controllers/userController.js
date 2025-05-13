@@ -1,6 +1,3 @@
-import pool from "../database/connectdatabase.js";
-import { createHash } from "crypto";
-
 /* 
 {
     "fullname": "John Doe",
@@ -11,6 +8,9 @@ import { createHash } from "crypto";
 }
     api postman
 */
+import pool from "../database/connectdatabase.js";
+import { createHash } from "crypto";
+
 
 const generateMD5 = (password) => {
   return createHash("md5").update(password).digest("hex");

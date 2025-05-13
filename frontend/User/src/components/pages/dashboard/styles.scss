@@ -219,7 +219,6 @@ $breakpoint-desktop: 1024px;
   .header {
     display: flex;
     flex-direction: column;
-    
   }
   .header__logo {
     img {
@@ -253,7 +252,6 @@ $breakpoint-desktop: 1024px;
         span {
           color: #fff;
           margin-left: 10px;
-
         }
         .order {
           display: none;
@@ -450,6 +448,64 @@ $breakpoint-desktop: 1024px;
 @media (max-width: 767px) {
   .menu-section .menu-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+  .modal-box {
+    background-color: #fff;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    label {
+      display: block;
+      text-align: left;
+      margin: 0.5rem 0 0.25rem;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .error {
+      color: red;
+      margin-bottom: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #e4002b;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #c30026;
+      }
+    }
   }
 }
 

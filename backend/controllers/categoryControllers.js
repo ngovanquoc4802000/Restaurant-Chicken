@@ -1,6 +1,6 @@
 import pool from "../database/connectdatabase.js";
 
-const getCatetoryAll = async (req, res) => {
+const getCategoryAll = async (req, res) => {
   try {
     const [data] = await pool.query(`SELECT * FROM category`);
     if (!data || data.length === 0) {
@@ -71,7 +71,6 @@ const createCategory = async (req, res) => {
 
     if (!name || !handle) {
       return res.status(400).send({
-        // Use 400 for bad request
         success: false,
         message: "Name and handle are required fields",
       });
@@ -338,7 +337,7 @@ const deleteCategoryId = async (req, res) => {
 };
 
 export default {
-  getCatetoryAll,
+  getCategoryAll,
   getCategoryId,
   createCategory,
   categoryPagination,

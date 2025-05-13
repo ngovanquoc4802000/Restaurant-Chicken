@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import Footer from "./footer";
+import Header from "./header";
 import "./styles.scss";
+import OrderOptions from "./oder";
 interface MealItemsTs {
   id: number;
   title: string;
@@ -7,6 +11,12 @@ interface MealItemsTs {
   description: string;
   image: string;
 };
+
+interface CategoryTs {
+  id: number;
+  image: string;
+  title: string
+}
 
 const mealItems: MealItemsTs[] = [
   {
@@ -67,8 +77,51 @@ const mealItems: MealItemsTs[] = [
   },
   // Thêm các mục khác nếu cần
 ];
+
+const categorys: CategoryTs[] = [
+  {
+    id: 1,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/KHUYEN%20MAI.jpg?v=LK5w2g",
+    title: "Ưu đãi"
+  },
+  {
+    id: 2,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/MON%20MOI.jpg?v=LK5w2g",
+    title: "Món mới"
+  },
+  {
+    id: 3,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/COMBO%201%20NGUOI.jpg?v=LK5w2g",
+    title: "Combo 1 Người"
+  },
+  {
+    id: 4,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/TRANG%20MIENG.jpg?v=LK5w2g",
+    title: "Combo Nhóm"
+  },
+  {
+    id: 5,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/COMBO%20NHOM.jpg?v=LK5w2g",
+    title: "Gà Rán"
+  },
+  {
+    id: 6,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/GA.jpg?v=LK5w2g",
+    title: "Cơm Phi Lê"
+  },
+  {
+    id: 7,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/COM.jpg?v=LK5w2g",
+    title: "Gà Viên"
+  },
+  {
+    id: 8,
+    image: "https://static.kfcvietnam.com.vn/images/category/lg/MON%20AN%20NHE.jpg?v=LK5w2g",
+    title: "Bánh Trứng + Trà"
+  }
+]
 function Dashboard() {
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
   const visibleItems = 1;
 
@@ -83,65 +136,12 @@ function Dashboard() {
       setStartIndex(startIndex - visibleItems);
     }
   };
+
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
-
-  const openOffcanvas = () => {
-    setIsOffcanvasOpen(true);
-  };
-
-  const closeOffcanvas = () => {
-    setIsOffcanvasOpen(false);
-  };
   return (
     <div className="Dashboard">
-      <header className="header">
-        <div className="header__left">
-          <div className="header__logo">
-            <img width={78} height={78} className="logo" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
-          </div>
-          <nav className="header__nav-inline">
-            <ul className="header__menu-inline">
-              <li className="header__menu-item-inline"><a href="#">THỰC ĐƠN</a></li>
-              <li className="header__menu-item-inline"><a href="#">KHUYẾN MÃI</a></li>
-              <li className="header__menu-item-inline"><a href="#">DỊCH VỤ TIỆC</a></li>
-              <li className="header__menu-item-inline"><a href="#">HỆ THỐNG NHÀ HÀNG</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className="header__right">
-          <div className="header__icon header__icon--logo">
-            <img className="icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
-          </div>
-          <div className="header__icon header__icon--cart">
-            <img className="icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
-          </div>
-          <div className="header__icon header__icon--login">
-            <i className="fa-solid fa-circle-user"></i>
-          </div>
-          <div className="header__icon header__icon--menu" onClick={openOffcanvas}>
-            <div className="header__icon--menu-placeholder">
-              ☰
-            </div>
-          </div>
-        </div>
-      </header>
-      <div className="order-options">
-        <div className="order-options__container">
-          <div className="order-options__links">
-            <a href="#" className="order-options__link order">Đặt Ngay</a>
-            <img src="../../../../src/assets/shipprt.png" alt="" />
-            <a className="order-options__link">
-              Giao Hàng
-            </a>
-            <img src="../../../../src/assets/cart-heading.png" alt="" />
-            <span className="order-options__separator">hoặc Mang đi</span>
-          </div>
-          <button className="order-options__button">
-            Bắt đầu đặt hàng
-          </button>
-        </div>
-      </div>
+      <Header />
+      <OrderOptions />
       <div id="carouselExample" className="carousel slide">
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -169,82 +169,47 @@ function Dashboard() {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
-      {/* offcanvas */}
-      <div className={`offcanvas-overlay ${isOffcanvasOpen ? 'offcanvas-overlay--visible' : ''}`} onClick={closeOffcanvas}></div>
-      <div className={`offcanvas-panel ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
+      {/* Modal login */}
+      {
+        isShowModal && (
+          <div className="modal-backdrop">
+            <div className="modal-box">
+              <h2>Đăng Nhập</h2>
+              <form >
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="Nhập email"
+                />
 
-        <button className="offcanvas__close-button" onClick={closeOffcanvas}>
-          &times;
-        </button>
-
-        <div className="offcanvas__content">
-          <h3 className="offcanvas__title">DANH MỤC MÓN ĂN</h3>
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Ưu Đãi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Món Mới</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Combo 1 Người</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Combo Nhóm</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Gà Rán - Gà Quay</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Burger - Cơm - Mì Ý </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Thức Ăn Nhẹ </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Thức Uống & Tráng Miệng </a></li>
-          </ul>
-          <h3 className="offcanvas__title">VỀ KFC</h3>
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Câu Chuyện Của Chúng Tôi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tin Khuyến Mãi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tin tức KFC </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tuyển dụng</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Đặt tiệc Sinh nhật</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Đơn Lớn Giá Hời</a></li>
-          </ul>
-
-          <h3 className="offcanvas__title">LIÊN HỆ KFC</h3>
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Theo dõi đơn hàng</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Liên hệ KFC</a></li>
-          </ul>
-
-        </div>
-      </div>
+                <label>Mật khẩu</label>
+                <input
+                  type="password"
+                  placeholder="Nhập mật khẩu"
+                />
+                <button type="submit">Đăng Nhập</button>
+              </form>
+            </div>
+          </div>
+        )
+      }
       {/* full Category vs mealslider */}
       <div className="menuAndMeal">
         {/* section category */}
         <section className="menu-section">
           <h1>Danh mục món ăn</h1>
           <div className="menu-grid">
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/KHUYEN%20MAI.jpg?v=LK5w2g" alt="Khuyến mãi" />
-              <p>Ưu Đãi</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/MON%20MOI.jpg?v=LK5w2g" alt="Món mới" />
-              <p>Món Mới</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/COMBO%201%20NGUOI.jpg?v=LK5w2g" alt="Combo 1 người" />
-              <p>Combo 1 Người</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/TRANG%20MIENG.jpg?v=LK5w2g" alt="Combo nhóm" />
-              <p>Combo Nhóm</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/COMBO%20NHOM.jpg?v=LK5w2g" alt="Gà rán" />
-              <p>Gà Rán</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/GA.jpg?v=LK5w2g" alt="Cơm phi lê" />
-              <p>Cơm Phi Lê</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/COM.jpg?v=LK5w2g" alt="Gà viên" />
-              <p>Gà Viên</p>
-            </div>
-            <div className="menu-item">
-              <img src="https://static.kfcvietnam.com.vn/images/category/lg/MON%20AN%20NHE.jpg?v=LK5w2g" alt="Bánh trứng + trà" />
-              <p>Bánh Trứng + Trà</p>
-            </div>
+            {
+              categorys.map((item) => (
+                <NavLink to="menu">
+                  <div className="menu-item" key={item.id}>
+                    <img src={item.image} alt={item.title} />
+                    <p>{item.title}</p>
+                  </div>
+                </NavLink>
+              ))
+            }
+
           </div>
         </section>
         {/* section meal slider */}
@@ -268,7 +233,7 @@ function Dashboard() {
                     <p>{meal.price}</p>
                     <p>{meal.description}</p>
                   </div>
-                  <button className="meal-add">Thêm</button>
+                  <button onClick={() => setIsShowModal(true)} className="meal-add">Thêm</button>
                 </div>
               ))}
             </div>
@@ -295,73 +260,8 @@ function Dashboard() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="footer">
-        <div className="footer__content">
-          <div className="footer__column">
-            <h3>Danh Mục Món Ăn</h3>
-            <ul>
-              <li>Ưu Đãi</li>
-              <li>Món Mới</li>
-              <li>Combo 1 Người</li>
-              <li>Combo Nhóm</li>
-              <li>Gà Rán - Gà Quay</li>
-              <li>Burger - Cơm - Mì Ý</li>
-              <li>Thức Ăn Nhẹ</li>
-              <li>Thức Uống & Tráng Miệng</li>
-            </ul>
-          </div>
-          <div className="footer__column">
-            <h3>Về KFC</h3>
-            <ul>
-              <li>Câu Chuyện Của Chúng Tôi</li>
-              <li>Tin Khuyến Mãi</li>
-              <li>Tin tức KFC</li>
-              <li>Tuyển dụng</li>
-              <li>Đặt tiệc Sinh nhật</li>
-              <li>Đơn Lớn Giá Hời</li>
-            </ul>
-          </div>
-          <div className="footer__column">
-            <h3>Liên hệ KFC</h3>
-            <ul>
-              <li>Theo dõi đơn hàng</li>
-              <li>Hệ Thống Nhà Hàng</li>
-              <li>Liên hệ KFC</li>
-            </ul>
-          </div>
-          <div className="footer__column">
-            <h3>Chính sách</h3>
-            <ul>
-              <li>Chính sách hoạt động</li>
-              <li>Chính sách và quy định</li>
-              <li>Chính sách bảo mật thông tin</li>
-            </ul>
-          </div>
-          <div className="footer__column">
-            <h3>Download App</h3>
-            <div className="footer__apps">
-              <img src="appstore.png" alt="App Store" />
-              <img src="googleplay.png" alt="Google Play" />
-            </div>
-            <div className="footer__socials">
-              <i className="fab fa-facebook-f"></i>
-              <i className="fab fa-instagram"></i>
-              <i className="fab fa-youtube"></i>
-              <i className="fab fa-twitter"></i>
-            </div>
-          </div>
-        </div>
-
-        <div className="footer__bottom">
-          <p>Copyright © 2023 KFC Vietnam</p>
-          <div className="footer__info">
-            <p><strong>CÔNG TY LIÊN DOANH TNHH KFC VIỆT NAM</strong></p>
-            <p>Số 292 Bà Triệu, P. Lê Đại Hành, Q. Hai Bà Trưng, TP. Hà Nội.</p>
-            <p>Điện thoại: (028) 38489828 - Email: lienhe@kfcvietnam.com.vn</p>
-            <p>Mã số thuế: 0100773885 - Ngày cấp: 29/10/1998</p>
-          </div>
-        </div>
-      </footer>
+      <Outlet />
+      <Footer />
     </div>
   );
 }
