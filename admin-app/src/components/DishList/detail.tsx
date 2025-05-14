@@ -27,7 +27,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
 
   const queryClient = useQueryClient();
 
-  const { data: stateCategory } = useQuery({ ...queriesCategories.list });
+  const { data: stateCategory } = useQuery({ ...queriesCategories.list, enabled: true });
 
   const { data: details } = useQuery(queriesDishlist.detail(idDetail));
 

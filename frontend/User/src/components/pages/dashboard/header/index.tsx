@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
+import "./styles.scss";
 import "../styles.scss";
 
 function Header() {
@@ -23,7 +24,11 @@ function Header() {
           </div>
           <nav className="header__nav-inline">
             <ul className="header__menu-inline">
-              <li className="header__menu-item-inline"><a href="#">THỰC ĐƠN</a></li>
+              <li className="header__menu-item-inline">
+                <NavLink to="/menu">
+                  THỰC ĐƠN
+                </NavLink>
+              </li>
               <li className="header__menu-item-inline"><a href="#">KHUYẾN MÃI</a></li>
               <li className="header__menu-item-inline"><a href="#">DỊCH VỤ TIỆC</a></li>
               <li className="header__menu-item-inline"><a href="#">HỆ THỐNG NHÀ HÀNG</a></li>
@@ -39,7 +44,7 @@ function Header() {
             <img className="icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
           </div>
           <div className="header__icon header__icon--login">
-            <NavLink to="login">
+            <NavLink to="/login">
               <i className="fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
@@ -64,42 +69,42 @@ function Header() {
 
           <ul className="offcanvas__menu">
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Ưu Đãi
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Món Mới
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Combo 1 Người
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Combo Nhóm
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Gà Rán - Gà Quay
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Burger - Cơm - Mì Ý
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Thức Ăn Nhẹ
               </NavLink >
             </li>
             <li className="offcanvas__menu-item">
-              <NavLink to="menu">
+              <NavLink to="/menu">
                 Thức Uống & Tráng Miệng
               </NavLink >
             </li>

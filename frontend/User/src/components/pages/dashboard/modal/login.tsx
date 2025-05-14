@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./login.scss";
 
 function ModalLogin() {
@@ -19,6 +20,9 @@ function ModalLogin() {
           />
           <button type="submit">Đăng Nhập</button>
         </form>
+        <NavLink to="/login/register">
+           Đăng kí
+        </NavLink>
       </div>
     </div>
   );

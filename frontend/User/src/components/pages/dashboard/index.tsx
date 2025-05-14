@@ -2,80 +2,12 @@ import { useQueries } from "@tanstack/react-query";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import queriesCategories from "../../../queries/categories";
+import queriesDishlist from "../../../queries/dishlist";
 import Footer from "./footer";
 import Header from "./header";
+import ModalLogin from "./modal/login";
 import OrderOptions from "./oder";
 import "./styles.scss";
-import queriesDishlist from "../../../queries/dishlist";
-import ModalLogin from "./modal/login";
-interface MealItemsTs {
-  id: number;
-  title: string;
-  price: string;
-  description: string;
-  image: string;
-};
-
-
-const mealItems: MealItemsTs[] = [
-  {
-    id: 1,
-    title: 'Combo Nhóm 2',
-    price: '135.000 ₫',
-    description: '2 Miếng Gà Rán + 1 Burger Zinger + 2 Ly Pepsi (Tiêu chuẩn) + 3 Gói tương (cà/ớt)',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET1.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 2,
-    title: 'Combo Nhóm 3B',
-    price: '160.000 ₫',
-    description: '3 Miếng Gà Rán + 1 Mì Ý Gà Viên + 2 Ly Pepsi (Tiêu chuẩn) + 4 Gói tương (cà/ớt)',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET5.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 3,
-    title: 'Combo Nhóm 4',
-    price: '179.000 ₫',
-    description: '4 Miếng Gà Rán + 1 Khoai Múi Cau (Vừa) + 2 Ly Pepsi (Tiêu chuẩn) + 5 Gói tương (cà/ớt)',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET4.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 4,
-    title: 'Combo Nhóm 3A',
-    price: '219.000 ₫',
-    description: '3 Miếng Gà Rán + 1 MÌ Ý Gà Viên + 1 Burger Tôm + 1 Khoai Tây Chiên (Vừa) + 3 Ly Pepsi (Tiêu chuẩn) + 6 Gói tương (cà/ớt)',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET4.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 5,
-    title: 'Combo Nhóm 5',
-    price: '250.000 ₫',
-    description: '5 Miếng Gà Rán + ...',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET3.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 6,
-    title: 'Combo Nhóm 6',
-    price: '280.000 ₫',
-    description: '6 Miếng Gà Rán + ...',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET3.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 7,
-    title: 'Combo Nhóm 6',
-    price: '280.000 ₫',
-    description: '6 Miếng Gà Rán + ...',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET1.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  {
-    id: 8,
-    title: 'Combo Nhóm 6',
-    price: '280.000 ₫',
-    description: '6 Miếng Gà Rán + ...',
-    image: 'https://static.kfcvietnam.com.vn/images/items/lg/DBUCKET4.jpg?v=LK5w2g', // Thay bằng URL ảnh thực tế
-  },
-  // Thêm các mục khác nếu cần
-];
 
 function Dashboard() {
 
@@ -89,15 +21,15 @@ function Dashboard() {
       }
     ]
   })
-  const category = resultQueries[0].data;
+  const category = resultQueries[0].data ?? [];
 
   const isLoading = resultQueries[0].isLoading;
 
   const error = resultQueries[0].error;
 
-  const dishlist = resultQueries[1].data;
+  const dishlist = resultQueries[1].data ?? [];
 
-  const findComboGroup = dishlist?.filter((item) => item.category_id === 5)
+  const findComboGroup = dishlist.filter((item) => item.category_id === 5)
 
   const [isShowModal, setIsShowModal] = useState(false);
 
@@ -106,14 +38,14 @@ function Dashboard() {
   const visibleItems = 1;
 
   const next = () => {
-    if (startIndex + visibleItems < mealItems.length) {
-      setStartIndex(startIndex + visibleItems);
+    if (startIndex + visibleItems < category.length) {
+      setStartIndex(prev => prev + visibleItems);
     }
   };
-
+  
   const previous = () => {
     if (startIndex > 0) {
-      setStartIndex(startIndex - visibleItems);
+      setStartIndex(prev => prev - visibleItems);
     }
   };
 
@@ -155,9 +87,7 @@ function Dashboard() {
         </button>
       </div>
       {/* Modal login */}
-      {
-        isShowModal && <ModalLogin />
-      }
+      {isShowModal && <ModalLogin />}
       {/* full Category vs mealslider */}
       <div className="menuAndMeal">
         {/* section category */}

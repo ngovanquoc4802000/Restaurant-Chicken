@@ -46,7 +46,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       },
       {
         ...queriesOrder.detail(idDetail),
-        enabled: idDetail !== null && idDetail !== undefined,
+        enabled: isEdit,
       },
       {
         ...queriesDishlist.list,

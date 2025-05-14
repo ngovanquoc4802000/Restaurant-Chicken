@@ -13,7 +13,7 @@ const ListCategory = () => {
     isDetail: null,
   });
   /* lấy dữ liệu từ query key categories */
-  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list });
+  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list, enabled: true });
 
   const handleEditClick = useCallback((id: number | undefined) => {
     setFormState((prev) => ({ ...prev, showForm: true, isDetail: id }));
