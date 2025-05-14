@@ -1,9 +1,13 @@
+import { useQueries } from "@tanstack/react-query";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import queriesCategories from "../../../queries/categories";
 import Footer from "./footer";
 import Header from "./header";
-import "./styles.scss";
 import OrderOptions from "./oder";
+import "./styles.scss";
+import queriesDishlist from "../../../queries/dishlist";
+import ModalLogin from "./modal/login";
 interface MealItemsTs {
   id: number;
   title: string;
@@ -12,11 +16,6 @@ interface MealItemsTs {
   image: string;
 };
 
-interface CategoryTs {
-  id: number;
-  image: string;
-  title: string
-}
 
 const mealItems: MealItemsTs[] = [
   {
@@ -78,51 +77,32 @@ const mealItems: MealItemsTs[] = [
   // Thêm các mục khác nếu cần
 ];
 
-const categorys: CategoryTs[] = [
-  {
-    id: 1,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/KHUYEN%20MAI.jpg?v=LK5w2g",
-    title: "Ưu đãi"
-  },
-  {
-    id: 2,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/MON%20MOI.jpg?v=LK5w2g",
-    title: "Món mới"
-  },
-  {
-    id: 3,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/COMBO%201%20NGUOI.jpg?v=LK5w2g",
-    title: "Combo 1 Người"
-  },
-  {
-    id: 4,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/TRANG%20MIENG.jpg?v=LK5w2g",
-    title: "Combo Nhóm"
-  },
-  {
-    id: 5,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/COMBO%20NHOM.jpg?v=LK5w2g",
-    title: "Gà Rán"
-  },
-  {
-    id: 6,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/GA.jpg?v=LK5w2g",
-    title: "Cơm Phi Lê"
-  },
-  {
-    id: 7,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/COM.jpg?v=LK5w2g",
-    title: "Gà Viên"
-  },
-  {
-    id: 8,
-    image: "https://static.kfcvietnam.com.vn/images/category/lg/MON%20AN%20NHE.jpg?v=LK5w2g",
-    title: "Bánh Trứng + Trà"
-  }
-]
 function Dashboard() {
+
+  const resultQueries = useQueries({
+    queries: [
+      {
+        ...queriesCategories.list,
+      },
+      {
+        ...queriesDishlist.list
+      }
+    ]
+  })
+  const category = resultQueries[0].data;
+
+  const isLoading = resultQueries[0].isLoading;
+
+  const error = resultQueries[0].error;
+
+  const dishlist = resultQueries[1].data;
+
+  const findComboGroup = dishlist?.filter((item) => item.category_id === 5)
+
   const [isShowModal, setIsShowModal] = useState(false);
+
   const [startIndex, setStartIndex] = useState(0);
+
   const visibleItems = 1;
 
   const next = () => {
@@ -138,6 +118,11 @@ function Dashboard() {
   };
 
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
+
+  if (isLoading || !category) return <div>Loading...</div>;
+
+  if (error) return "An error has occurred";
+
   return (
     <div className="Dashboard">
       <Header />
@@ -171,27 +156,7 @@ function Dashboard() {
       </div>
       {/* Modal login */}
       {
-        isShowModal && (
-          <div className="modal-backdrop">
-            <div className="modal-box">
-              <h2>Đăng Nhập</h2>
-              <form >
-                <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Nhập email"
-                />
-
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="Nhập mật khẩu"
-                />
-                <button type="submit">Đăng Nhập</button>
-              </form>
-            </div>
-          </div>
-        )
+        isShowModal && <ModalLogin />
       }
       {/* full Category vs mealslider */}
       <div className="menuAndMeal">
@@ -200,11 +165,11 @@ function Dashboard() {
           <h1>Danh mục món ăn</h1>
           <div className="menu-grid">
             {
-              categorys.map((item) => (
-                <NavLink to="menu">
+              category.map((item) => (
+                <NavLink style={{ color: "#000", textDecoration: "none", fontWeight: "700", fontSize: "1.2rem" }} className="menu-link" to="menu">
                   <div className="menu-item" key={item.id}>
-                    <img src={item.image} alt={item.title} />
-                    <p>{item.title}</p>
+                    <img src={item.image} alt={item.handle} />
+                    <p style={{ padding: "10px" }}>{item.name}</p>
                   </div>
                 </NavLink>
               ))
@@ -223,14 +188,16 @@ function Dashboard() {
               className="meal-suggestion-section__grid"
               style={{ transform: translateX }}
             >
-              {mealItems.map((meal) => (
+              {findComboGroup?.map((meal) => (
                 <div key={meal.id} className="meal-suggestion-card">
                   <div className="meal-suggestion-card__image">
-                    <img className="meal__image" src={meal.image} alt={meal.title} />
+                    <img className="meal__image" src={meal.images[0]?.image || ""} alt={meal.title} />
                   </div>
                   <div className="meal-suggestion-card__info">
                     <h3>{meal.title}</h3>
-                    <p>{meal.price}</p>
+                    <p>{meal.price}
+                      <strong style={{ marginLeft: "5px" }}>{meal.currency}</strong>
+                    </p>
                     <p>{meal.description}</p>
                   </div>
                   <button onClick={() => setIsShowModal(true)} className="meal-add">Thêm</button>

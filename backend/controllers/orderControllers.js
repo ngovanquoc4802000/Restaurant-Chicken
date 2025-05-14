@@ -138,9 +138,10 @@ export const createOrder = async (req, res) => {
       return total + price * quantity;
     }, 0);
 
-    // Insert into order table (đã loại bỏ cột 'id')
+    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+
     const [orderResult] = await connection.query(
-      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price, status, paid) VALUES(?, ?, ?, ?, ?,?, ? , ?)",
+      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price, status, paid,process,create_at,update_at) VALUES(?,? ,? ,? , ?, ?, ?, ?,?, ? , ?)",
       [
         user_id,
         address,
@@ -150,6 +151,9 @@ export const createOrder = async (req, res) => {
         totalPrice,
         false,
         false,
+        "Xử lý",
+        now,
+        now
       ]
     );
 
@@ -159,8 +163,8 @@ export const createOrder = async (req, res) => {
     for (const item of list_order) {
       const { id_dishlist, quantity, price, note } = item;
       await connection.query(
-        "INSERT INTO `order_details` (quantity, price, note, id_dishlist, id_order) VALUES(?, ?, ?, ?, ?)",
-        [quantity, price, note, id_dishlist, orderId]
+        "INSERT INTO `order_details` (quantity, price, note, id_dishlist, id_order,create_at,update_at) VALUES(?, ?, ?, ?, ?,?,?)",
+        [quantity, price, note, id_dishlist, orderId,now,now]
       );
     }
 
@@ -221,11 +225,11 @@ export const updateOrder = async (req, res) => {
       }
       return total + price * quantity;
     }, 0);
-
+    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
     // Update order details
     const [updateResult] = await connection.query(
       `UPDATE \`order_table\`
-       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?
+       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?, update_at = ?  
        WHERE id = ?`,
       [
         address,
@@ -235,6 +239,7 @@ export const updateOrder = async (req, res) => {
         status,
         paid,
         newTotalPrice,
+        now,
         id,
       ]
     );
@@ -259,14 +264,16 @@ export const updateOrder = async (req, res) => {
 
     const orderDetailsPromises = validOrderDetails.map((detail) => {
       return connection.query(
-        `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note)
-         VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note,create_at,update_at)
+         VALUES (?, ?, ?, ?, ?,?,?)`,
         [
           id,
           detail.id_dishlist,
           detail.quantity,
           detail.price,
           detail.note || "",
+          now,
+          now
         ]
       );
     });

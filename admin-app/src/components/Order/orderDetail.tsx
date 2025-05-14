@@ -28,7 +28,7 @@ function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
           currentStep: result.nextStep,
         }));
 
-        /* queryClient.invalidateQueries(["order", orderId]); */
+        queryClient.invalidateQueries(["order", orderId]);
       } else {
         alert("Không thể cập nhật tiến trình đơn hàng.");
       }

@@ -87,40 +87,56 @@ export const createDishlist = async (req, res) => {
     images,
     status = true,
   } = req.body;
+
   if (!name || !title || !price) {
     return res.status(400).send({
       success: false,
       message: "Please provide name, title, and price",
     });
   }
+
+  if (status !== undefined && typeof status !== "boolean") {
+    return res.status(400).send({
+      success: false,
+      message: "Status must be a boolean value (true/false).",
+    });
+  }
+
+  const statusTinyInt = status ? 1 : 0;
+  const numericPrice = parseFloat(price);
+  if (isNaN(numericPrice)) {
+    return res.status(400).send({
+      success: false,
+      message: "Price must be a valid number",
+    });
+  }
+
+  const now = new Date().toISOString().slice(0, 19).replace("T", " ");
   try {
     const [data] = await pool.query(
       `INSERT INTO dishlist 
-      (category_id, name, title,currency, price,description,status) 
-      VALUES(?,?,?,?,?,?,?)`,
+      (category_id, name, title, currency, price, description, status, create_at, update_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         category_id,
         name,
         title,
         currency || "VND",
-        price,
+        numericPrice,
         description,
-        status,
+        statusTinyInt,
+        now,
+        now,
       ]
     );
-    if (!data) {
-      return res.status(404).send({
+
+    if (!data || data.affectedRows === 0) {
+      return res.status(500).send({
         success: false,
-        message: "404 not found",
+        message: "Failed to create dishlist",
       });
     }
-    if (status !== undefined && typeof status !== "boolean") {
-      return res.status(400).send({
-        success: false,
-        message: "Status must be a boolean value (true/false).",
-      });
-    }
-    const statusTinyInt = status ? 1 : 0;
+
     const dishId = data.insertId;
     const insertImages = [];
 
@@ -129,12 +145,11 @@ export const createDishlist = async (req, res) => {
         const { alt_text, image: imageUrl } = image;
 
         const [imageResult] = await pool.query(
-          `INSERT INTO dishlist_images (id_dishlist,alt_text,image)
-          VALUES(?,?,?)
-          `,
-
-          [dishId, alt_text, imageUrl]
+          `INSERT INTO dishlist_images (id_dishlist, alt_text, image,create_at,update_at)
+          VALUES (?, ?, ?,?,?)`,
+          [dishId, alt_text, imageUrl, now, now]
         );
+
         if (imageResult) {
           insertImages.push({
             id: imageResult.insertId,
@@ -145,23 +160,26 @@ export const createDishlist = async (req, res) => {
         }
       }
     }
-    const [newDish] = await pool.query(`SELECT * FROM dishlist WHERE id= ?`, [
-      dishId,
-    ]);
-    res.status(200).send({
+
+    const [newDishRows] = await pool.query(
+      `SELECT * FROM dishlist WHERE id = ?`,
+      [dishId]
+    );
+
+    res.status(201).send({
       success: true,
-      message: "success api ",
+      message: "Dishlist created successfully",
       data: {
-        id: dishId,
-        ...newDish,
+        ...newDishRows[0],
         images: insertImages,
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
       success: false,
       message: "Error creating dishlist",
+      error: error.message, // thêm để dễ debug
     });
   }
 };
@@ -183,7 +201,8 @@ export const updateDishlistId = async (req, res) => {
   if (!category_id || !name || !title || !price || !description) {
     return res.status(400).json({
       success: false,
-      message: "Please provide category_id, name, title, price, and description",
+      message:
+        "Please provide category_id, name, title, price, and description",
     });
   }
 
@@ -219,19 +238,24 @@ export const updateDishlistId = async (req, res) => {
         message: "Update failed or dishlist not modified",
       });
     }
-
+    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
     // Cập nhật ảnh
-    await pool.query(`DELETE FROM dishlist_images WHERE id_dishlist = ?`, [dishId]);
+    await pool.query(`DELETE FROM dishlist_images WHERE id_dishlist = ?`, [
+      dishId,
+    ]);
     for (const img of images) {
       if (img.image) {
         await pool.query(
-          `INSERT INTO dishlist_images (id_dishlist, alt_text, image) VALUES (?, ?, ?)`,
-          [dishId, img.alt_text || "", img.image]
+          `INSERT INTO dishlist_images (id_dishlist, alt_text, image , create_at, update_at) VALUES (?, ?, ?, ? , ?)`,
+          [dishId, img.alt_text || "", img.image, now, now]
         );
       }
     }
 
-    const [updateDish] = await pool.query(`SELECT * FROM dishlist WHERE id = ?`, [dishId]);
+    const [updateDish] = await pool.query(
+      `SELECT * FROM dishlist WHERE id = ?`,
+      [dishId]
+    );
     const [updatedImages] = await pool.query(
       `SELECT * FROM dishlist_images WHERE id_dishlist = ?`,
       [dishId]
@@ -254,7 +278,6 @@ export const updateDishlistId = async (req, res) => {
     });
   }
 };
-
 
 export const deleteDishlistId = async (req, res) => {
   const removeDishlist = req.params.id;

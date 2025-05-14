@@ -148,7 +148,6 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
                   className="image"
                   onChange={(e) => handleImageChange(index, e.target.value)}
                   value={item.image || ""}
-                  required
                 />
                 {item.image && <img src={item.image} alt={`Preview ${index}`} />}
               </div>

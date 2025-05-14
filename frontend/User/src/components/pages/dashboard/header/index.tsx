@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
-import "../styles.scss";
 import { useState } from "react";
+import "../styles.scss";
 
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
@@ -63,14 +63,46 @@ function Header() {
           <h3 className="offcanvas__title">DANH MỤC MÓN ĂN</h3>
 
           <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Ưu Đãi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Món Mới</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Combo 1 Người</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Combo Nhóm</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Gà Rán - Gà Quay</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Burger - Cơm - Mì Ý </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Thức Ăn Nhẹ </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Thức Uống & Tráng Miệng </a></li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Ưu Đãi
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Món Mới
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Combo 1 Người
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Combo Nhóm
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Gà Rán - Gà Quay
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Burger - Cơm - Mì Ý
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Thức Ăn Nhẹ
+              </NavLink >
+            </li>
+            <li className="offcanvas__menu-item">
+              <NavLink to="menu">
+                Thức Uống & Tráng Miệng
+              </NavLink >
+            </li>
           </ul>
 
           <h3 className="offcanvas__title">VỀ KFC</h3>

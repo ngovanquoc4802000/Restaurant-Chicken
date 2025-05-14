@@ -67,12 +67,17 @@ const sections: CategoryTs[] = [
 
 
 function Category() {
+
   const navigate = useNavigate();
 
   const { id } = useParams();
 
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  const handleClick = (id: string) => {
+    const slug = slugify(id);
+    navigate(`/menu/${slug}`);
+  }
   const handleProductClick = (categoryId: string, productTitle: string) => {
     const slug = slugify(productTitle);
     navigate(`/menu/${categoryId}/${slug}`);
@@ -81,7 +86,7 @@ function Category() {
   useEffect(() => {
     if (id && refs.current[id]) {
       refs.current[id]?.scrollIntoView({ behavior: "smooth" });
-    } 
+    }
   }, [id]);
   return (
     <div className="category-full">
@@ -120,8 +125,8 @@ function Category() {
                         {section.title?.map((item) => (
                           <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="product-card"
-                             onClick={() => handleProductClick(section.id, item.title)}
-                             style={{ cursor: "pointer" }}
+                              onClick={() => handleProductClick(section.id, item.title)}
+                              style={{ cursor: "pointer" }}
                             >
                               <div className="product-image">
                                 <img src={item.image} alt={item.title} />
