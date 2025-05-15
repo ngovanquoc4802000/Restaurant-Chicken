@@ -1,7 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 import "./styles.scss";
-import "../styles.scss";
 
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
@@ -15,41 +14,41 @@ function Header() {
   };
   return (
     <>
-      <header className="header">
-        <div className="header__left">
-          <div className="header__logo">
+      <header className="header flex justify-between bg-white relative z-10 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+        <div className="header__left flex items-center justify-between">
+          <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
-              <img width={78} height={78} className="logo" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
+              <img width={78} height={78} className="logo block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
             </NavLink>
           </div>
-          <nav className="header__nav-inline">
-            <ul className="header__menu-inline">
+          <nav className="header__nav-inline hidden">
+            <ul className="header__menu-inline list-none p-0 m-0 flex gap-5">
               <li className="header__menu-item-inline">
-                <NavLink to="/menu">
+                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu">
                   THỰC ĐƠN
                 </NavLink>
               </li>
-              <li className="header__menu-item-inline"><a href="#">KHUYẾN MÃI</a></li>
-              <li className="header__menu-item-inline"><a href="#">DỊCH VỤ TIỆC</a></li>
-              <li className="header__menu-item-inline"><a href="#">HỆ THỐNG NHÀ HÀNG</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">KHUYẾN MÃI</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">DỊCH VỤ TIỆC</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">HỆ THỐNG NHÀ HÀNG</a></li>
             </ul>
           </nav>
         </div>
 
-        <div className="header__right">
-          <div className="header__icon header__icon--logo">
-            <img className="icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
+        <div className="header__right flex items-center justify-end gap-4">
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--logo">
+            <img className="block max-w-full h-auto icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
           </div>
-          <div className="header__icon header__icon--cart">
-            <img className="icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
+            <img className="block max-w-full h-auto icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
           </div>
-          <div className="header__icon header__icon--login">
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
             <NavLink to="/login">
               <i className="fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
-          <div className="header__icon header__icon--menu" onClick={openOffcanvas}>
-            <div className="header__icon--menu-placeholder">
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
+            <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
               ☰
             </div>
           </div>
@@ -57,75 +56,75 @@ function Header() {
         <Outlet />
       </header>
       {/* offcanvas */}
-      <div className={`offcanvas-overlay ${isOffcanvasOpen ? 'offcanvas-overlay--visible' : ''}`} onClick={closeOffcanvas}></div>
-      <div className={`offcanvas-panel ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
+      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={closeOffcanvas}></div>
+      <div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
 
-        <button className="offcanvas__close-button" onClick={closeOffcanvas}>
+        <button className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" onClick={closeOffcanvas}>
           &times;
         </button>
 
-        <div className="offcanvas__content">
-          <h3 className="offcanvas__title">DANH MỤC MÓN ĂN</h3>
+        <div className="offcanvas__content p-5 pt-10">
+          <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">DANH MỤC MÓN ĂN</h3>
 
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item">
+          <ul className="offcanvas__menu list-none p-0 mb-5">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Ưu Đãi
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Món Mới
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Combo 1 Người
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Combo Nhóm
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Gà Rán - Gà Quay
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Burger - Cơm - Mì Ý
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Thức Ăn Nhẹ
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item">
+            <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu">
                 Thức Uống & Tráng Miệng
               </NavLink >
             </li>
           </ul>
 
-          <h3 className="offcanvas__title">VỀ KFC</h3>
+          <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">VỀ KFC</h3>
 
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Câu Chuyện Của Chúng Tôi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tin Khuyến Mãi</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tin tức KFC </a></li>
-            <li className="offcanvas__menu-item"><a href="#">Tuyển dụng</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Đặt tiệc Sinh nhật</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Đơn Lớn Giá Hời</a></li>
+          <ul className="offcanvas__menu list-none p-0 ">
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Câu Chuyện Của Chúng Tôi</a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Tin Khuyến Mãi</a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Tin tức KFC </a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Tuyển dụng</a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Đặt tiệc Sinh nhật</a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Đơn Lớn Giá Hời</a></li>
           </ul>
 
-          <h3 className="offcanvas__title">LIÊN HỆ KFC</h3>
+          <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">LIÊN HỆ KFC</h3>
 
-          <ul className="offcanvas__menu">
-            <li className="offcanvas__menu-item"><a href="#">Theo dõi đơn hàng</a></li>
-            <li className="offcanvas__menu-item"><a href="#">Liên hệ KFC</a></li>
+          <ul className="offcanvas__menu list-none p-0 ">
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Theo dõi đơn hàng</a></li>
+            <li className="offcanvas__menu-item mb-2 "><a href="#">Liên hệ KFC</a></li>
           </ul>
 
         </div>

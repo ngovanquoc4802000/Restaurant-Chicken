@@ -19,6 +19,7 @@ $breakpoint-desktop: 1024px;
       "links"
       "button";
     grid-template-columns: 1fr;
+    row-gap: 10px;
     align-items: center;
     justify-items: center;
     &__container {
@@ -177,29 +178,12 @@ $breakpoint-desktop: 1024px;
 
 /* section menu category */
 .menu-section {
-  padding: 20px;
-  h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
   .menu-grid {
-    display: grid;
     grid-template-columns: repeat(4, 1fr); // Desktop: 4 cột cố định
-    gap: 20px;
-    padding: 0 10px;
     .menu-item {
-      background-color: #fff;
-      border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.2s ease;
       &:hover {
         transform: scale(1.05);
-      }
-      img {
-        width: 100%;
-        height: auto;
-        display: block;
       }
     }
   }
@@ -215,88 +199,12 @@ $breakpoint-desktop: 1024px;
   }
 }
 
-/* section meal slider */
-.meal-suggestion-section__container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  .meal-suggestion-section__viewport {
-    overflow: hidden;
-    width: 100%;
-    .meal-suggestion-section__grid {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-      width: calc(100% * totalItems); // hoặc flex-wrap: nowrap nếu responsive
-      .meal-suggestion-card {
-        padding: 1rem;
-        transition: all 0.3s;
-        width: 25%; // 4 cards per row
-        flex: 0 0 25%; // Prevent shrinking
-        box-sizing: border-box;
-        .meal-suggestion-card__image {
-          img {
-            width: 100%;
-          }
-        }
-        .meal-suggestion-card__info {
-          min-height: 215px;
-        }
-        .meal-add {
-          padding: 12px 12px;
-          background-color: #ccc;
-          border: none;
-          width: 100%;
-          border-radius: 50px;
-          color: #fff;
-        }
-      }
-    }
-  }
-}
 /* section app download */
 .app-download {
-  background-color: #f8f6f4;
-  padding: 2rem 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .app-download__content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    max-width: 1200px;
-    width: 100%;
-    gap: 2rem;
-  }
-
-  .app-download__graphic {
-    flex: 1;
-    img {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-    }
-  }
-
   .app-download__stores {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    justify-content: center;
-
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: center;
-    }
-
-    .app-download__store-button {
-      display: inline-block;
-      img {
-        width: 150px;
-        height: auto;
-      }
     }
   }
 }
@@ -314,68 +222,7 @@ $breakpoint-desktop: 1024px;
   stroke-width: 1.5;
 }
 
-.header__icon--login-placeholder {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: $text-color;
-  cursor: $cursor;
-  // Có thể thêm padding hoặc kích thước cố định nếu cần
-  // width: 40px;
-  // height: 40px;
-}
-
 /* footer */
-.footer {
-  background: #1c1c1c;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  padding: 2rem;
-  &__content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    border-bottom: 1px solid #444;
-    padding-bottom: 2rem;
-    .footer__column {
-      h3 {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        color: #fff;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        li {
-          margin-bottom: 0.5rem;
-          font-size: 0.875rem;
-          cursor: pointer;
-        }
-      }
-      .footer__apps {
-        img {
-          height: 40px;
-          margin-right: 0.5rem;
-        }
-      }
-      .footer__socials {
-        margin-top: 1rem;
-        i {
-          font-size: 1.25rem;
-          margin-right: 0.8rem;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-  &__bottom {
-    padding-top: 2rem;
-    font-size: 0.875rem;
-    .footer__info {
-      margin-top: 1rem;
-    }
-  }
-}
 
 @media (max-width: 768px) {
   .footer__content {
