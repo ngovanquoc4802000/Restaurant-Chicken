@@ -4,7 +4,7 @@ function OrderOptions() {
   return (
     <div className="order-options">
       <div className="order-options__container">
-        <div className="order-options__links">
+        <div className="order-options__links flex items-center">
           <a href="#" className="order-options__link order">Đặt Ngay</a>
           <img src="../../../../src/assets/shipprt.png" alt="" />
           <a className="order-options__link">
