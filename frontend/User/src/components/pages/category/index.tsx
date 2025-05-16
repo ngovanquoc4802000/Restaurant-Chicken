@@ -7,11 +7,10 @@ import Header from "../dashboard/header";
 import OrderOptions from "../dashboard/oder";
 import queriesCategories from "../../../queries/categories";
 import queriesDishlist from "../../../queries/dishlist";
-import "./styles.scss";
 import "../dashboard/styles.scss";
 
 function Category() {
-  
+
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -111,12 +110,12 @@ function Category() {
                   {sectionDishes.length > 0 ? (
                     <div className="item">
                       <div className="item-full">
-                        <div className="container">
-                          <div className="row">
+                        <div className="container mx-auto px-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
                             {sectionDishes.map((item) => (
-                              <div className="col-lg-3 col-md-4 col-sm-6" key={item.id}>
+                              <div className="w-full sm:w-1/2 md:1/3 lg:w-1/4" key={item.id}>
                                 <div
-                                  className="product-card"
+                                  className="product-card shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 w-60 rounded-xl overflow-hidden bg-white transition-transform duration-200"
                                   onClick={() =>
                                     handleProductClick(String(section.id), item.title)
                                   }
@@ -124,20 +123,21 @@ function Category() {
                                 >
                                   {item.images?.[0]?.image && (
                                     <div className="Image">
-                                      <div className="product-image">
+                                      <div className="product-image relative">
                                         <img
+                                          className="w-full h-auto block"
                                           src={item.images[0].image}
                                           alt={item.title}
                                         />
                                       </div>
-                                      <div className="product-info">
-                                        <div className="title-price">
-                                          <h3>{item.title}</h3>
-                                          <span className="price">{item.price}</span>
+                                      <div className="product-info py-[10px] px-[15px]">
+                                        <div className="title-price flex justify-between items-center">
+                                          <h3 className="text-[16px] font-bold m-0">{item.title}</h3>
+                                          <span className="price font-bold text-[#000]">{item.price}</span>
                                         </div>
-                                        <p className="description">{item.description}</p>
-                                        <button className="add-button">Thêm</button>
+                                        <p className="description text-[13px] text-[#555] my-[8px] mx-[0px] min-h-9">{item.description}</p>
                                       </div>
+                                      <button className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]">Thêm</button>
                                     </div>
                                   )}
                                 </div>

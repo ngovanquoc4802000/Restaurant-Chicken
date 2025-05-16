@@ -11,21 +11,6 @@ $breakpoint-desktop: 1024px;
 
 @media (min-width: $breakpoint-tablet) {
   .order-options {
-    background-color: #202124;
-    padding: 8px 16px;
-    color: $secondary-color;
-    display: grid;
-    grid-template-areas:
-      "links"
-      "button";
-    grid-template-columns: 1fr;
-    row-gap: 10px;
-    align-items: center;
-    justify-items: center;
-    &__container {
-      display: flex;
-      align-items: center;
-    }
     &__links {
       padding: 5px 15px;
       a {
@@ -83,6 +68,7 @@ $breakpoint-desktop: 1024px;
     display: block;
   }
   .order-options {
+    display: contents;
     .order-options__container {
       position: fixed;
       bottom: 0;
@@ -94,6 +80,7 @@ $breakpoint-desktop: 1024px;
       padding: 0px 30px;
       .order-options__links {
         padding: 10px;
+        justify-content: center;
         img {
           width: 25px;
         }
@@ -112,7 +99,6 @@ $breakpoint-desktop: 1024px;
         }
       }
       .order-options__button {
-        border: none;
         width: 100%;
         padding: 12px 12px;
         margin-bottom: 5px;
@@ -179,12 +165,8 @@ $breakpoint-desktop: 1024px;
 /* section menu category */
 .menu-section {
   .menu-grid {
-    grid-template-columns: repeat(4, 1fr); // Desktop: 4 cột cố định
     .menu-item {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      &:hover {
-        transform: scale(1.05);
-      }
     }
   }
 }

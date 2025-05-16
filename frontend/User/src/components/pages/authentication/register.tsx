@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import "./styles.scss";
 
 function Register() {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -18,17 +17,18 @@ function Register() {
     email: false,
     password: false
   });
+  
   const passwordValidations = {
     length: password.length >= 8,
     uppercaseLowercase: /(?=.*[a-z])(?=.*[A-Z])/.test(password),
     number: /(?=.*\d)/.test(password),
     specialChar: /(?=.*[@#$%^&*!()_+[\]{}|\\:;'",.<>?/-])/.test(password),
   };
+
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  // Hàm trả về error message nếu cần
   const getError = (field: string, value: string) => {
     if (!value.trim()) {
       switch (field) {
@@ -51,22 +51,22 @@ function Register() {
   };
 
   return (
-    <div className="register-page">
+    <div className="register-page gid grid-cols-1 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
       <Header />
-      <div className="register-container">
-        <div className="register-banner">
-          <img width={100} src="https://static.kfcvietnam.com.vn/images/web/signin/lg/signin.jpg?v=4B5B0L" alt="KFC Logo" />
+      <div className="register-container grid grid-cols-2 py-0 px-20">
+        <div className="register-banner bg-[#e4002b] text-white p-8 flex flex-col justify-center items-center text-center">
+          <img width={100} className="w-full" src="https://static.kfcvietnam.com.vn/images/web/signin/lg/signin.jpg?v=4B5B0L" alt="KFC Logo" />
         </div>
-        <div className="register-form">
-          <h2>TẠO TÀI KHOẢN</h2>
-          <form>
-            <label>Họ của bạn *</label>
+        <div className="register-form p-12 flex-col justify-center">
+          <h2 className="text-[1.8rem] mb-4">TẠO TÀI KHOẢN</h2>
+          <form className="flex flex-col ">
+            <label className="mt-4 font-bold">Họ của bạn *</label>
             <input
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               onBlur={() => handleBlur('firstName')}
-              className={errors.firstName ? 'error-input' : ''}
+              className={errors.firstName ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.firstName && <div style={{ color: "red" }} className="error-msg">{errors.firstName}</div>}
             {/* Tên */}
@@ -76,7 +76,7 @@ function Register() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               onBlur={() => handleBlur('lastName')}
-              className={errors.lastName ? 'error-input' : ''}
+              className={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.lastName && <div style={{ color: "red" }} className="error-msg">{errors.lastName}</div>}
             <label>Số điện thoại *</label>
@@ -85,7 +85,7 @@ function Register() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               onBlur={() => handleBlur('phone')}
-              className={errors.phone ? 'error-input' : ''}
+              className={errors.phone ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.phone && <div style={{ color: "red" }} className="error-msg">{errors.phone}</div>}
 
@@ -95,43 +95,43 @@ function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => handleBlur('email')}
-              className={errors.email ? 'error-input' : ''}
+              className={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
 
 
             <label>Mật khẩu *</label>
-            <div className="password-wrapper">
+            <div className="password-wrapper relative">
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => handleBlur('password')}
-                className={errors.password ? 'error-input' : ''}
+                className={errors.password ? 'error-input w-full p-2 border border-gray-500 rounded mt-1' : ''}
               />
               {errors.password && <div style={{ color: "red" }} className="error-msg">{errors.password}</div>}
               {showTooltip && (
-                <div className="tooltip">
-                  <p><span className={passwordValidations.length ? 'valid' : ''}>✔</span> 8 ký tự trở lên</p>
-                  <p><span className={passwordValidations.uppercaseLowercase ? 'valid' : ''}>✔</span> Thường & chữ viết hoa</p>
-                  <p><span className={passwordValidations.number ? 'valid' : ''}>✔</span> Ít nhất 1 số</p>
-                  <p><span className={passwordValidations.specialChar ? 'valid' : ''}>✔</span> 1 ký tự đặc biệt (!@#$%)</p>
+                <div className="tooltip absolute top-[105%] left-0 bg-black text-white p-4 rounded-md min-w-max text-[0.85rem] z-[1]">
+                  <p className="my-1 mx-0"><span className={passwordValidations.length ? 'valid text-[#00ff00]' : ''}>✔</span> 8 ký tự trở lên</p>
+                  <p className="my-1 mx-0"><span className={passwordValidations.uppercaseLowercase ? 'valid text-[#00ff00]' : ''}>✔</span> Thường & chữ viết hoa</p>
+                  <p className="my-1 mx-0"><span className={passwordValidations.number ? 'valid text-[#00ff00]' : ''}>✔</span> Ít nhất 1 số</p>
+                  <p className="my-1 mx-0"><span className={passwordValidations.specialChar ? 'valid text-[#00ff00]' : ''}>✔</span> 1 ký tự đặc biệt (!@#$%)</p>
                 </div>
               )}
             </div>
 
-            <div className="terms">
-              <input type="checkbox" id="agree" required />
+            <div className="terms mt-6 flex ">
+              <input className="mr-2 mt-1" type="checkbox" id="agree" required />
               <label htmlFor="agree">
                 Tôi đã đọc và đồng ý với các <a href="#">Chính Sách Hoạt Động</a> và <a href="#">Chính Sách Bảo Mật</a>.
               </label>
             </div>
 
-            <button className="btn-register" type="submit">Tạo Tài Khoản</button>
+            <button className="btn-register mt-8 bg-[#e4002b] text-white p-3 border-none rounded-3xl font-bold cursor-pointer text-[1.1rem]" type="submit">Tạo Tài Khoản</button>
           </form>
-          <div className="login">
+          <div className="login text-center p-3">
             <label htmlFor="">Bạn đã có tài khoản</label>
-            <NavLink to="/login">
+            <NavLink className="font-bold text-black" to="/login">
               Đăng nhập
             </NavLink>
           </div>
