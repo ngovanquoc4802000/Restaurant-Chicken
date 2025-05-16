@@ -21,7 +21,7 @@ function ModalLogin() {
           <button type="submit">Đăng Nhập</button>
         </form>
         <NavLink to="/login/register">
-           Đăng kí
+          Đăng kí
         </NavLink>
       </div>
     </div>

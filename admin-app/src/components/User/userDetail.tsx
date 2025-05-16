@@ -4,8 +4,8 @@ import { updateUser } from "../../services/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "../button/button";
 import queriesUser from "../../queries/users";
-import "./user.scss";
 import ModalSuccess from "../modal/modalSuccess";
+import "./user.scss";
 
 interface UserDetailTs {
   idDetail: number | undefined | null;

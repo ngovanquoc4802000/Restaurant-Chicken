@@ -1,28 +1,77 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import type { UsersTs } from "../../../mockup/user";
+import { createUsersRegister } from "../../../services/users";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 
 function Register() {
+
+  const navigate = useNavigate();
+
   const [showTooltip, setShowTooltip] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [value, setValue] = useState<UsersTs>({
+    fullname: "",
+    email: "",
+    phone_number: "",
+    address: "",
+    password: "",
+    create_at: new Date(),
+  });
+
   const [touched, setTouched] = useState({
     firstName: false,
     lastName: false,
     phone: false,
     email: false,
+    address: false,
     password: false
   });
-  
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    updateSave();
+  }
+
+  const update = async () => {
+    return await createUsersRegister(value);
+  }
+
+  const { isPending, mutate: updateSave } = useMutation({
+    mutationFn: update,
+    onSuccess: () => {
+      alert("Thành công");
+      setValue({
+        fullname: "",
+        email: "",
+        phone_number: "",
+        address: "",
+        password: "",
+        create_at: new Date(),
+      });
+      navigate("/login");
+    },
+    onError: (error) => {
+     alert("Error dupting create" + error);
+    }
+  })
+
+  const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setValue((prev) => ({
+      ...prev, [name]: value
+    }))
+  }
+
+
   const passwordValidations = {
-    length: password.length >= 8,
-    uppercaseLowercase: /(?=.*[a-z])(?=.*[A-Z])/.test(password),
-    number: /(?=.*\d)/.test(password),
-    specialChar: /(?=.*[@#$%^&*!()_+[\]{}|\\:;'",.<>?/-])/.test(password),
+    length: value.password.length >= 8,
+    uppercaseLowercase: /(?=.*[a-z])(?=.*[A-Z])/.test(value.password),
+    number: /(?=.*\d)/.test(value.password),
+    specialChar: /(?=.*[@#$%^&*!()_+[\]{}|\\:;'",.<>?/-])/.test(value.password),
   };
 
   const handleBlur = (field: string) => {
@@ -32,10 +81,10 @@ function Register() {
   const getError = (field: string, value: string) => {
     if (!value.trim()) {
       switch (field) {
-        case 'firstName': return 'Xin nhập họ.';
-        case 'lastName': return 'Xin nhập tên.';
+        case 'lastName': return 'Xin nhập họ và tên';
         case 'phone': return 'Xin nhập số điện thoại.';
         case 'email': return 'Xin nhập email.';
+        case 'address': return 'Xin nhập address.';
         case 'password': return 'Vui lòng nhập mật khẩu của bạn.';
         default: return '';
       }
@@ -43,15 +92,16 @@ function Register() {
     return '';
   };
   const errors = {
-    firstName: getError('firstName', firstName),
-    lastName: getError('lastName', lastName),
-    phone: getError('phone', phone),
-    email: getError('email', email),
-    password: getError('password', password),
+    lastName: getError('lastName', value.fullname),
+    phone: getError('phone', value.phone_number),
+    email: getError('email', value.email),
+    address: getError('address', value.address),
+    password: getError('password', value.password),
   };
 
   return (
     <div className="register-page gid grid-cols-1 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
+      {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
       <Header />
       <div className="register-container grid grid-cols-2 py-0 px-20">
         <div className="register-banner bg-[#e4002b] text-white p-8 flex flex-col justify-center items-center text-center">
@@ -59,42 +109,46 @@ function Register() {
         </div>
         <div className="register-form p-12 flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4">TẠO TÀI KHOẢN</h2>
-          <form className="flex flex-col ">
-            <label className="mt-4 font-bold">Họ của bạn *</label>
+          <form className="flex flex-col " onSubmit={handleSubmit}>
+            <label>Họ và tên của bạn *</label>
             <input
               type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              onBlur={() => handleBlur('firstName')}
-              className={errors.firstName ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
-            />
-            {errors.firstName && <div style={{ color: "red" }} className="error-msg">{errors.firstName}</div>}
-            {/* Tên */}
-            <label>Tên của bạn *</label>
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              onBlur={() => handleBlur('lastName')}
-              className={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
+              name="fullname"
+              value={value.fullname}
+              onChange={onChangeRegister}
+              onBlur={() => handleBlur('lastName w-full')}
+              className={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1 w-full' : ''}
             />
             {errors.lastName && <div style={{ color: "red" }} className="error-msg">{errors.lastName}</div>}
             <label>Số điện thoại *</label>
             <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              type="type"
+              name="phone_number"
+              value={value.phone_number}
+              onChange={onChangeRegister}
               onBlur={() => handleBlur('phone')}
               className={errors.phone ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.phone && <div style={{ color: "red" }} className="error-msg">{errors.phone}</div>}
 
-            <label>Địa chỉ email của bạn *</label>
+            <label>Email của bạn *</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              required
+              value={value.email}
+              onChange={onChangeRegister}
               onBlur={() => handleBlur('email')}
+              className={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
+            />
+            {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
+            <label>Địa chỉ của bạn *</label>
+            <input
+              type="address"
+              name="address"
+              value={value.address}
+              onChange={onChangeRegister}
+              onBlur={() => handleBlur('address')}
               className={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
             />
             {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
@@ -104,8 +158,9 @@ function Register() {
             <div className="password-wrapper relative">
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={value.password}
+                onChange={onChangeRegister}
                 onBlur={() => handleBlur('password')}
                 className={errors.password ? 'error-input w-full p-2 border border-gray-500 rounded mt-1' : ''}
               />
