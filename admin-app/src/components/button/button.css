@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 .action-button {
   padding: 8px 15px;
   border: none;
@@ -61,5 +62,3 @@
 .showDetails-button:hover {
   background-color: #f44336;
 }
-
-/*# sourceMappingURL=button.css.map */
