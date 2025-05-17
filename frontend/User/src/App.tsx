@@ -6,7 +6,6 @@ import Login from './components/pages/authentication/login'
 import Register from './components/pages/authentication/register'
 import Category from './components/pages/category'
 import ProductDetail from './components/pages/category/details'
-import "./index.css"
 import './App.css'
 
 const queryClient = new QueryClient();
