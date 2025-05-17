@@ -3,8 +3,8 @@ import "../styles.scss";
 
 function OrderOptions() {
   return (
-    <div className="order-options bg-[#201224]  p-2 md:p-4 grid grid-cols-1 items-center justify-center text-white md:grid-areas-[links_button]">
-      <div className="order-options__container md:flex justify-center">
+    <div className="order-options static  bg-[#201224]  p-2 md:p-4 grid grid-cols-1 items-center justify-center text-white md:grid-areas-[links_button]">
+      <div className="order-options__container pt-[100px] md:flex justify-center">
         <div className="order-options__links flex items-center">
           <a href="#" className="order-options__link order">Đặt Ngay</a>
           <img src="../../../../src/assets/shipprt.png" alt="" />
@@ -15,9 +15,9 @@ function OrderOptions() {
           <span className="order-options__separator">hoặc Mang đi</span>
         </div>
         <NavLink to="/menu">
-        <button className="order-options__button cursor-pointer">
-          Bắt đầu đặt hàng
-        </button>
+          <button className="order-options__button cursor-pointer">
+            Bắt đầu đặt hàng
+          </button>
         </NavLink>
       </div>
     </div>

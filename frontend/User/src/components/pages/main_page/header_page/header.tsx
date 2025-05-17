@@ -1,6 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import "./styles.scss";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
@@ -24,7 +23,7 @@ function Header() {
           <nav className="header__nav-inline hidden">
             <ul className="header__menu-inline list-none p-0 m-0 flex gap-5">
               <li className="header__menu-item-inline">
-                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu">
+                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/">
                   THỰC ĐƠN
                 </NavLink>
               </li>
@@ -42,10 +41,12 @@ function Header() {
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
             <img className="block max-w-full h-auto icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
           </div>
+
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
-            <NavLink to="/login">
+            <NavLink to="/account">
               <i className="fa-solid fa-circle-user"></i>
             </NavLink>
+
           </div>
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
             <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
@@ -53,11 +54,8 @@ function Header() {
             </div>
           </div>
         </div>
-        <Outlet />
       </header>
-      {/* offcanvas */}
-      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={closeOffcanvas}></div>
-      <div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
+      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={closeOffcanvas}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
 
         <button className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" onClick={closeOffcanvas}>
           &times;
@@ -68,44 +66,44 @@ function Header() {
 
           <ul className="offcanvas__menu list-none p-0 mb-5">
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Ưu Đãi
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Món Mới
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Combo 1 Người
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Combo Nhóm
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Gà Rán - Gà Quay
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Burger - Cơm - Mì Ý
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Thức Ăn Nhẹ
-              </NavLink >
+              </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu">
+              <NavLink to="/">
                 Thức Uống & Tráng Miệng
-              </NavLink >
+              </NavLink>
             </li>
           </ul>
 

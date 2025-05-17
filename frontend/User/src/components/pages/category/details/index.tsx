@@ -10,6 +10,7 @@ import { slugify } from "../ultils/slugify";
 
 function ProductDetail() {
    const { isAuthenticated } = useAuth();
+   
    const [isActive, setIsActive] = useState(false);
 
    const { slugProduct } = useParams();

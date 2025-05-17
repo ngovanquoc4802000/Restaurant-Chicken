@@ -77,12 +77,12 @@ function Category() {
       <div className="content">
         <div className="category-page">
           {/* Tabs */}
-          <div className="tabs">
+          <div className="tabs text-center">
             {categories.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleClick(item.name)}
-                className={slugify(item.name) === id ? "active" : ""}
+                className={slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white" : " p-2 bg-[#201224] text-white  font-bold cursor-pointer"}
               >
                 {item.name}
               </button>
