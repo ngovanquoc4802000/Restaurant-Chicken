@@ -1,4 +1,1 @@
-/* File CSS chính của bạn (ví dụ: src/index.css) */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
