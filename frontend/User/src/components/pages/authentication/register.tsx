@@ -111,6 +111,7 @@ function Register() {
         <div className="register-form p-12 flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4">TẠO TÀI KHOẢN</h2>
           <form className="flex flex-col " onSubmit={handleSubmit}>
+            
             <InputValue classNameInput={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1 w-full' : ''} onBlur={() => handleBlur("lastName w-full")} text="Họ và tên của bạn *" type="text" name="fullname" value={value.fullname} onChange={onChangeRegister} />
 
             {errors.lastName && <div style={{ color: "red" }} className="error-msg">{errors.lastName}</div>}
