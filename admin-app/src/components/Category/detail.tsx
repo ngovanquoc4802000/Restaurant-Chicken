@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
-import { createApiCategory, updateCategoryId } from "../../services/categories";
+import { useEffect, useState } from "react";
 import { ValueCategory } from "../../types/categories";
 import queriesCategories from "../../queries/categories";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCategoryMutation } from "../../customHook/useCategoryMutation";
 import Button from "../button/button";
 import "./category.scss";
 
@@ -12,39 +12,13 @@ interface DetailTs {
 }
 
 const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
-  /* khởi tạo biến lấy dữ liệu từ global */
   const queryClient = useQueryClient();
-  /* khởi tạo state để lưu lại form khi edit */
-  const [value, setValue] = useState<ValueCategory>({ name: "", handle: "", image: "", status: true });
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    createOrUpdateCategory();
-  };
-
-  const isEdit = isDetail !== null && isDetail !== undefined;
-
-  const createOrUpdate = useCallback(async () => {
-    const payload = {
-      ...value,
-      status: value.status ? true : false,
-    };
-    if (isEdit && typeof isDetail === "number") {
-      return await updateCategoryId(isDetail, payload);
-    }
-    return await createApiCategory(payload);
-  }, [isEdit, isDetail, value]);
-
-  const { isPending, mutate: createOrUpdateCategory } = useMutation({
-    mutationFn: createOrUpdate,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queriesCategories.list.queryKey });
-      setValue({ name: "", handle: "", image: "", status: true });
-      onHideModal();
-    },
-    onError: (error) => {
-      console.error("Error during create/update", error);
-    },
+  const [value, setValue] = useState<ValueCategory>({
+    name: "",
+    handle: "",
+    image: "",
+    status: true,
   });
 
   const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,12 +28,16 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
       [name]: value,
     }));
   };
+
+  const { isPending, mutate, isEdit } = useCategoryMutation(isDetail, value, () => {
+    setValue({ name: "", handle: "", image: "", status: true });
+    onHideModal();
+  });
+
   useEffect(() => {
     if (isEdit && isDetail != null) {
       const list = queryClient.getQueryData<ValueCategory[]>(queriesCategories.list.queryKey);
-
       const foundCategory = list?.find((item) => item.id === isDetail);
-
       if (foundCategory) {
         setValue({
           name: foundCategory.name,
@@ -78,10 +56,15 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
     }
   }, [isEdit, queryClient, isDetail]);
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate();
+  };
+
   return (
     <div className="create-dish-form-overlay">
       <div className="create-dish-form">
-        <h1 style={{ textAlign: "center" }}>{isDetail ? "Edit Category" : "Create New Category"}</h1>
+        <h1 style={{ textAlign: "center" }}>{isEdit ? "Edit Category" : "Create New Category"}</h1>
         {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
 
         <form className="form" onSubmit={handleFormSubmit}>
@@ -107,7 +90,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
           </div>
           <div className="form-actions">
             <button type="submit" className="save-button" disabled={isPending}>
-              {isDetail ? "Update" : "Save"}
+              {isEdit ? "Update" : "Save"}
               {isPending && <span className="spinner-border spinner-border-sm"></span>}
             </button>
             <Button action="cancel" onClick={onHideModal} />

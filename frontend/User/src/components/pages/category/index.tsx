@@ -8,6 +8,7 @@ import OrderOptions from "../dashboard/oder";
 import queriesCategories from "../../../queries/categories";
 import queriesDishlist from "../../../queries/dishlist";
 import "../dashboard/styles.scss";
+import Button from "../button";
 
 function Category() {
 
@@ -79,13 +80,7 @@ function Category() {
           {/* Tabs */}
           <div className="tabs text-center">
             {categories.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleClick(item.name)}
-                className={slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white" : " p-2 bg-[#201224] text-white  font-bold cursor-pointer"}
-              >
-                {item.name}
-              </button>
+              <Button key={item.id} onClick={() => handleClick(item.name)} classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white " : "p-2 bg-[#201224]"} text={item.name} />
             ))}
           </div>
 
@@ -137,7 +132,7 @@ function Category() {
                                         </div>
                                         <p className="description text-[13px] text-[#555] my-[8px] mx-[0px] min-h-9">{item.description}</p>
                                       </div>
-                                      <button className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]">Thêm</button>
+                                      <Button text="Thêm" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]" />
                                     </div>
                                   )}
                                 </div>

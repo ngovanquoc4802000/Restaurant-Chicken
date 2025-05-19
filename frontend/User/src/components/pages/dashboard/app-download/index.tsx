@@ -1,5 +1,3 @@
-
-
 function AppDownLoad() {
   return (
     <section className="app-download bg-[#f8f6f4] py-6 px-4 flex justify-center items-center">

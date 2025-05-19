@@ -6,9 +6,10 @@ import queriesDishlist from "../../../../queries/dishlist";
 import Footer from "../../dashboard/footer";
 import Header from "../../dashboard/header";
 import ModalLogin from "../../dashboard/modal/login";
+import Button from "../../button";
 
 function ProductDetail() {
-   
+
    const [isActive, setIsActive] = useState(false);
 
    const { slugProduct } = useParams();
@@ -20,7 +21,7 @@ function ProductDetail() {
    );
 
    const handleOrderClick = () => {
-     setIsActive(true)
+      setIsActive(true)
    }
 
    if (isLoading || !dishlist) return <div>Loading...</div>
@@ -54,7 +55,7 @@ function ProductDetail() {
                      {
                         isActive && <ModalLogin />
                      }
-                     <button onClick={handleOrderClick} className="w-9/12 p-6 border-none rounded-[50px] text-center text-amber-950 bg-[#e4002b] font-bold text-white m-auto cursor-pointer">Đặt Hàng</button>
+                     <Button onClick={handleOrderClick} className="w/9/12 p-6 border-none rounded-[50px] text-center text-amber-950 bg-[#e4002b] font-bold text-white m-auto cursor-pointer" text="Đặt Hàng" />
                   </div>
                </div>
             </div>

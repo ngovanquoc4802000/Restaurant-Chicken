@@ -11,6 +11,7 @@ import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import '../dashboard/styles.scss';
 import '../../../assets/Screenshot 2025-05-08 164110.png';
+import Button from "../button";
 
 function Login() {
 
@@ -79,12 +80,7 @@ function Login() {
                 Đăng nhập thất bại , vui lòng nhập lại !
               </p>
               <div className="flex justify-center">
-                <button
-                  onClick={() => dispatch(close())}
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                >
-                  Đóng
-                </button>
+                <Button text="Đóng" onClick={() => dispatch(close())} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" />
               </div>
             </div>
           </div>
@@ -104,8 +100,8 @@ function Login() {
             </form>
 
             <div className="divider text-center my-4 mx-0">Hoặc tiếp tục với</div>
-            <button className="bg-black p-3 border-none rounded-3xl text-white mb-3 cursor-pointer w-full btn-apple">Đăng nhập bằng Apple</button>
-            <button className="bg-[#db4437] p-3 border-none rounded-3xl text-white mb-3 cursor-pointer w-full btn-google">Đăng nhập bằng Google</button>
+            <Button className="bg-black p-3 border-none rounded-3xl text-white mb-3 cursor-pointer w-full btn-apple" text="Đăng nhập bằng Apple" />
+            <Button className="bg-[#db4437] p-3 border-none rounded-3xl text-white mb-3 cursor-pointer w-full btn-google" text="Đăng nhập bằng Google" />
             <p className="text-center mt-4">Bạn chưa có tài khoản?
               <NavLink className="text-[#007bff] font-bold" to="register">Đăng ký</NavLink>
             </p>

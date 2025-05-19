@@ -6,6 +6,7 @@ import type { UsersTs } from "../../../mockup/user";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import InputValue from "../dashboard/input";
+import Button from "../button";
 
 function Register() {
 
@@ -111,7 +112,7 @@ function Register() {
         <div className="register-form p-12 flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4">TẠO TÀI KHOẢN</h2>
           <form className="flex flex-col " onSubmit={handleSubmit}>
-            
+
             <InputValue classNameInput={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1 w-full' : ''} onBlur={() => handleBlur("lastName w-full")} text="Họ và tên của bạn *" type="text" name="fullname" value={value.fullname} onChange={onChangeRegister} />
 
             {errors.lastName && <div style={{ color: "red" }} className="error-msg">{errors.lastName}</div>}
@@ -120,7 +121,7 @@ function Register() {
 
             {errors.phone && <div style={{ color: "red" }} className="error-msg">{errors.phone}</div>}
 
-            <InputValue  classNameInput={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''} type="email" name="email" value={value.email} text="Email của bạn *" onBlur={() => handleBlur("email")} onChange={onChangeRegister} />
+            <InputValue classNameInput={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''} type="email" name="email" value={value.email} text="Email của bạn *" onBlur={() => handleBlur("email")} onChange={onChangeRegister} />
 
             {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
 
@@ -131,9 +132,9 @@ function Register() {
             <label>Mật khẩu *</label>
             <div className="password-wrapper relative">
               <input type="password" name="password" value={value.password} onChange={onChangeRegister} onBlur={() => handleBlur('password')} className={errors.password ? 'error-input w-full p-2 border border-gray-500 rounded mt-1' : ''} />
-             
+
               {errors.password && <div style={{ color: "red" }} className="error-msg">{errors.password}</div>}
-             
+
               {showTooltip && (
                 <div className="tooltip absolute top-[105%] left-0 bg-black text-white p-4 rounded-md min-w-max text-[0.85rem] z-[1]">
                   <p className="my-1 mx-0"><span className={passwordValidations.length ? 'valid text-[#00ff00]' : ''}>✔</span> 8 ký tự trở lên</p>
@@ -150,8 +151,7 @@ function Register() {
                 Tôi đã đọc và đồng ý với các <a href="#">Chính Sách Hoạt Động</a> và <a href="#">Chính Sách Bảo Mật</a>.
               </label>
             </div>
-
-            <button className="btn-register mt-8 bg-[#e4002b] text-white p-3 border-none rounded-3xl font-bold cursor-pointer text-[1.1rem]" type="submit">Tạo Tài Khoản</button>
+            <Button className="btn-register mt-8 bg-[#e4002b] text-white p-3 border-none rounded-3xl font-bold cursor-pointer text-[1.1rem]" text=" Tạo Tài Khoản" type="submit" />
           </form>
           <div className="login text-center p-3">
             <label htmlFor="">Bạn đã có tài khoản</label>
