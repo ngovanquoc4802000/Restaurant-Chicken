@@ -1,15 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { slugify } from "../ultils/slugify";
 import queriesDishlist from "../../../../queries/dishlist";
-import { useAuth } from "../../authentication/context/authenContext";
 import Footer from "../../dashboard/footer";
 import Header from "../../dashboard/header";
 import ModalLogin from "../../dashboard/modal/login";
-import { slugify } from "../ultils/slugify";
 
 function ProductDetail() {
-   const { isAuthenticated } = useAuth();
    
    const [isActive, setIsActive] = useState(false);
 
@@ -22,11 +20,7 @@ function ProductDetail() {
    );
 
    const handleOrderClick = () => {
-      if (!isAuthenticated) {
-         setIsActive(true);
-      } else {
-        //handle logic
-      }
+     setIsActive(true)
    }
 
    if (isLoading || !dishlist) return <div>Loading...</div>
@@ -48,7 +42,7 @@ function ProductDetail() {
                      <p>{product.description}</p>
                      <span>{product.price}</span>
                   </div>
-                  {isAuthenticated && (
+                  {isActive && (
                      <>
                         <button>Thêm</button>
                         <button>Tùy chỉnh</button>

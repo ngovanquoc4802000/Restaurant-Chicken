@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import "./login.scss";
-
 function ModalLogin() {
   return (
     <div className="modal-backdrop">

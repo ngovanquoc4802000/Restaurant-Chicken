@@ -1,10 +1,15 @@
+import { motion } from "framer-motion";
 
 function DetailChildren() {
   return (
     <div>
-      <div className="flex-1 p-10">
+      <motion.div
+       initial={{ opacity: 0, x: 100 }}
+       animate={{ opacity: 1, x: 0}}
+       transition={{ duration: 1, ease:"easeOut" }}
+      >
+      <div className="flex-1 px-6">
         <h1 className="text-3xl font-extrabold uppercase mb-8">Chi tiết tài khoản</h1>
-
         <form className="space-y-6 max-w-3xl">
           <div>
             <label className="block text-sm font-medium">Họ của bạn *</label>
@@ -94,6 +99,7 @@ function DetailChildren() {
           </div>
         </form>
       </div>
+      </motion.div>
     </div>
   );
 }

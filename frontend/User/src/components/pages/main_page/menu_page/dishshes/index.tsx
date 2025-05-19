@@ -63,11 +63,8 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-                <button
-                  className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600"
-                >
-                  Thêm
-                </button>
+             {/* button tuỳ chỉnh */}
+             {/* button thêm */}
               </div>
             ))}
           </div>

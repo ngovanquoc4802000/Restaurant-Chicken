@@ -16,14 +16,14 @@ function Header() {
       <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-10 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
-            <NavLink to="/">
+            <NavLink to="/home">
               <img width={78} height={78} className="logo block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
             </NavLink>
           </div>
           <nav className="header__nav-inline hidden">
             <ul className="header__menu-inline list-none p-0 m-0 flex gap-5">
               <li className="header__menu-item-inline">
-                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/">
+                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu-page">
                   THỰC ĐƠN
                 </NavLink>
               </li>
@@ -66,42 +66,42 @@ function Header() {
 
           <ul className="offcanvas__menu list-none p-0 mb-5">
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Ưu Đãi
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Món Mới
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Combo 1 Người
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Combo Nhóm
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Gà Rán - Gà Quay
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Burger - Cơm - Mì Ý
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Thức Ăn Nhẹ
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/">
+              <NavLink to="/menu-page">
                 Thức Uống & Tráng Miệng
               </NavLink>
             </li>

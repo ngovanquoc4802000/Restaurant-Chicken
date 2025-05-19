@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import type { UsersTs } from "../../../mockup/user";
 import { createUsersRegister } from "../../../services/users";
+import type { UsersTs } from "../../../mockup/user";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
+import InputValue from "../dashboard/input";
 
 function Register() {
 
@@ -54,7 +55,7 @@ function Register() {
       navigate("/login");
     },
     onError: (error) => {
-     alert("Error dupting create" + error);
+      alert("Error dupting create" + error);
     }
   })
 
@@ -110,61 +111,28 @@ function Register() {
         <div className="register-form p-12 flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4">TẠO TÀI KHOẢN</h2>
           <form className="flex flex-col " onSubmit={handleSubmit}>
-            <label>Họ và tên của bạn *</label>
-            <input
-              type="text"
-              name="fullname"
-              value={value.fullname}
-              onChange={onChangeRegister}
-              onBlur={() => handleBlur('lastName w-full')}
-              className={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1 w-full' : ''}
-            />
+            <InputValue classNameInput={errors.lastName ? 'error-input p-2 border border-gray-500 rounded mt-1 w-full' : ''} onBlur={() => handleBlur("lastName w-full")} text="Họ và tên của bạn *" type="text" name="fullname" value={value.fullname} onChange={onChangeRegister} />
+
             {errors.lastName && <div style={{ color: "red" }} className="error-msg">{errors.lastName}</div>}
-            <label>Số điện thoại *</label>
-            <input
-              type="type"
-              name="phone_number"
-              value={value.phone_number}
-              onChange={onChangeRegister}
-              onBlur={() => handleBlur('phone')}
-              className={errors.phone ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
-            />
+
+            <InputValue onBlur={() => handleBlur("phone")} text="Số điện thoại" value={value.phone_number} type="tel" name="phone_number" onChange={onChangeRegister} classNameInput={errors.phone ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''} />
+
             {errors.phone && <div style={{ color: "red" }} className="error-msg">{errors.phone}</div>}
 
-            <label>Email của bạn *</label>
-            <input
-              type="email"
-              name="email"
-              required
-              value={value.email}
-              onChange={onChangeRegister}
-              onBlur={() => handleBlur('email')}
-              className={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
-            />
-            {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
-            <label>Địa chỉ của bạn *</label>
-            <input
-              type="address"
-              name="address"
-              value={value.address}
-              onChange={onChangeRegister}
-              onBlur={() => handleBlur('address')}
-              className={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''}
-            />
+            <InputValue  classNameInput={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''} type="email" name="email" value={value.email} text="Email của bạn *" onBlur={() => handleBlur("email")} onChange={onChangeRegister} />
+
             {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
 
+            <InputValue text="Địa chỉ của bạn *" type="address" name="address" value={value.address} onChange={onChangeRegister} onBlur={() => handleBlur("address")} classNameInput={errors.email ? 'error-input p-2 border border-gray-500 rounded mt-1' : ''} />
+
+            {errors.email && <div style={{ color: "red" }} className="error-msg">{errors.email}</div>}
 
             <label>Mật khẩu *</label>
             <div className="password-wrapper relative">
-              <input
-                type="password"
-                name="password"
-                value={value.password}
-                onChange={onChangeRegister}
-                onBlur={() => handleBlur('password')}
-                className={errors.password ? 'error-input w-full p-2 border border-gray-500 rounded mt-1' : ''}
-              />
+              <input type="password" name="password" value={value.password} onChange={onChangeRegister} onBlur={() => handleBlur('password')} className={errors.password ? 'error-input w-full p-2 border border-gray-500 rounded mt-1' : ''} />
+             
               {errors.password && <div style={{ color: "red" }} className="error-msg">{errors.password}</div>}
+             
               {showTooltip && (
                 <div className="tooltip absolute top-[105%] left-0 bg-black text-white p-4 rounded-md min-w-max text-[0.85rem] z-[1]">
                   <p className="my-1 mx-0"><span className={passwordValidations.length ? 'valid text-[#00ff00]' : ''}>✔</span> 8 ký tự trở lên</p>

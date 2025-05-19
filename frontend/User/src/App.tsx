@@ -12,6 +12,9 @@ import AddressAccount from './components/pages/main_page/detailAcount_page/addre
 import DetailChildren from './components/pages/main_page/detailAcount_page/detailChildren'
 import NotFound from './components/pages/notfound'
 import "./index.css"
+import Order from './components/pages/main_page/detailAcount_page/order'
+import OrderFavorites from './components/pages/main_page/detailAcount_page/order_favorites'
+import MenuPage from './components/pages/main_page/menu_page'
 
 const queryClient = new QueryClient();
 
@@ -27,13 +30,19 @@ function App() {
           <Route path="menu" element={<Category />} />
           <Route path="menu/:id" element={<Category />} />
           <Route path="menu/:id/:slugProduct" element={<ProductDetail />} />
+
           <Route path='/home' element={<Home />} />
+          <Route path='menu-page' element={<MenuPage />} />
+          <Route path='menu-page/:id' element={<MenuPage />} />
+          <Route path='menu-page/:id/:slugProduct' element={<MenuPage />} />
+
           <Route path="/account" element={<DetailAccountPage />}>
             <Route index element={<DetailChildren />} />
             <Route path="address" element={<AddressAccount />} />
+            <Route path="order" element={<Order />} />
+            <Route path="order_favorites" element={<OrderFavorites />} />
           </Route>
           <Route path="*" element={<NotFound />} />
-          {/* not found luôn ở dưới cùng */}
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

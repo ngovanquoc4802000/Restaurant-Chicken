@@ -1,17 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import '../../../assets/Screenshot 2025-05-08 164110.png';
-import type { UserLoginTs } from "../../../mockup/user";
 import { createUserLogin } from "../../../services/users";
+import { useDispatch, useSelector } from "react-redux";
+import { close, open } from "../dashboard/features/modal";
+import type { UserLoginTs } from "../../../mockup/user";
+import type { RootState } from "../../../store/store";
+import InputValue from "../dashboard/input";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import '../dashboard/styles.scss';
+import '../../../assets/Screenshot 2025-05-08 164110.png';
 
 function Login() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isActive, setIsActive] = useState(false);
+
   const navigate = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const isOpen = useSelector((state: RootState) => state.loginModal);
+
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState<UserLoginTs>({
     email: "",
@@ -32,17 +41,17 @@ function Login() {
     onSuccess: (data) => {
       if (data.data.success) {
         setValue({ email: "", password: "" });
-        navigate("/");
+        navigate("/home");
       } else {
         setErrorMessage(data.data.password || data.data.email || "Đăng nhập không thành công.");
-        setIsActive(true)
+        dispatch((open()))
       }
 
     },
     onError: (error) => {
       console.log("Error during create:", error);
       setErrorMessage(error?.message || "Đăng ký thất bại. Vui lòng thử lại.");
-      setIsActive(true); // Mở modal khi có lỗi;
+      dispatch((open()))
     }
   })
 
@@ -60,18 +69,18 @@ function Login() {
         {isPaused && <p style={{ textAlign: "center", color: "blue" }}>Paused...</p>}
 
         <Header />
-        {isActive && (
+        {isOpen && (
           <div className="fixed inset-0  flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-sm p-6">
               <h2 className="text-xl font-bold text-red-600 mb-4 text-center">
-               {errorMessage}
+                {errorMessage}
               </h2>
               <p className="text-gray-700 text-center mb-6">
-                  Đăng nhập thất bại , vui lòng nhập lại !
+                Đăng nhập thất bại , vui lòng nhập lại !
               </p>
               <div className="flex justify-center">
                 <button
-                  onClick={() => setIsActive(false)}
+                  onClick={() => dispatch(close())}
                   className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
                 >
                   Đóng
@@ -88,27 +97,8 @@ function Login() {
           <div className="login-form p-9 flex flex-col justify-center">
             <h2 className="text-[1.8rem] mb-4">ĐĂNG NHẬP</h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
-              <label className="mb-4">
-                Địa chỉ email của bạn *
-                <input
-                  type="email"
-                  name="email"
-                  value={value.email}
-                  onChange={handleOnchange}
-                  className="w-full p-2 mt-1 rounded-md border border-gray-500
-              "
-                  required />
-              </label>
-              <label>
-                Mật khẩu *
-                <input
-                  type="password"
-                  name="password"
-                  value={value.password}
-                  onChange={handleOnchange}
-                  className="w-full p-2 mt-1 rounded-md border border-gray-500
-              " required />
-              </label>
+              <InputValue classNameLabel="mb-4" text="Địa chỉ email của bạn *" name="email" type="email" value={value.email} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 rounded-md border border-gray-500" />
+              <InputValue text="Mật khẩu *" type="password" name="password" value={value.password} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 rounded-md border border-gray-500" />
               <a className="text-[0.9rem] text-[#007bff] no-underline mb-4" href="#">Bạn quên mật khẩu?</a>
               <button type="submit" className="btn-login bg-[#28a745] text-white p-3 border-none rounded-3xl cursor-pointer mb-4">Đăng nhập</button>
             </form>
