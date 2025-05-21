@@ -9,14 +9,17 @@ import type { RootState } from "../../../../../store/store";
 import { slugify } from "../../../category/ultils/slugify";
 import Footer from "../../../dashboard/footer";
 import Header from "../../header_page/header";
+import InputValue from "../../../common/input";
+import TextareaValue from "../../../common/textarea";
+import Button from "../../../common/button";
 
 
 function DetailsPage() {
-  
+
   const navigate = useNavigate();
-  
+
   const { slugProduct } = useParams();
-  
+
   const user = useSelector((state: RootState) => state.userLogin.id);
 
   const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
@@ -78,7 +81,7 @@ function DetailsPage() {
     const { name, value } = e.target;
     setOrderData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
   if (isLoading || !dishlist) return <div>Loading...</div>
@@ -105,64 +108,17 @@ function DetailsPage() {
           <div className="col-lg-6 p-8">
             <form onSubmit={handleCart}>
               <div className="flex items-center gap-4">
-                <button type="button" onClick={() => setQuantity((prev) => Math.max(1, prev - 1))} className="px-3 py-1 bg-gray-200 rounded">-</button>
+               <Button type="button"onClick={() => setQuantity((prev) => Math.max(1, prev - 1))} className="px-3 py-1 bg-gray-200 rounded" text="-" 
+                />
                 <span>{quantity}</span>
-                <button type="button" onClick={() => setQuantity((prev) => prev + 1)} className="px-3 py-1 bg-gray-200 rounded">+</button>
-              </div>
-
-              <div>
-                <label className="block font-semibold">Địa chỉ</label>
-                <input
-                  type="text"
-                  name="address"
-                  required
-                  value={orderData.address}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded"
+                <Button type="button" onClick={() => setQuantity((prev) => prev + 1)} className="px-3 py-1 bg-gray-200 rounded" text="+"
                 />
               </div>
-
-              <div>
-                <label className="block font-semibold">Họ tên</label>
-                <input
-                  type="text"
-                  name="customer_name"
-                  required
-                  value={orderData.customer_name}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold">Số điện thoại</label>
-                <input
-                  type="text"
-                  name="customer_phone"
-                  required
-                  value={orderData.customer_phone}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold">Ghi chú đơn hàng</label>
-                <textarea
-                  name="customer_note"
-                  value={orderData.customer_note}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold">Ghi chú món ăn</label>
-                <input
-                  type="text"
-                  name="note"
-                  value={orderDetails.note}
-                  onChange={handleNoteChange}
-                  className="w-full border p-2 rounded"
-                />
-              </div>
+              <InputValue text="Địa chỉ" type="text" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" name="address" value={orderData.address} onChange={handleInputChange} />
+              <InputValue text="Họ tên" type="text" name="customer_name" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleInputChange} value={orderData.customer_name} />
+              <InputValue text="Số điện thoại" type="text" name="customer_phone" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleInputChange} value={orderData.customer_phone} />
+              <TextareaValue text="Ghi chú đơn hàng" name="customer_note" value={orderData.customer_note} onChange={handleInputChange} classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" />
+              <InputValue text="Ghi chú" type="text" name="note" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleNoteChange} value={orderDetails.note} />
               <button
                 className="w-full bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700"
                 type="submit">Thêm vào giỏ hàng{(Number(product.price) * quantity).toFixed(3)}</button>

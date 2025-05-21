@@ -1,5 +1,4 @@
-interface InputTs {
-  type: string;
+interface TextareaTs {
   name: string;
   classNameInput: string;
   classNameLabel?: string;
@@ -9,13 +8,13 @@ interface InputTs {
   text?: string;
 }
 
-function InputValue({ type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) {
+function TextareaValue({  name, text, classNameLabel, classNameInput, value, onChange }: TextareaTs) {
   return (
     <label className={classNameLabel}>
       {text}
-      <input required type={type} name={name} className={classNameInput} value={value} onChange={onChange} />
+      <textarea required  name={name} className={classNameInput} value={value} onChange={onChange} />
     </label>
   );
 }
 
-export default InputValue;
+export default TextareaValue;

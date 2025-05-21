@@ -48,7 +48,7 @@ function Header() {
             </NavLink>
           </div>
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
-            <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
+            <div  className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
               ☰
             </div>
           </div>

@@ -1,9 +1,7 @@
-import { useQueries } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import queriesCategories from "../../../queries/categories";
-import queriesDishlist from "../../../queries/dishlist";
 import type { RootState } from "../../../store/store";
+import { open } from "../features/modal";
 import AppDownLoad from "./app-download";
 import Footer from "./footer";
 import Header from "./header";
@@ -13,29 +11,11 @@ import ModalLogin from "./modal/login";
 import OrderOptions from "./oder";
 import Carousel from "./slider/carousel";
 import "./styles.scss";
-import { open } from "../features/modal";
+import { useMenuData } from "../../../hooks/useMenuData";
 
 function Dashboard() {
 
-  const resultQueries = useQueries({
-    queries: [
-      {
-        ...queriesCategories.list,
-      },
-      {
-        ...queriesDishlist.list
-      }
-    ]
-  })
-  const category = resultQueries[0].data ?? [];
-
-  const isLoading = resultQueries[0].isLoading;
-
-  const error = resultQueries[0].error;
-
-  const dishlist = resultQueries[1].data ?? [];
-
-  const findComboGroup = dishlist.filter((item) => item.category_id === 5)
+  const { category, isLoading, error, findComboGroup } = useMenuData();
 
   const isOpen = useSelector((state: RootState) => state.loginModal);
 

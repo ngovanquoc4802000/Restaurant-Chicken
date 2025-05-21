@@ -1,6 +1,6 @@
 interface ButtonTs {
   text?: string;
-  type?: "submit";
+  type?: "submit" | "button" ;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   className?: string;
   key?: React.Key | null | undefined;

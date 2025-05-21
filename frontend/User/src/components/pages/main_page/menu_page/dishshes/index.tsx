@@ -6,6 +6,7 @@ interface DishMealPageTs {
   findComboGroup: DishTs[];
   category: ValueCategory[];
 }
+
 function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
   const [startIndex, setStartIndex] = useState(0);
 
@@ -63,8 +64,6 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-             {/* button tuỳ chỉnh */}
-             {/* button thêm */}
               </div>
             ))}
           </div>
