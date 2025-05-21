@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { createUsersRegister } from "../../../services/users";
 import type { UsersTs } from "../../../mockup/user";
+import { createUsersRegister } from "../../../services/users";
+import Button from "../common/button";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import InputValue from "../dashboard/input";
-import Button from "../button";
+import InputValue from "../common/input";
 
 function Register() {
 
@@ -43,8 +43,9 @@ function Register() {
 
   const { isPending, mutate: updateSave } = useMutation({
     mutationFn: update,
-    onSuccess: () => {
-      alert("Thành công");
+    onSuccess: (data) => {
+      console.log("DATA:", data);
+      if (!data) return;
       setValue({
         fullname: "",
         email: "",

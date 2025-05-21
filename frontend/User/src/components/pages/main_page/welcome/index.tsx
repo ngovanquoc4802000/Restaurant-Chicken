@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 
 function Welcome() {
   return (
@@ -18,16 +19,13 @@ function Welcome() {
         <h2 className="text-4xl font-extrabold text-red-700 mt-2">Ngo</h2>
 
         <div className="mt-4">
-          <a
-            href="#"
-            className="text-sm text-gray-600 hover:text-black underline inline-flex items-center"
-          >
+          <NavLink className="text-sm text-gray-600 hover:text-black underline inline-flex items-center" to="/menu-page">
             Tài khoản của tôi
-            <span className="ml-1">→</span>
-          </a>
+          </NavLink>
+          <span className="ml-1">→</span>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

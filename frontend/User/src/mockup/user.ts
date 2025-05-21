@@ -20,7 +20,7 @@ export interface UsersTs {
   email: string;
   phone_number: string;
   address: string;
-  password: string; // lưu hashed password trong thực tế
+  password: string; 
   create_at: Date;
   update_at?: Date;
   status?: boolean | number;

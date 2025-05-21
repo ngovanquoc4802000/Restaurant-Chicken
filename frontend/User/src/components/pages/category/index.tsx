@@ -8,7 +8,7 @@ import OrderOptions from "../dashboard/oder";
 import queriesCategories from "../../../queries/categories";
 import queriesDishlist from "../../../queries/dishlist";
 import "../dashboard/styles.scss";
-import Button from "../button";
+import Button from "../common/button";
 
 function Category() {
 

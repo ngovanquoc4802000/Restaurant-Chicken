@@ -13,7 +13,7 @@ import ModalLogin from "./modal/login";
 import OrderOptions from "./oder";
 import Carousel from "./slider/carousel";
 import "./styles.scss";
-import { open } from "./features/modal";
+import { open } from "../features/modal";
 
 function Dashboard() {
 

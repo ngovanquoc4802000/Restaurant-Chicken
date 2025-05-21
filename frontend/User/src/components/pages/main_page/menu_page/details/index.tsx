@@ -12,14 +12,12 @@ import Header from "../../header_page/header";
 
 
 function DetailsPage() {
-
-  const user = useSelector((state: RootState) => state.user.id);
-
-  console.log(user);
-
-  const { slugProduct } = useParams();
-
+  
   const navigate = useNavigate();
+  
+  const { slugProduct } = useParams();
+  
+  const user = useSelector((state: RootState) => state.userLogin.id);
 
   const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
 
@@ -48,7 +46,6 @@ function DetailsPage() {
     createUpdate();
   }
   const create = async () => {
-
     const finalOrder: CreateOrderPayload = {
       user_id: Number(user),
       address: orderData.address,
@@ -64,8 +61,6 @@ function DetailsPage() {
         }
       ],
     };
-    console.log(finalOrder);
-
     return await createOrder(finalOrder);
   }
 
@@ -86,9 +81,6 @@ function DetailsPage() {
   const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
-
-
-
   if (isLoading || !dishlist) return <div>Loading...</div>
 
   if (error) return `Error Product Details ${error}`;

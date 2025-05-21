@@ -9,6 +9,7 @@ const images: string[] = [
 ]
 function Carousel() {
   const [carousel, setCarousel] = useState(0);
+  
   const prevSlide = () => {
     setCarousel((carousel - 1 + images.length) % images.length);
   }

@@ -3,15 +3,15 @@ import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { createUserLogin } from "../../../services/users";
 import { useDispatch, useSelector } from "react-redux";
-import { close, open } from "../dashboard/features/modal";
-import InputValue from "../dashboard/input";
+import { close, open } from "../features/modal";
+import InputValue from "../common/input";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import '../dashboard/styles.scss';
 import '../../../assets/Screenshot 2025-05-08 164110.png';
-import Button from "../button";
+import Button from "../common/button";
 import type { LoggedInUser } from "../../../mockup/user";
-import { setUser } from "../dashboard/features/user";
+import { setUser } from "../features/userLogin";
 import type { RootState } from "../../../store/store";
 
 function Login() {
@@ -26,7 +26,7 @@ function Login() {
 
   const isOpen = useSelector((state: RootState) => state.loginModal);
 
-  const userId = useSelector((state: RootState) => state.user.id);
+  const userId = useSelector((state: RootState) => state.userLogin.id);
   console.log("USER_ID:", userId);
 
   const dispatch = useDispatch();

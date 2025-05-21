@@ -6,7 +6,7 @@ import queriesDishlist from "../../../../queries/dishlist";
 import Footer from "../../dashboard/footer";
 import Header from "../../dashboard/header";
 import ModalLogin from "../../dashboard/modal/login";
-import Button from "../../button";
+import Button from "../../common/button";
 
 function ProductDetail() {
 

@@ -4,7 +4,7 @@ import { Request } from "../utils/http";
 export const createUsersRegister = async (user: UsersTs) => {
   try {
     const result = await Request.post<UsersTs>("user/register", user);
-    return result;
+    return result.data;
   } catch (error) {
     if (!error || error) {
       // Ném lỗi để trigger onError

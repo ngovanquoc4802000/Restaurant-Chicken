@@ -1,18 +1,16 @@
-import { useState } from "react";
+import type { RootState } from "../../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { open,close } from "../../features/modal";
 
 function Header() {
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+  
+  const dispatch = useDispatch();
+  
+  const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
 
-  const openOffcanvas = () => {
-    setIsOffcanvasOpen(true);
-  };
-
-  const closeOffcanvas = () => {
-    setIsOffcanvasOpen(false);
-  };
   return (
-    <>
+    <div className="header">
       <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-10 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
@@ -48,16 +46,16 @@ function Header() {
             </NavLink>
 
           </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={() => dispatch(open())}>
             <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
               ☰
             </div>
           </div>
         </div>
       </header>
-      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={closeOffcanvas}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
+      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={() => dispatch(close())}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
 
-        <button className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" onClick={closeOffcanvas}>
+        <button className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" onClick={() => dispatch(close())}>
           &times;
         </button>
 
@@ -73,6 +71,8 @@ function Header() {
             <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu-page">
                 Món Mới
+
+
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
@@ -127,7 +127,7 @@ function Header() {
 
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
