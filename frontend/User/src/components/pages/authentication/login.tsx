@@ -4,29 +4,32 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { createUserLogin } from "../../../services/users";
 import { useDispatch, useSelector } from "react-redux";
 import { close, open } from "../dashboard/features/modal";
-import type { UserLoginTs } from "../../../mockup/user";
-import type { RootState } from "../../../store/store";
 import InputValue from "../dashboard/input";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import '../dashboard/styles.scss';
 import '../../../assets/Screenshot 2025-05-08 164110.png';
 import Button from "../button";
+import type { LoggedInUser } from "../../../mockup/user";
+import { setUser } from "../dashboard/features/user";
+import type { RootState } from "../../../store/store";
 
 function Login() {
-
-  const navigate = useNavigate();
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const isOpen = useSelector((state: RootState) => state.loginModal);
-
-  const dispatch = useDispatch();
-
-  const [value, setValue] = useState<UserLoginTs>({
+  const [value, setValue] = useState<LoggedInUser>({
     email: "",
     password: ""
   });
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  const isOpen = useSelector((state: RootState) => state.loginModal);
+
+  const userId = useSelector((state: RootState) => state.user.id);
+  console.log("USER_ID:", userId);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -40,11 +43,16 @@ function Login() {
   const { isPending, isPaused, mutate: createLogin } = useMutation({
     mutationFn: update,
     onSuccess: (data) => {
-      if (data.data.success) {
+      if (data.success) {
+        dispatch(setUser({
+          id: data.data.id,
+          email: data.data.email,
+          password: data.data.password
+        }))
         setValue({ email: "", password: "" });
         navigate("/home");
       } else {
-        setErrorMessage(data.data.password || data.data.email || "Đăng nhập không thành công.");
+        setErrorMessage(data.message || data.data.email || "Đăng nhập không thành công.");
         dispatch((open()))
       }
 

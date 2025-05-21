@@ -9,7 +9,7 @@ export interface DishTs {
   name: string;
   title: string;
   currency: string;
-  price: number | string;
+  price: number;
   description: string;
   images: Image[];
 }

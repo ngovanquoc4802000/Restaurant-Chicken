@@ -3,14 +3,17 @@ export interface UserAll {
   message: string;
   data: UsersTs[];
 }
-
-export interface UserLoginTs {
-  email: string;
-  password: string;
-  success?: boolean;
-  message?: string;
+export interface UserLoginResponse {
+  success: boolean;
+  message: string;
+  data: LoggedInUser;
 }
 
+export interface LoggedInUser {
+  id?: number;
+  email: string;
+  password: string;
+}
 export interface UsersTs {
   id?: number;
   fullname: string;

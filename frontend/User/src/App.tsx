@@ -1,6 +1,7 @@
+import "./index.css"
+import './App.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
 import Login from './components/pages/authentication/login'
 import Register from './components/pages/authentication/register'
 import Category from './components/pages/category'
@@ -11,10 +12,10 @@ import DetailAccountPage from './components/pages/main_page/detailAcount_page'
 import AddressAccount from './components/pages/main_page/detailAcount_page/address'
 import DetailChildren from './components/pages/main_page/detailAcount_page/detailChildren'
 import NotFound from './components/pages/notfound'
-import "./index.css"
 import Order from './components/pages/main_page/detailAcount_page/order'
 import OrderFavorites from './components/pages/main_page/detailAcount_page/order_favorites'
 import MenuPage from './components/pages/main_page/menu_page'
+import DetailsPage from './components/pages/main_page/menu_page/details'
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,7 @@ function App() {
           <Route path='/home' element={<Home />} />
           <Route path='menu-page' element={<MenuPage />} />
           <Route path='menu-page/:id' element={<MenuPage />} />
-          <Route path='menu-page/:id/:slugProduct' element={<MenuPage />} />
+          <Route path='menu-page/:id/:slugProduct' element={<DetailsPage />} />
 
           <Route path="/account" element={<DetailAccountPage />}>
             <Route index element={<DetailChildren />} />
