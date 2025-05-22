@@ -1,44 +1,20 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { slugify } from "./ultils/slugify";
-import { useQueries } from "@tanstack/react-query";
+import Button from "../common/button";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import OrderOptions from "../dashboard/oder";
-import queriesCategories from "../../../queries/categories";
-import queriesDishlist from "../../../queries/dishlist";
 import "../dashboard/styles.scss";
-import Button from "../common/button";
+import { slugify } from "./ultils/slugify";
+import { useMenuPages } from "../../../hooks/useMenuPages";
 
 function Category() {
 
-  const navigate = useNavigate();
-
   const { id } = useParams();
 
-  const resultOptions = useQueries({
-    queries: [
-      { ...queriesCategories.list },
-      { ...queriesDishlist.list },
-    ]
-  });
+  const { categories, dishlist, isLoading, isError, refs, setRef } = useMenuPages();
 
-  const categories = resultOptions[0].data ?? [];
-
-  const dishlist = resultOptions[1].data ?? [];
-
-  const isLoading = resultOptions.some((res) => res.isLoading);
-
-  const isError = resultOptions.some((res) => res.error);
-
-  const refs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  const setRef = useCallback(
-    (slug: string) => (el: HTMLDivElement | null) => {
-      if (el) refs.current[slug] = el;
-    },
-    []
-  );
+  const navigate = useNavigate();
 
   const handleClick = (name: string) => {
     const slug = slugify(name);
@@ -55,7 +31,6 @@ function Category() {
     navigate(`/menu/${categoryId}/${slug}`);
   };
 
-  // Scroll to section if URL has ID
   useEffect(() => {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
@@ -63,7 +38,7 @@ function Category() {
       }, 50);
       return () => clearTimeout(timeout);
     }
-  }, [id]);
+  }, [id, refs]);
 
   if (isLoading || categories.length === 0 || dishlist.length === 0)
     return <div>Loading...</div>;
@@ -74,24 +49,19 @@ function Category() {
     <div className="category-full">
       <Header />
       <OrderOptions />
-
       <div className="content">
         <div className="category-page">
-          {/* Tabs */}
           <div className="tabs text-center">
             {categories.map((item) => (
               <Button key={item.id} onClick={() => handleClick(item.name)} classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white " : "p-2 bg-[#201224]"} text={item.name} />
             ))}
           </div>
-
-          {/* Sections for each category */}
           <div className="sections-product">
             {categories.map((section) => {
               const categorySlug = slugify(section.name);
               const sectionDishes = dishlist.filter(
                 (dish) => String(dish.category_id) === String(section.id)
               );
-
               return (
                 <div
                   key={section.id}
@@ -99,9 +69,7 @@ function Category() {
                   id={categorySlug}
                   className="section-block"
                 >
-                  {/* Không được xoá */}
                   <h2>{section.name}</h2>
-
                   {sectionDishes.length > 0 ? (
                     <div className="item">
                       <div className="item-full">
