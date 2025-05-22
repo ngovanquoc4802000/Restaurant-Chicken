@@ -1,6 +1,7 @@
 interface InputTs {
   type: string;
   name: string;
+  placeholder?:string;
   classNameInput: string;
   classNameLabel?: string;
   value: string | number;
@@ -9,11 +10,11 @@ interface InputTs {
   text?: string;
 }
 
-function InputValue({ type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) {
+function InputValue({ placeholder,type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) {
   return (
     <label className={classNameLabel}>
       {text}
-      <input required type={type} name={name} className={classNameInput} value={value} onChange={onChange} />
+      <input required placeholder={placeholder} type={type} name={name} className={classNameInput} value={value} onChange={onChange} />
     </label>
   );
 }

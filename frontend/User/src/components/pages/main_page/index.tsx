@@ -1,36 +1,16 @@
-import Header from "./header_page/header";
+import { useHomePages } from "../../../hooks/useHomePages";
+import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
 import OrderOptions from "../dashboard/oder";
 import Carousel from "../dashboard/slider/carousel";
+import Header from "./header_page/header";
 import CategoryPage from "./menu_page/category";
 import DishShesPage from "./menu_page/dishshes";
-import queriesCategories from "../../../queries/categories";
-import queriesDishlist from "../../../queries/dishlist";
-import AppDownLoad from "../dashboard/app-download";
 import Welcome from "./welcome";
-import { useQueries } from "@tanstack/react-query";
 
 function Home() {
-  const resultQueries = useQueries({
-    queries: [
-      {
-        ...queriesCategories.list,
-      },
-      {
-        ...queriesDishlist.list
-      }
-    ]
-  });
-  const category = resultQueries[0].data ?? [];
-
-  const isLoading = resultQueries[0].isLoading;
-
-  const error = resultQueries[0].error;
-
-  const dishlist = resultQueries[1].data ?? [];
-
-  const findComboGroup = dishlist.filter((item) => item.category_id === 5)
-
+  
+  const { category, isLoading, error, findComboGroup } = useHomePages();
 
   if (isLoading || !category) return <div>Loading...</div>;
 

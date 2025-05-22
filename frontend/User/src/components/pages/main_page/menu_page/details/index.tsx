@@ -119,9 +119,7 @@ function DetailsPage() {
               <InputValue text="Số điện thoại" type="text" name="customer_phone" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleInputChange} value={orderData.customer_phone} />
               <TextareaValue text="Ghi chú đơn hàng" name="customer_note" value={orderData.customer_note} onChange={handleInputChange} classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" />
               <InputValue text="Ghi chú" type="text" name="note" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleNoteChange} value={orderDetails.note} />
-              <button
-                className="w-full bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700"
-                type="submit">Thêm vào giỏ hàng{(Number(product.price) * quantity).toFixed(3)}</button>
+              <Button type="submit" text={`Thêm vào giỏ hàng ${(Number(product.price) * quantity).toFixed(3)} VND`} className="w-full bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700" />
             </form>
           </div>
         </div>

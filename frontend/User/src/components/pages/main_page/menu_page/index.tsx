@@ -49,7 +49,6 @@ function MenuPage() {
 
       <div className="content">
         <div className="category-page ">
-          {/* Tabs */}
           <div className="tabs text-center  sticky top-[80px] z-50 bg-white shadow-md flex flex-wrap justify-center gap-2 p-2 ">
             {categories.map((item) => (
               <button
@@ -61,8 +60,6 @@ function MenuPage() {
               </button>
             ))}
           </div>
-
-          {/* Sections for each category */}
           <div className="sections-product">
             {categories.map((section) => {
               const categorySlug = slugify(section.name);
@@ -77,9 +74,7 @@ function MenuPage() {
                   id={categorySlug}
                   className="section-block scroll-mt-[135px]"
                 >
-                  {/* Không được xoá */}
                   <h2 className="text-3xl font-bold">{section.name}</h2>
-
                   {sectionDishes.length > 0 ? (
                     <div className="item">
                       <div className="item-full">

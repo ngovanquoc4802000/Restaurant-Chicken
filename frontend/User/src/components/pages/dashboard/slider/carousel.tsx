@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../../common/button";
 const images: string[] = [
   "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Party.webp?v=g99R2g",
   "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Combo99k.webp?v=g99R2g",
@@ -24,12 +25,8 @@ function Carousel() {
           <img key={index} src={src} alt="" className="w-full flex-shink-0" />
         ))}
       </div>
-      <button onClick={prevSlide} className="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-        ❮
-      </button>
-      <button onClick={nextSlide} className="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-        ❯
-      </button>
+      <Button onClick={prevSlide} text="❮" className="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full" />
+      <Button onClick={nextSlide} text="❯" className="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"/>
     </div>
   );
 }
