@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
-import type { DishTs } from "../../../mockup/dishlist";
-import type { ValueCategory } from "../../../mockup/categories";
+import type { DishTs } from "../mockup/dishlist";
+import type { ValueCategory } from "../mockup/categories";
 
 export const MenuContext = createContext<{
   category: ValueCategory[];
