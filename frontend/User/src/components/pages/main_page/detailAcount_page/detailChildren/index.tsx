@@ -11,14 +11,11 @@ function DetailChildren() {
       <div className="flex-1 px-6">
         <h1 className="text-3xl font-extrabold uppercase mb-8">Chi tiết tài khoản</h1>
         <form className="space-y-6 max-w-3xl">
-          <div>
-            <label className="block text-sm font-medium">Họ của bạn *</label>
             <input
               type="text"
               defaultValue="Van Quoc"
               className="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1"
             />
-          </div>
 
           {/* Tên */}
           <div>
@@ -87,8 +84,6 @@ function DetailChildren() {
               </select>
             </div>
           </div>
-
-          {/* Nút submit */}
           <div>
             <button
               type="submit"

@@ -1,5 +1,3 @@
-import "./index.css"
-import './App.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/pages/authentication/login'
@@ -16,6 +14,9 @@ import Order from './components/pages/main_page/detailAcount_page/order'
 import OrderFavorites from './components/pages/main_page/detailAcount_page/order_favorites'
 import MenuPage from './components/pages/main_page/menu_page'
 import DetailsPage from './components/pages/main_page/menu_page/details'
+import OrderProduct from "./components/pages/orderProduct"
+import "./index.css"
+import './App.css'
 
 const queryClient = new QueryClient();
 
@@ -31,11 +32,13 @@ function App() {
           <Route path="menu" element={<Category />} />
           <Route path="menu/:id" element={<Category />} />
           <Route path="menu/:id/:slugProduct" element={<ProductDetail />} />
-
+     
           <Route path='/home' element={<Home />} />
           <Route path='menu-page' element={<MenuPage />} />
           <Route path='menu-page/:id' element={<MenuPage />} />
           <Route path='menu-page/:id/:slugProduct' element={<DetailsPage />} />
+          
+          <Route path="orderProduct" element={<OrderProduct />} />
 
           <Route path="/account" element={<DetailAccountPage />}>
             <Route index element={<DetailChildren />} />

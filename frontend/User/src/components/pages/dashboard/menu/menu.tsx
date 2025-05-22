@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useMenuContext } from "../../../../contexts/menuContext";
+import { close } from "../../features/modal";
 import Categories from "./category/category";
 import MealSlider from "./dishes/meal";
-import { close } from "../../features/modal";
 
 function MenuAndMeal() {
   

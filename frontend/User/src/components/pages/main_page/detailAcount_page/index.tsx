@@ -12,7 +12,6 @@ function DetailAccountPage() {
         <div className="basis-[30%]  shrink-0 grow-0">
           <Sidebar />
         </div>
-
         {/* Content chiếm 70% còn lại */}
         <div className="flex-1">
           <Outlet />

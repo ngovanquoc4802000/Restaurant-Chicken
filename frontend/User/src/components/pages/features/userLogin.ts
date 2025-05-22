@@ -9,11 +9,12 @@ const initialState: LoggedInUserState = {
   email: "",
   password: ""
 };
+
 const userLoginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-     setUser(state, action: PayloadAction<LoggedInUserState>) {
+     setUser(_state, action: PayloadAction<LoggedInUserState>) {
       return action.payload;
      },
      clearUser() {

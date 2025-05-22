@@ -1,12 +1,13 @@
 import type { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { open,close } from "../../features/modal";
+import { open, close } from "../../features/modal";
+import Button from "../../common/button";
 
 function Header() {
-  
+
   const dispatch = useDispatch();
-  
+
   const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
 
   return (
@@ -37,7 +38,9 @@ function Header() {
             <img className="block max-w-full h-auto icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
           </div>
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
-            <img className="block max-w-full h-auto icon-cart" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
+            <NavLink to="/orderProduct" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
+              <img className="block max-w-full h-auto icon-cart" src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
+            </NavLink>
           </div>
 
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
@@ -54,11 +57,7 @@ function Header() {
         </div>
       </header>
       <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={() => dispatch(close())}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
-
-        <button className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" onClick={() => dispatch(close())}>
-          &times;
-        </button>
-
+        <Button onClick={() => dispatch(close())} className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" text="&times;" />
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">DANH MỤC MÓN ĂN</h3>
 
@@ -71,8 +70,6 @@ function Header() {
             <li className="offcanvas__menu-item mb-2 ">
               <NavLink to="/menu-page">
                 Món Mới
-
-
               </NavLink>
             </li>
             <li className="offcanvas__menu-item mb-2 ">

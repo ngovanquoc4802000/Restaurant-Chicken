@@ -94,7 +94,6 @@ function DetailsPage() {
       {isSuccess && <div>Success...</div>}
       {isError && <div>Error...</div>}
       <Header />
-      {/* product detail */}
       <div className="container mx-auto mt-[100px]">
         <div className="grid xl:grid-cols-2">
           <div className="col-lg-6" style={{ padding: "2rem" }}>
