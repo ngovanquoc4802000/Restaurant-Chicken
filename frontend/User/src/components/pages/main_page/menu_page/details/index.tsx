@@ -1,17 +1,18 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../../../../mockup/order";
 import queriesDishlist from "../../../../../queries/dishlist";
 import { createOrder } from "../../../../../services/orders";
 import type { RootState } from "../../../../../store/store";
 import { slugify } from "../../../category/ultils/slugify";
-import Footer from "../../../dashboard/footer";
-import Header from "../../header_page/header";
+import Button from "../../../common/button";
 import InputValue from "../../../common/input";
 import TextareaValue from "../../../common/textarea";
-import Button from "../../../common/button";
+import Footer from "../../../dashboard/footer";
+import { addToCart } from "../../../features/cartSlice";
+import Header from "../../header_page/header";
 
 
 function DetailsPage() {
@@ -19,6 +20,8 @@ function DetailsPage() {
   const navigate = useNavigate();
 
   const { slugProduct } = useParams();
+
+  const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.userLogin.id);
 
@@ -46,6 +49,7 @@ function DetailsPage() {
   );
   const handleCart = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    
     createUpdate();
   }
   const create = async () => {
@@ -64,7 +68,18 @@ function DetailsPage() {
         }
       ],
     };
-    return await createOrder(finalOrder);
+    const res = await createOrder(finalOrder);
+    if (product) {
+      dispatch(addToCart({
+        id_dishlist: Number(product.id),
+        quantity: Number(quantity),
+        price: Number(product.price),
+        title: product.title,
+        image: product.images?.[0]?.image ?? "",
+        note: orderDetails.note
+      }));
+    }
+    return res;
   }
 
   const { isSuccess, isError, mutate: createUpdate } = useMutation({
@@ -107,7 +122,7 @@ function DetailsPage() {
           <div className="col-lg-6 p-8">
             <form onSubmit={handleCart}>
               <div className="flex items-center gap-4">
-               <Button type="button"onClick={() => setQuantity((prev) => Math.max(1, prev - 1))} className="px-3 py-1 bg-gray-200 rounded" text="-" 
+                <Button type="button" onClick={() => setQuantity((prev) => Math.max(1, prev - 1))} className="px-3 py-1 bg-gray-200 rounded" text="-"
                 />
                 <span>{quantity}</span>
                 <Button type="button" onClick={() => setQuantity((prev) => prev + 1)} className="px-3 py-1 bg-gray-200 rounded" text="+"
