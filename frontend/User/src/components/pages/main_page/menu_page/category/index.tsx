@@ -8,7 +8,7 @@ interface CategoriesPageTs {
 function CategoryPage({category}: CategoriesPageTs) {
   return (
     <section className="menu-section p-5">
-      <h1 className="text-[28px] mb-5">Danh mục món ăn</h1>
+      <h1 className="text-3xl ml-3 font-bold mb-5 ">Danh mục món ăn</h1>
       <div className="menu-grid grid grid-cols-4 gap-5 py-0 px-3">
         {
           category.map((item) => (

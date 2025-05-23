@@ -1,11 +1,11 @@
 import { useHomePages } from "../../../hooks/useHomePages";
 import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
-import OrderOptions from "../dashboard/oder";
 import Carousel from "../dashboard/slider/carousel";
 import Header from "./header_page/header";
 import CategoryPage from "./menu_page/category";
 import DishShesPage from "./menu_page/dishshes";
+import OrderOptionsPage from "./options_page";
 import Welcome from "./welcome";
 
 function Home() {
@@ -18,7 +18,7 @@ function Home() {
   return (
     <div className="Home">
       <Header />
-      <OrderOptions />
+      <OrderOptionsPage/>
       <Welcome />
       <Carousel />
       <div className="menuAndMeal">

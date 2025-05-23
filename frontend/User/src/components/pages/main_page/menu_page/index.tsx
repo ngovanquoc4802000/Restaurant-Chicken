@@ -49,7 +49,7 @@ function MenuPage() {
 
       <div className="content">
         <div className="category-page ">
-          <div className="tabs text-center  sticky top-[80px] z-50 bg-white shadow-md flex flex-wrap justify-center gap-2 p-2 ">
+          <div className="tabs text-center sticky top-[80px] z-50 bg-white shadow-md flex flex-wrap justify-center gap-2 p-2 ">
             {categories.map((item) => (
               <button
                 key={item.id}

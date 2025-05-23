@@ -41,7 +41,7 @@ function Header() {
             <img className="block max-w-full h-auto icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
           </div>
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
-            <NavLink to="/orderProduct" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
+            <NavLink to="/" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
               <img className="block max-w-full h-auto icon-cart"  src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
             </NavLink>
           </div>

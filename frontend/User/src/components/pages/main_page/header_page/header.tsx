@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { open, close } from "../../features/modal";
 import Button from "../../common/button";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Header() {
-
+  const cartItems = useSelector((state: RootState) => state.cart.map((item) => item));
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  console.log(totalQuantity);
   const dispatch = useDispatch();
 
   const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
@@ -16,7 +19,7 @@ function Header() {
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/home">
-              <img width={78} height={78} className="logo block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
+              <img className="logo w-[78px] h-[78px] block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
             </NavLink>
           </div>
           <nav className="header__nav-inline hidden">
@@ -32,30 +35,46 @@ function Header() {
             </ul>
           </nav>
         </div>
-
-        <div className="header__right flex items-center justify-end gap-4">
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--logo">
-            <img className="block max-w-full h-auto icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
-          </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
-            <NavLink to="/orderProduct" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
-              <img className="block max-w-full h-auto icon-cart" src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
+        <div className="flex items-center gap-4 md:gap-2">
+          <div className="relative w-6 h-6 flex items-center justify-center">
+            <AnimatePresence>
+              {totalQuantity > 0 && (
+                <motion.div
+                  key={totalQuantity}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                >
+                  {totalQuantity}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <NavLink to="/orderProduct">
+              <img
+                className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
+                src="/src/assets/cart1.png"
+                alt="Shopping Cart Icon"
+              />
             </NavLink>
           </div>
-
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
+          <div className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]">
             <NavLink to="/account">
-              <i className="fa-solid fa-circle-user"></i>
+              <i className=" fa-solid fa-circle-user"></i>
             </NavLink>
-
           </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={() => dispatch(open())}>
-            <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
-              ☰
-            </div>
+          <div
+            className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]"
+            onClick={() => dispatch(open())}
+          >
+            ☰
           </div>
         </div>
+
+        {/* Tài khoản */}
       </header>
+
       <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={() => dispatch(close())}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
         <Button onClick={() => dispatch(close())} className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" text="&times;" />
         <div className="offcanvas__content p-5 pt-10">

@@ -38,7 +38,10 @@ function OrderProduct() {
                       <p>Giá: {item.price} VND</p>
                       <p>Ghi chú: {item.note}</p>
                     </div>
-                    <Button text="Xóa" onClick={() => handleRemove(item.id_dishlist)} className="bg-red-600 hover:bg-red-500 cursor-pointer text-white px-4 py-2 rounded" />
+                    <p className="text-red-500 cursor-pointer" onClick={() => handleRemove(item.id_dishlist)} >Xóa</p>
+                    <NavLink to="/menu-page">
+                    <p className="text-red-500">Chỉnh sửa</p>
+                    </NavLink>
                   </div>
                 ))}
               </div>
