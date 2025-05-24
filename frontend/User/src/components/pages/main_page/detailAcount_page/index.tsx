@@ -7,14 +7,16 @@ function DetailAccountPage() {
   return (
     <>
       <Header />
-      <div className="flex p-8 pt-36">
-        {/* Sidebar chiếm 30% */}
-        <div className="basis-[30%]  shrink-0 grow-0">
-          <Sidebar />
-        </div>
-        {/* Content chiếm 70% còn lại */}
-        <div className="flex-1">
-          <Outlet />
+      <div className="pt-36 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Sidebar */}
+          <div className="md:col-span-1">
+            <Sidebar />
+          </div>
+          {/* Main Content */}
+          <div className="md:col-span-2">
+            <Outlet />
+          </div>
         </div>
       </div>
       <Footer />

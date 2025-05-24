@@ -7,17 +7,18 @@ import { AnimatePresence, motion } from "framer-motion";
 
 function Header() {
   const cartItems = useSelector((state: RootState) => state.cart.map((item) => item));
+
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  console.log(totalQuantity);
+
   const dispatch = useDispatch();
 
   const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
 
   return (
     <div className="header">
-      <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-10 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+      <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex items-center justify-between">
-          <div className="header__logo flex items-center justify-center rounded-full">
+          <div className="header__logo flex  md:items-center md:justify-center rounded-full">
             <NavLink to="/home">
               <img className="logo w-[78px] h-[78px] block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
             </NavLink>
@@ -35,7 +36,7 @@ function Header() {
             </ul>
           </nav>
         </div>
-        <div className="flex items-center gap-4 md:gap-2">
+        <div className="flex flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative w-6 h-6 flex items-center justify-center">
             <AnimatePresence>
               {totalQuantity > 0 && (
@@ -51,6 +52,7 @@ function Header() {
                 </motion.div>
               )}
             </AnimatePresence>
+            
             <NavLink to="/orderProduct">
               <img
                 className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
@@ -59,9 +61,21 @@ function Header() {
               />
             </NavLink>
           </div>
+          
           <div className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]">
             <NavLink to="/account">
               <i className=" fa-solid fa-circle-user"></i>
+            </NavLink>
+          </div>
+          <div className="flex-1 flex justify-center md:justify-start">
+            <NavLink to="/home" className="block">
+              <img
+                width={78}
+                height={78}
+                className="logo block max-w-full h-auto"
+                src="/src/assets/kfclogo.png"
+                alt="hình ảnh logo"
+              />
             </NavLink>
           </div>
           <div
@@ -70,6 +84,7 @@ function Header() {
           >
             ☰
           </div>
+       
         </div>
 
         {/* Tài khoản */}

@@ -19,7 +19,7 @@ function Header() {
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
-              <img width={78} height={78} className="logo block max-w-full h-auto block" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
+              <img width={78} height={78} className="logo block max-w-full h-auto" src="/src/assets/Screenshot 2025-05-08 164110.png" alt="hình ảnh logo" />
             </NavLink>
           </div>
           <nav className="header__nav-inline hidden">

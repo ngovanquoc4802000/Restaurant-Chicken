@@ -16,8 +16,6 @@ function DetailChildren() {
               defaultValue="Van Quoc"
               className="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1"
             />
-
-          {/* Tên */}
           <div>
             <label className="block text-sm font-medium">Tên của bạn *</label>
             <input

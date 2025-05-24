@@ -53,7 +53,7 @@ function Category() {
         <div className="category-page">
           <div className="tabs fixed w-full md:fixed z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-2 bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
             {categories.map((item) => (
-              <Button key={item.id} className="p-2 md:p-4 lg-p6" onClick={() => handleClick(item.name)} classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2  text-white " : "p-2 bg-[#201224]"} text={item.name} />
+              <Button key={item.id} className="p-2 md:p-4 lg:p-6" onClick={() => handleClick(item.name)} classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2  text-white " : "p-2 bg-[#201224]"} text={item.name} />
             ))}
           </div>
           <div className="sections-product pt-32 md:pt-0 lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
