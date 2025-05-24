@@ -51,7 +51,7 @@ function Category() {
       <OrderOptions />
       <div className="content">
         <div className="category-page">
-          <div className="tabs fixed w-full md:[position:unset] z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-2 bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
+          <div className="tabs fixed w-full md:fixed z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-2 bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
             {categories.map((item) => (
               <Button key={item.id} className="p-2 md:p-4 lg-p6" onClick={() => handleClick(item.name)} classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2  text-white " : "p-2 bg-[#201224]"} text={item.name} />
             ))}
@@ -69,12 +69,12 @@ function Category() {
                   id={categorySlug}
                   className="section-block scroll-mt-32 md:scroll-mt-0"
                 >
-                  <h2 className="m-5 text-[16px] md:text-3xl  md:m-5 lg:m-5  font-black">{section.name}</h2>
+                  <h2 className="m-5 text-[16px] md:text-3xl md:m-5 lg:m-5 font-black">{section.name}</h2>
                   {sectionDishes.length > 0 ? (
                     <div className="item">
                       <div className="item-full">
                         <div className="container mx-auto px-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
                             {sectionDishes.map((item) => (
                               <div className="w-full sm:1/2 md:1/3 lg:w-1/4" key={item.id}>
                                 <div

@@ -29,7 +29,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
   return (
     <div>
-      <h2 className="text-2xl font-bold">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
+      <h2 className=" ml-5 p-3 md:ml-6 text-[18px] md:text-2xl  font-bold">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
        <Button className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" onClick={previous}text="&lt;"/>
         <div className="meal-suggestion-section__viewport w-full overflow-hidden">
@@ -40,7 +40,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
             {findComboGroup?.map((meal) => (
               <div
                 key={meal.id}
-                className="meal-suggestion-card p-4 transition-all duration-300 box-border flex-shrink-0 w-[80%] sm:w-[50%] md:w-1/3 lg:w-1/4">
+                className="meal-suggestion-card w-[200px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4">
                 <div className="meal-suggestion-card__image">
                   <img className="meal__image w-full" src={meal.images[0]?.image || ""}alt={meal.title}/>
                 </div>

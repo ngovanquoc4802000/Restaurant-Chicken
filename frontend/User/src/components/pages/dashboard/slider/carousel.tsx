@@ -19,8 +19,8 @@ function Carousel() {
     setCarousel((carousel + 1) % images.length);
   }
   return (
-    <div className="cursor-pointer pt-21 md:pt-0 relative w-full overflow-hidden">
-      <div style={{ transform: `translateX(-${carousel * 100}%)` }} className="flex transition-transform duration-500 ease-in-out">
+    <div className="cursor-pointer pt-21  md:w-full lg:w-full md:pt-0 lg:pt-0 relative  overflow-hidden">
+      <div style={{ transform: `translateX(-${carousel * 100}%)` }} className="h-[230px] md:h-0 lg:h-0 flex transition-transform duration-500 ease-in-out">
         {images.map((src, index) => (
           <img key={index} src={src} alt="" className="w-full flex-shink-0" />
         ))}

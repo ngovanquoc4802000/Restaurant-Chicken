@@ -76,7 +76,6 @@ function Login() {
       {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
       <div className="login-page">
         {isPaused && <p style={{ textAlign: "center", color: "blue" }}>Paused...</p>}
-
         <Header />
         {isOpen && (
           <div className="fixed inset-0  flex items-center justify-center z-50">
@@ -94,16 +93,16 @@ function Login() {
           </div>
         )}
 
-        <div className="login-container grid font-sans py-0 px-24 grid-cols-2 min-h-screen md:grid-cols-2">
-          <div className="login-banner bg-[#e4002b] text-white p-6 flex flex-col justify-center items-end text-center ">
-            <img width={100} className="w-full" src="https://static.kfcvietnam.com.vn/images/web/signin/lg/signin.jpg?v=4B5B0L" alt="KFC Logo" />
+        <div className="login-container grid font-sans py-0  md:px-24 lg:md-24 grid-cols-1 min-h-screen md:grid-cols-2">
+          <div className="login-banner bg-[#e4002b] items-center text-white p-6 flex flex-col justify-center text-center ">
+            <img width={100} className="w-[240px]  mt-15 md:mt-0 lg:mt-0   md:w-full lg:w-full" src="https://static.kfcvietnam.com.vn/images/web/signin/lg/signin.jpg?v=4B5B0L" alt="KFC Logo" />
           </div>
           <div className="login-form p-9 flex flex-col justify-center">
-            <h2 className="text-[1.8rem] mb-4">ĐĂNG NHẬP</h2>
+            <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">ĐĂNG NHẬP</h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
-              <InputValue classNameLabel="mb-4" text="Địa chỉ email của bạn *" name="email" type="email" value={value.email} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 rounded-md border border-gray-500" />
-              <InputValue text="Mật khẩu *" type="password" name="password" value={value.password} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 rounded-md border border-gray-500" />
-              <a className="text-[0.9rem] text-[#007bff] no-underline mb-4" href="#">Bạn quên mật khẩu?</a>
+              <InputValue classNameLabel="mb-4 text-[14px] md:text-[1.6rem] " text="Địa chỉ email của bạn *" name="email" type="email" value={value.email} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 rounded-md border border-gray-500" />
+              <InputValue text="Mật khẩu *" type="password" name="password" value={value.password} onChange={handleOnchange} classNameInput="w-full p-2 mt-1 text-[14px] md:text-[1.6rem] rounded-md border border-gray-500" />
+              <a className="text-[14px] md:text[0.9rem] text-[#007bff] no-underline mb-4" href="#">Bạn quên mật khẩu?</a>
               <button type="submit" className="btn-login bg-[#28a745] text-white p-3 border-none rounded-3xl cursor-pointer mb-4">Đăng nhập</button>
             </form>
 

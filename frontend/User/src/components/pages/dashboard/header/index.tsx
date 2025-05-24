@@ -15,7 +15,7 @@ function Header() {
   };
   return (
     <>
-      <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-10 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+      <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
@@ -36,25 +36,37 @@ function Header() {
           </nav>
         </div>
 
-        <div className="header__right flex items-center justify-end gap-4">
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--logo">
-            <img className="block max-w-full h-auto icon-logo-kfc" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }} src="/src/assets/kfclogo.png" alt="Shopping Cart Icon" />
-          </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
-            <NavLink to="/" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
-              <img className="block max-w-full h-auto icon-cart"  src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
-            </NavLink>
-          </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
-            <NavLink to="/login">
-              <i className="fa-solid fa-circle-user"></i>
-            </NavLink>
-          </div>
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
+        <div className="header__right flex justify-between md:items-center md:justify-end gap-4">
+        <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block" onClick={openOffcanvas}>
             <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
               ☰
             </div>
           </div>
+         
+        
+          <div className="flex-1 flex justify-center md:justify-start">
+            <NavLink to="/" className="block">
+              <img
+                width={78}
+                height={78}
+                className="logo block max-w-full h-auto"
+                src="/src/assets/kfclogo.png"
+                alt="hình ảnh logo"
+              />
+            </NavLink>
+          </div>
+
+          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
+            <NavLink to="/login">
+              <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[36px] lg:text-[36px] fa-solid fa-circle-user"></i>
+            </NavLink>
+          </div>
+          <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
+            <NavLink to="/" style={{ width: "30px", height: "30px", position: "absolute", objectFit: "scale-down" }}>
+              <img className="block max-w-full h-auto icon-cart" src="/src/assets/cart1.png" alt="Shopping Cart Icon" />
+            </NavLink>
+          </div>
+        
         </div>
         <Outlet />
       </header>
