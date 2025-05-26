@@ -99,7 +99,7 @@ function MenuPage() {
                                           alt={item.title}
                                         />
                                       </div>
-                                      <div className="product-info  min-h-[100px] md:min-h-[160px] xl:min-h-[160px] py-[10px] md:px-[15px] lg:px-[15px]">
+                                      <div className="product-info  min-h-[120px] md:min-h-[160px] xl:min-h-[160px] py-[10px] md:px-[15px] lg:px-[15px]">
                                         <div className="title-price flex justify-between items-center">
                                           <h3 className="text-[14px] md:text-[16px] lg:text-2xl font-bold m-0">{window.innerWidth < 640 ?item.title.length > 11 ? item.title.slice(0, 11) + "..." : item.title : item.title}</h3>
                                           <span className="price text-[14px] md:text-[16px] lg:text-2xl font-bold text-[#000]">{item.price}</span>

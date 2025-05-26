@@ -1,6 +1,6 @@
 import type { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { open, close } from "../../features/modal";
 import Button from "../../common/button";
 import { AnimatePresence, motion } from "framer-motion";
@@ -14,6 +14,14 @@ function Header() {
 
   const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
 
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: string) => {
+    dispatch(close()); 
+    setTimeout(() => {
+      navigate(path); 
+    }, 50); 
+  };
   return (
     <div className="header">
       <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -52,7 +60,7 @@ function Header() {
                 </motion.div>
               )}
             </AnimatePresence>
-            
+
             <NavLink to="/orderProduct">
               <img
                 className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
@@ -61,7 +69,7 @@ function Header() {
               />
             </NavLink>
           </div>
-          
+
           <div className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]">
             <NavLink to="/account">
               <i className=" fa-solid fa-circle-user"></i>
@@ -84,57 +92,81 @@ function Header() {
           >
             ☰
           </div>
-       
+
         </div>
 
         {/* Tài khoản */}
       </header>
 
-      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={() => dispatch(close())}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
+      <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-150 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={() => dispatch(close())}></div><div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-150 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
         <Button onClick={() => dispatch(close())} className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" text="&times;" />
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">DANH MỤC MÓN ĂN</h3>
 
-          <ul className="offcanvas__menu list-none p-0 mb-5">
+          <ul className="offcanvas__menu list -none p-0 mb-5">
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
                 Ưu Đãi
-              </NavLink>
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
-                Món Mới
-              </NavLink>
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
+                Món mới
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
                 Combo 1 Người
-              </NavLink>
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
                 Combo Nhóm
-              </NavLink>
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
                 Gà Rán - Gà Quay
-              </NavLink>
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
-                Burger - Cơm - Mì Ý
-              </NavLink>
+              <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
+              Burger - Cơm - Mỳ Ý
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
-                Thức Ăn Nhẹ
-              </NavLink>
+            <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
+                Thức ăn nhẹ
+              </button>
             </li>
             <li className="offcanvas__menu-item mb-2 ">
-              <NavLink to="/menu-page">
-                Thức Uống & Tráng Miệng
-              </NavLink>
+            <button
+                onClick={() => handleNavigate("/menu-page")}
+                className="text-left w-full text-base font-medium text-[#333]"
+              >
+               Thức uống & Tráng miệng
+              </button>
             </li>
           </ul>
 
