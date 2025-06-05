@@ -15,7 +15,7 @@ function Header() {
   };
   return (
     <>
-      <header className="header fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+      <header className="header md:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
@@ -25,13 +25,13 @@ function Header() {
           <nav className="header__nav-inline hidden">
             <ul className="header__menu-inline list-none p-0 m-0 flex gap-5">
               <li className="header__menu-item-inline">
-                <NavLink className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu">
+                <NavLink className="px-2 py-0 md:text-[16px] lg:text-[18px] block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu">
                   THỰC ĐƠN
                 </NavLink>
               </li>
-              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">KHUYẾN MÃI</a></li>
-              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">DỊCH VỤ TIỆC</a></li>
-              <li className="header__menu-item-inline"><a className="px-2 py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">HỆ THỐNG NHÀ HÀNG</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">KHUYẾN MÃI</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">DỊCH VỤ TIỆC</a></li>
+              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">HỆ THỐNG NHÀ HÀNG</a></li>
             </ul>
           </nav>
         </div>
@@ -44,7 +44,7 @@ function Header() {
           </div>
          
         
-          <div className="flex-1 flex justify-center md:justify-start">
+          <div className="flex-1 flex justify-center md:justify-start md:hidden">
             <NavLink to="/" className="block">
               <img
                 width={78}
@@ -58,7 +58,7 @@ function Header() {
 
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
             <NavLink to="/login">
-              <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[36px] lg:text-[36px] fa-solid fa-circle-user"></i>
+              <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[30px] lg:text-[36px] fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">

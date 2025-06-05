@@ -18,7 +18,6 @@ function OrderFavorites() {
         <div className="flex justify-center">
           <img src="https://static.kfcvietnam.com.vn/images/web/empty-cart.png?v=5.0" alt="KFC Bucket" className="max-w-full h-auto" />
         </div>
-
       </div>
     </div>
     </motion.div>

@@ -4,7 +4,7 @@ import { initialListApps, initialListFllowOrder, initialListIcons, initialListMe
 
 function Footer() {
   return (
-    <footer className="footer  md:px-6 bg-[#1c1c1c] text-[#fff] font-sans p-6">
+    <footer className="footer md:py-6 lg:mt-6 md:px-6 bg-[#1c1c1c] text-[#fff] font-sans p-6">
       <div className="footer__content grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] grid gap-6 pb-6 border-b-2 border-gray-[#444] ">
         <ListFooter item={initialListMenu} textTitle="Danh Mục Món Ăn" />
         <ListFooter item={initialListTitleKFC} textTitle="Về KFC" />
