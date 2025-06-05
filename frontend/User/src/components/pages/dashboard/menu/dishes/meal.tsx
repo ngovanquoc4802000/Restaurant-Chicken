@@ -28,7 +28,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
 
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
   return (
-    <div>
+    <div className="xl:max-w-[1200px] xl:m-auto">
       <h2 className=" ml-5 p-3 md:ml-6 text-[18px] md:text-[18px] lg:text-[25px] mt-[10px] lg:m-[10 px]  font-bold">
         CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
       </h2>
