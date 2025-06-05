@@ -21,7 +21,7 @@ export const useHomePages = () => {
 
   const dishlist = resultQueries[1].data ?? [];
 
-  const findComboGroup = dishlist.filter((item) => item.category_id === 5)
+  const findComboGroup = dishlist.filter((item) => item.category_id === 4)
 
   return { category, isLoading, error, dishlist, findComboGroup };
 }

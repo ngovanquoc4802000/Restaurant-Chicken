@@ -54,7 +54,7 @@ function Category() {
       <OrderOptions />
       <div className="content">
         <div className="category-page">
-          <div className="tabs md:sticky shadow-2xl text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
+          <div className="tabs md:sticky lg:sticky shadow-2xl text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}

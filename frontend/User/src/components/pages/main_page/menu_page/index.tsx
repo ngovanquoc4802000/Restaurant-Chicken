@@ -47,7 +47,6 @@ function MenuPage() {
     <div className="menuPage">
       <Header />
       <OrderOptions />
-
       <div className="content">
         <div className="category-page ">
 

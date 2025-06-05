@@ -44,7 +44,7 @@ function Header() {
             </ul>
           </nav>
         </div>
-        <div className="flex flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
+        <div className="flex flex-row-reverse lg:flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative w-6 h-6 flex items-center justify-center">
             <AnimatePresence>
               {totalQuantity > 0 && (
@@ -75,7 +75,7 @@ function Header() {
               <i className=" fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
-          <div className="flex-1 flex justify-center md:justify-start">
+          <div className="flex-1 flex justify-center md:justify-start lg:hidden">
             <NavLink to="/home" className="block">
               <img
                 width={78}
@@ -87,7 +87,7 @@ function Header() {
             </NavLink>
           </div>
           <div
-            className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]"
+            className="w-6 lg:h-8 lg:w-8 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]"
             onClick={() => dispatch(open())}
           >
             ☰

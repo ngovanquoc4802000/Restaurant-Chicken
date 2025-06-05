@@ -58,7 +58,7 @@ function Header() {
 
           <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
             <NavLink to="/login">
-              <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[30px] lg:text-[36px] fa-solid fa-circle-user"></i>
+              <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[30px] lg:text-[30px] fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">

@@ -3,7 +3,7 @@ function AppDownLoad() {
     <section className="app-download bg-[#f8f6f4] py-6 px-4 flex justify-center items-center">
       <div className="app-download__content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 flex flex-row items-center max-w-[1200px] w-full gap-[2rem]">
         <div className="app-download__graphic md:flex-1">
-          <img className="h-[168px] h-[200px] object-cover md:h-[150px]  md:object-cover" src="https://static.kfcvietnam.com.vn/images/content/home/mobileappbanner/lg/banner.jpg?v=LK5w2g" alt="KFC App Promo" />
+          <img className=" h-[200px] object-cover md:h-[150px] lg:h-[300px]  md:object-cover" src="https://static.kfcvietnam.com.vn/images/content/home/mobileappbanner/lg/banner.jpg?v=LK5w2g" alt="KFC App Promo" />
         </div>
         <div style={{ flexDirection: "row" }} className="app-download__stores flex flex-row md:flex md:flex-row lg:flex-row right-[12%] md:absolute ">
           <a href="#" className="app-download__store-button mr-2">
