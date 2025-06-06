@@ -32,7 +32,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/"
                   className={({ isActive }) =>
-                    isActive ? "text-black font-bold" : "text-white pt-4"
+                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
                   Chi tiết đơn hàng
@@ -42,7 +42,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/address"
                   className={({ isActive }) =>
-                    isActive ? "text-black font-bold" : "text-white pt-4"
+                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
                   Địa chỉ của bạn
@@ -52,7 +52,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/order"
                   className={({ isActive }) =>
-                    isActive ? "text-black font-bold" : "text-white pt-4"
+                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
                   Đơn hàng đã đặt
@@ -62,7 +62,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/order_favorites"
                   className={({ isActive }) =>
-                    isActive ? "text-black font-bold" : "text-white pt-4"
+                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
                   Đơn hàng yêu thích

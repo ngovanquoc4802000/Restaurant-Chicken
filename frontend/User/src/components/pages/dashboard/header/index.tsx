@@ -23,15 +23,39 @@ function Header() {
             </NavLink>
           </div>
           <nav className="header__nav-inline hidden">
-            <ul className="header__menu-inline list-none p-0 m-0 flex gap-5">
+           <ul className="header__menu-inline list-none p-0 m-0 flex gap-5 md:gap-0">
               <li className="header__menu-item-inline">
-                <NavLink className="px-2 py-0 md:text-[16px] lg:text-[18px] block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" to="/menu">
+                <NavLink
+                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  to="/menu"
+                >
                   THỰC ĐƠN
                 </NavLink>
               </li>
-              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">KHUYẾN MÃI</a></li>
-              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">DỊCH VỤ TIỆC</a></li>
-              <li className="header__menu-item-inline"><a className="px-2 text-[16px] md:text-[16px] lg:text-[18px] py-0 block text-lg no-underline hover:text-[#0d0d0d] font-semibold text-[#201224]" href="#">HỆ THỐNG NHÀ HÀNG</a></li>
+              <li className="header__menu-item-inline">
+                <a
+                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  href="#"
+                >
+                  KHUYẾN MÃI
+                </a>
+              </li>
+              <li className="header__menu-item-inline">
+                <a
+                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  href="#"
+                >
+                  DỊCH VỤ TIỆC
+                </a>
+              </li>
+              <li className="header__menu-item-inline">
+                <a
+                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  href="#"
+                >
+                  HỆ THỐNG NHÀ HÀNG
+                </a>
+              </li>
             </ul>
           </nav>
         </div>

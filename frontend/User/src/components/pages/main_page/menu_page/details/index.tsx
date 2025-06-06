@@ -2,16 +2,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../../../../mockup/order";
-import queriesDishlist from "../../../../../queries/dishlist";
 import { createOrder } from "../../../../../services/orders";
-import type { RootState } from "../../../../../store/store";
 import { slugify } from "../../../category/ultils/slugify";
+import { addToCart } from "../../../features/cartSlice";
+import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../../../../mockup/order";
+import type { RootState } from "../../../../../store/store";
+import queriesDishlist from "../../../../../queries/dishlist";
 import Button from "../../../common/button";
 import InputValue from "../../../common/input";
 import TextareaValue from "../../../common/textarea";
 import Footer from "../../../dashboard/footer";
-import { addToCart } from "../../../features/cartSlice";
 import Header from "../../header_page/header";
 
 
@@ -109,14 +109,14 @@ function DetailsPage() {
       {isSuccess && <div>Success...</div>}
       {isError && <div>Error...</div>}
       <Header />
-      <div className="container mx-auto mt-[100px]">
+      <div className="container mx-auto mt-[100px] lg:mt-[0px]">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start px-4">
           <div className="md:p-8 lg:p-8" >
             <div className="product-detail w-full flex justify-center shadow-[0_0_8px_0_rgba(0, 0, 0, 0.2)] rounded-md p-6">
               <img className="rounded-xl shadow-lg max-h-[400px] object-cover" src={product.images?.[0]?.image} alt={product.title} />
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 lg:p-6 space-y-4 max-w-md w-full mx-auto">
+          <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-6 lg:p-6 space-y-4 max-w-md w-full mx-auto">
             <form onSubmit={handleCart} className="space-y-4">
               <h2 className="text-2xl font-bold text-gray-800">{product.title}</h2>
               <p className="text-gray-600">{product.description}</p>

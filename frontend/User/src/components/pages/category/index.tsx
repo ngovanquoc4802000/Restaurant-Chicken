@@ -80,7 +80,7 @@ function Category() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44"
+                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44  xl:max-w-[1200px] xl:m-auto "
                 >
                   <h2 className="m-5 text-[16px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}

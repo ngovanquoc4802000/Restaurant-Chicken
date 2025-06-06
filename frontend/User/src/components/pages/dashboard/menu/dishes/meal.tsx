@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { ValueCategory } from "../../../../../mockup/categories";
 import type { DishTs } from "../../../../../mockup/dishlist";
 import Button from "../../../common/button";
-
 interface MealSliderTs {
   findComboGroup: DishTs[];
   onClick: () => void;
@@ -28,10 +27,13 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
 
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
   return (
-    <div className="xl:max-w-[1200px] xl:m-auto">
-      <h2 className=" ml-5 p-3 md:ml-6 text-[18px] md:text-[18px] lg:text-[25px] mt-[10px] lg:m-[10 px]  font-bold">
-        CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
-      </h2>
+    <div className="xl:max-w-[1200px] xl:m-auto ">
+      <div className="md:ml-6 ml-2 mt-4 flex">
+        <img src="/src/assets/onggia.png" className="" alt="" />
+        <h2 className=" ml-0 p-3 md:ml-6 text-[18px] md:text-[18px] lg:text-[25px] mt-[10px] lg:m-[10 px]  font-bold">
+          CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
+        </h2>
+      </div>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
         <Button
           className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
