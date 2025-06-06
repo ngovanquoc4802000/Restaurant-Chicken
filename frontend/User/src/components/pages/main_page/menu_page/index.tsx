@@ -57,7 +57,7 @@ function MenuPage() {
             {categories.map((item) => (
               <Button
                 key={item.id}
-                className="p-2 md:p-4 lg:p-6"
+                className="p-2 md:p-4 lg:p-6 hover:underline cursor-pointer"
                 onClick={() => handleClick(item.name)}
                 classNameLogic={
                   slugify(item.name) === id

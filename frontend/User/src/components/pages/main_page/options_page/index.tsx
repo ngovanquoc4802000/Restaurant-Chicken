@@ -15,10 +15,7 @@ function OrderOptionsPage() {
           <span className="order-options__separator">hoặc Mang đi</span>
         </div>
         <NavLink to="/menu-page">
-          <Button
-            className="order-options__button rounded-[50px] cursor-pointer"
-            text="Bắt đầu đặt hàng"
-          />
+          <Button className="order-options__button rounded-[50px] cursor-pointer"text="Bắt đầu đặt hàng"/>
         </NavLink>
       </div>
     </div>

@@ -71,9 +71,8 @@ function OrderProduct() {
                     placeholder="🎁 Gợi ý: Nhập mã để giảm 10% cho đơn hàng trên 100K!"
                     className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
                   />
-                  <button className="bg-black text-white px-4 py-1 rounded-full text-sm">
-                    Áp dụng
-                  </button>
+                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm"  text="Áp dụng"/>
+                  
                 </div>
               </div>
 
@@ -87,18 +86,15 @@ function OrderProduct() {
                   <span>{total_price.toFixed(3)} VND</span>
                 </div>
               </div>
-              <Button
-                text={`Thanh Toán ${total_price.toFixed(3)} VND`}
-                className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
-              />
+              <Button text={`Thanh Toán ${total_price.toFixed(3)} VND`} className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"/>
             </div>
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 lg:py-0">
+        <div className="text-center py-25  lg:py-10 bg-[#fbf9f7]">
           <img
             src="https://static.kfcvietnam.com.vn/images/web/empty-cart.png?v=5.0"
-            className="mx-auto lg:mx-auto lg:w-70 lg:h-70 w-40 h-40 mb-4"
+            className="mx-auto lg:mx-auto lg:w-70 lg:h-70 w-40 h-40 mb-4 mr-[7rem] md:mr-[18rem] lg:mr-[20rem] xl:mr-[36rem]"
           />
           <p className="text-gray-600 text-xl mb-4">
             Không có sản phẩm nào trong giỏ hàng

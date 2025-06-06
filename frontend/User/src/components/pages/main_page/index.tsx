@@ -1,15 +1,14 @@
+import { MenuContext } from "../../../contexts/menuContext";
 import { useHomePages } from "../../../hooks/useHomePages";
 import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
 import Carousel from "../dashboard/slider/carousel";
 import Header from "./header_page/header";
-import CategoryPage from "./menu_page/category";
-import DishShesPage from "./menu_page/dishshes";
+import MenuAndMealPage from "./menu_page/menuParent";
 import OrderOptionsPage from "./options_page";
 import Welcome from "./welcome";
 
 function Home() {
-  
   const { category, isLoading, error, findComboGroup } = useHomePages();
 
   if (isLoading || !category) return <div>Loading...</div>;
@@ -18,13 +17,12 @@ function Home() {
   return (
     <div className="Home">
       <Header />
-      <OrderOptionsPage/>
+      <OrderOptionsPage />
       <Welcome />
       <Carousel />
-      <div className="menuAndMeal">
-        <CategoryPage category={category} />
-        <DishShesPage findComboGroup={findComboGroup} category={category} />
-      </div>
+      <MenuContext.Provider value={{ category, findComboGroup }}>
+        <MenuAndMealPage />
+      </MenuContext.Provider>
       <AppDownLoad />
       <Footer />
     </div>
