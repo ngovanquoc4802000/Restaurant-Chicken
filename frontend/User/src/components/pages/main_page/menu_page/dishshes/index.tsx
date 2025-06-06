@@ -1,7 +1,7 @@
+import Button from "../../../common/button";
 import { useState } from "react";
 import type { ValueCategory } from "../../../../../mockup/categories";
 import type { DishTs } from "../../../../../mockup/dishlist";
-import Button from "../../../common/button";
 
 interface DishMealPageTs {
   findComboGroup: DishTs[];
@@ -22,12 +22,14 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
       setStartIndex(prev => prev - visibleItems);
     }
   };
+
   const visibleItems = 1;
 
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
+
   return (
     <div className=" xl:max-w-[1200px] xl:m-auto">
-      <h2 className="text-[22px] md:text-2xl lg:text-[24px] ml-8 font-black ">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
+      <h2 className="text-[22px] md:text-[20px] lg:text-[24px] ml-8 font-black ">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
         <Button text="&lt;" onClick={previous} className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" />
         <div className="meal-suggestion-section__viewport w-full overflow-hidden">
@@ -50,7 +52,7 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                     alt={meal.title}
                   />
                 </div>
-                <div className="meal-suggestion-card__info min-h-[143px] md:min-h-[215px] lg:min-h-[150px]">
+                <div className="meal-suggestion-card__info min-h-[143px] md:min-h-[150px] lg:min-h-[150px]">
                   <h3 className="font-semibold text-base">{meal.title}</h3>
                   <p className="text-sm">
                     {meal.price}

@@ -13,7 +13,7 @@ function Welcome() {
             />
           </div>
         </div>
-        <h1 className="text-4xl font-extrabold leading-tight">
+        <h1 className="text-[20px] font-extrabold leading-tight">
           CHÀO MỪNG <br /> TRỞ LẠI,
         </h1>
         <h2 className="text-4xl font-extrabold text-red-700 mt-2">Ngo</h2>
