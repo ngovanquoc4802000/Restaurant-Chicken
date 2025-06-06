@@ -53,7 +53,7 @@ function MenuPage() {
       <OrderOptionsPage />
       <div className="content">
         <div className="category-page ">
-             <div className="tabs md:sticky shadow-md xl:shadow-md lg:sticky  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
+          <div className="tabs md:sticky shadow-md xl:shadow-md lg:sticky  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}
@@ -80,13 +80,13 @@ function MenuPage() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44"
+                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44  xl:max-w-[1200px] xl:m-auto   "
                 >
                   <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}
                   </h2>
                   {sectionDishes.length > 0 ? (
-               <div className="item">
+                    <div className="item">
                       <div className="item-full">
                         <div className="container mx-auto px-4">
                           <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
@@ -132,13 +132,16 @@ function MenuPage() {
                                               : item.description
                                             : item.description
                                             ? window.innerWidth < 1024
-                                              ? item.description.length > 62    
+                                              ? item.description.length > 62
                                               : item.description.slice(0, 62) +
                                                 "..."
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button text="Thêm"className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
+                                      <Button
+                                        text="Thêm"
+                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
+                                      />
                                     </div>
                                   )}
                                 </div>

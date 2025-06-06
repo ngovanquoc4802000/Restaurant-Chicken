@@ -7,7 +7,7 @@ interface CategoriesPageTs {
 
 function CategoryPage({category}: CategoriesPageTs) {
   return (
-    <section className="menu-section p-5">
+    <section className="menu-section p-5  xl:max-w-[1200px] xl:m-auto">
       <h1 className="text-[20px] md:text-[24px] lg:text-[35px] lg lg:text-[3xl] ml-3 md:lg-5 font-bold mb-5 ">Danh mục món ăn</h1>
       <div className="menu-grid grid grid-cols-4 lg:grid-cols-4 md:grid-cols-4 gap-5 py-0 px-3">
         {

@@ -80,7 +80,7 @@ function Category() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block  scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44 xl:max-w-[1200px] xl:m-auto"
+                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44"
                 >
                   <h2 className="m-5 text-[16px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}
@@ -96,14 +96,13 @@ function Category() {
                                 key={item.id}
                               >
                                 <div
-                                  className="product-card w-[11rem] md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
+                                  className="product-card w-[11rem] cursor-pointer md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
                                   onClick={() =>
                                     handleProductClick(
                                       String(section.id),
                                       item.title
                                     )
                                   }
-                                  style={{ cursor: "pointer" }}
                                 >
                                   {item.images?.[0]?.image && (
                                     <div className="Image shadow-md p-2 md:p-[5px] lg:p-[6px] ">

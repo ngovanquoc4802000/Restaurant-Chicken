@@ -31,27 +31,31 @@ function OrderProduct() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 shadow-2xl p-4 rounded-2xl ">
               {cart.map((item) => (
-                <div key={item.id_dishlist} className="">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-[100px] p-2 rounded-2xl shadow-md h-[100px] object-cover rounded"
-                  />
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold">{item.title}</h2>
-                    <p>SL: {item.quantity}</p>
-                    <p>Giá: {item.price} VND</p>
-                    <p>Ghi chú: {item.note}</p>
+                <div key={item.id_dishlist} className="md:flex lg:flex xl:flex md:justify-between lg:justify-between xl:justify-between">
+                  <div className="md:flex lg:flex xl:flex">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-[100px] p-2 rounded-2xl shadow-md h-[100px] object-cover rounded"
+                    />
+                    <div className="flex-1">
+                      <h2 className="text-lg font-semibold">{item.title}</h2>
+                      <p>SL: {item.quantity}</p>
+                      <p>Giá: {item.price} VND</p>
+                      <p>Ghi chú: {item.note}</p>
+                    </div>
                   </div>
-                  <p
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => handleRemove(item.id_dishlist)}
-                  >
-                    Xóa
-                  </p>
+                  <div className="md:flex lg:flex xl:flex">
+                    <p
+                      className="text-red-500 cursor-pointer lg:mr-5"
+                      onClick={() => handleRemove(item.id_dishlist)}
+                    >
+                      Xóa
+                    </p>
                   <NavLink to="/menu-page">
                     <p className="text-red-500">Chỉnh sửa</p>
                   </NavLink>
+                  </div>
                 </div>
               ))}
             </div>

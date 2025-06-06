@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function Welcome() {
   return (
-    <div className=" pt-24 md:pt-16 lg:pt-16 px-12 bg-white flex flex-row justify-start items-start justify-center text-black">
+    <div className="xl:max-w-[1200px] xl:m-auto pt-24 md:pt-16 lg:pt-16 px-12 bg-white flex flex-row justify-start items-start justify-center text-black">
       <div className="text-center">
         <div className="">
           <div className="w-24 h-24 mx-auto rounded-full shadow-md bg-white flex items-center justify-center">

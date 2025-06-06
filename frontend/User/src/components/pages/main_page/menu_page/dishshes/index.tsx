@@ -26,8 +26,8 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
 
   const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
   return (
-    <div>
-      <h2 className="text-[22px] md:text-2xl lg:text-[24px] ml-8 font-black">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
+    <div className=" xl:max-w-[1200px] xl:m-auto">
+      <h2 className="text-[22px] md:text-2xl lg:text-[24px] ml-8 font-black ">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
         <Button text="&lt;" onClick={previous} className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" />
         <div className="meal-suggestion-section__viewport w-full overflow-hidden">

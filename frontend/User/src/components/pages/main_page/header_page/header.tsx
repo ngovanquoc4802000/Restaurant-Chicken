@@ -75,7 +75,7 @@ function Header() {
               <i className=" fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
-          <div className="flex-1 flex justify-center md:justify-start lg:hidden">
+          <div className="flex-1 flex justify-center md:justify-start md:hidden lg:hidden">
             <NavLink to="/home" className="block">
               <img
                 width={78}
