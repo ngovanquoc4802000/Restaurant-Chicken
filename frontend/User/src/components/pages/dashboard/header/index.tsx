@@ -77,43 +77,43 @@ function Header() {
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">DANH MỤC MÓN ĂN</h3>
 
-          <ul className="offcanvas__menu list-none p-0 mb-5">
-            <li className="offcanvas__menu-item mb-2 ">
+          <ul className="offcanvas__menu list-none p-0 mb-5 cursor-pointer">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Ưu Đãi
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Món Mới
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Combo 1 Người
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Combo Nhóm
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Gà Rán - Gà Quay
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Burger - Cơm - Mì Ý
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Thức Ăn Nhẹ
               </NavLink >
             </li>
-            <li className="offcanvas__menu-item mb-2 ">
+            <li className="offcanvas__menu-item hover:underline mb-2 ">
               <NavLink to="/menu">
                 Thức Uống & Tráng Miệng
               </NavLink >

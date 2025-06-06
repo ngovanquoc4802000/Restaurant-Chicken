@@ -22,7 +22,7 @@ function Category() {
 
     const target = refs.current[slug];
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: "instant", block: "start" });
     }
   };
 

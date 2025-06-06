@@ -8,12 +8,12 @@ import Button from "../../common/button";
 import OrderOptionsPage from "../options_page";
 
 function MenuPage() {
+  
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { categories, dishlist, isError, isLoading, refs, setRef } =
-    useMenuPages();
+  const { categories, dishlist, isError, isLoading, refs, setRef } = useMenuPages();
 
   const handleClick = (name: string) => {
     const slug = slugify(name);
@@ -21,7 +21,7 @@ function MenuPage() {
 
     const target = refs.current[slug];
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: "instant", block: "start" });
     }
   };
 
@@ -59,13 +59,7 @@ function MenuPage() {
                 key={item.id}
                 className="p-2 md:p-4 lg:p-6 hover:underline cursor-pointer"
                 onClick={() => handleClick(item.name)}
-                classNameLogic={
-                  slugify(item.name) === id
-                    ? "active bg-[#e4002b] p-2  text-white "
-                    : "p-2 bg-[#201224]"
-                }
-                text={item.name}
-              />
+                classNameLogic={ slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white ": "p-2 bg-[#201224]"}text={item.name}/>
             ))}
           </div>
           <div className="sections-product pt-32 md:pt-0 lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
@@ -80,7 +74,7 @@ function MenuPage() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44  xl:max-w-[1200px] xl:m-auto   "
+                  className="section-block scroll-mt-32 md:scroll-mt-44 lg:scroll-mt-48 xl:scroll-mt-48  xl:max-w-[1200px] xl:m-auto   "
                 >
                   <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}

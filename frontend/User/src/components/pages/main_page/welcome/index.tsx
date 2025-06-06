@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import type { RootState } from "../../../../store/store";
 
 function Welcome() {
+  const register = useSelector((item: RootState) => item.userRegister);
+  const { fullname } = register;
   return (
     <div className="xl:max-w-[1200px] xl:m-auto pt-24 md:pt-16 lg:pt-16 px-12 bg-white flex flex-row justify-start items-start justify-center text-black">
       <div className="text-center">
@@ -16,16 +20,21 @@ function Welcome() {
         <h1 className="text-[20px] font-extrabold leading-tight">
           CHÀO MỪNG <br /> TRỞ LẠI,
         </h1>
-        <h2 className="text-4xl font-extrabold text-red-700 mt-2">Ngo</h2>
+        <h2 className="text-4xl font-extrabold text-red-700 mt-2">
+          {fullname}
+        </h2>
 
         <div className="mt-4">
-          <NavLink className="text-sm text-gray-600 hover:text-black underline inline-flex items-center" to="/menu-page">
+          <NavLink
+            className="text-sm text-gray-600 hover:text-black underline inline-flex items-center"
+            to="/account"
+          >
             Tài khoản của tôi
           </NavLink>
           <span className="ml-1">→</span>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

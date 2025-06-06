@@ -1,7 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import type { RootState } from "../../../../../store/store";
+import { useSelector } from "react-redux";
 
 function Sidebar() {
+  const register = useSelector((item: RootState) => item.userRegister);
+  const { fullname } = register;
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -17,18 +21,18 @@ function Sidebar() {
           />
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">XIN CHÀO,</h2>
-            <h2 className="text-2xl font-extrablod">NGO!</h2>
+            <h2 className="text-2xl font-extrablod">{fullname}</h2>
             <NavLink style={{ textDecoration: "revert" }} to="/">
               Đăng Xuất
             </NavLink>
           </div>
           <nav className="text-sm w-full whitespace-nowrap overflow-x-auto  text-zinc-300 md:w-full md:mt-6 md:space-y-2 md:text-left">
             <ul className="flex  justify-between md:justify-center md:flex-col ">
-                <li className="pl-2 lg:text-[18px] mb-[8px] md:mb-0 lg:mb-0 md:pl-0 lg:pl-0 p-2 bg-red-500 md:bg-black lg:bg-black  mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
+              <li className="pl-2 lg:text-[18px] mb-[8px] md:mb-0 lg:mb-0 md:pl-0 lg:pl-0 p-2 bg-red-500 md:bg-black lg:bg-black  mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                 <NavLink
                   to="/account/"
                   className={({ isActive }) =>
-                    isActive ? "text-red-600 font-bold" : "text-white pt-4"
+                    isActive ? "text-black font-bold" : "text-white pt-4"
                   }
                 >
                   Chi tiết đơn hàng
@@ -38,7 +42,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/address"
                   className={({ isActive }) =>
-                    isActive ? "text-red-600 font-bold" : "text-white pt-4"
+                    isActive ? "text-black font-bold" : "text-white pt-4"
                   }
                 >
                   Địa chỉ của bạn
@@ -48,7 +52,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/order"
                   className={({ isActive }) =>
-                    isActive ? "text-red-600 font-bold" : "text-white pt-4"
+                    isActive ? "text-black font-bold" : "text-white pt-4"
                   }
                 >
                   Đơn hàng đã đặt
@@ -58,7 +62,7 @@ function Sidebar() {
                 <NavLink
                   to="/account/order_favorites"
                   className={({ isActive }) =>
-                    isActive ? "text-red-600 font-bold" : "text-white pt-4"
+                    isActive ? "text-black font-bold" : "text-white pt-4"
                   }
                 >
                   Đơn hàng yêu thích
