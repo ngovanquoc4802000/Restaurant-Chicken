@@ -8,11 +8,7 @@ interface ButtonTs {
 }
 
 function Button({ text, type, onClick, className }: ButtonTs) {
-  return (
-    <>
-      <button type={type} className={className} onClick={onClick} >{text}</button>
-    </>
-  );
+  return <button type={type} className={className} onClick={onClick} >{text}</button>
 }
 
 export default Button;

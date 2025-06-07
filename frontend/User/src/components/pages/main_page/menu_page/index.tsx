@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMenuPages } from "../../../../hooks/useMenuPages";
-import { slugify } from "../../category/ultils/slugify";
 import Footer from "../../dashboard/footer";
 import Header from "../header_page/header";
 import Button from "../../common/button";
 import OrderOptionsPage from "../options_page";
+import { slugify } from "../../dashboard/menu/ultils";
 
 function MenuPage() {
   
@@ -16,10 +16,13 @@ function MenuPage() {
   const { categories, dishlist, isError, isLoading, refs, setRef } = useMenuPages();
 
   const handleClick = (name: string) => {
+
     const slug = slugify(name);
+    
     navigate(`/menu-page/${slug}`);
 
     const target = refs.current[slug];
+    
     if (target) {
       target.scrollIntoView({ behavior: "instant", block: "start" });
     }

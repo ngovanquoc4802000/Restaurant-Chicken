@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../common/button";
-import Footer from "../dashboard/footer";
-import Header from "../dashboard/header";
-import OrderOptions from "../dashboard/oder";
-import "../dashboard/styles.scss";
+import "../../dashboard/styles.scss";
+import { useMenuPages } from "../../../../hooks/useMenuPages";
 import { slugify } from "./ultils/slugify";
-import { useMenuPages } from "../../../hooks/useMenuPages";
+import Header from "../header";
+import OrderOptions from "../oder";
+import Button from "../../common/button";
+import Footer from "../footer";
 
 function Category() {
   const { id } = useParams();

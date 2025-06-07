@@ -1,58 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import type { UsersTs } from "../../../mockup/user";
-import { createUsersRegister } from "../../../services/users";
+import { NavLink, Outlet } from "react-router-dom";
+import { useRegister } from "../../../hooks/userRegisterPages";
 import Button from "../common/button";
+import InputValue from "../common/input";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import InputValue from "../common/input";
-import { useDispatch } from "react-redux";
-import { clearUserRegister, setUserRegister } from "../features/userRegister";
+import { clearUserRegister } from "../features/userRegister";
 
 function Register() {
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-  const [value, setValue] = useState<UsersTs>({
-    fullname: "",
-    email: "",
-    phone_number: "",
-    address: "",
-    password: "",
-    create_at: new Date(),
-  });
+  
+  const { dispatch, value, setValue, updateSave, isPending } = useRegister();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(clearUserRegister());
     updateSave();
   };
-
-  const update = async () => {
-   const res = await createUsersRegister(value);
-   dispatch(setUserRegister(value));
-   return res;
-  };
-
-  const { isPending, mutate: updateSave } = useMutation({
-    mutationFn: update,
-    onSuccess: (data) => {
-      if (!data) return;
-      setValue({
-        fullname: "",
-        email: "",
-        phone_number: "",
-        address: "",
-        password: "",
-        create_at: new Date(),
-      });
-      navigate("/login");
-    },
-    onError: (error) => {
-      alert("Error dupting create" + error);
-    },
-  });
 
   const onChangeRegister = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -127,7 +89,6 @@ function Register() {
               onChange={onChangeRegister}
               classNameInput="w-full p-2 border border-gray-500 rounded mt-1"
             />
-
             <div className="terms mt-6 flex ">
               <input
                 className="mr-2 mt-1"

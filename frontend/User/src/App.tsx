@@ -2,8 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/pages/authentication/login'
 import Register from './components/pages/authentication/register'
-import Category from './components/pages/category'
-import ProductDetail from './components/pages/category/details'
 import Dashboard from './components/pages/dashboard'
 import Home from './components/pages/main_page'
 import DetailAccountPage from './components/pages/main_page/detailAcount_page'
@@ -17,6 +15,8 @@ import DetailsPage from './components/pages/main_page/menu_page/details'
 import OrderProduct from "./components/pages/orderProduct"
 import "./index.css"
 import './App.css'
+import Category from './components/pages/dashboard/category'
+import ProductDetail from './components/pages/dashboard/category/details'
 
 const queryClient = new QueryClient();
 

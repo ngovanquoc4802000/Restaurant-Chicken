@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createOrder } from "../../../../../services/orders";
-import { slugify } from "../../../category/ultils/slugify";
 import { addToCart } from "../../../features/cartSlice";
 import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../../../../mockup/order";
 import type { RootState } from "../../../../../store/store";
@@ -13,6 +12,7 @@ import InputValue from "../../../common/input";
 import TextareaValue from "../../../common/textarea";
 import Footer from "../../../dashboard/footer";
 import Header from "../../header_page/header";
+import { slugify } from "../../../dashboard/menu/ultils";
 
 
 function DetailsPage() {
