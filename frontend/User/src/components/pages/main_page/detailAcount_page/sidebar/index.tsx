@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import type { RootState } from "../../../../../store/store";
 import { useSelector } from "react-redux";
+import type { RootState } from "../../../../../store/store";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
+
   const { fullname } = register;
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}

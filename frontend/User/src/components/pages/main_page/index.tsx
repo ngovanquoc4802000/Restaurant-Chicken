@@ -1,5 +1,5 @@
 import { MenuContext } from "../../../contexts/menuContext";
-import { useHomePages } from "../../../hooks/useHomePages";
+import { useHomePages } from "../../../hooks/menu_page/useHomePages";
 import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
 import Carousel from "../dashboard/slider/carousel";
@@ -9,11 +9,13 @@ import OrderOptionsPage from "./options_page";
 import Welcome from "./welcome";
 
 function Home() {
+
   const { category, isLoading, error, findComboGroup } = useHomePages();
 
   if (isLoading || !category) return <div>Loading...</div>;
 
   if (error) return "An error has occurred";
+  
   return (
     <div className="Home">
       <Header />

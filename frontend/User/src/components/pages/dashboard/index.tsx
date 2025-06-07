@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useMenuData } from "../../../hooks/useMenuData";
+import { useMenuData } from "../../../hooks/dashboard/useDashboard";
 import { MenuContext } from "../../../contexts/menuContext";
 import AppDownLoad from "./app-download";
 import Footer from "./footer";

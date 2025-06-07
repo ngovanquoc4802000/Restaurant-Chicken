@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import Button from "../../../common/button";
 import { Link } from "react-router-dom";
+import Button from "../../../common/button";
 
 function OrderFavorites() {
   return (

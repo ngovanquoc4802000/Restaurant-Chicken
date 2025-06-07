@@ -1,37 +1,14 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
+import { slugify } from "../../dashboard/menu/ultils";
+import { useMenuPages } from "../../../../hooks/menu_page/useMenuPages";
+import Header from "../header_page/header";
 import Button from "../../common/button";
 import Footer from "../../dashboard/footer";
-import { slugify } from "../../dashboard/menu/ultils";
-import Header from "../header_page/header";
 import OrderOptionsPage from "../options_page";
 
 function MenuPage() {
-  
-  const { id } = useParams();
 
-  const navigate = useNavigate();
-
-  const { categories, dishlist, isError, isLoading, refs, setRef } = useCategoryPages();
-
-  const handleClick = (name: string) => {
-
-    const slug = slugify(name);
-    
-    navigate(`/menu-page/${slug}`);
-
-    const target = refs.current[slug];
-    
-    if (target) {
-      target.scrollIntoView({ behavior: "instant", block: "start" });
-    }
-  };
-
-  const handleProductClick = (categoryId: string, productTitle: string) => {
-    const slug = slugify(productTitle);
-    navigate(`/menu-page/${categoryId}/${slug}`);
-  };
+  const {id,categories,dishlist,isLoading,isError,refs,setRef,handleClick,handleProductClick} = useMenuPages();
 
   useEffect(() => {
     if (id && refs.current[id]) {
@@ -45,11 +22,9 @@ function MenuPage() {
     }
   }, [id, refs]);
 
-  if (isLoading || categories.length === 0 || dishlist.length === 0)
-    return <div>Loading...</div>;
-
+  if (isLoading || categories.length === 0 || dishlist.length === 0) return <div>Loading...</div>;
+  
   if (isError) return <div>Error loading category or dishes</div>;
-
   return (
     <div className="menuPage">
       <Header />
@@ -62,7 +37,13 @@ function MenuPage() {
                 key={item.id}
                 className="p-2 md:p-4 lg:p-6 hover:underline cursor-pointer"
                 onClick={() => handleClick(item.name)}
-                classNameLogic={ slugify(item.name) === id ? "active bg-[#e4002b] p-2 text-white ": "p-2 bg-[#201224]"}text={item.name}/>
+                classNameLogic={
+                  slugify(item.name) === id
+                    ? "active bg-[#e4002b] p-2 text-white "
+                    : "p-2 bg-[#201224]"
+                }
+                text={item.name}
+              />
             ))}
           </div>
           <div className="sections-product pt-32 md:pt-0 lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
@@ -135,10 +116,7 @@ function MenuPage() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button
-                                        text="Thêm"
-                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
-                                      />
+                                      <Button  text="Thêm"  className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
                                     </div>
                                   )}
                                 </div>

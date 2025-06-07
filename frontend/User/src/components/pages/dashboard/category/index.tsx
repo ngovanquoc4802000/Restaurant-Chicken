@@ -8,18 +8,8 @@ import OrderOptions from "../oder";
 import "../../dashboard/styles.scss";
 
 function Category() {
-  const {
-    categories,
-    id,
-    dishlist,
-    handleProductClick,
-    handleClick,
-    isLoading,
-    isError,
-    refs,
-    setRef,
-  } = useCategoryPages();
-
+  const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef} = useCategoryPages();
+  
   useEffect(() => {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
@@ -32,8 +22,7 @@ function Category() {
     }
   }, [id, refs]);
 
-  if (isLoading || categories.length === 0 || dishlist.length === 0)
-    return <div>Loading...</div>;
+  if (isLoading || categories.length === 0 || dishlist.length === 0) return <div>Loading...</div>;
 
   if (isError) return <div>Error loading category or dishes</div>;
 
@@ -126,10 +115,7 @@ function Category() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button
-                                        text="Thêm"
-                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
-                                      />
+                                      <Button text="Thêm" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
                                     </div>
                                   )}
                                 </div>

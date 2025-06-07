@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useRegister } from "../../../hooks/userRegisterPages";
+import { useRegister } from "../../../hooks/authen/userRegisterPages";
 import Button from "../common/button";
 import InputValue from "../common/input";
 import Footer from "../dashboard/footer";

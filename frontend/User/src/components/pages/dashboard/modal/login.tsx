@@ -8,9 +8,9 @@ function ModalLogin() {
   const { handleSubmit, isError, isPending, value, handleOnchange } = useModalLoginPages();
   return (
     <div className="modal-backdrop">
-      {isPending && (
-        <p className="text-center text-blue-500">Saving...</p>
-      )}
+      
+      {isPending && (<p className="text-center text-blue-500">Saving...</p>)}
+      
       {isError && (
         <p className="text-center text-red-500">
           Bạn đã nhập sai Password hoặc Email

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../styles.scss";
+import Button from "../../common/button";
 
 function OrderOptions() {
   return (
@@ -15,9 +16,7 @@ function OrderOptions() {
           <span className="order-options__separator text-[16px] md:text-[18px]">hoặc Mang đi</span>
         </div>
         <NavLink to="/menu">
-          <button className="order-options__button rounded-[50px] cursor-pointer text-[16px] md:text-[18px] ">
-            Bắt đầu đặt hàng
-          </button>
+          <Button className="order-options__button rounded-[50px] cursor-pointer text-[16px] md:text-[18px]" text="Bắt đầu đặt hàng" />
         </NavLink>
       </div>
     </div>

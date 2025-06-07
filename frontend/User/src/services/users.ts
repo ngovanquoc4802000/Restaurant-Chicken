@@ -7,7 +7,6 @@ export const createUsersRegister = async (user: UsersTs) => {
     return result.data;
   } catch (error) {
     if (!error || error) {
-      // Ném lỗi để trigger onError
       throw { response: { data: { message: error || "Login failed" } } };
     }
   }
@@ -20,7 +19,7 @@ export const createUserLogin = async (login: LoggedInUser) => {
       throw new Error(result.data.message || "Email hoặc mật khẩu không đúng.");
     }
 
-    return result.data; // Trả về data dạng UserLoginResponse
+    return result.data; 
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Chi tiết lỗi:", error.message);

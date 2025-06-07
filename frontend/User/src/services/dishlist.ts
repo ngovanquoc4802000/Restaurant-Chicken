@@ -5,8 +5,8 @@ export const getApiDishListAll = async () => {
   try {
     const result = await Request.get<ApiGetAllDishList>("dishlist");
     return result.data;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",

@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
 import Button from "../../common/button";
+import { NavLink } from "react-router-dom";
 
 function OrderOptionsPage() {
   return (

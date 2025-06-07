@@ -5,7 +5,8 @@ export const getOrderAll = async () => {
   try {
     const result = await Request.get<OrderAllTs>("order");
     return result.data;
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",

@@ -1,8 +1,8 @@
 import { useQueries } from "@tanstack/react-query"
-import queriesCategories from "../queries/categories"
-import queriesDishlist from "../queries/dishlist"
+import queriesCategories from "../../queries/categories"
+import queriesDishlist from "../../queries/dishlist"
 import { useSelector } from "react-redux"
-import type { RootState } from "../store/store"
+import type { RootState } from "../../store/store"
 
 export const useMenuData = () => {
   const resultQueries = useQueries({

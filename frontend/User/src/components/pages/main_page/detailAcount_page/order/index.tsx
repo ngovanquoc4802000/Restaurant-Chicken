@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import Button from "../../../common/button";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 function Order() {
   return (
@@ -16,10 +16,7 @@ function Order() {
           <div className="text-center">
             <h2 className="text-3xl font-extrabold mb-4">BẮT ĐẦU ĐẶT MÓN!</h2>
             <Link to="/menu-page">
-              <Button
-                className="bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-red-700"
-                text="Bắt đầu đặt hàng"
-              />
+              <Button  className="bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-red-700"  text="Bắt đầu đặt hàng"/>
             </Link>
           </div>
           <div className="flex justify-center">

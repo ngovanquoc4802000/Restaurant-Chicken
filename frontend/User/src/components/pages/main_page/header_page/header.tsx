@@ -1,40 +1,18 @@
-import type { RootState } from "../../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
-import { open, close } from "../../features/modal";
 import Button from "../../common/button";
 import { AnimatePresence, motion } from "framer-motion";
-
-const menuItemsData = [
-  { label: "Ưu Đãi", path: "/menu-page" },
-  { label: "Món mới", path: "/menu-page" },
-  { label: "Combo 1 Người", path: "/menu-page" },
-  { label: "Combo Nhóm", path: "/menu-page" },
-  { label: "Gà Rán - Gà Quay", path: "/menu-page" },
-  { label: "Burger - Cơm - Mỳ Ý", path: "/menu-page" },
-  { label: "Thức ăn nhẹ", path: "/menu-page" },
-  { label: "Thức uống & Tráng miệng", path: "/menu-page" },
-];
+import { NavLink } from "react-router-dom";
+import { close, open } from "../../features/modal";
+import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
 
 function Header() {
-  const cartItems = useSelector((state: RootState) =>
-    state.cart.map((item) => item)
-  );
+  const {
+    totalQuantity,
+    menuItemsData,
+    dispatch,
+    isOffcanvasOpen,
+    handleNavigate,
+  } = useHeaderPages();
 
-  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  const dispatch = useDispatch();
-
-  const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
-
-  const navigate = useNavigate();
-
-  const handleNavigate = (path: string) => {
-    dispatch(close());
-    setTimeout(() => {
-      navigate(path);
-    }, 50);
-  };
   return (
     <>
       <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -149,11 +127,7 @@ function Header() {
           isOffcanvasOpen ? "offcanvas-panel--open" : ""
         }`}
       >
-        <Button
-          onClick={() => dispatch(close())}
-          className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"
-          text="&times;"
-        />
+        <Button  onClick={() => dispatch(close())}  className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"  text="&times;"/>
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">
             DANH MỤC MÓN ĂN
@@ -162,12 +136,7 @@ function Header() {
           <ul className="offcanvas__menu list-none p-0 mb-5">
             {menuItemsData.map((item, index) => (
               <li key={index} className="offcanvas__menu-item mb-2">
-                <button
-                  onClick={() => handleNavigate(item.path)}
-                  className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]"
-                >
-                  {item.label}
-                </button>
+                <Button className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]" text={item.label} onClick={() => handleNavigate(item.path)} />
               </li>
             ))}
           </ul>

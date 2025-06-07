@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
-import queriesCategories from "../queries/categories";
-import queriesDishlist from "../queries/dishlist";
+import queriesCategories from "../../queries/categories";
+import queriesDishlist from "../../queries/dishlist";
 
 export const useHomePages = () => {
   const resultQueries = useQueries({

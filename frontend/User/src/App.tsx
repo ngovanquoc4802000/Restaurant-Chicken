@@ -13,15 +13,20 @@ import OrderFavorites from './components/pages/main_page/detailAcount_page/order
 import MenuPage from './components/pages/main_page/menu_page'
 import DetailsPage from './components/pages/main_page/menu_page/details'
 import OrderProduct from "./components/pages/orderProduct"
-import "./index.css"
-import './App.css'
 import Category from './components/pages/dashboard/category'
 import ProductDetail from './components/pages/dashboard/category/details'
+import "./index.css"
+import './App.css'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      notifyOnChangeProps: undefined,
+    }
+  }
+});
 
 function App() {
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
