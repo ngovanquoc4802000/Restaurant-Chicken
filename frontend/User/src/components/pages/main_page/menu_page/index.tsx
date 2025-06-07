@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMenuPages } from "../../../../hooks/useMenuPages";
-import Footer from "../../dashboard/footer";
-import Header from "../header_page/header";
+import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
 import Button from "../../common/button";
-import OrderOptionsPage from "../options_page";
+import Footer from "../../dashboard/footer";
 import { slugify } from "../../dashboard/menu/ultils";
+import Header from "../header_page/header";
+import OrderOptionsPage from "../options_page";
 
 function MenuPage() {
   
@@ -13,7 +13,7 @@ function MenuPage() {
 
   const navigate = useNavigate();
 
-  const { categories, dishlist, isError, isLoading, refs, setRef } = useMenuPages();
+  const { categories, dishlist, isError, isLoading, refs, setRef } = useCategoryPages();
 
   const handleClick = (name: string) => {
 

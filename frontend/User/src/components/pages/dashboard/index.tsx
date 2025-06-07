@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useMenuData } from "../../../hooks/useMenuData";
 import { MenuContext } from "../../../contexts/menuContext";
-import type { RootState } from "../../../store/store";
 import AppDownLoad from "./app-download";
 import Footer from "./footer";
 import Header from "./header";
@@ -14,9 +12,7 @@ import "./styles.scss";
 
 function Dashboard() {
 
-  const { category, isLoading, error, findComboGroup } = useMenuData();
-
-  const isOpen = useSelector((state: RootState) => state.loginModal);
+  const { category, isLoading, error, findComboGroup , isOpen } = useMenuData();
 
   if (isLoading || !category) return <div>Loading...</div>;
 

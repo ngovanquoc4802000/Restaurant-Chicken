@@ -1,35 +1,24 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "../../dashboard/styles.scss";
-import { useMenuPages } from "../../../../hooks/useMenuPages";
+import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
 import { slugify } from "./ultils/slugify";
-import Header from "../header";
-import OrderOptions from "../oder";
 import Button from "../../common/button";
 import Footer from "../footer";
+import Header from "../header";
+import OrderOptions from "../oder";
+import "../../dashboard/styles.scss";
 
 function Category() {
-  const { id } = useParams();
-
-  const { categories, dishlist, isLoading, isError, refs, setRef } =
-    useMenuPages();
-
-  const navigate = useNavigate();
-
-  const handleClick = (name: string) => {
-    const slug = slugify(name);
-    navigate(`/menu/${slug}`);
-
-    const target = refs.current[slug];
-    if (target) {
-      target.scrollIntoView({ behavior: "instant", block: "start" });
-    }
-  };
-
-  const handleProductClick = (categoryId: string, productTitle: string) => {
-    const slug = slugify(productTitle);
-    navigate(`/menu/${categoryId}/${slug}`);
-  };
+  const {
+    categories,
+    id,
+    dishlist,
+    handleProductClick,
+    handleClick,
+    isLoading,
+    isError,
+    refs,
+    setRef,
+  } = useCategoryPages();
 
   useEffect(() => {
     if (id && refs.current[id]) {
@@ -131,13 +120,16 @@ function Category() {
                                               : item.description
                                             : item.description
                                             ? window.innerWidth < 1024
-                                              ? item.description.length > 62    
+                                              ? item.description.length > 62
                                               : item.description.slice(0, 62) +
                                                 "..."
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button text="Thêm"className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
+                                      <Button
+                                        text="Thêm"
+                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
+                                      />
                                     </div>
                                   )}
                                 </div>

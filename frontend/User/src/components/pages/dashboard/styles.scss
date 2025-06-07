@@ -33,22 +33,22 @@ $breakpoint-desktop: 1024px;
       }
     }
     &__separator {
-      color: white; // Màu chữ "hoặc" trắng
+      color: white;
       font-size: 0.8rem;
-      margin: 0 5px; // Khoảng cách xung quanh chữ "hoặc"
+      margin: 0 5px; 
     }
     &__button {
-      grid-area: button; // Gán vào khu vực 'button'
-      background-color: $primary-color; // Màu đỏ chính
-      color: white; // Màu chữ trắng
+      grid-area: button;
+      background-color: $primary-color;
+      color: white;
       border: none;
       padding: 10px 20px;
       font-size: 1rem;
       font-weight: bold;
       cursor: $cursor;
-      transition: background-color 0.3s ease; // Hiệu ứng hover
+      transition: background-color 0.3s ease; 
       &:hover {
-        background-color: darken($primary-color, 10%); // Tối màu khi hover
+        background-color: darken($primary-color, 10%); 
       }
     }
   }

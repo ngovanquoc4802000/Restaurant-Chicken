@@ -94,7 +94,6 @@ function Header() {
         </div>
         <Outlet />
       </header>
-      {/* offcanvas */}
       <div className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${isOffcanvasOpen ? 'offcanvas-overlay--visible visible opacity-100 ' : ''}`} onClick={closeOffcanvas}></div>
       <div className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${isOffcanvasOpen ? 'offcanvas-panel--open' : ''}`}>
         <Button text="&times;" onClick={closeOffcanvas} className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10" />
