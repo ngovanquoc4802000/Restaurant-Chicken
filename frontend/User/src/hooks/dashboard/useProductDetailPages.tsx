@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import queriesDishlist from "../../queries/dishlist";
 import { slugify } from "../../components/pages/dashboard/menu/ultils";
+import queriesDishlist from "../../queries/dishlist";
 
 export const useProductDetailsPage = () => {
   const [isActive, setIsActive] = useState(false);

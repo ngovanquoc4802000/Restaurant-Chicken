@@ -8,15 +8,12 @@ import routerUser from "./router/user.js";
 import cors from "cors";
 
 import routerCategoryApi from "./router/category.js";
-/* done category */
 
 import routerDishlist from './router/dishList.js';
 import routerOrder from "./router/order.js";
 
-//rest object
 const app = express();
 
-//configure dotenv
 dotenv.config();
 
 //PORT
@@ -42,13 +39,11 @@ app.get("/", (req, res) => {
   res.status(200).send("<h1>Xin chào Node Js</h1>");
 });
 
-//conditional listen
 pool
   .query("SELECT 1")
   .then(() => {
     console.log(`kết nối database thành công`.bgBlack.white);
 
-    //listen
     app.listen(PORT, () => {
       console.log(
         `Server running on port: http://localhost:${process.env.PORT}`.bgMagenta
