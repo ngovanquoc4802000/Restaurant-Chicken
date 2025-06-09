@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import queriesCategories from "../../queries/categories";
 import queriesDishlist from "../../queries/dishlist";
-import Button from "../button/button";
+import Button from "../common/button/button";
 import DetailDishlist from "./detail";
 import "./Dishlist.scss";
 import { Image } from "../../types/dishlist";

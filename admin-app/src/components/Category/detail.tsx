@@ -3,7 +3,7 @@ import { ValueCategory } from "../../types/categories";
 import queriesCategories from "../../queries/categories";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCategoryMutation } from "../../customHook/useCategoryMutation";
-import Button from "../button/button";
+import Button from "../common/button/button";
 import "./category.scss";
 
 interface DetailTs {

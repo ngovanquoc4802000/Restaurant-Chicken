@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import queriesDishlist from "../../queries/dishlist";
 import queriesOrder from "../../queries/orders";
 import queriesUser from "../../queries/users";
-import Button from "../button/button";
+import Button from "../common/button/button";
 import "./OrderList.scss";
 
 interface OrderFormTs {
@@ -64,7 +64,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     e.preventDefault();
     submitOrder();
   };
-  /* create or update Order || */
+
   const createOrUpdate = useCallback(async () => {
     const sanitizedDetails = orderData.details.map((item) => ({
       id: idDetail,
@@ -84,7 +84,6 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     return isEdit && idDetail ? await updateOrder(idDetail, payload) : await createOrder(payload);
   }, [orderData, idDetail, isEdit]);
 
-  /* use useMutation PUT/PATCH/CREATE/DELETE */
   const { isPending, mutate: submitOrder } = useMutation({
     mutationFn: createOrUpdate,
 
@@ -136,7 +135,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     if (orderDetails.id_dishlist && orderDetails.quantity && orderDetails.price) {
       setOrderData((prev) => ({
         ...prev,
-        details: [...prev.details, orderDetails],
+        details: [orderDetails, ...prev.details],
       }));
 
       setOrderDetails({

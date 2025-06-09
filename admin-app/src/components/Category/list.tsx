@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import queriesCategories from "../../queries/categories";
-import Button from "../button/button";
 import DetailCategory from "./detail";
 import DetailStatusCategory from "./detailStatus";
 import "./category.scss";
@@ -43,8 +42,8 @@ const ListCategory = () => {
           </tr>
         </thead>
         <tbody>
-          {categories?.map((item, index) => (
-            <tr key={index}>
+          {categories?.map((item) => (
+            <tr key={item.id}>
               <td> {item.name}</td>
               <td>{item.handle}</td>
               <td>
@@ -59,7 +58,10 @@ const ListCategory = () => {
                 />
               </td>
               <td>
-                <Button action="edit" onClick={() => handleEditClick(item.id)} />
+                <button data-id={item.id} onClick={() => handleEditClick(item.id)}>
+                  edit
+                </button>
+                {/* dòng này có data-id kết hợp với useCallback để không bị rendering */}
                 <DetailStatusCategory item={item} />
               </td>
               <td>{item.status ? "True" : "False"}</td>

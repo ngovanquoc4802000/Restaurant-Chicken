@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import UserDetail from "./userDetail";
 import queriesUser from "../../queries/users";
-import Button from "../button/button";
+import Button from "../common/button/button";
 
 interface UserStateTs {
   showIsModal: boolean;

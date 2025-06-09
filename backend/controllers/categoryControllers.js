@@ -80,7 +80,6 @@ const createCategory = async (req, res) => {
       });
     }
 
-    const statusTinyInt = status;
     const insertQuery = `
       INSERT INTO category (name, handle, image, status)
       VALUES ($1, $2, $3, $4)
@@ -90,7 +89,7 @@ const createCategory = async (req, res) => {
       name,
       handle,
       image,
-      statusTinyInt,
+     status,
     ]);
 
     if (!result || !result.rows || result.rows.length === 0) {

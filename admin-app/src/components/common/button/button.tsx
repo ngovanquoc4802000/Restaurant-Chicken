@@ -1,3 +1,4 @@
+import React from "react";
 import "./button.css";
 interface ActionButtonProps {
   action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails" | "deactivate";
@@ -7,7 +8,7 @@ interface ActionButtonProps {
 }
 
 let buttonClassName: string;
-const Button = ({ action, onClick, buttonText, disable }: ActionButtonProps) => {
+const Button = React.memo(({ action, onClick, buttonText, disable }: ActionButtonProps) => {
   switch (action) {
     case "create":
       buttonText = "Create";
@@ -51,5 +52,5 @@ const Button = ({ action, onClick, buttonText, disable }: ActionButtonProps) => 
       {buttonText}
     </button>
   );
-};
+});
 export default Button;

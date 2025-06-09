@@ -1,3 +1,5 @@
+import React from "react";
+
 interface InputTs {
   type: string;
   name?: string;
@@ -11,13 +13,13 @@ interface InputTs {
   text?: string;
 }
 
-function InputValue({ defaultValue,placeholder,type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) {
+const InputValue = React.memo(({ defaultValue,placeholder,type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) => {
   return (
     <label className={classNameLabel}>
       {text}
       <input defaultValue={defaultValue} required placeholder={placeholder} type={type} name={name} className={classNameInput} value={value} onChange={onChange} />
     </label>
   );
-}
+});
 
 export default InputValue;

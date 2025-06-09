@@ -1,3 +1,5 @@
+import React from "react";
+
 interface ButtonTs {
   text?: string;
   type?: "submit" | "button" ;
@@ -7,8 +9,8 @@ interface ButtonTs {
   classNameLogic?: string | undefined;
 }
 
-function Button({ text, type, onClick, className }: ButtonTs) {
+const Button =  React.memo(({ text, type, onClick, className }: ButtonTs) => {
   return <button type={type} className={className} onClick={onClick} >{text}</button>
-}
+});
 
 export default Button;

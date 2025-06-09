@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { UsersTs } from "../../types/users";
 import { updateUser } from "../../services/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Button from "../button/button";
+import Button from "../common/button/button";
 import queriesUser from "../../queries/users";
 import ModalSuccess from "../modal/modalSuccess";
 import "./user.scss";

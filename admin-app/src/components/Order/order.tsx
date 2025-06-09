@@ -5,7 +5,7 @@ import OrderDetails from "./orderDetail";
 import queriesOrder from "../../queries/orders";
 import queriesUser from "../../queries/users";
 import OrderForm from "./orderForm";
-import Button from "../button/button";
+import Button from "../common/button/button";
 
 interface OrderStateTs {
   showOrder: boolean;

@@ -1,3 +1,5 @@
+import React from "react";
+
 interface TextareaTs {
   name: string;
   classNameInput: string;
@@ -8,13 +10,13 @@ interface TextareaTs {
   text?: string;
 }
 
-function TextareaValue({  name, text, classNameLabel, classNameInput, value, onChange }: TextareaTs) {
+const TextareaValue = React.memo(({  name, text, classNameLabel, classNameInput, value, onChange }: TextareaTs) => {
   return (
     <label className={classNameLabel}>
       {text}
       <textarea required  name={name} className={classNameInput} value={value} onChange={onChange} />
     </label>
   );
-}
+})
 
 export default TextareaValue;
