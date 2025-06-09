@@ -1,8 +1,5 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
-import { updateOrderProcess } from "../../services/order";
-import { OrderDetailsTs, OrderTableTs } from "../../types/order";
-import queriesDishlist from "../../queries/dishlist";
+import { useOrderDetails } from "../../customHook/userOrderDetails";
+import { OrderDetailsTs } from "../../types/order";
 
 interface OrderTs {
   item: OrderDetailsTs[];
@@ -12,38 +9,9 @@ interface OrderTs {
 }
 
 function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
-  const { data: dishlistName } = useQuery({ ...queriesDishlist.list });
+  const { update, getOrderName, step } = useOrderDetails(currentStep, orderId);
 
-  const [step, setStep] = useState<string>(currentStep || "");
-
-  const queryClient = useQueryClient();
-
-  const update = async () => {
-    try {
-      const result = await updateOrderProcess(orderId);
-      if (result?.nextStep) {
-        setStep(result.nextStep);
-        queryClient.setQueryData(["order", orderId], (oldData: OrderTableTs) => ({
-          ...oldData,
-          currentStep: result.nextStep,
-        }));
-
-        queryClient.invalidateQueries(["order", orderId]);
-      } else {
-        alert("Không thể cập nhật tiến trình đơn hàng.");
-      }
-    } catch (error) {
-      console.error("lỗi khi cập nhật tiến trình đơn hàng:", error);
-      alert("Đã xảy ra lỗi khi cập nhật đơn hàng.");
-    }
-  };
-  const orderMap = useMemo(() => {
-    const map = new Map();
-    dishlistName?.forEach((cat) => map.set(cat.id, cat.name));
-    return map;
-  }, [dishlistName]);
-
-  const getOrderName = useCallback((id: string | number) => orderMap.get(id) || "Không xác định", [orderMap]);
+  if (!item) return <h1>I don't item no show </h1>;
 
   return (
     <div className="modal-overlay">
@@ -54,12 +22,12 @@ function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
           <strong>Trạng thái hiện tại:</strong> {step || "Chưa cập nhật"}
         </p>
 
-        {item?.map(({ note, price, id_dishlist, quantity }, index) => (
-          <div className="modal-details" key={index}>
-            <p>Món ăn: {getOrderName(id_dishlist)}</p>
-            <p>Số lượng: {quantity}</p>
-            <p>Giá: {price}</p>
-            <p>Ghi chú: {note}</p>
+        {item.map((item) => (
+          <div className="modal-details" key={item.id_dishlist}>
+            <p>Món ăn: {getOrderName(item.id_dishlist)}</p>
+            <p>Số lượng: {item.quantity}</p>
+            <p>Giá: {item.price}</p>
+            <p>Ghi chú: {item.note}</p>
           </div>
         ))}
 

@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { UsersTs } from "../../types/users";
-import { updateUser } from "../../services/users";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Button from "../common/button/button";
+import { useEffect } from "react";
+import { useCustomerUsersDetail } from "../../customHook/userCustomUsersDetail";
 import queriesUser from "../../queries/users";
+import Button from "../common/button/button";
 import ModalSuccess from "../modal/modalSuccess";
 import "./user.scss";
 
@@ -13,38 +11,7 @@ interface UserDetailTs {
 }
 
 function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-
-  const [value, setValue] = useState<UsersTs>({
-    fullname: "",
-    email: "",
-    phone_number: "",
-    address: "",
-    password: "",
-    create_at: new Date(),
-  });
-
-  const queryClient = useQueryClient();
-
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    UpdateOrSave();
-  };
-
-  const update = useCallback(async () => {
-    return idDetail !== null && idDetail !== undefined ? await updateUser(idDetail, value) : "No idDetail";
-  }, [idDetail, value]);
-
-  const { isPending, mutate: UpdateOrSave } = useMutation({
-    mutationFn: update,
-    onSuccess: () => {
-      setShowSuccessModal(true);
-      queryClient.invalidateQueries({ queryKey: queriesUser.list.queryKey });
-    },
-    onError: (error) => {
-      console.log("Error dupting update" + error);
-    },
-  });
+  const { handleChange, handleSubmit, isPending, setValue, value, showSuccessModal, queryClient } = useCustomerUsersDetail(idDetail);
 
   useEffect(() => {
     if (idDetail !== null && idDetail !== undefined) {
@@ -72,15 +39,8 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
         create_at: new Date(),
       });
     }
-  }, [idDetail, queryClient]);
+  }, [idDetail, queryClient, setValue]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setValue((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
   return (
     <form className="form" onSubmit={handleSubmit}>
       {showSuccessModal && <ModalSuccess onHideModal={onHideModal} />}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./button.css";
 interface ActionButtonProps {
-  action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails" | "deactivate";
+  action: "create" | "delete" | "edit" | "read" | "save" | "cancel" | "showDetails" | "deactivate" | "update" | "Đóng";
   onClick?: () => void;
   buttonText?: string;
   disable?: boolean;

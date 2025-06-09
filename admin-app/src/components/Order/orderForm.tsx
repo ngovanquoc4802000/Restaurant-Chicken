@@ -11,16 +11,16 @@ interface OrderFormTs {
 
 function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
   const {
-    handleSubmitOrder,
     isPending,
     queryClient,
     isEdit,
     orderData,
-    setOrderData,
     orderDetails,
     userData,
     detail,
     dishListId,
+    handleSubmitOrder,
+    setOrderData,
     handleAddDish,
     handleOrderInputChange,
     handleOrderInputDetails,
