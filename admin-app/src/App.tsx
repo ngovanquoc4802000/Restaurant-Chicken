@@ -5,8 +5,15 @@ import DishList from "./components/DishList/Dishlist";
 import AdminLayout from "./components/Layout/AdminLayout";
 import Order from "./components/Order/order";
 import User from "./components/User/user";
+import "./index.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      notifyOnChangeProps: undefined,
+    },
+  },
+});
 
 function App() {
   return (
