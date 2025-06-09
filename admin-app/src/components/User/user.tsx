@@ -1,27 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
-import UserDetail from "./userDetail";
-import queriesUser from "../../queries/users";
+import { useCustomUsers } from "../../customHook/useCustomUsers";
 import Button from "../common/button/button";
-
-interface UserStateTs {
-  showIsModal: boolean;
-  idDetail: number | undefined | null;
-}
-
-const initialUserTs: UserStateTs = {
-  showIsModal: false,
-  idDetail: null,
-};
+import UserDetail from "./userDetail";
 
 function User() {
-  const { isLoading, isError, data: userList } = useQuery({ ...queriesUser.list });
-
-  const [stateUser, setStateUser] = useState<UserStateTs>(initialUserTs);
-
-  const handleEdit = useCallback((id: number | undefined) => {
-    setStateUser((prev) => ({ ...prev, showIsModal: true, idDetail: id }));
-  }, []);
+  const { setStateUser, handleEdit, stateUser, isError, isLoading, userList } = useCustomUsers();
 
   if (isLoading || !userList) return <div>Loading...</div>;
 
@@ -48,8 +30,8 @@ function User() {
           </tr>
         </thead>
         <tbody>
-          {userList.map((item, index) => (
-            <tr key={index}>
+          {userList.map((item) => (
+            <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.fullname}</td>
               <td>{item.email}</td>
