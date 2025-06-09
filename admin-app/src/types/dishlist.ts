@@ -13,7 +13,7 @@ export interface DishTs {
   description: string;
   images: Image[];
 }
-export interface Image {
+export default interface Image {
   alt_text: string;
   image: string;
 }

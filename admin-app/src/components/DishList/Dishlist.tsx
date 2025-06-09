@@ -1,60 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
-import queriesCategories from "../../queries/categories";
-import queriesDishlist from "../../queries/dishlist";
-import Button from "../common/button/button";
+import { useDishlist } from "../../customHook/useDishlist";
 import DetailDishlist from "./detail";
-import "./Dishlist.scss";
-import { Image } from "../../types/dishlist";
 import DetailById from "./detailbyId";
-
-interface DishlistTs {
-  showForm: boolean;
-  showOrder: boolean;
-  idDetail: number | null | undefined;
-  selectedDetails: Image[] | null;
-}
+import Button from "../common/button/button";
+import "./Dishlist.scss";
 
 const DishList = () => {
-  const [dishState, setDishState] = useState<DishlistTs>({
-    showForm: false,
-    showOrder: false,
-    idDetail: null,
-    selectedDetails: null,
-  });
-
-  const handleEdit = useCallback((id: number | null | undefined) => {
-    setDishState((prev) => ({ ...prev, showForm: true, idDetail: id }));
-  }, []);
-
-  const handleHideModal = useCallback(() => {
-    setDishState((prev) => ({ ...prev, showForm: false, idDetail: null }));
-  }, []);
-
-  const handleDetail = useCallback((images: Image[]) => {
-    setDishState((prev) => ({ ...prev, showOrder: true, selectedDetails: images }));
-  }, []);
-
-  const handleHideDetail = useCallback(() => {
-    setDishState((prev) => ({ ...prev, showOrder: false, selectedDetails: null }));
-  }, []);
-
-  const { isLoading, isError, data: dishlist } = useQuery({ ...queriesDishlist.list });
-
-  const { data: categories } = useQuery({ ...queriesCategories.list });
-
-  const categoryMap = useMemo(() => {
-    const map = new Map();
-    categories?.forEach((cat) => map.set(cat.id, cat.name));
-    return map;
-  }, [categories]);
-
-  const getCategoryName = useCallback((id: string | number) => categoryMap.get(id) || "undefined", [categoryMap]);
+  const {
+    getCategoryName,
+    setDishState,
+    handleHideDetail,
+    handleHideModal,
+    handleEdit,
+    handleDetail,
+    dishState,
+    isError,
+    isLoading,
+    dishlist,
+    categories,
+  } = useDishlist();
 
   if (isLoading || !dishlist || !categories) return <div>Loading...</div>;
 
   if (isError) return <div>Error data</div>;
 
+  if (!dishlist) return <h1>Không tìm thấy danh sách</h1>;
   return (
     <div className="dish-list-container">
       <h1>Dish List</h1>
@@ -80,7 +49,7 @@ const DishList = () => {
           </tr>
         </thead>
         <tbody>
-          {dishlist?.map((dish) => (
+          {dishlist.map((dish) => (
             <tr key={dish.id}>
               <td>{dish.id}</td>
               <td>{getCategoryName(dish.category_id)}</td>

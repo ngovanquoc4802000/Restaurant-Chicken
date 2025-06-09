@@ -1,53 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
-import { OrderDetailsTs } from "../../types/order";
-import OrderDetails from "./orderDetail";
-import queriesOrder from "../../queries/orders";
-import queriesUser from "../../queries/users";
-import OrderForm from "./orderForm";
+import { useOrder } from "../../customHook/useOrder";
 import Button from "../common/button/button";
-
-interface OrderStateTs {
-  showOrder: boolean;
-  showForm: boolean;
-  selectedDetails: OrderDetailsTs[] | null;
-  idDetail: number | undefined | null;
-  currentStep: string;
-}
-const initialOrderTs: OrderStateTs = {
-  showOrder: false,
-  showForm: false,
-  selectedDetails: null,
-  idDetail: null,
-  currentStep: "",
-};
+import OrderDetails from "./orderDetail";
+import OrderForm from "./orderForm";
 
 const Order = () => {
-  const [stateOrder, setStateOrder] = useState<OrderStateTs>(initialOrderTs);
-
-  const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
-
-  const { data: userName } = useQuery({ ...queriesUser.list });
-
-  const findUserMap = useMemo(() => {
-    const map = new Map();
-    userName?.forEach((cat) => map.set(cat.id, cat.fullname));
-    return map;
-  }, [userName]);
-
-  const getFindUser = useCallback((id: string | number) => findUserMap.get(id) || "undefined", [findUserMap]);
-
-  const handleDetails = useCallback((item: OrderDetailsTs[], id: number | null | undefined, process: string) => {
-    setStateOrder((prev) => ({ ...prev, selectedDetails: item, idDetail: id, currentStep: process, showOrder: true }));
-  }, []);
-
-  const handleEditOrder = useCallback((id: number | undefined | null) => {
-    setStateOrder((prev) => ({ ...prev, idDetail: id, showForm: true }));
-  }, []);
-
-  const handleHideDetail = useCallback(() => {
-    setStateOrder((prev) => ({ ...prev, showForm: false, selectedDetails: null, idDetail: null }));
-  }, []);
+  const {
+    getFindUser,
+    handleDetails,
+    handleEditOrder,
+    handleHideDetail,
+    isLoading,
+    isError,
+    stateOrder,
+    setStateOrder,
+    orderList,
+    userName,
+  } = useOrder();
 
   if (isLoading || !orderList || !userName) return <div>Loading...</div>;
 
@@ -87,8 +55,8 @@ const Order = () => {
           </tr>
         </thead>
         <tbody>
-          {orderList?.map((item, index) => (
-            <tr key={index}>
+          {orderList?.map((item) => (
+            <tr key={item.id}>
               <td>{item.id}</td>
               <td>{getFindUser(item.user_id)}</td>
               <td>{item.address}</td>
