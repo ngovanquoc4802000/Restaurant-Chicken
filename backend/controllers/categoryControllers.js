@@ -2,7 +2,7 @@ import pool from "../database/connectdatabase.js";
 
 const getCategoryAll = async (req, res) => {
   try {
-    const [data] = await pool.query(`SELECT * FROM category`);
+    const data = await pool.query(`SELECT * FROM category`);
     if (!data || data.length === 0) {
       return res.status(404).send({
         success: false,
@@ -10,10 +10,12 @@ const getCategoryAll = async (req, res) => {
       });
     }
 
+    const result = data.rows[0];
+
     res.status(200).send({
       success: true,
       message: "Successfully retrieved all categories",
-      data: data,
+      data: result,
     });
   } catch (error) {
     console.log(error);
@@ -35,13 +37,9 @@ const getCategoryId = async (req, res) => {
         message: "Category ID is required",
       });
     }
+    const insertQuery = `SELECT * FROM category WHERE id = $1`;
 
-    const [data] = await pool.query(
-      `
-      SELECT * FROM category WHERE id = ?
-      `,
-      [categoryId]
-    );
+    const data = await pool.query(insertQuery, [categoryId]);
 
     if (!data || data.length === 0) {
       return res.status(404).send({
@@ -49,11 +47,11 @@ const getCategoryId = async (req, res) => {
         message: `Category with ID ${categoryId} not found`,
       });
     }
-
+    const result = data.rows[0];
     res.status(200).send({
       success: true,
       message: "Successfully retrieved category by ID",
-      data: data[0],
+      data: result,
     });
   } catch (error) {
     console.log(error);
@@ -84,24 +82,29 @@ const createCategory = async (req, res) => {
     }
 
     const statusTinyInt = status ? 1 : 0;
+    const insertQuery = `
+      INSERT INTO category (name, handle, image, status)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id;
+    `;
+    const result = await pool.query(insertQuery, [
+      name,
+      handle,
+      image,
+      statusTinyInt,
+    ]);
 
-    const [result] = await pool.query(
-      `INSERT INTO category
-      (name, handle , image , status)
-      VALUES(?,?,?,?)`,
-      [name, handle, image, statusTinyInt]
-    );
-
-    if (!result || result.affectedRows === 0) {
+    if (!result || !result.rows || result.rows.length === 0) {
+      // Kiểm tra result.rows.length cho RETURNING query
       return res.status(500).send({
         success: false,
-        message: "Failed to create category.",
+        message: "Failed to create category or retrieve new ID.",
       });
     }
 
-    const newCategoryId = result.insertId;
+    const newCategoryId = result.rows[0].id;
 
-    const [newData] = await pool.query(`SELECT * FROM category WHERE id = ?`, [
+    const newData = await pool.query(`SELECT * FROM category WHERE id = $1`, [
       newCategoryId,
     ]);
 
@@ -206,26 +209,31 @@ const updateCategoryId = async (req, res) => {
       });
     }
 
-    const statusTinyInt = status !== undefined ? (status ? 1 : 0) : undefined; // Only convert if status was provided
+    const statusValue = status;
 
     let updateFields = [];
     let queryParams = [];
+    let paramIndex = 1;
 
     if (name !== undefined) {
-      updateFields.push("name = ?");
+      updateFields.push(`name = $${paramIndex}`);
       queryParams.push(name);
+      paramIndex++;
     }
     if (handle !== undefined) {
-      updateFields.push("handle = ?");
+      updateFields.push(`handle = $${paramIndex}`);
       queryParams.push(handle);
+      paramIndex++;
     }
     if (image !== undefined) {
-      updateFields.push("image = ?");
+      updateFields.push(`image = $${paramIndex}`);
       queryParams.push(image);
+      paramIndex++;
     }
-    if (statusTinyInt !== undefined) {
-      updateFields.push("status = ?");
-      queryParams.push(statusTinyInt);
+    if (status !== undefined) {
+      updateFields.push(`status = $${paramIndex}`);
+      queryParams.push(statusValue);
+      paramIndex++;
     }
 
     if (updateFields.length === 0) {
@@ -235,20 +243,25 @@ const updateCategoryId = async (req, res) => {
       });
     }
 
-    const updateQuery = `UPDATE category SET ${updateFields.join(
-      ", "
-    )} WHERE id = ?`;
+    const finalIdParamIndex = paramIndex;
     queryParams.push(categoryId);
 
-    const [result] = await pool.query(updateQuery, queryParams);
+    const updateQuery = `UPDATE category SET ${updateFields.join(
+      ", "
+    )} WHERE id = $${finalIdParamIndex} RETURNING *;`;
 
-    if (!result || result.affectedRows === 0) {
-      const [existingCategory] = await pool.query(
-        `SELECT id FROM category WHERE id = ?`,
+    const result = await pool.query(updateQuery, queryParams);
+
+    if (!result || !result.rows || result.rows.length === 0) {
+      const existingCategoryResult = await pool.query(
+        `SELECT id FROM category WHERE id = $1`,
         [categoryId]
       );
 
-      if (existingCategory.length === 0) {
+      if (
+        !existingCategoryResult.rows ||
+        existingCategoryResult.rows.length === 0
+      ) {
         return res.status(404).send({
           success: false,
           message: `Category with ID ${categoryId} not found.`,
@@ -260,20 +273,18 @@ const updateCategoryId = async (req, res) => {
         });
       }
     }
-
-    const [updatedCategoryData] = await pool.query(
-      `SELECT * FROM category WHERE id = ?`,
-      [categoryId]
-    );
+    const updatedCategoryData = result.rows[0];
 
     res.status(200).send({
       success: true,
       message: "Category updated successfully",
-      data: updatedCategoryData[0],
+      data: updatedCategoryData,
     });
   } catch (error) {
-    console.log(error);
-    if (error.code === "ER_DUP_ENTRY") {
+    console.error("Error updating category:", error);
+
+    // --- Sửa lỗi 5: Mã lỗi cho UNIQUE constraint violation trong PostgreSQL là "23505" ---
+    if (error.code === "23505") {
       return res.status(409).send({
         success: false,
         message: "Update failed: Category with this handle already exists.",
