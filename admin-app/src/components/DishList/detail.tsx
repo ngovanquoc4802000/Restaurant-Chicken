@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
-import queriesCategories from "../../queries/categories";
-import queriesDishlist from "../../queries/dishlist";
 import { postApiDishlist, updateApiDishList } from "../../services/dishlist";
 import { DishTs } from "../../types/dishlist";
+import queriesCategories from "../../queries/categories";
+import queriesDishlist from "../../queries/dishlist";
 import Button from "../button/button";
 import "./Dishlist.scss";
 
@@ -50,15 +50,11 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
       queryClient.invalidateQueries({ queryKey: queriesDishlist.list.queryKey });
 
       queryClient.setQueryData(queriesDishlist.list.queryKey, (update: DishTs[] | undefined | null) => {
-        /* nếu không update được thì trả về [] */
-
         if (!update) return [];
 
-        /* trả về dữ liệu mới */
         return update.map((item) => (item.id === idDetail ? { ...item, ...data } : item));
       });
 
-      // Cập nhật detail món mới nhé đẩu
       if (idDetail) {
         queryClient.setQueryData(queriesDishlist.detail(idDetail).queryKey, data);
       }

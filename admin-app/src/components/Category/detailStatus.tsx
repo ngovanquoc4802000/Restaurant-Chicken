@@ -28,7 +28,7 @@ const DetailStatusCategory = ({ item }: DetailTs) => {
     <>
       <button
         className="status"
-        disabled={item.status === false}
+        disabled={false}
         onClick={() => handleDeactivate(item.id)}
         style={{
           backgroundColor: item.status ? "#dc3545" : "#6c757d",

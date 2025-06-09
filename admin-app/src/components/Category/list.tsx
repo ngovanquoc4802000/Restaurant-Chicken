@@ -7,12 +7,10 @@ import DetailStatusCategory from "./detailStatus";
 import "./category.scss";
 
 const ListCategory = () => {
-  /* state show hide form, state id details cho trường hợp update */
   const [formState, setFormState] = useState<{ showForm: boolean; isDetail?: number | undefined | null }>({
     showForm: false,
     isDetail: null,
   });
-  /* lấy dữ liệu từ query key categories */
   const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list, enabled: true });
 
   const handleEditClick = useCallback((id: number | undefined) => {
@@ -22,9 +20,9 @@ const ListCategory = () => {
   const handleHideModal = useCallback(() => {
     setFormState((prev) => ({ ...prev, showForm: false, isDetail: null }));
   }, []);
-  /* Nếu chưa lấy được dữ liệu thì hiển thị loading */
+
   if (isLoading || !categories) return <div>Loading...</div>;
-  /* nếu api lỗi thì hiển thị error nhé ^^ */
+
   if (error) return "An error has occurred: " + error.message;
 
   return (

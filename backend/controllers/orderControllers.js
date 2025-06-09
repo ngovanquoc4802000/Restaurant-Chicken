@@ -1,85 +1,91 @@
 import pool from "../database/connectdatabase.js";
 
+const formatDbTimestamp = () => {
+  return new Date().toISOString();
+};
+
 export const getOrders = async (req, res) => {
   try {
-    const [data] = await pool.query(
-      `SELECT * , status, paid FROM \`order_table\``
+    const ordersResult = await pool.query(
+      `SELECT id, user_id, address, customer_note, customer_name, customer_phone, total_price, status, paid, process, create_at, update_at FROM "order_table"`
     );
-    if (!data) {
+
+    if (ordersResult.rows.length === 0) {
       return res.status(404).send({
         success: false,
-        message: "404 not found",
+        message: "No orders found.",
       });
     }
+
     const dataWithDetails = await Promise.all(
-      data.map(async (item) => {
-        const [details] = await pool.query(
-          `SELECT id_dishlist , quantity,price,note FROM order_details WHERE id_order = ?`,
-          [item.id]
+      ordersResult.rows.map(async (order) => {
+        const detailsResult = await pool.query(
+          `SELECT id_dishlist, quantity, price, note FROM order_details WHERE id_order = $1`,
+          [order.id]
         );
-        return { ...item, details };
+        return { ...order, details: detailsResult.rows };
       })
     );
 
     res.status(200).send({
       success: true,
-      message: "success order All",
+      message: "Successfully retrieved all orders.",
       data: dataWithDetails,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in getOrders:", error);
     return res.status(500).send({
       success: false,
-      message: "error",
+      message: "Error retrieving orders.",
+      error: error.message,
     });
   }
 };
 
 export const getOrderDetails = async (req, res) => {
   const orderId = req.params.id;
-  const connection = await pool.getConnection();
 
   try {
-    const [orderResult] = await connection.query(
-      `SELECT id AS id_order,
-       address, customer_note, customer_name, customer_phone,
-        total_price, status, paid
-       FROM order_table
-       WHERE id = ?`,
+    const orderResult = await pool.query(
+      `SELECT id AS id_order, user_id, address, customer_note, customer_name, customer_phone, total_price, status, paid, process, create_at, update_at
+       FROM "order_table"
+       WHERE id = $1`,
       [orderId]
     );
 
-    if (orderResult.length === 0) {
+    if (orderResult.rows.length === 0) {
       return res.status(404).send({
         success: false,
-        message: `Order with Id ${orderId} not found`,
+        message: `Order with ID ${orderId} not found.`,
       });
     }
 
-    const order = orderResult[0];
+    const order = orderResult.rows[0];
 
-    // Get order details
-    const [detailsResult] = await connection.query(
+    const detailsResult = await pool.query(
       `SELECT id_dishlist, quantity, price, note
        FROM order_details
-       WHERE id_order = ?`,
+       WHERE id_order = $1`,
       [orderId]
     );
 
-    // Format the response
     const response = {
       id: order.id_order,
+      user_id: order.user_id,
       address: order.address,
       customer_note: order.customer_note,
       customer_name: order.customer_name,
       customer_phone: order.customer_phone,
-      total_price: order.total_price,
+      total_price: parseFloat(order.total_price),
       status: order.status,
       paid: order.paid,
-      detail: detailsResult.map((detail) => ({
+      process: order.process,
+      create_at: order.create_at,
+      update_at: order.update_at,
+      details: detailsResult.rows.map((detail) => ({
         id_dishlist: detail.id_dishlist,
         quantity: detail.quantity,
-        price: detail.price,
+        price: parseFloat(detail.price),
         note: detail.note,
       })),
     };
@@ -89,13 +95,12 @@ export const getOrderDetails = async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in getOrderDetails:", error);
     res.status(500).send({
       success: false,
-      message: "Error retrieving order details",
+      message: "Error retrieving order details.",
+      error: error.message,
     });
-  } finally {
-    connection.release();
   }
 };
 
@@ -120,28 +125,35 @@ export const createOrder = async (req, res) => {
   ) {
     return res.status(400).send({
       success: false,
-      message: "Invalid input data",
+      message:
+        "Invalid input data: Missing required fields or empty order list.",
     });
   }
 
-  const connection = await pool.getConnection();
+  const client = await pool.connect();
 
   try {
-    await connection.beginTransaction();
+    await client.query("BEGIN");
 
+    // Calculate total price
     const totalPrice = list_order.reduce((total, item) => {
       const price = parseFloat(item.price);
       const quantity = parseInt(item.quantity, 10);
       if (isNaN(price) || isNaN(quantity) || quantity < 0) {
-        console.log(`price and quantify not is number`);
+        console.warn(
+          `Invalid price (${item.price}) or quantity (${item.quantity}) for a list_order item. Skipping this item.`
+        );
+        return total;
       }
       return total + price * quantity;
     }, 0);
 
-    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const now = formatDbTimestamp();
 
-    const [orderResult] = await connection.query(
-      "INSERT INTO `order_table` (user_id,address, customer_note, customer_name, customer_phone, total_price, status, paid,process,create_at,update_at) VALUES(?,? ,? ,? , ?, ?, ?, ?,?, ? , ?)",
+    const orderInsertResult = await client.query(
+      `INSERT INTO "order_table" (user_id, address, customer_note, customer_name, customer_phone, total_price, status, paid, process, create_at, update_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+       RETURNING id`,
       [
         user_id,
         address,
@@ -153,37 +165,64 @@ export const createOrder = async (req, res) => {
         false,
         "Xử lý",
         now,
-        now
+        now,
       ]
     );
 
-    const orderId = orderResult.insertId;
+    const orderId = orderInsertResult.rows[0].id;
 
-    // Insert into order_product table (đã sửa lỗi số lượng và thứ tự giá trị)
     for (const item of list_order) {
       const { id_dishlist, quantity, price, note } = item;
-      await connection.query(
-        "INSERT INTO `order_details` (quantity, price, note, id_dishlist, id_order,create_at,update_at) VALUES(?, ?, ?, ?, ?,?,?)",
-        [quantity, price, note, id_dishlist, orderId,now,now]
+
+      if (
+        isNaN(parseInt(id_dishlist, 10)) ||
+        isNaN(parseInt(quantity, 10)) ||
+        isNaN(parseFloat(price))
+      ) {
+        throw new Error(
+          `Invalid data for order detail item: ${JSON.stringify(
+            item
+          )}. id_dishlist, quantity, or price is not a valid number.`
+        );
+      }
+
+      await client.query(
+        `INSERT INTO order_details (quantity, price, note, id_dishlist, id_order, create_at, update_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [quantity, price, note || null, id_dishlist, orderId, now, now] // Use null for empty notes if column allows
       );
     }
 
-    await connection.commit();
+    await client.query("COMMIT");
 
     res.status(201).send({
       success: true,
-      message: "Order created successfully",
+      message: "Order created successfully.",
       orderId,
     });
   } catch (error) {
-    await connection.rollback();
-    console.log(error);
+    await client.query("ROLLBACK");
+    console.error("Error in createOrder:", error);
+    if (error.code === "23503") {
+      return res.status(400).send({
+        success: false,
+        message: `Invalid foreign key provided. Check user_id or dishlist_id.`,
+        error: error.message,
+      });
+    } else if (error.code === "23502") {
+      return res.status(400).send({
+        success: false,
+        message: `Missing required data: ${error.column} cannot be null.`,
+        error: error.message,
+      });
+    }
     res.status(500).send({
       success: false,
-      message: "Error creating order",
+      message: "Error creating order.",
+      error: error.message,
     });
   } finally {
-    connection.release();
+    client.release();
   }
 };
 
@@ -193,64 +232,123 @@ export const updateOrder = async (req, res) => {
     customer_note,
     customer_name,
     customer_phone,
-    status = 0,
-    paid = 0,
+    status,
+    paid,
+    process,
     list_order,
   } = req.body;
   const id = req.params.id;
-  const connection = await pool.getConnection();
 
-  if (
-    !address ||
-    !customer_name ||
-    !customer_phone ||
-    !list_order ||
-    !Array.isArray(list_order) ||
-    list_order.length === 0
-  ) {
+  if (!list_order || !Array.isArray(list_order) || list_order.length === 0) {
     return res.status(400).send({
       success: false,
-      message: "Invalid input data",
+      message:
+        "Invalid input data: 'list_order' is required and must be a non-empty array.",
     });
   }
 
+  const client = await pool.connect();
+
   try {
-    await connection.beginTransaction();
+    await client.query("BEGIN");
+
+    const orderCheck = await client.query(
+      `SELECT id FROM "order_table" WHERE id = $1`,
+      [id]
+    );
+    if (orderCheck.rows.length === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).send({
+        success: false,
+        message: `Order with ID ${id} not found.`,
+      });
+    }
 
     const newTotalPrice = list_order.reduce((total, item) => {
       const price = parseFloat(item.price);
       const quantity = parseInt(item.quantity, 10);
       if (isNaN(price) || isNaN(quantity) || quantity < 0) {
-        console.log(`Invalid price ${item.price} or quantity ${item.quantity}`);
+        console.warn(
+          `Invalid price (${item.price}) or quantity (${item.quantity}) for a list_order item during update.`
+        );
+        return total; // Skip invalid item
       }
       return total + price * quantity;
     }, 0);
-    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
-    // Update order details
-    const [updateResult] = await connection.query(
-      `UPDATE \`order_table\`
-       SET address = ?, customer_note = ?, customer_name = ?, customer_phone = ?, status = ?, paid = ?,  total_price = ?, update_at = ?  
-       WHERE id = ?`,
-      [
-        address,
-        customer_note,
-        customer_name,
-        customer_phone,
-        status,
-        paid,
-        newTotalPrice,
-        now,
-        id,
-      ]
-    );
-    if (updateResult.affectedRows === 0) {
-      throw new Error(`No order found with id = ${id}`);
+
+    const now = formatDbTimestamp();
+
+    let updateFields = [];
+    let queryParams = [];
+    let paramIndex = 1;
+
+    updateFields.push(`update_at = $${paramIndex}`);
+    queryParams.push(now);
+    paramIndex++;
+
+    if (address !== undefined) {
+      updateFields.push(`address = $${paramIndex}`);
+      queryParams.push(address);
+      paramIndex++;
     }
-    await connection.query(
-      `DELETE FROM order_details
-       WHERE id_order = ?`,
-      [id]
+    if (customer_note !== undefined) {
+      updateFields.push(`customer_note = $${paramIndex}`);
+      queryParams.push(customer_note);
+      paramIndex++;
+    }
+    if (customer_name !== undefined) {
+      updateFields.push(`customer_name = $${paramIndex}`);
+      queryParams.push(customer_name);
+      paramIndex++;
+    }
+    if (customer_phone !== undefined) {
+      updateFields.push(`customer_phone = $${paramIndex}`);
+      queryParams.push(customer_phone);
+      paramIndex++;
+    }
+    if (status !== undefined) {
+      if (typeof status !== "boolean") {
+        return res.status(400).send({
+          success: false,
+          message: "Status must be a boolean value (true/false).",
+        });
+      }
+      updateFields.push(`status = $${paramIndex}`);
+      queryParams.push(status);
+      paramIndex++;
+    }
+    if (paid !== undefined) {
+      if (typeof paid !== "boolean") {
+        return res.status(400).send({
+          success: false,
+          message: "Paid must be a boolean value (true/false).",
+        });
+      }
+      updateFields.push(`paid = $${paramIndex}`);
+      queryParams.push(paid);
+      paramIndex++;
+    }
+    if (process !== undefined) {
+      updateFields.push(`process = $${paramIndex}`);
+      queryParams.push(process);
+      paramIndex++;
+    }
+
+    updateFields.push(`total_price = $${paramIndex}`);
+    queryParams.push(newTotalPrice);
+    paramIndex++;
+
+    const orderIdParamIndex = paramIndex;
+    queryParams.push(id);
+
+    const updateOrderResult = await client.query(
+      `UPDATE "order_table" SET ${updateFields.join(
+        ", "
+      )} WHERE id = $${orderIdParamIndex}`,
+      queryParams
     );
+
+    await client.query(`DELETE FROM order_details WHERE id_order = $1`, [id]);
 
     const validOrderDetails = list_order.filter((detail) => {
       const quantity = parseInt(detail.quantity, 10);
@@ -259,128 +357,163 @@ export const updateOrder = async (req, res) => {
     });
 
     if (validOrderDetails.length === 0) {
-      throw new Error("No valid order details provided.");
+      throw new Error(
+        "No valid order details provided. Please ensure quantity > 0 and price >= 0 for all items."
+      );
     }
 
-    const orderDetailsPromises = validOrderDetails.map((detail) => {
-      return connection.query(
-        `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note,create_at,update_at)
-         VALUES (?, ?, ?, ?, ?,?,?)`,
+    const detailInsertQueries = validOrderDetails.map((detail) => {
+      return client.query(
+        `INSERT INTO order_details (id_order, id_dishlist, quantity, price, note, create_at, update_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
           id,
           detail.id_dishlist,
           detail.quantity,
           detail.price,
-          detail.note || "",
+          detail.note || null,
           now,
-          now
+          now,
         ]
       );
     });
 
-    await Promise.all(orderDetailsPromises);
+    await Promise.all(detailInsertQueries);
 
-    await connection.commit();
+    await client.query("COMMIT");
 
     res.status(200).send({
       success: true,
-      message: "Order updated successfully",
+      message: "Order updated successfully.",
     });
   } catch (error) {
-    await connection.rollback();
-    console.log(error);
-    console.error("❌ Error updating order:", error); // in lỗi chi tiết
+    await client.query("ROLLBACK");
+    console.error("Error in updateOrder:", error);
+    if (error.code === "23503") {
+      return res.status(400).send({
+        success: false,
+        message: `Invalid dishlist_id provided in order details. Dish does not exist.`,
+        error: error.message,
+      });
+    } else if (error.code === "23502") {
+      return res.status(400).send({
+        success: false,
+        message: `Missing required data or null value provided for a NOT NULL column in order or details: ${
+          error.detail || error.message
+        }.`,
+        error: error.message,
+      });
+    }
     res.status(500).send({
       success: false,
-      message: "Error updating order",
-      error: error.message, // gửi chi tiết lỗi về Postman
+      message: "Error updating order.",
+      error: error.message,
     });
   } finally {
-    connection.release();
+    client.release();
   }
 };
 
 export const updateOrderProcess = async (req, res) => {
   const orderId = req.params.id;
   const steps = ["Xử lý", "Đang chờ", "Đang thực hiện", "Hoàn thành"];
+  const now = formatDbTimestamp();
 
   try {
-    const [[order]] = await pool.query(
-      `SELECT process FROM order_table WHERE id = ?`,
+    const orderResult = await pool.query(
+      `SELECT process FROM "order_table" WHERE id = $1`,
       [orderId]
     );
-    if (!order) {
+
+    if (orderResult.rows.length === 0) {
       return res
         .status(404)
-        .send({ success: false, message: "Order not found" });
+        .send({ success: false, message: "Order not found." });
     }
 
-    const currentIndex = steps.findIndex((step) => step === order.process);
+    const currentProcess = orderResult.rows[0].process;
+    const currentIndex = steps.findIndex((step) => step === currentProcess);
     const nextStep = steps[currentIndex + 1];
 
     if (!nextStep) {
       return res
         .status(400)
-        .send({ success: false, message: "Order already completed" });
+        .send({
+          success: false,
+          message: "Order already completed or invalid current process.",
+        });
     }
-    await pool.query(`UPDATE order_table SET process = ? WHERE id = ?`, [
-      nextStep,
-      orderId,
-    ]);
+
+    const updateResult = await pool.query(
+      `UPDATE "order_table" SET process = $1, update_at = $2 WHERE id = $3`,
+      [nextStep, now, orderId]
+    );
+
+    if (updateResult.rowCount === 0) {
+      return res
+        .status(500)
+        .send({ success: false, message: "Failed to update order process." });
+    }
 
     res
       .status(200)
-      .send({ success: true, message: "Order process updated", nextStep });
+      .send({ success: true, message: "Order process updated.", nextStep });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ success: false, message: "Server error" });
+    console.error("Error in updateOrderProcess:", error);
+    res
+      .status(500)
+      .send({ success: false, message: "Server error.", error: error.message });
   }
 };
 
 export const deleteOrder = async (req, res) => {
   const deleteOrderId = req.params.id;
 
-  const connection = await pool.getConnection();
+  if (!deleteOrderId) {
+    return res.status(400).send({
+      success: false,
+      message: "Order ID is required for deletion.",
+    });
+  }
+
+  const client = await pool.connect();
 
   try {
-    if (!deleteOrderId) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    await connection.beginTransaction();
-    await connection.query(`DELETE FROM order_details WHERE id_order = ?`, [
+    await client.query("BEGIN");
+
+    await client.query(`DELETE FROM order_details WHERE id_order = $1`, [
       deleteOrderId,
     ]);
-    await pool.query(
-      `
-    DELETE FROM order_db
-    WHERE id = ?`,
+
+    const deleteResult = await client.query(
+      `DELETE FROM "order_table" WHERE id = $1`,
       [deleteOrderId]
     );
-    const [deleteResult] = await connection.query(
-      `DELETE FROM order_table WHERE id = ?`,
-      [deleteOrderId]
-    );
-    if (deleteResult.affectedRows === 0) {
-      await connection.rollback();
+
+    if (deleteResult.rowCount === 0) {
+      await client.query("ROLLBACK");
       return res.status(404).send({
         success: false,
-        message: `Order with ID ${deleteOrderId} not found`,
+        message: `Order with ID ${deleteOrderId} not found.`,
       });
     }
-    await connection.commit();
+
+    await client.query("COMMIT");
+
     res.status(200).send({
       success: true,
-      message: `Order with ID ${deleteOrderId} deleted successfully`,
+      message: `Order with ID ${deleteOrderId} deleted successfully.`,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+    await client.query("ROLLBACK");
+    console.error("Error in deleteOrder:", error);
+    res.status(500).send({
       success: false,
-      message: "error orderTable",
+      message: "Error deleting order.",
+      error: error.message,
     });
+  } finally {
+    client.release();
   }
 };
 

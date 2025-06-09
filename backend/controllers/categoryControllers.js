@@ -9,8 +9,7 @@ const getCategoryAll = async (req, res) => {
         message: "No categories found",
       });
     }
-
-    const result = data.rows[0];
+    const result = data.rows;
 
     res.status(200).send({
       success: true,
@@ -21,8 +20,8 @@ const getCategoryAll = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error retrieving categories", // More descriptive message
-      error: error.message, // Include error detail for debugging
+      message: "Error retrieving categories", 
+      error: error.message,
     });
   }
 };
@@ -81,7 +80,7 @@ const createCategory = async (req, res) => {
       });
     }
 
-    const statusTinyInt = status ? 1 : 0;
+    const statusTinyInt = status;
     const insertQuery = `
       INSERT INTO category (name, handle, image, status)
       VALUES ($1, $2, $3, $4)
@@ -95,7 +94,6 @@ const createCategory = async (req, res) => {
     ]);
 
     if (!result || !result.rows || result.rows.length === 0) {
-      // Kiểm tra result.rows.length cho RETURNING query
       return res.status(500).send({
         success: false,
         message: "Failed to create category or retrieve new ID.",
@@ -118,7 +116,7 @@ const createCategory = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Category created successfully",
-      data: newData[0],
+      data: newData.rows[0],
     });
   } catch (error) {
     console.log(error);
