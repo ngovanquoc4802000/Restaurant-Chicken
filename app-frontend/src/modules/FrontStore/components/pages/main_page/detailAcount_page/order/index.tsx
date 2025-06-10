@@ -1,6 +1,7 @@
-import Button from "../../../common/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Button from "../../../../../../../common/button/button";
+
 function Order() {
   return (
     <div className="flex-1 px-6 md:px-0 1 pt-5 md:pt-0 lg:pt-0 xl:pt-0">

@@ -1,7 +1,7 @@
-import { Outlet } from "react-router-dom";
 import Footer from "../../dashboard/footer";
 import Header from "../header_page/header";
 import Sidebar from "./sidebar";
+import { Outlet } from "react-router-dom";
 
 function DetailAccountPage() {
   return (

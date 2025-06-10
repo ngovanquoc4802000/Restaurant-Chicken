@@ -3,10 +3,10 @@ import { useLogin } from "../../../hooks/authen/useLoginPages";
 import { close } from "../features/modal";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import "../../../assets/Screenshot 2025-05-08 164110.png";
-import "../dashboard/styles.scss";
 import Button from "../../../../../common/button/button";
 import InputValue from "../../../../../common/input";
+import "../dashboard/styles.scss";
+import "../../../assets/Screenshot 2025-05-08 164110.png";
 
 function Login() {
   const {

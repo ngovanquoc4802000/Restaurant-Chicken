@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../../store/store";
-import InputValue from "../../../common/input";
-import Button from "../../../common/button";
+import InputValue from "../../../../../../../common/input";
+import Button from "../../../../../../../common/button/button";
 
 function DetailChildren() {
   
