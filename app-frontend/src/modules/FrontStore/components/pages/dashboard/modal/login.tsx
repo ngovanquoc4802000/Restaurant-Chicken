@@ -1,8 +1,8 @@
 import { useModalLoginPages } from "../../../../hooks/dashboard/useModalLoginPages";
 import { NavLink } from "react-router-dom";
-import Button from "../../common/button";
-import InputValue from "../../common/input";
 import "./login.scss";
+import InputValue from "../../../../../../common/input";
+import Button from "../../../../../../common/button/button";
 
 function ModalLogin() {
   const { handleSubmit, isError, isPending, value, handleOnchange } = useModalLoginPages();

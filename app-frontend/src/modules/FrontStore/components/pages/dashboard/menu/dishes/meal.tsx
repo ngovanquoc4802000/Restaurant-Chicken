@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ValueCategory } from "../../../../../mockup/categories";
 import type { DishTs } from "../../../../../mockup/dishlist";
-import Button from "../../../common/button";
+import Button from "../../../../../../../common/button/button";
 interface MealSliderTs {
   findComboGroup: DishTs[];
   onClick: () => void;

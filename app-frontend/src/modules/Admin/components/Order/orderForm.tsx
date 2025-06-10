@@ -47,7 +47,15 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     } else {
       setOrderData(orderData);
     }
-  }, [isEdit, detail, queryClient, userData, idDetail, setOrderData, orderData]);
+  }, [
+    isEdit,
+    detail,
+    queryClient,
+    userData,
+    idDetail,
+    setOrderData,
+    orderData,
+  ]);
 
   return (
     <form onSubmit={handleSubmitOrder} className="form">
@@ -59,7 +67,13 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
         <div className="form-group">
           <label htmlFor="user_id">User:</label>
-          <select id="user_id" name="user_id" value={String(orderData.user_id)} onChange={handleOrderInputChange} required>
+          <select
+            id="user_id"
+            name="user_id"
+            value={String(orderData.user_id)}
+            onChange={handleOrderInputChange}
+            required
+          >
             <option value="">Select User</option>
             {userData?.map((user) => (
               <option key={user.id} value={String(user.id)}>
@@ -71,22 +85,41 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
         <div className="form-group">
           <label>Địa chỉ:</label>
-          <input type="text" name="address" value={orderData.address} onChange={handleOrderInputChange} />
+          <input
+            type="text"
+            name="address"
+            value={orderData.address}
+            onChange={handleOrderInputChange}
+          />
         </div>
 
         <div className="form-group">
           <label>Ghi chú khách hàng:</label>
-          <textarea name="customer_note" value={orderData.customer_note || ""} onChange={handleOrderInputChange} />
+          <textarea
+            name="customer_note"
+            value={orderData.customer_note || ""}
+            onChange={handleOrderInputChange}
+          />
         </div>
 
         <div className="form-group">
           <label>Tên khách hàng:</label>
-          <input type="text" name="customer_name" value={orderData.customer_name || ""} onChange={handleOrderInputChange} />
+          <input
+            type="text"
+            name="customer_name"
+            value={orderData.customer_name || ""}
+            onChange={handleOrderInputChange}
+          />
         </div>
 
         <div className="form-group">
           <label>Số điện thoại:</label>
-          <input type="text" name="customer_phone" value={orderData.customer_phone || ""} onChange={handleOrderInputChange} />
+          <input
+            type="text"
+            name="customer_phone"
+            value={orderData.customer_phone || ""}
+            onChange={handleOrderInputChange}
+          />
         </div>
       </div>
 
@@ -96,7 +129,12 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         <div className="dish-grid">
           <div className="form-group">
             <label>ID Món:</label>
-            <select name="id_dishlist" id="id_dislist" value={String(orderDetails.id_dishlist)} onChange={handleOrderInputDetails}>
+            <select
+              name="id_dishlist"
+              id="id_dislist"
+              value={String(orderDetails.id_dishlist)}
+              onChange={handleOrderInputDetails}
+            >
               <option value="">Chọn món ăn</option>
               {dishListId?.map((dishlist) => (
                 <option key={dishlist.id} value={String(dishlist.id)}>
@@ -108,12 +146,22 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
           <div>
             <label>Số lượng:</label>
-            <input type="number" name="quantity" value={orderDetails.quantity} onChange={handleOrderInputDetails} />
+            <input
+              type="number"
+              name="quantity"
+              value={orderDetails.quantity}
+              onChange={handleOrderInputDetails}
+            />
           </div>
 
           <div>
             <label>Giá:</label>
-            <input type="number" name="price" value={orderDetails.price} onChange={handleOrderInputDetails} />
+            <input
+              type="number"
+              name="price"
+              value={orderDetails.price}
+              onChange={handleOrderInputDetails}
+            />
           </div>
 
           <div>
@@ -123,7 +171,12 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
         <div className="dish-note">
           <label>Ghi chú món ăn:</label>
-          <input type="text" name="note" value={orderDetails.note} onChange={handleOrderInputDetails} />
+          <input
+            type="text"
+            name="note"
+            value={orderDetails.note}
+            onChange={handleOrderInputDetails}
+          />
         </div>
       </div>
 
@@ -135,7 +188,8 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           <ul>
             {orderData.details?.map((item, index) => (
               <li key={index}>
-                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL {item.quantity}, Giá {item.price} - Ghi chú:{" "}
+                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL{" "}
+                {item.quantity}, Giá {item.price} - Ghi chú:{" "}
                 {item.note || "Không"}
               </li>
             ))}
@@ -150,9 +204,11 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       <div className="form-actions">
         <button type="submit" className="save-button" disabled={isPending}>
           {idDetail ? "Update" : "Save"}
-          {isPending && <span className="spinner-border spinner-border-sm"></span>}
+          {isPending && (
+            <span className="spinner-border spinner-border-sm"></span>
+          )}
         </button>
-        <Button action="cancel" onClick={onHideModal} />
+        <Button text="cancel" onClick={onHideModal} />
       </div>
     </form>
   );

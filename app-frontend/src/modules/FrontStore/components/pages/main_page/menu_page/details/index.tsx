@@ -1,7 +1,7 @@
+import Button from "../../../../../../../common/button/button";
+import InputValue from "../../../../../../../common/input";
+import TextareaValue from "../../../../../../../common/textarea";
 import { useProductDetailPages } from "../../../../../hooks/menu_page/useProductDetailPages";
-import Button from "../../../common/button";
-import InputValue from "../../../common/input";
-import TextareaValue from "../../../common/textarea";
 import Footer from "../../../dashboard/footer";
 import Header from "../../header_page/header";
 

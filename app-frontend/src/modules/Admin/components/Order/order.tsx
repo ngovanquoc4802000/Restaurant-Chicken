@@ -25,14 +25,24 @@ const Order = () => {
     <div className="order-list">
       <h2 style={{ textAlign: "center", fontSize: "20px" }}>Order List</h2>
 
-      <Button action="create" onClick={() => setStateOrder((prev) => ({ ...prev, showForm: true }))} />
+      <Button
+        text="create"
+        onClick={() => setStateOrder((prev) => ({ ...prev, showForm: true }))}
+      />
 
-      {stateOrder.showForm && <OrderForm idDetail={stateOrder.idDetail} onHideModal={handleHideDetail} />}
+      {stateOrder.showForm && (
+        <OrderForm
+          idDetail={stateOrder.idDetail}
+          onHideModal={handleHideDetail}
+        />
+      )}
 
       {stateOrder.showOrder && stateOrder.selectedDetails && (
         <OrderDetails
           item={stateOrder.selectedDetails}
-          onHideModal={() => setStateOrder((prev) => ({ ...prev, showOrder: false }))}
+          onHideModal={() =>
+            setStateOrder((prev) => ({ ...prev, showOrder: false }))
+          }
           orderId={stateOrder.idDetail}
           currentStep={stateOrder.currentStep}
         />
@@ -68,8 +78,13 @@ const Order = () => {
               <td>{item.paid ? "Đã thanh toán" : "Chưa thanh toán"}</td>
               <td>{new Date(item.create_at).toLocaleString()}</td>
               <td>
-                <Button action="showDetails" onClick={() => handleDetails(item.details, item.id, item.process || "")} />
-                <Button action="edit" onClick={() => handleEditOrder(item.id)} />
+                <Button
+                  text="showDetails"
+                  onClick={() =>
+                    handleDetails(item.details, item.id, item.process || "")
+                  }
+                />
+                <Button text="edit" onClick={() => handleEditOrder(item.id)} />
                 {item.process === "Hoàn thành" ? (
                   <button
                     style={{

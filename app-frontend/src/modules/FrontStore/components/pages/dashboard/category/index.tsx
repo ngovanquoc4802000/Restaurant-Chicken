@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
 import { slugify } from "./ultils/slugify";
-import Button from "../../common/button";
 import Footer from "../footer";
 import Header from "../header";
 import OrderOptions from "../oder";
 import "../../dashboard/styles.scss";
+import Button from "../../../../../../common/button/button";
 
 function Category() {
   const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef} = useCategoryPages();

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../styles.scss";
-import Button from "../../common/button";
+import Button from "../../../../../../common/button/button";
 
 function OrderOptions() {
   return (

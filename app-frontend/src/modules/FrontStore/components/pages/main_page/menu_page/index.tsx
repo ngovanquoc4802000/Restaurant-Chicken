@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { slugify } from "../../dashboard/menu/ultils";
 import { useMenuPages } from "../../../../hooks/menu_page/useMenuPages";
 import Header from "../header_page/header";
-import Button from "../../common/button";
 import Footer from "../../dashboard/footer";
 import OrderOptionsPage from "../options_page";
+import Button from "../../../../../../common/button/button";
 
 function MenuPage() {
 

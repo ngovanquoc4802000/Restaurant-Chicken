@@ -3,7 +3,8 @@ import { useCustomUsers } from "../../hooks/useCustomUsers";
 import UserDetail from "./userDetail";
 
 function User() {
-  const { setStateUser, handleEdit, stateUser, isError, isLoading, userList } = useCustomUsers();
+  const { setStateUser, handleEdit, stateUser, isError, isLoading, userList } =
+    useCustomUsers();
 
   if (isLoading || !userList) return <div>Loading...</div>;
 
@@ -13,7 +14,12 @@ function User() {
     <div className="user-list-container">
       <h3>User List</h3>
       {stateUser.showIsModal && (
-        <UserDetail idDetail={stateUser.idDetail} onHideModal={() => setStateUser((prev) => ({ ...prev, showIsModal: false }))} />
+        <UserDetail
+          idDetail={stateUser.idDetail}
+          onHideModal={() =>
+            setStateUser((prev) => ({ ...prev, showIsModal: false }))
+          }
+        />
       )}
       <table className="user-table">
         <thead>
@@ -52,7 +58,7 @@ function User() {
               </td>
               <td>{true.toString()}</td>
               <td>
-                <Button action="edit" onClick={() => handleEdit(item.id)} />
+                <Button text="edit" onClick={() => handleEdit(item.id)} />
               </td>
             </tr>
           ))}

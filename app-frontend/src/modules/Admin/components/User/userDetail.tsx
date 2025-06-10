@@ -11,7 +11,15 @@ interface UserDetailTs {
 }
 
 function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
-  const { handleChange, handleSubmit, isPending, setValue, value, showSuccessModal, queryClient } = useCustomerUsersDetail(idDetail);
+  const {
+    handleChange,
+    handleSubmit,
+    isPending,
+    setValue,
+    value,
+    showSuccessModal,
+    queryClient,
+  } = useCustomerUsersDetail(idDetail);
 
   useEffect(() => {
     if (idDetail !== null && idDetail !== undefined) {
@@ -45,33 +53,68 @@ function UserDetail({ idDetail, onHideModal }: UserDetailTs) {
     <form className="form" onSubmit={handleSubmit}>
       {showSuccessModal && <ModalSuccess onHideModal={onHideModal} />}
 
-      {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
+      {isPending && (
+        <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>
+      )}
 
       <div className="form-group">
         <label htmlFor="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" value={value.fullname} onChange={handleChange} />
+        <input
+          type="text"
+          id="fullname"
+          name="fullname"
+          value={value.fullname}
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" value={value.email} onChange={handleChange} />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={value.email}
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <label htmlFor="phone_number">Phone Number</label>
-        <input type="text" id="phoneNumber" name="phone_number" value={value.phone_number} onChange={handleChange} />
+        <input
+          type="text"
+          id="phoneNumber"
+          name="phone_number"
+          value={value.phone_number}
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <label htmlFor="address">Address</label>
-        <input type="text" id="address" name="address" value={value.address} onChange={handleChange} />
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value={value.address}
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" disabled value={value.password} onChange={handleChange} />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          disabled
+          value={value.password}
+          onChange={handleChange}
+        />
       </div>
       <button type="submit" className="save-button" disabled={isPending}>
         {idDetail ? "Update" : "Save"}
-        {isPending && <span className="spinner-border spinner-border-sm"></span>}
+        {isPending && (
+          <span className="spinner-border spinner-border-sm"></span>
+        )}
       </button>
-      <Button action="cancel" onClick={onHideModal} />
+      <Button text="cancel" onClick={onHideModal} />
     </form>
   );
 }

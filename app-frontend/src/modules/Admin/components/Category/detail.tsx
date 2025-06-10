@@ -21,7 +21,9 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
     status: true,
   });
 
-  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleOnChangeInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setValue((prev) => ({
       ...prev,
@@ -29,14 +31,20 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
     }));
   };
 
-  const { isPending, mutate, isEdit } = useCategoryMutation(isDetail, value, () => {
-    setValue({ name: "", handle: "", image: "", status: true });
-    onHideModal();
-  });
+  const { isPending, mutate, isEdit } = useCategoryMutation(
+    isDetail,
+    value,
+    () => {
+      setValue({ name: "", handle: "", image: "", status: true });
+      onHideModal();
+    }
+  );
 
   useEffect(() => {
     if (isEdit && isDetail != null) {
-      const list = queryClient.getQueryData<ValueCategory[]>(queriesCategories.list.queryKey);
+      const list = queryClient.getQueryData<ValueCategory[]>(
+        queriesCategories.list.queryKey
+      );
       const foundCategory = list?.find((item) => item.id === isDetail);
       if (foundCategory) {
         setValue({
@@ -64,13 +72,25 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
   return (
     <div className="create-dish-form-overlay">
       <div className="create-dish-form">
-        <h1 style={{ textAlign: "center" }}>{isEdit ? "Edit Category" : "Create New Category"}</h1>
-        {isPending && <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>}
+        <h1 style={{ textAlign: "center" }}>
+          {isEdit ? "Edit Category" : "Create New Category"}
+        </h1>
+        {isPending && (
+          <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>
+        )}
 
         <form className="form" onSubmit={handleFormSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name:</label>
-            <input type="text" name="name" placeholder="...Name" id="name" onChange={handleOnChangeInput} value={value.name} required />
+            <input
+              type="text"
+              name="name"
+              placeholder="...Name"
+              id="name"
+              onChange={handleOnChangeInput}
+              value={value.name}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="handle">Handle:</label>
@@ -86,14 +106,24 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
           </div>
           <div className="form-group">
             <label htmlFor="image">Image:</label>
-            <input type="text" name="image" placeholder="...URL" id="image" onChange={handleOnChangeInput} value={value.image} required />
+            <input
+              type="text"
+              name="image"
+              placeholder="...URL"
+              id="image"
+              onChange={handleOnChangeInput}
+              value={value.image}
+              required
+            />
           </div>
           <div className="form-actions">
             <button type="submit" className="save-button" disabled={isPending}>
               {isEdit ? "Update" : "Save"}
-              {isPending && <span className="spinner-border spinner-border-sm"></span>}
+              {isPending && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
             </button>
-            <Button action="cancel" onClick={onHideModal} />
+            <Button text="cancel" onClick={onHideModal} />
           </div>
         </form>
       </div>

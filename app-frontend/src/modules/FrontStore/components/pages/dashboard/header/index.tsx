@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 import "./styles.scss";
-import Button from "../../common/button";
+import Button from "../../../../../../common/button/button";
 
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);

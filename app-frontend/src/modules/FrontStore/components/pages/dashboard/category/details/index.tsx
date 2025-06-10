@@ -1,5 +1,5 @@
+import Button from "../../../../../../../common/button/button";
 import { useProductDetailsPage } from "../../../../../hooks/dashboard/useProductDetailPages";
-import Button from "../../../common/button";
 import Footer from "../../footer";
 import Header from "../../header";
 import ModalLogin from "../../modal/login";

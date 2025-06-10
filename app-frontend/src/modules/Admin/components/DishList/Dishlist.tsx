@@ -28,11 +28,24 @@ const DishList = () => {
     <div className="dish-list-container">
       <h1>Dish List</h1>
 
-      <Button action="create" onClick={() => setDishState({ ...dishState, showForm: true })} />
+      <Button
+        text="create"
+        onClick={() => setDishState({ ...dishState, showForm: true })}
+      />
 
-      {dishState.showForm && <DetailDishlist onHideModal={handleHideModal} idDetail={dishState.idDetail} />}
+      {dishState.showForm && (
+        <DetailDishlist
+          onHideModal={handleHideModal}
+          idDetail={dishState.idDetail}
+        />
+      )}
 
-      {dishState.showOrder && dishState.selectedDetails && <DetailById item={dishState.selectedDetails} onHideModal={handleHideDetail} />}
+      {dishState.showOrder && dishState.selectedDetails && (
+        <DetailById
+          item={dishState.selectedDetails}
+          onHideModal={handleHideDetail}
+        />
+      )}
 
       <table className="dish-table">
         <thead>
@@ -61,15 +74,24 @@ const DishList = () => {
               <td>
                 {dish.images && dish.images.length > 0 ? (
                   dish.images.map((img, idx) =>
-                    img.image ? <img key={idx} src={img.image} alt={img.alt_text || `dish-image-${idx}`} /> : null
+                    img.image ? (
+                      <img
+                        key={idx}
+                        src={img.image}
+                        alt={img.alt_text || `dish-image-${idx}`}
+                      />
+                    ) : null
                   )
                 ) : (
                   <span>No Image</span>
                 )}
               </td>
               <td>
-                <Button action="edit" onClick={() => handleEdit(dish.id)} />
-                <Button action="showDetails" onClick={() => handleDetail(dish.images)} />
+                <Button text="edit" onClick={() => handleEdit(dish.id)} />
+                <Button
+                  text="showDeTails"
+                  onClick={() => handleDetail(dish.images)}
+                />
               </td>
             </tr>
           ))}

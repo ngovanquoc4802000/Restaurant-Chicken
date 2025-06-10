@@ -5,7 +5,8 @@ export const getApiCategoriesAll = async () => {
   try {
     const result = await Request.get<CategoryTs>("category");
     return result.data;
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",
