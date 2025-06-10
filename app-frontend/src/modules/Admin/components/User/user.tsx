@@ -1,5 +1,5 @@
-import { useCustomUsers } from "../../customHook/useCustomUsers";
-import Button from "../common/button/button";
+import Button from "../../../../common/button/button";
+import { useCustomUsers } from "../../hooks/useCustomUsers";
 import UserDetail from "./userDetail";
 
 function User() {

@@ -1,11 +1,12 @@
-import { ApiGetAllDishList, DishTs } from "../types/dishlist";
+import type { ApiGetAllDishList, DishTs } from "../types/dishlist";
 import { Request } from "../utils/http";
 
 export const getApiDishListAll = async () => {
   try {
     const result = await Request.get<ApiGetAllDishList>("dishlist");
     return result.data;
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",
@@ -32,7 +33,10 @@ export const postApiDishlist = async (newDish: DishTs) => {
   }
 };
 
-export const updateApiDishList = async (id: number | undefined | null, update: DishTs) => {
+export const updateApiDishList = async (
+  id: number | undefined | null,
+  update: DishTs
+) => {
   try {
     const result = await Request.put(`dishlist/${id}`, update);
     return result.data;

@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import queriesDishlist from "../queries/dishlist";
 import { updateOrderProcess } from "../services/order";
 import queriesOrder from "../queries/orders";
-import { OrderTableTs } from "../types/order";
+import type { OrderTableTs } from "../types/order";
 
 export const useOrderDetails = (currentStep: string | undefined, orderId: number | undefined | null) => {
   const { data: dishlistName } = useQuery({ ...queriesDishlist.list });

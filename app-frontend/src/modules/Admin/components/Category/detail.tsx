@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ValueCategory } from "../../types/categories";
-import queriesCategories from "../../queries/categories";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCategoryMutation } from "../../customHook/useCategoryMutation";
-import Button from "../common/button/button";
+import { useCategoryMutation } from "../../hooks/useCategoryMutation";
+import type { ValueCategory } from "../../types/categories";
+import queriesCategories from "../../queries/categories";
 import "./category.scss";
+import Button from "../../../../common/button/button";
 
 interface DetailTs {
   onHideModal: () => void;

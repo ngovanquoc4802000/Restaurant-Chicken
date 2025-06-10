@@ -1,4 +1,4 @@
-import Image from "../../types/dishlist";
+import type Image from "../../types/dishlist";
 interface detailImageTs {
   item: Image[];
   onHideModal: () => void;

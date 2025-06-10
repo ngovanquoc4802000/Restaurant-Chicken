@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { updateCategoryId } from "../../services/categories";
-import { ValueCategory } from "../../types/categories";
+import type { ValueCategory } from "../../types/categories";
 import queriesCategories from "../../queries/categories";
 
 interface DetailTs {

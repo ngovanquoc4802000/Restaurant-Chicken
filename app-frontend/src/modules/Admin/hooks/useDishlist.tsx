@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Image from "../types/dishlist";
+import type Image from "../types/dishlist";
 import queriesCategories from "../queries/categories";
 import queriesDishlist from "../queries/dishlist";
 

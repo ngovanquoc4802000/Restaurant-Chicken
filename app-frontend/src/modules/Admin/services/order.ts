@@ -1,11 +1,12 @@
-import { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
+import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
 import { Request } from "../utils/http";
 
 export const getOrderAll = async () => {
   try {
     const result = await Request.get<OrderAllTs>("order");
     return result.data;
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",

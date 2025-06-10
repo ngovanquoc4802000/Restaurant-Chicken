@@ -1,4 +1,4 @@
-import { CategoryTs, ValueCategory } from "../types/categories";
+import type { CategoryTs, ValueCategory } from "../types/categories";
 import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {

@@ -1,5 +1,5 @@
-import { useOrderDetails } from "../../customHook/userOrderDetails";
-import { OrderDetailsTs } from "../../types/order";
+import { useOrderDetails } from "../../hooks/userOrderDetails";
+import type { OrderDetailsTs } from "../../types/order";
 
 interface OrderTs {
   item: OrderDetailsTs[];

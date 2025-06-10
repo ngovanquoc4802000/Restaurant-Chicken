@@ -1,7 +1,7 @@
-import { useDishlist } from "../../customHook/useDishlist";
+import Button from "../../../../common/button/button";
+import { useDishlist } from "../../hooks/useDishlist";
 import DetailDishlist from "./detail";
 import DetailById from "./detailbyId";
-import Button from "../common/button/button";
 import "./Dishlist.scss";
 
 const DishList = () => {

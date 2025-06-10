@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
-import { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../types/order";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import queriesUser from "../queries/users";
 import queriesOrder from "../queries/orders";
 import queriesDishlist from "../queries/dishlist";
 import { createOrder, updateOrder } from "../services/order";
+import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../types/order";
 
 const initialOrder: OrderTableTs = {
   user_id: "",

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ValueCategory } from "../types/categories";
 import { useCallback } from "react";
 import { createApiCategory, updateCategoryId } from "../services/categories";
+import type { ValueCategory } from "../types/categories";
 import queriesCategories from "../queries/categories";
 
 export const useCategoryMutation = (isDetail: number | null | undefined, value: ValueCategory, onSuccessCallback: () => void) => {

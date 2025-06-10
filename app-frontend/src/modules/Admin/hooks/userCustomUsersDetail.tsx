@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { UsersTs } from "../types/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import queriesUser from "../queries/users";
 import { updateUser } from "../services/users";
+import type { UsersTs } from "../types/users";
 
 export const useCustomerUsersDetail = (idDetail: number | null | undefined) => {
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);

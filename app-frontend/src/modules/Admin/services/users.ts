@@ -1,10 +1,12 @@
-import { UserAll, UsersTs } from "../types/users";
+import type { UserAll, UsersTs } from "../types/users";
 import { Request } from "../utils/http";
+
 export const getUserAll = async () => {
   try {
     const result = await Request.get<UserAll>("user");
     return result.data;
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       message: "",

@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { OrderDetailsTs } from "../types/order";
 import { useQuery } from "@tanstack/react-query";
 import queriesUser from "../queries/users";
 import queriesOrder from "../queries/orders";
+import type { OrderDetailsTs } from "../types/order";
 
 interface OrderStateTs {
   showOrder: boolean;

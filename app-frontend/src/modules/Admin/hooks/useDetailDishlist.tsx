@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { DishTs } from "../types/dishlist";
 import { postApiDishlist, updateApiDishList } from "../services/dishlist";
 import queriesCategories from "../queries/categories";
 import queriesDishlist from "../queries/dishlist";
+import type { DishTs } from "../types/dishlist";
 
 const initialState: DishTs = {
   name: "",
