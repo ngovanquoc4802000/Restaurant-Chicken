@@ -9,9 +9,9 @@ function OrderOptionsPage() {
           <a href="#" className="order-options__link order">
             Đặt Ngay
           </a>
-          <img src="../../../../src/assets/shipprt.png" alt="" />
+        <img src="src/modules/FrontStore/assets/shipprt.png" alt="" />
           <a className="order-options__link">Giao Hàng</a>
-          <img src="../../../../src/assets/cart-heading.png" alt="" />
+         <img src="src/modules/FrontStore/assets/cart-heading.png" alt="" />
           <span className="order-options__separator">hoặc Mang đi</span>
         </div>
         <NavLink to="/menu-page">

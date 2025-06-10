@@ -21,7 +21,7 @@ function Header() {
             <NavLink to="/home">
               <img
                 className="logo w-[78px] h-[78px] block max-w-full h-auto block"
-                src="/src/assets/Screenshot 2025-05-08 164110.png"
+                src="src/modules/FrontStore/assets/kfc-logo.svg"
                 alt="hình ảnh logo"
               />
             </NavLink>
@@ -83,7 +83,7 @@ function Header() {
             <NavLink to="/orderProduct">
               <img
                 className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
-                src="/src/assets/cart1.png"
+                src="src/modules/FrontStore/assets/cart1.png"
                 alt="Shopping Cart Icon"
               />
             </NavLink>
@@ -100,7 +100,7 @@ function Header() {
                 width={78}
                 height={78}
                 className="logo block max-w-full h-auto"
-                src="/src/assets/kfclogo.png"
+                src="src/modules/FrontStore/assets/kfclogo.png"
                 alt="hình ảnh logo"
               />
             </NavLink>

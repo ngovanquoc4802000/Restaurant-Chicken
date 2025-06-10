@@ -8,11 +8,11 @@ function OrderOptions() {
       <div className="order-options__container pt-[105px] md:pt-[0px] md:flex justify-center">
         <div className="order-options__links flex items-center">
           <a href="#" className="order-options__link order text-[16px] md:text-[18px]">Đặt Ngay</a>
-          <img src="../../../../src/assets/shipprt.png" alt="" />
+          <img src="src/modules/FrontStore/assets/shipprt.png" alt="" />
           <a className="order-options__link text-[16px] md:text-[18px]">
             Giao Hàng
           </a>
-          <img src="../../../../src/assets/cart-heading.png" alt="" />
+          <img src="src/modules/FrontStore/assets/cart-heading.png" alt="" />
           <span className="order-options__separator text-[16px] md:text-[18px]">hoặc Mang đi</span>
         </div>
         <NavLink to="/menu">
