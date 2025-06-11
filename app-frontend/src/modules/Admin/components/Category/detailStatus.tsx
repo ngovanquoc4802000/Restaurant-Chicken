@@ -27,15 +27,11 @@ const DetailStatusCategory = ({ item }: DetailTs) => {
   return (
     <>
       <button
-        className="status"
+        className={`text-white border-none rounded-[4px] py-1.5 px-3`}
         disabled={false}
         onClick={() => handleDeactivate(item.id)}
         style={{
           backgroundColor: item.status ? "#dc3545" : "#6c757d",
-          color: "white",
-          border: "none",
-          padding: "6px 12px",
-          borderRadius: "4px",
           cursor: item.status ? "pointer" : "not-allowed",
         }}
       >

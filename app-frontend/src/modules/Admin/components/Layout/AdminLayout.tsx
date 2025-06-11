@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
-import "./layout.scss";
 
 const AdminLayout = () => {
   return (
-    <div className="admin-layout">
+    <div className="admin-layout flex">
       <Sidebar />
-      <div className="content">
+      <div className="content ml-[200px] flex-grow">
         <Outlet />
       </div>
     </div>

@@ -9,7 +9,6 @@ export interface ListClassNameTs {
   classNameLi?: string;
   classNameTitle?: string;
   textTitle?: string;
-  navlink?:"/menu";
 }
 export const initialListMenu: string[] = [
   "Ưu Đãi",

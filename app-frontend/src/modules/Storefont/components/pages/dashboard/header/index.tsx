@@ -1,8 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import "./styles.scss";
 import Button from "../../../../../../common/button/button";
-import "../../../../assets/Screenshot 2025-05-08 164110.png";
+import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
+import cart1 from "../../../../assets/cart1.png";
+import "./styles.scss";
 
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
@@ -24,7 +25,7 @@ function Header() {
                 width={78}
                 height={78}
                 className="logo block max-w-full h-auto"
-                src="src/modules/FrontStore/assets/kfc-logo.svg"
+                 src={KfcLogoSVG}
                 alt="hình ảnh logo"
               />
             </NavLink>
@@ -106,7 +107,7 @@ function Header() {
             >
               <img
                 className="block max-w-full h-auto icon-cart"
-                src="src/modules/FrontStore/assets/cart1.png"
+                src={cart1}
                 alt="Shopping Cart Icon"
               />
             </NavLink>

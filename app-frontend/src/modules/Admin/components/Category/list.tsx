@@ -1,70 +1,90 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
-import queriesCategories from "../../queries/categories";
+import { useListCategory } from "../../hooks/useListCategory";
 import DetailCategory from "./detail";
 import DetailStatusCategory from "./detailStatus";
-import "./category.scss";
 
 const ListCategory = () => {
-  const [formState, setFormState] = useState<{ showForm: boolean; isDetail?: number | undefined | null }>({
-    showForm: false,
-    isDetail: null,
-  });
-  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list, enabled: true });
-
-  const handleEditClick = useCallback((id: number | undefined) => {
-    setFormState((prev) => ({ ...prev, showForm: true, isDetail: id }));
-  }, []);
-
-  const handleHideModal = useCallback(() => {
-    setFormState((prev) => ({ ...prev, showForm: false, isDetail: null }));
-  }, []);
-
+  const {
+    formState,
+    setFormState,
+    isLoading,
+    error,
+    categories,
+    handleEditClick,
+    handleHideModal,
+  } = useListCategory();
   if (isLoading || !categories) return <div>Loading...</div>;
 
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <div className="category-list">
-      <h1 style={{ textAlign: "center", fontSize: "28px" }}>Categories</h1>
-      <button className="create-button" onClick={() => setFormState((prev) => ({ ...prev, showForm: true }))}>
+    <div className="category-list bg-[#f5f5f5] p-5 rounded-[5px]">
+      <h1 className="text-center text-2xl text-[#333] mt-0 mb-5">Categories</h1>
+      <button
+        className="create-button py-[10px] px-[15px]  bg-[#4caf50] text-white border-none rounded-[5px] cursor-pointer text-[16px] mb-[20px] hover:bg-[#388e3c]"
+        onClick={() => setFormState((prev) => ({ ...prev, showForm: true }))}
+      >
         + Create
       </button>
-      {formState.showForm && <DetailCategory isDetail={formState.isDetail} onHideModal={handleHideModal} />}
-      <table>
+      {formState.showForm && (
+        <DetailCategory
+          isDetail={formState.isDetail}
+          onHideModal={handleHideModal}
+        />
+      )}
+      <table className="w-full mt-2.5 border-collapse">
         <thead>
           <tr>
-            <th>NAME</th>
-            <th>HANDLE</th>
-            <th>IMAGE</th>
-            <th>ACTION</th>
-            <th>STATUS</th>
+            <th className="bg-[#f0f0f0] font-bold p-2.5 text-left border border-solid border-gray-200 p-4">
+              NAME
+            </th>
+            <th className="bg-[#f0f0f0] font-bold p-2.5 text-left border border-solid border-gray-200 p-4">
+              HANDLE
+            </th>
+            <th className="bg-[#f0f0f0] font-bold p-2.5 text-left border border-solid border-gray-200 p-4">
+              IMAGE
+            </th>
+            <th className="bg-[#f0f0f0] font-bold p-2.5 text-left border border-solid border-gray-200 p-4">
+              ACTION
+            </th>
+            <th className="bg-[#f0f0f0] font-bold p-2.5 text-left border border-solid border-gray-200 p-4">
+              STATUS
+            </th>
           </tr>
         </thead>
         <tbody>
           {categories?.map((item) => (
             <tr key={item.id}>
-              <td> {item.name}</td>
-              <td>{item.handle}</td>
-              <td>
+              <td className="p-2.5 text-left border border-solid border-gray-200 p-4 ">
+                {" "}
+                {item.name}
+              </td>
+              <td className="p-2.5 text-left border border-solid border-gray-200 p-4 ">
+                {item.handle}
+              </td>
+              <td className="p-2.5 text-left border border-solid border-gray-200 p-4 ">
                 <img
+                  className="w-[150px] rounded-[4px]"
                   style={{
-                    width: "150px",
-                    borderRadius: "4px",
                     filter: item.status === false ? "grayscale(100%)" : "none",
                   }}
                   src={item.image}
                   alt="Hình Ảnh"
                 />
               </td>
-              <td>
-                <button data-id={item.id} onClick={() => handleEditClick(item.id)}>
+              <td className="p-2.5 text-left border border-solid border-gray-200 p-4 ">
+                <button
+                  className="py-[6px] mr-1 px-[15px] rounded-[4px] text-white bg-blue-500 "
+                  data-id={item.id}
+                  onClick={() => handleEditClick(item.id)}
+                >
                   edit
                 </button>
                 {/* dòng này có data-id kết hợp với useCallback để không bị rendering */}
                 <DetailStatusCategory item={item} />
               </td>
-              <td>{item.status ? "True" : "False"}</td>
+              <td className="p-2.5 text-left border border-solid border-gray-200 p-4 ">
+                {item.status ? "True" : "False"}
+              </td>
             </tr>
           ))}
         </tbody>

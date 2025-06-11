@@ -1,9 +1,8 @@
+import type { ValueCategory } from "../../types/categories";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCategoryMutation } from "../../hooks/useCategoryMutation";
-import type { ValueCategory } from "../../types/categories";
 import queriesCategories from "../../queries/categories";
-import "./category.scss";
 import Button from "../../../../common/button/button";
 
 interface DetailTs {
@@ -70,19 +69,25 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
   };
 
   return (
-    <div className="create-dish-form-overlay">
-      <div className="create-dish-form">
-        <h1 style={{ textAlign: "center" }}>
+    <div className="create-dish-form-overlay fixed top-0 left-0 w-full h-full flex bg-black/50 justify-center items-center z-[1000]  ">
+      <div className="create-dish-form bg-white p-[30px] rounded-[8px] shadow-md w-[80%] max-w-[600px] ">
+        <h1 className="text-center text-2xl">
           {isEdit ? "Edit Category" : "Create New Category"}
         </h1>
         {isPending && (
-          <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>
+          <p  className="text-center text-blue-400">Saving...</p>
         )}
 
         <form className="form" onSubmit={handleFormSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
+          <div className="form-group mb-3.5">
+            <label
+              className="block mb-1.5 font-bold text-[#555]"
+              htmlFor="name"
+            >
+              Name:
+            </label>
             <input
+              className="w-full p-1.5 rounded-[4px] text-[16px] border border-solid border-gray-300 p-4"
               type="text"
               name="name"
               placeholder="...Name"
@@ -95,6 +100,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
           <div className="form-group">
             <label htmlFor="handle">Handle:</label>
             <input
+              className="w-full p-1.5 border border-solid border-gray-300 p-4 rounded-[4px] text-[16px]"
               type="text"
               name="handle"
               placeholder="...Handle"
@@ -107,6 +113,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
           <div className="form-group">
             <label htmlFor="image">Image:</label>
             <input
+              className="w-full p-1.5 rounded-[4px] text-[16px] border border-solid border-gray-300 p-4"
               type="text"
               name="image"
               placeholder="...URL"
@@ -116,8 +123,8 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
               required
             />
           </div>
-          <div className="form-actions">
-            <button type="submit" className="save-button" disabled={isPending}>
+          <div className="form-actions flex justify-end gap-2.5 mt-5">
+            <button type="submit" className="save-button p-2.5 rounded-[4px] text-[#fff]" disabled={isPending}>
               {isEdit ? "Update" : "Save"}
               {isPending && (
                 <span className="spinner-border spinner-border-sm"></span>

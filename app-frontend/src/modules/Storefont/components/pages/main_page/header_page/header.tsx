@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { close, open } from "../../features/modal";
 import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
 import Button from "../../../../../../common/button/button";
-
+import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
+import cart1 from "../../../../assets/cart1.png";
 function Header() {
   const {
     totalQuantity,
@@ -21,7 +22,7 @@ function Header() {
             <NavLink to="/home">
               <img
                 className="logo w-[78px] h-[78px] block max-w-full h-auto block"
-                src="src/modules/FrontStore/assets/kfc-logo.svg"
+                src={KfcLogoSVG}
                 alt="hình ảnh logo"
               />
             </NavLink>
@@ -83,7 +84,7 @@ function Header() {
             <NavLink to="/orderProduct">
               <img
                 className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
-                src="src/modules/FrontStore/assets/cart1.png"
+                src={cart1}
                 alt="Shopping Cart Icon"
               />
             </NavLink>
@@ -127,7 +128,11 @@ function Header() {
           isOffcanvasOpen ? "offcanvas-panel--open" : ""
         }`}
       >
-        <Button  onClick={() => dispatch(close())}  className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"  text="&times;"/>
+        <Button
+          onClick={() => dispatch(close())}
+          className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"
+          text="&times;"
+        />
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">
             DANH MỤC MÓN ĂN
@@ -136,7 +141,11 @@ function Header() {
           <ul className="offcanvas__menu list-none p-0 mb-5">
             {menuItemsData.map((item, index) => (
               <li key={index} className="offcanvas__menu-item mb-2">
-                <Button className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]" text={item.label} onClick={() => handleNavigate(item.path)} />
+                <Button
+                  className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]"
+                  text={item.label}
+                  onClick={() => handleNavigate(item.path)}
+                />
               </li>
             ))}
           </ul>
