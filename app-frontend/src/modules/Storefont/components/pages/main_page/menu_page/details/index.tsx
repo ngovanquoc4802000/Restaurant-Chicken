@@ -1,7 +1,7 @@
+import { useProductDetailPages } from "../../../../../hooks/menu_page/useProductDetailPages";
 import Button from "../../../../../../../common/button/button";
 import InputValue from "../../../../../../../common/input";
 import TextareaValue from "../../../../../../../common/textarea";
-import { useProductDetailPages } from "../../../../../hooks/menu_page/useProductDetailPages";
 import Footer from "../../../dashboard/footer";
 import Header from "../../header_page/header";
 
@@ -12,7 +12,7 @@ function DetailsPage() {
 
   if (error) return `Error Product Details ${error}`;
 
-  if (!product) return <div>Sản phẩm không tồn tại</div>;
+  if (!product) return <div>Product does not exist </div>;
   return (
     <div className="productDetail-container cursor-pointer">
       {isSuccess && <div>Success...</div>}
@@ -31,17 +31,17 @@ function DetailsPage() {
             <form onSubmit={handleCart} className="space-y-4">
               <h2 className="text-2xl font-bold text-gray-800">{product.title}</h2>
               <p className="text-gray-600">{product.description}</p>
-              <InputValue text="Địa chỉ" type="text" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded-md focus:ring-2 focus:ring-red-400" name="address" value={orderData.address} onChange={handleInputChange}/>
-              <InputValue text="Họ tên" type="text" name="customer_name" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleInputChange} value={orderData.customer_name}/>
-              <InputValue text="Số điện thoại" type="text"  name="customer_phone"  classNameLabel="block font-semibold"  classNameInput="w-full border p-2 rounded"  onChange={handleInputChange}  value={orderData.customer_phone}/>
-              <TextareaValue text="Ghi chú đơn hàng" name="customer_note"  value={orderData.customer_note}  onChange={handleInputChange}  classNameLabel="block font-semibold"   classNameInput="w-full border p-2 rounded"/>
-              <InputValue text="Ghi chú" type="text" name="note"  classNameLabel="block font-semibold"  classNameInput="w-full border p-2 rounded" onChange={handleNoteChange}  value={orderDetails.note}/>
+              <InputValue text="Address" placeholder="Address..." type="text" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded-md focus:ring-2 focus:ring-red-400" name="address" value={orderData.address} onChange={handleInputChange}/>
+              <InputValue text="Fullname" placeholder="Customer Name...." type="text" name="customer_name" classNameLabel="block font-semibold" classNameInput="w-full border p-2 rounded" onChange={handleInputChange} value={orderData.customer_name}/>
+              <InputValue text="Telephone" placeholder="Customer Phone..." type="text"  name="customer_phone"  classNameLabel="block font-semibold"  classNameInput="w-full border p-2 rounded"  onChange={handleInputChange}  value={orderData.customer_phone}/>
+              <TextareaValue text="Note order" placeholder="Customer Note..."  name="customer_note"  value={orderData.customer_note}  onChange={handleInputChange}  classNameLabel="block font-semibold"   classNameInput="w-full border p-2 rounded"/>
+              <InputValue text="Notes" placeholder="Notes...." type="text" name="note"  classNameLabel="block font-semibold"  classNameInput="w-full border p-2 rounded" onChange={handleNoteChange}  value={orderDetails.note}/>
               <div className="flex items-center gap-4">
                 <Button type="button" onClick={() => setQuantity((prev) => Math.max(1, prev - 1))} className="px-3 py-1 bg-gray-200 text-lg rounded hover:bg-gray-300" text="-"/>
                 <span>{quantity}</span>
                 <Button type="button" onClick={() => setQuantity((prev) => prev + 1)} className="px-3 py-1 bg-gray-200 text-lg rounded hover:bg-gray-300" text="+"/>
               </div>
-              <Button type="submit" text={`Thêm vào giỏ hàng (${(   Number(product.price) * quantity ).toFixed(3)} VND)`} className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"/>
+              <Button type="submit" text={`Add cart (${(   Number(product.price) * quantity ).toFixed(3)} VND)`} className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"/>
             </form>
           </div>
         </div>

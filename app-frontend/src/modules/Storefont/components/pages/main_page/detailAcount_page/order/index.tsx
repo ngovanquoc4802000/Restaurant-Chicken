@@ -11,13 +11,13 @@ function Order() {
         transition={{ duration: 1, ease: "easeOut" }}
       >
         <h1 className="text-[24px] text-center md:text-[24px] lg:text-[30px] font-extrabold uppercase mb-8">
-          ĐƠN HÀNG ĐÃ ĐẶT
+          ORDER PLACED
         </h1>
         <div className="grid grid-cols-1 md:flex md:flex-col md:grid-cols-2 gap-6 items-center bg-[#fbf9f7] p-8 rounded-lg">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold mb-4">BẮT ĐẦU ĐẶT MÓN!</h2>
+            <h2 className="text-3xl font-extrabold mb-4">START ORDER!</h2>
             <Link to="/menu-page">
-              <Button  className="bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-red-700"  text="Bắt đầu đặt hàng"/>
+              <Button  className="bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-red-700"  text="Start order"/>
             </Link>
           </div>
           <div className="flex justify-center">

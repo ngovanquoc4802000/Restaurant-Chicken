@@ -60,6 +60,7 @@ export const useDetailDishlist = (idDetail: number | undefined | null, onHideMod
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    console.log(name,value)
     setValue((prev) => ({
       ...prev,
       [name]: value,

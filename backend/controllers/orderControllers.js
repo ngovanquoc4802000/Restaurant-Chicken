@@ -445,7 +445,7 @@ export const updateOrderProcess = async (req, res) => {
     }
 
     const updateResult = await pool.query(
-      `UPDATE "order_table" SET process = $1, update_at = $2 WHERE id = $3`,
+      `UPDATE order_table SET process = $1, update_at = $2 WHERE id = $3`,
       [nextStep, now, orderId]
     );
 

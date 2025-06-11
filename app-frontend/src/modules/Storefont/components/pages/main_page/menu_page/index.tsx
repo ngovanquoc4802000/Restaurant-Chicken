@@ -14,7 +14,7 @@ function MenuPage() {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
         refs.current[id]?.scrollIntoView({
-          behavior: "smooth",
+          behavior: "instant",
           block: "start",
         });
       }, 50);
@@ -74,14 +74,13 @@ function MenuPage() {
                                 key={item.id}
                               >
                                 <div
-                                  className="product-card w-[11rem] md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
+                                  className="product-card cursor-pointer w-[11rem] md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
                                   onClick={() =>
                                     handleProductClick(
                                       String(section.id),
                                       item.title
                                     )
                                   }
-                                  style={{ cursor: "pointer" }}
                                 >
                                   {item.images?.[0]?.image && (
                                     <div className="Image shadow-md p-2 md:p-[5px] lg:p-[6px] ">
@@ -116,7 +115,7 @@ function MenuPage() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button  text="Thêm"  className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
+                                      <Button text="Add" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
                                     </div>
                                   )}
                                 </div>
@@ -127,7 +126,7 @@ function MenuPage() {
                       </div>
                     </div>
                   ) : (
-                    <p>Không có món ăn nào trong danh mục này.</p>
+                    <p>There are no dishes in this category.</p>
                   )}
                 </div>
               );

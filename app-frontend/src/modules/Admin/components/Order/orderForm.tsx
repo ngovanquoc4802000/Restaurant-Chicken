@@ -58,16 +58,22 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
   ]);
 
   return (
-    <form onSubmit={handleSubmitOrder} className="form">
-      <h2>Tạo Đơn Hàng Mới</h2>
+    <form
+      onSubmit={handleSubmitOrder}
+      className="form max-w-[600px] bg-blue-900 p-5 mt-auto absolute left-[25%] top-[10%] rounded-[5px] overflow-y-auto"
+    >
+      <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">Create new order</h2>
 
       <div>
-        <h3>Thông tin khách hàng</h3>
+        <h3 className="mb-2.5 text-white text-center text-[18px] bg-blue-700 font-bold rounded-[4px]">Customer information</h3>
         {isPending && <h1>Save...</h1>}
 
-        <div className="form-group">
-          <label htmlFor="user_id">User:</label>
+        <div className="form-group mb-3.5">
+          <label className=" text-white  block mb-4" htmlFor="user_id">
+            User:
+          </label>
           <select
+            className="w-full p-2 border bg-white text-black border-solid border-gray-300 rounded-[4px] ] text-w"
             id="user_id"
             name="user_id"
             value={String(orderData.user_id)}
@@ -76,7 +82,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           >
             <option value="">Select User</option>
             {userData?.map((user) => (
-              <option key={user.id} value={String(user.id)}>
+              <option className="text-black" key={user.id} value={String(user.id)}>
                 {user.fullname}
               </option>
             ))}
@@ -84,8 +90,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         </div>
 
         <div className="form-group">
-          <label>Địa chỉ:</label>
+          <label className=" text-white  block mb-4">Address:</label>
           <input
+            className="w-full p-2 border border-solid border-gray-300 rounded-[4px] bg-[#fff] text-black"
             type="text"
             name="address"
             value={orderData.address}
@@ -93,9 +100,10 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           />
         </div>
 
-        <div className="form-group">
-          <label>Ghi chú khách hàng:</label>
+        <div className="form-group text-white block mb-4">
+          <label className=" text-white  block mt-4 mb-4">Customer Note:</label>
           <textarea
+            className="w-full p-2 border border-solid border-gray-300 rounded-[4px] bg-[#fff] text-black"
             name="customer_note"
             value={orderData.customer_note || ""}
             onChange={handleOrderInputChange}
@@ -103,8 +111,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         </div>
 
         <div className="form-group">
-          <label>Tên khách hàng:</label>
+          <label className=" text-white  block mb-4">Customer name:</label>
           <input
+            className="w-full p-2 border border-solid border-gray-300 rounded-[4px] bg-[#fff] text-black"
             type="text"
             name="customer_name"
             value={orderData.customer_name || ""}
@@ -113,8 +122,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         </div>
 
         <div className="form-group">
-          <label>Số điện thoại:</label>
+          <label className=" text-white  block mb-4 mt-4">Telephone:</label>
           <input
+            className="w-full p-2 border border-solid border-gray-300 rounded-[4px] bg-[#fff] text-black"
             type="text"
             name="customer_phone"
             value={orderData.customer_phone || ""}
@@ -124,18 +134,19 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
       </div>
 
       {/* Thêm món ăn */}
-      <div className="dish-form">
-        <h3>Thêm món ăn</h3>
-        <div className="dish-grid">
+      <div className="dish-form mb-5 pt-5 border-t border-solid border-gray-300">
+        <h3 className="text-center text-[18px] rounded-[4px] font-bold text-white bg-blue-700">Add dishlist</h3>
+        <div className="dish-grid grid grid-cols-[1fr_1fr_1fr_auto] gap-2.5 mb-2.5 items-end">
           <div className="form-group">
-            <label>ID Món:</label>
+            <label  className=" text-white">ID dishlist:</label>
             <select
+              className="h-10 border border-solid border-gray-200 rounded-[4px] bg-white text-black"
               name="id_dishlist"
               id="id_dislist"
               value={String(orderDetails.id_dishlist)}
               onChange={handleOrderInputDetails}
             >
-              <option value="">Chọn món ăn</option>
+              <option value="">Options dishlist</option>
               {dishListId?.map((dishlist) => (
                 <option key={dishlist.id} value={String(dishlist.id)}>
                   {dishlist.name}
@@ -145,8 +156,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           </div>
 
           <div>
-            <label>Số lượng:</label>
+            <label  className=" text-white">Quantity:</label>
             <input
+            className="border bg-white border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black"
               type="number"
               name="quantity"
               value={orderDetails.quantity}
@@ -155,8 +167,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           </div>
 
           <div>
-            <label>Giá:</label>
+            <label  className=" text-white">Price:</label>
             <input
+            className="border border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black bg-white"
               type="number"
               name="price"
               value={orderDetails.price}
@@ -165,13 +178,19 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           </div>
 
           <div>
-            <button onClick={handleAddDish}>Thêm</button>
+            <button
+              className="px-2.5 py-3.5 bg-blue-500 text-white border-none rounded-[4px] cursor-pointer relative top-[32%]"
+              onClick={handleAddDish}
+            >
+              Add
+            </button>
           </div>
         </div>
 
-        <div className="dish-note">
-          <label>Ghi chú món ăn:</label>
+        <div className="dish-note mb-3">
+          <label className="block mb-1 text-white">Food notes:</label>
           <input
+            className="w-full p-1.5 rounded-[4px] border border-solid border-gray-300 bg-white text-black"
             type="text"
             name="note"
             value={orderDetails.note}
@@ -180,35 +199,35 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         </div>
       </div>
 
-      <div className="order-summary">
-        <h3>Chi tiết đơn hàng ({orderData.details?.length} món)</h3>
+      <div className="order-summary border-t border-solid text-white border-gray-200 pt-5 mb-5">
+        <h3>Details Order ({orderData.details?.length} dishlist)</h3>
         {orderData.details?.length === 0 ? (
-          <p>Chưa có món nào được thêm.</p>
+          <p className="text">No dishes have been added yet</p>
         ) : (
-          <ul>
+          <ul className="list-none p-0">
             {orderData.details?.map((item, index) => (
-              <li key={index}>
-                Món {index + 1}: ID {findNameDishList(item.id_dishlist)}, SL{" "}
-                {item.quantity}, Giá {item.price} - Ghi chú:{" "}
-                {item.note || "Không"}
+              <li key={index} className="border-b border-dashed border-gray-300 pb-2.5 mb-2.5 text-gray-300">
+                dishlist {index + 1}: ID {findNameDishList(item.id_dishlist)}, quantity{" "}
+                {item.quantity}, Giá {item.price} - notes:{" "}
+                {item.note || "No"}
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <button className="submit-button" disabled={isPending} type="submit">
-        Tạo Đơn Hàng
+      <button className="submit-button w-full disabled:bg-gray-400 cursor-not-allowed  p-2.5 bg-[#28a745] text-white border-none rounded-[4px] cursor-pointer text-base mb-2.5" disabled={isPending} type="submit">
+        Create order
       </button>
 
-      <div className="form-actions">
-        <button type="submit" className="save-button" disabled={isPending}>
+      <div className="form-actions flex justify-end">
+        <button type="submit" className="save-button mr-1 px-[8px] py-[10px] bg-[#007bff] border-none text-white rounded-[4px] cursor-pointer disabled:bg-gray-500 cursor-not-allowed" disabled={isPending}>
           {idDetail ? "Update" : "Save"}
           {isPending && (
             <span className="spinner-border spinner-border-sm"></span>
           )}
         </button>
-        <Button text="cancel" onClick={onHideModal} />
+        <Button className="bg-red-400 border-none text-white px-[10px] py-[15px] rounded-[4px] cursor-pointer" text="cancel" onClick={onHideModal} />
       </div>
     </form>
   );

@@ -27,7 +27,7 @@ const DetailStatusCategory = ({ item }: DetailTs) => {
   return (
     <>
       <button
-        className={`text-white border-none rounded-[4px] py-1.5 px-3`}
+        className={`text-white border-none rounded-[4px] cursor-pointer py-1.5 px-3`}
         disabled={false}
         onClick={() => handleDeactivate(item.id)}
         style={{

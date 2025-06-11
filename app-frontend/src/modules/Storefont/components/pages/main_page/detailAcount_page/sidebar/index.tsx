@@ -22,10 +22,10 @@ function Sidebar() {
             className="w-16 h-16 bg-white rounded-full p-2"
           />
           <div className=" flex flex-col item-start">
-            <h2 className="text-2xl font-extrabold">XIN CHÀO,</h2>
+            <h2 className="text-2xl font-extrabold">Hello,</h2>
             <h2 className="text-2xl font-extrablod">{fullname}</h2>
             <NavLink style={{ textDecoration: "revert" }} to="/">
-              Đăng Xuất
+              Log out
             </NavLink>
           </div>
           <nav className="text-sm w-full whitespace-nowrap overflow-x-auto  text-zinc-300 md:w-full md:mt-6 md:space-y-2 md:text-left">
@@ -37,7 +37,7 @@ function Sidebar() {
                     isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
-                  Chi tiết đơn hàng
+                  Detail Order
                 </NavLink>
               </li>
               <li className="pl-2 lg:text-[18px] mb-[8px] md:mb-0 lg:mb-0 md:pl-0 lg:pl-0 p-2 bg-red-500 md:bg-black lg:bg-black  mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
@@ -47,7 +47,7 @@ function Sidebar() {
                     isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
-                  Địa chỉ của bạn
+                  Your Address
                 </NavLink>
               </li>
               <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
@@ -57,7 +57,7 @@ function Sidebar() {
                     isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
-                  Đơn hàng đã đặt
+                  Order Placed
                 </NavLink>
               </li>
               <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2   bg-red-500 mb-[8px] md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
@@ -67,7 +67,7 @@ function Sidebar() {
                     isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
-                  Đơn hàng yêu thích
+                 Favorite Order
                 </NavLink>
               </li>
             </ul>

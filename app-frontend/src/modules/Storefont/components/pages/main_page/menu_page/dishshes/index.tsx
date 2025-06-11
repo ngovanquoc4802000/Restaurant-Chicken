@@ -29,7 +29,7 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
 
   return (
     <div className=" xl:max-w-[1200px] xl:m-auto">
-      <h2 className="text-[20px] md:text-[20px] lg:text-[24px] ml-8 font-black ">CÓ THỂ BẠN SẼ THÍCH MÓN NÀY</h2>
+      <h2 className="text-[20px] md:text-[20px] lg:text-[24px] ml-8 font-black ">We Think You’ll Love These</h2>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
         <Button text="&lt;" onClick={previous} className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" />
         <div className="meal-suggestion-section__viewport w-full overflow-hidden">
@@ -59,7 +59,7 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-                <Button text="Thêm" className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600" />
+                <Button text="Add" className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600" />
               </div>
             ))}
           </div>

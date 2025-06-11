@@ -34,7 +34,7 @@ function Header() {
                   className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   to="/menu-page"
                 >
-                  THỰC ĐƠN
+                  MENU
                 </NavLink>
               </li>
               <li className="header__menu-item-inline">
@@ -42,7 +42,7 @@ function Header() {
                   className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
-                  KHUYẾN MÃI
+                  DEALS
                 </a>
               </li>
               <li className="header__menu-item-inline">
@@ -50,7 +50,7 @@ function Header() {
                   className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
-                  DỊCH VỤ TIỆC
+                  BOOK A PARTY
                 </a>
               </li>
               <li className="header__menu-item-inline">
@@ -58,7 +58,7 @@ function Header() {
                   className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
-                  HỆ THỐNG NHÀ HÀNG
+                  FIND A KFC
                 </a>
               </li>
             </ul>
@@ -135,7 +135,7 @@ function Header() {
         />
         <div className="offcanvas__content p-5 pt-10">
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">
-            DANH MỤC MÓN ĂN
+            CATEGORY DISH
           </h3>
 
           <ul className="offcanvas__menu list-none p-0 mb-5">
@@ -151,40 +151,40 @@ function Header() {
           </ul>
 
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">
-            VỀ KFC
+            About KFC
           </h3>
 
           <ul className="offcanvas__menu list-none p-0 ">
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Câu Chuyện Của Chúng Tôi</a>
+              <a href="#">Our Story</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Tin Khuyến Mãi</a>
+              <a href="#">Promotion News</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Tin tức KFC </a>
+              <a href="#">KFC NEWS </a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Tuyển dụng</a>
+              <a href="#">KFC Jobs</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Đặt tiệc Sinh nhật</a>
+              <a href="#">Book Your Party</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Đơn Lớn Giá Hời</a>
+              <a href="#">Big Order</a>
             </li>
           </ul>
 
           <h3 className="offcanvas__title border-b border-gray-300 text-[#e4002b] mt-4 mb-3 text-[1.1rem] font-semibold pb-[5px]">
-            LIÊN HỆ KFC
+            Contact KFC
           </h3>
 
           <ul className="offcanvas__menu list-none p-0 ">
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Theo dõi đơn hàng</a>
+              <a href="#">Order Tracker</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Liên hệ KFC</a>
+              <a href="#">Contact Us</a>
             </li>
           </ul>
         </div>

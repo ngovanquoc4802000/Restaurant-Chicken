@@ -7,7 +7,6 @@ import Button from "../../../../../common/button/button";
 import InputValue from "../../../../../common/input";
 
 function Register() {
-  
   const { dispatch, value, setValue, updateSave, isPending } = useRegister();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -27,9 +26,7 @@ function Register() {
   };
   return (
     <div className="register-page gid grid-cols-2 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
-      {isPending && (
-        <p style={{ textAlign: "center", color: "blue" }}>Saving...</p>
-      )}
+      {isPending && <p className="text-center text-blue-500">Saving...</p>}
       <Header />
       <div className="register-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-0 md:px-20 lg:px-20">
         <div className="register-banner itemns bg-[#e4002b] text-white mt-14 md:mt-0 lg:mt-0 md:p-8 lg:p-8 flex flex-col justify-center items-center text-center">
@@ -41,13 +38,13 @@ function Register() {
         </div>
         <div className="register-form p-12 md:p-12 md:mt-3.5 flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4 text-center font-bold">
-            TẠO TÀI KHOẢN
+            Create Register
           </h2>
           <form className="flex flex-col " onSubmit={handleSubmit}>
             <InputValue
               classNameLabel="md:text-[18px]"
               classNameInput={" p-2 border border-gray-500 rounded mt-1 w-full"}
-              text="Họ và tên của bạn *"
+              text="Fullname *"
               type="text"
               name="fullname"
               value={value.fullname}
@@ -55,7 +52,7 @@ function Register() {
             />
             <InputValue
               classNameLabel="md:text-[18px]"
-              text="Số điện thoại"
+              text="Telephone *"
               value={value.phone_number}
               type="tel"
               name="phone_number"
@@ -65,7 +62,7 @@ function Register() {
             <InputValue
               classNameLabel="md:text-[18px]"
               classNameInput={"w-full p-2 border border-gray-500 rounded mt-1"}
-              type="email"
+              type="Email *"
               name="email"
               value={value.email}
               text="Email của bạn *"
@@ -73,7 +70,7 @@ function Register() {
             />
             <InputValue
               classNameLabel="md:text-[18px]"
-              text="Địa chỉ của bạn *"
+              text="Address *"
               type="address"
               name="address"
               value={value.address}
@@ -82,7 +79,7 @@ function Register() {
             />
             <InputValue
               classNameLabel="md:text-[18px]"
-              text="Mật khẩu *"
+              text="Password *"
               type="password"
               name="password"
               value={value.password}
@@ -97,9 +94,8 @@ function Register() {
                 required
               />
               <label htmlFor="agree" className="text-[18px]">
-                Tôi đã đọc và đồng ý với các{" "}
-                <a href="#">Chính Sách Hoạt Động</a> và{" "}
-                <a href="#">Chính Sách Bảo Mật</a>.
+                I have read and agree to the <a href="#">Operational policy</a>{" "}
+                <a href="#">Privacy policy</a>.
               </label>
             </div>
             <Button
@@ -110,13 +106,13 @@ function Register() {
           </form>
           <div className="login text-center p-3">
             <label htmlFor="" className="text-[16px] md:text-[18px]">
-              Bạn đã có tài khoản
+             You already have an account
             </label>
             <NavLink
               className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2"
               to="/login"
             >
-              Đăng nhập
+              Login
             </NavLink>
           </div>
         </div>

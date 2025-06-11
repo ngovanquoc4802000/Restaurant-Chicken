@@ -10,14 +10,14 @@ interface MenuItemsDataTs {
 }
 
 const menuItemsData: MenuItemsDataTs[] = [
-  { id: 1, label: "Ưu Đãi", path: "/menu-page" },
-  { id: 2, label: "Món mới", path: "/menu-page" },
-  { id: 3, label: "Combo 1 Người", path: "/menu-page" },
-  { id: 4, label: "Combo Nhóm", path: "/menu-page" },
-  { id: 5, label: "Gà Rán - Gà Quay", path: "/menu-page" },
-  { id: 6, label: "Burger - Cơm - Mỳ Ý", path: "/menu-page" },
-  { id: 7, label: "Thức ăn nhẹ", path: "/menu-page" },
-  { id: 8, label: "Thức uống & Tráng miệng", path: "/menu-page" },
+  { id: 1, label: "Hot Deals", path: "/menu-page" },
+  { id: 2, label: "New products", path: "/menu-page" },
+  { id: 3, label: "Combo for 1", path: "/menu-page" },
+  { id: 4, label: "Combo for sharing", path: "/menu-page" },
+  { id: 5, label: "Fried & Roasted", path: "/menu-page" },
+  { id: 6, label: "Rice - Burger - Pasta", path: "/menu-page" },
+  { id: 7, label: "Snack", path: "/menu-page" },
+  { id: 8, label: "Dessert & Drinks", path: "/menu-page" },
 ];
 
 export const useHeaderPages = () => {

@@ -13,7 +13,7 @@ function ProductDetail() {
 
   if (error) return `Error Product Details ${error}`;
 
-  if (!product) return <div>Sản phẩm không tồn tại</div>;
+  if (!product) return <div>Product does not exits</div>;
   
   return (
     <div className="productDetail-container cursor-pointer">
@@ -39,7 +39,7 @@ function ProductDetail() {
           <div className="md:p-4">
             <div className="product-button justify-start mb-[-10rem] md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px] md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
               {isActive && <ModalLogin />}
-              <Button onClick={handleOrderClick} className="w-11/12 py-4 px-8 border-none rounded-[50px] text-center text-white bg-[#e4002b] font-bold text-xl cursor-pointer mt-4 hover:bg-[#c90025] transition-colors duration-200"  text="Đặt Hàng"/>
+              <Button onClick={handleOrderClick} className="w-11/12 py-4 px-8 border-none rounded-[50px] text-center text-white bg-[#e4002b] font-bold text-xl cursor-pointer mt-4 hover:bg-[#c90025] transition-colors duration-200"  text="Start order"/>
             </div>
           </div>
         </div>

@@ -13,17 +13,17 @@ function ModalLogin() {
       
       {isError && (
         <p className="text-center text-red-500">
-          Bạn đã nhập sai Password hoặc Email
+         You have entered the wrong Password or Email
         </p>
       )}
       <div className="modal-box">
-        <h2>Đăng Nhập</h2>
+        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <InputValue text="Email" classNameInput="email"  type="email" name="email"  placeholder="Nhập email"  value={value.email}  onChange={handleOnchange}/>
-          <InputValue classNameInput="password" name="password"  type="password"  placeholder="Nhập mật khẩu"  onChange={handleOnchange}  value={value.password}/>
-          <Button type="submit" text="Đăng nhập" />
+          <InputValue  classNameInput="email"  type="email" name="email"  placeholder="Email..."  value={value.email}  onChange={handleOnchange}/>
+          <InputValue classNameInput="password" name="password"  type="password"  placeholder="Password..."  onChange={handleOnchange}  value={value.password}/>
+          <Button type="submit" text="Login" />
         </form>
-        <NavLink to="/login/register">Đăng kí</NavLink>
+        <NavLink to="/login/register">Register</NavLink>
       </div>
     </div>
   );

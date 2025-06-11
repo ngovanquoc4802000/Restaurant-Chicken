@@ -18,12 +18,12 @@ function DetailChildren() {
         transition={{ duration: 1, ease: "easeOut" }}
       >
         <div className="flex-1 md:pl-6 md:pr-0 px-6 1 pt-5 md:pt-0 lg:pt-0 xl:pt-0">
-          <h1 className="text-3xl  font-extrabold uppercase mb-8">Chi tiết tài khoản</h1>
+          <h1 className="text-3xl  font-extrabold uppercase mb-8">Detail Account</h1>
           <form className="space-y-6 max-w-3xl">
-            <InputValue classNameLabel="block text-sm font-medium"  text="Tên của bạn *" type="text" defaultValue={fullname} classNameInput="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1"/>
-            <InputValue classNameLabel="block text-sm font-medium" text="Số điện thoại *" type="text" defaultValue={phone_number} classNameInput="mt-1 block w-full border-b border-gray-400 focus-outline-none py-1"  />
-            <InputValue classNameLabel="block text-sm font-medium"  text="Địa chỉ email của bạn" type="email" defaultValue={email} classNameInput="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1 text-gray-400"/>
-            <Button text="Cập nhật tài khoản" type="submit" className="bg-red-600 hover:bg-red-700 text-white font-bold w-full py-3 rounded-full shadow-md" />
+            <InputValue classNameLabel="block text-sm font-medium"  text="Your name *" type="text" defaultValue={fullname} classNameInput="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1"/>
+            <InputValue classNameLabel="block text-sm font-medium" text="Your Telephone *" type="text" defaultValue={phone_number} classNameInput="mt-1 block w-full border-b border-gray-400 focus-outline-none py-1"  />
+            <InputValue classNameLabel="block text-sm font-medium"  text="Your Email *" type="email" defaultValue={email} classNameInput="mt-1 block w-full border-b border-gray-400 focus:outline-none py-1 text-gray-400"/>
+            <Button text="Update Account" type="submit" className="bg-red-600 hover:bg-red-700 text-white font-bold w-full py-3 rounded-full shadow-md" />
           </form>
         </div>
       </motion.div>

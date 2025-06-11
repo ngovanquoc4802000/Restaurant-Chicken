@@ -6,7 +6,7 @@ interface detailImageTs {
 
 function DetailById({ item, onHideModal }: detailImageTs) {
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay ">
       <div className="modal-content">
         <h2 style={{ textAlign: "center" }}>Details Id Dishlist</h2>
         {item && item.length > 0 ? (

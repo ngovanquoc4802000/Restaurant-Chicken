@@ -16,7 +16,7 @@ function Welcome() {
         </div>
         
         <h1 className="text-[20px] lg:text-[30px] font-extrabold leading-tight">
-          CHÀO MỪNG <br /> TRỞ LẠI,
+          Welcome <br /> Return,
         </h1>
         <h2 className="text-4xl font-extrabold text-red-700 mt-2">
           {fullname}
@@ -27,7 +27,7 @@ function Welcome() {
             className="text-sm lg:text-md text-gray-600 hover:text-black underline inline-flex items-center"
             to="/account"
           >
-            Tài khoản của tôi
+            My Account
           </NavLink>
           <span className="ml-1">→</span>
         </div>

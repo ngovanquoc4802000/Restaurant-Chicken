@@ -48,7 +48,7 @@ function Login() {
                 {errorMessage}
               </h2>
               <p className="text-gray-700 text-center mb-6">
-                Đăng nhập thất bại , vui lòng nhập lại !
+                Login fails , Please enter !
               </p>
               <div className="flex justify-center">
                 <Button
@@ -72,12 +72,12 @@ function Login() {
           </div>
           <div className="login-form p-9 flex flex-col justify-center">
             <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">
-              ĐĂNG NHẬP
+              Login
             </h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <InputValue
                 classNameLabel="mb-4 text-[14px] md:text-[18px] "
-                text="Địa chỉ email của bạn *"
+                text="Address *"
                 name="email"
                 type="email"
                 value={value.email}
@@ -86,7 +86,7 @@ function Login() {
               />
               <InputValue
                 classNameLabel="text-[14px] md:text-[18px]"
-                text="Mật khẩu *"
+                text="Password *"
                 type="password"
                 name="password"
                 value={value.password}
@@ -98,33 +98,33 @@ function Login() {
                 target="_blank"
                 href="#"
               >
-                Bạn quên mật khẩu?
+                Forgot Your Password?
               </a>
               <Button
                 type="submit"
-                text="Đăng nhập"
+                text="Login"
                 className="btn-login bg-[#28a745] text-white p-3 border-none rounded-3xl md:text-[18px] cursor-pointer mb-4"
               />
             </form>
 
             <div className="divider text-center my-4 mx-0 md:text-18px">
-              Hoặc tiếp tục với
+              Or continue with
             </div>
             <Button
               className="bg-black p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-apple"
-              text="Đăng nhập bằng Apple"
+              text="Sign in with Apple"
             />
             <Button
               className="bg-[#db4437] p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-google"
-              text="Đăng nhập bằng Google"
+              text="Sign in with Google"
             />
             <p className="text-center mt-4 md:text-[18px]">
-              Bạn chưa có tài khoản?
+              You do not have an account?
               <NavLink
                 className="text-[#007bff] font-bold md:text-[18px] ml-2"
                 to="register"
               >
-                Đăng ký
+                Register
               </NavLink>
             </p>
           </div>

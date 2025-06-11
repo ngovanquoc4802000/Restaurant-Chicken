@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 import Button from "../../../../../../common/button/button";
+import shipping from "../../../../assets/shipprt.png";
+import cart from "../../../../assets/cart-heading.png";
 
 function OrderOptionsPage() {
   return (
@@ -7,17 +9,17 @@ function OrderOptionsPage() {
       <div className="order-options__container pt-[75px] lg:pt-[0px] md:pt-[100px]  md:flex justify-center">
         <div className="order-options__links flex items-center">
           <a href="#" className="order-options__link order">
-            Đặt Ngay
+            Book now
           </a>
-          <img src="src/modules/FrontStore/assets/shipprt.png" alt="" />
-          <a className="order-options__link">Giao Hàng</a>
-          <img src="src/modules/FrontStore/assets/cart-heading.png" alt="" />
-          <span className="order-options__separator">hoặc Mang đi</span>
+          <img src={shipping} alt="" />
+          <a className="order-options__link">delivery</a>
+          <img src={cart} alt="" />
+          <span className="order-options__separator">or take away</span>
         </div>
         <NavLink to="/menu-page">
           <Button
             className="order-options__button rounded-[50px] cursor-pointer"
-            text="Bắt đầu đặt hàng"
+            text="Start order"
           />
         </NavLink>
       </div>

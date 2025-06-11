@@ -14,7 +14,7 @@ function Category() {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
         refs.current[id]?.scrollIntoView({
-          behavior: "smooth",
+          behavior: "instant",
           block: "start",
         });
       }, 50);
@@ -115,7 +115,7 @@ function Category() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button text="Thêm" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
+                                      <Button text="Add" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
                                     </div>
                                   )}
                                 </div>
@@ -127,7 +127,7 @@ function Category() {
                     </div>
                   ) : (
                     <p className="m-5 md:m-5 lg:m-5 font-stretch-50%">
-                      Không có món ăn nào trong danh mục này.
+                      There are no dishes in this category..
                     </p>
                   )}
                 </div>
