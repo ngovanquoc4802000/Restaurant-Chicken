@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import queriesOrder from "../../queries/orders";
-import "./OrderList.scss";
 import { useOrderForm } from "../../hooks/useOrderForm";
 import Button from "../../../../common/button/button";
 
