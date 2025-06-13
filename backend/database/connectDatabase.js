@@ -5,7 +5,7 @@ const pool = new Pool({
     port: process.env.port || "5432",
     user: process.env.user || "postgres",
     password: process.env.PASSWORD ||  "123456",
-    database: process.env.DATABASE ||  "postgres"
+    database: process.env.DATABASE ||  "postgres",
 }) 
 
 export default pool;

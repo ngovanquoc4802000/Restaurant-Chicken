@@ -12,7 +12,6 @@ $breakpoint-desktop: 1024px;
 @media (min-width: $breakpoint-tablet) {
   .order-options {
     &__links {
-      padding: 5px 15px;
       a {
         color: $secondary-color;
         padding: 5px 15px;

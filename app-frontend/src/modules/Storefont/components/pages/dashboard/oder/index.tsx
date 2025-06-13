@@ -6,12 +6,12 @@ import cart from "../../../../assets/cart-heading.png";
 
 function OrderOptions() {
   return (
-    <div className="order-options static bg-[#201224]  p-2 md:p-4 grid grid-cols-1 items-center justify-center text-white md:grid-areas-[links_button]">
+    <div className="order-options static bg-[#201224] md:pt-[7.5rem] md:pb-[1rem] lg:pt-[1rem] grid grid-cols-1 items-center justify-center text-white md:grid-areas-[links_button]">
       <div className="order-options__container pt-[105px] md:pt-[0px] md:flex justify-center">
-        <div className="order-options__links flex items-center">
+        <div className="order-options__links  flex items-center">
           <a
             href="#"
-            className="order-options__link order text-[16px] md:text-[18px]"
+            className="order-options__link md:px-[5px] md:py-[15px] order text-[16px] md:text-[18px]"
           >
             Book now
           </a>

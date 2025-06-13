@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../../../../../common/button/button";
 import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
+import logoMobile from "../../../../assets/kfclogo.png";
 import cart1 from "../../../../assets/cart1.png";
 import "./styles.scss";
 
@@ -84,7 +85,7 @@ function Header() {
                 width={78}
                 height={78}
                 className="logo block max-w-full h-auto"
-                src="src/modules/FrontStore/assets/kfclogo.png"
+                src={logoMobile}
                 alt="hình ảnh logo"
               />
             </NavLink>

@@ -6,7 +6,7 @@ interface CategoriesTs {
 
 function Categories({ category }: CategoriesTs) {
   return (
-    <div className="xl:max-w-[1200px] xl:m-auto  ">
+    <div className="xl:max-w-[1200px] xl:m-auto md:pt-[2rem] ">
       <h1 className="text-[28px] ml-3.5 md:ml-5 lg:md-5 mb-2 md:mb-5 lg:mb-5 lg:mt-4 font-bold">Category dish</h1>
       <section className="menu-sectio  gap-5 py-0 px-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 ">
           {

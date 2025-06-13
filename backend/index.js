@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+console.log(process.env.JWT_SECRET);
 import express from "express";
 import bodyParser from "body-parser";
-import dotenv from "dotenv";
 import morgan from "morgan";
 import {} from "colors";
 import pool from "./database/connectdatabase.js";
@@ -9,16 +11,12 @@ import cors from "cors";
 
 import routerCategoryApi from "./router/category.js";
 
-import routerDishlist from './router/dishList.js';
+import routerDishlist from "./router/dishList.js";
 import routerOrder from "./router/order.js";
-
 const app = express();
 
-dotenv.config();
-
 //PORT
-const PORT = process.env.PORT ||7777;
-
+const PORT = process.env.PORT || 7777;
 //middlewares
 app.use(
   cors({
@@ -29,7 +27,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use("/category", routerCategoryApi);
-app.use("/dishlist",routerDishlist)
+app.use("/dishlist", routerDishlist);
 app.use("/user", routerUser);
 app.use("/order", routerOrder);
 
@@ -37,10 +35,9 @@ app.get("/", (req, res) => {
   res.status(200).send("<h1> Đã thành công Kết nối PostgreSQL</h1>");
 });
 
-
 pool.on("connect", () => {
-  console.log("connect postgreSQL thành công")
-})
+  console.log("connect postgreSQL thành công");
+});
 
 pool
   .query("SELECT 1")

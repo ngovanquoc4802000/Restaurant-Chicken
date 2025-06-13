@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { close } from "../../components/pages/features/modal";
+import { useState } from "react";
 
 interface MenuItemsDataTs {
   id: number;
@@ -21,6 +22,8 @@ const menuItemsData: MenuItemsDataTs[] = [
 ];
 
 export const useHeaderPages = () => {
+    const [open, setOpen] = useState(false);
+  
   const cartItems = useSelector((state: RootState) =>
     state.cart.map((item) => item)
   );
@@ -38,8 +41,17 @@ const handleNavigate = (path: string) => {
       navigate(path);
     }, 50);
   };
+ const handleOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false); 
+  };
   return {
+    open,
+    handleClose,
+    handleOpen,
     navigate,
     menuItemsData,
     cartItems,

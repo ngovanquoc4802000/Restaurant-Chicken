@@ -8,7 +8,7 @@ function DetailAccountPage() {
     <div>
       <Header />
       <div className="pt-16 md:pr-0 lg:px-0  md:pt-26 lg:pt-0 lg:pb-0 ">
-        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-0 gap-6 lg:gap-0 xl:mx-[158px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-0 gap-0 lg:gap-0 xl:mx-[158px]">
           <div className="md:col-span-1 bg-black gap-0 md:bg-black lg:col-span-1 lg:bg-black lg:rounded-b-none">
             <Sidebar />
           </div>

@@ -1,12 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useLogin } from "../../../hooks/authen/useLoginPages";
-import { close } from "../features/modal";
-import Footer from "../dashboard/footer";
-import Header from "../dashboard/header";
 import Button from "../../../../../common/button/button";
 import InputValue from "../../../../../common/input";
-import "../dashboard/styles.scss";
 import "../../../assets/Screenshot 2025-05-08 164110.png";
+import { useLogin } from "../../../hooks/authen/useLoginPages";
+import Footer from "../dashboard/footer";
+import Header from "../dashboard/header";
+import "../dashboard/styles.scss";
+import { close } from "../features/modal";
 
 function Login() {
   const {

@@ -1,33 +1,35 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { close, open } from "../../features/modal";
-import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
 import Button from "../../../../../../common/button/button";
-import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
 import cart1 from "../../../../assets/cart1.png";
+import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
+import logo from "../../../../assets/kfclogo.png";
+import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
+
 function Header() {
   const {
+    open,
+    handleClose,
+    handleOpen,
     totalQuantity,
     menuItemsData,
-    dispatch,
-    isOffcanvasOpen,
     handleNavigate,
   } = useHeaderPages();
 
   return (
     <>
       <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-        <div className="header__left flex items-center justify-between">
-          <div className="header__logo flex  md:items-center md:justify-center rounded-full">
+        <div className="header__left flex md:items-center md:justify-center">
+          <div className="header__logo flex md:items-center md:justify-center rounded-full">
             <NavLink to="/home">
               <img
-                className="logo w-[78px] h-[78px] block max-w-full h-auto block"
+                className="logo w-[78px] h-[78px] block max-w-full h-auto"
                 src={KfcLogoSVG}
                 alt="hình ảnh logo"
               />
             </NavLink>
           </div>
-          <nav className="header__nav-inline hidden">
+          <nav className="header__nav-inline hidden md:flex">
             <ul className="header__menu-inline list-none p-0 m-0 flex gap-5 md:gap-0">
               <li className="header__menu-item-inline">
                 <NavLink
@@ -83,7 +85,7 @@ function Header() {
 
             <NavLink to="/orderProduct">
               <img
-                className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down "
+                className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down"
                 src={cart1}
                 alt="Shopping Cart Icon"
               />
@@ -92,44 +94,49 @@ function Header() {
 
           <div className="w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]">
             <NavLink to="/account">
-              <i className=" fa-solid fa-circle-user"></i>
+              <i className="fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
-          <div className="flex-1 flex justify-center md:justify-start md:hidden lg:hidden">
+          <div className="flex-1 flex justify-center md:justify-start lg:hidden">
             <NavLink to="/home" className="block">
               <img
                 width={78}
                 height={78}
                 className="logo block max-w-full h-auto"
-                src="src/modules/FrontStore/assets/kfclogo.png"
+                src={logo}
                 alt="hình ảnh logo"
               />
             </NavLink>
           </div>
           <div
             className="w-6 lg:h-8 lg:w-8 h-6 text-[#333] cursor-pointer flex items-center justify-center text-[1.5rem]"
-            onClick={() => dispatch(open())}
+            onClick={handleOpen}
           >
             ☰
           </div>
         </div>
       </header>
 
+      {/* Offcanvas Overlay */}
       <div
-        className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
-          isOffcanvasOpen
-            ? "offcanvas-overlay--visible visible opacity-100 "
-            : ""
+        className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
+          open // Use 'open' state here
+            ? "offcanvas-overlay--visible visible opacity-100" // Added 'visible' and 'opacity-100' for clear visibility
+            : "invisible opacity-0" // Added 'invisible' and 'opacity-0' for clear hidden state
         }`}
-        onClick={() => dispatch(close())}
+        onClick={handleClose} // Clicking overlay closes it
       ></div>
+
+      {/* Offcanvas Panel */}
       <div
-        className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out  ${
-          isOffcanvasOpen ? "offcanvas-panel--open" : ""
+        className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out ${
+          open // Use 'open' state here
+            ? "offcanvas-panel--open translate-x-0" // Add translate-x-0 for visible state
+            : "translate-x-full" // Add translate-x-full for hidden state
         }`}
       >
         <Button
-          onClick={() => dispatch(close())}
+          onClick={handleClose} // Close button inside offcanvas
           className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"
           text="&times;"
         />
@@ -144,7 +151,11 @@ function Header() {
                 <Button
                   className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]"
                   text={item.label}
-                  onClick={() => handleNavigate(item.path)}
+                  // When navigating, also close the offcanvas
+                  onClick={() => {
+                    handleNavigate(item.path);
+                    handleClose();
+                  }}
                 />
               </li>
             ))}
@@ -181,10 +192,10 @@ function Header() {
 
           <ul className="offcanvas__menu list-none p-0 ">
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Order Tracker</a>
+              <a href="#">Order Tracker</a> {/* Close on click */}
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Contact Us</a>
+              <a href="#">Contact Us</a> {/* Close on click */}
             </li>
           </ul>
         </div>

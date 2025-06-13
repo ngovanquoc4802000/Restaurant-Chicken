@@ -1,15 +1,25 @@
 import { useEffect } from "react";
+import Button from "../../../../../../common/button/button";
 import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
-import { slugify } from "./ultils/slugify";
+import "../../dashboard/styles.scss";
 import Footer from "../footer";
 import Header from "../header";
 import OrderOptions from "../oder";
-import "../../dashboard/styles.scss";
-import Button from "../../../../../../common/button/button";
+import { slugify } from "./ultils/slugify";
 
 function Category() {
-  const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef} = useCategoryPages();
-  
+  const {
+    categories,
+    id,
+    dishlist,
+    handleProductClick,
+    handleClick,
+    isLoading,
+    isError,
+    refs,
+    setRef,
+  } = useCategoryPages();
+
   useEffect(() => {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
@@ -22,7 +32,8 @@ function Category() {
     }
   }, [id, refs]);
 
-  if (isLoading || categories.length === 0 || dishlist.length === 0) return <div>Loading...</div>;
+  if (isLoading || categories.length === 0 || dishlist.length === 0)
+    return <div>Loading...</div>;
 
   if (isError) return <div>Error loading category or dishes</div>;
 
@@ -32,11 +43,11 @@ function Category() {
       <OrderOptions />
       <div className="content">
         <div className="category-page">
-          <div className="tabs md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-auto whitespace-nowrap ">
+          <div className="tabs  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}
-                className="p-2 md:p-4 lg:p-6"
+                className="p-2 md:p-4 lg:p-6 hover:underline cursor-pointer"
                 onClick={() => handleClick(item.name)}
                 classNameLogic={
                   slugify(item.name) === id
@@ -47,7 +58,7 @@ function Category() {
               />
             ))}
           </div>
-          <div className="sections-product  pt-32 md:pt-[-2rem] lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
+          <div className="sections-product  pt-5 md:pt-[-2rem] lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
             {categories.map((section) => {
               const categorySlug = slugify(section.name);
               const sectionDishes = dishlist.filter(
@@ -58,7 +69,7 @@ function Category() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block scroll-mt-32 md:scroll-mt-32 lg:scroll-mt-44  xl:max-w-[1200px] xl:m-auto "
+                  className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-37 md:scroll-mt-40 lg:scroll-mt-47  xl:max-w-[1200px] xl:m-auto "
                 >
                   <h2 className="m-5 text-[16px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}
@@ -115,7 +126,10 @@ function Category() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button text="Add" className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"/>
+                                      <Button
+                                        text="Add"
+                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
+                                      />
                                     </div>
                                   )}
                                 </div>
