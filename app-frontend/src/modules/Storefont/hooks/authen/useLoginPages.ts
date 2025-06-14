@@ -38,10 +38,9 @@ export const useLogin = () => {
           setUser({
             id: userData.id,
             email: userData.email,
-            fullname: userData.fullname, // Thêm fullname
-            rule: userData.rule = "customer", // Thêm rule
-            accessToken: accessToken, // Thêm accessToken
-            // isAuthenticated sẽ được đặt tự động trong reducer
+            fullname: userData.fullname, 
+            rule: userData.rule = "customer", 
+            accessToken: accessToken,
           })
         );
         if (userData.rule === "customer") {
