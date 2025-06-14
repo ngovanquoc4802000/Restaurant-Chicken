@@ -16,37 +16,20 @@ if (!jwtKey) {
   process.exit(1);
 }
 
-const protect = (req, res, next) => {
-  const isHeaderAuth = req.headers.authorization;
-  if (isHeaderAuth && isHeaderAuth.startsWith("Bearer")) {
-    try {
-        /* ví dụ bearer 1334343 sẽ lấy 1334343 */
-      const token = isHeaderAuth.split(" ")[1]; /* lấy khoảng trắng và lấy đầu tiên */
-      const decoded = jwt.verify(token, jwtKey);
-      req.user = decoded;
-      next(); /* tỏa hết tất cả điều kiện thì mới được đi tiếp */
-    } catch (error) {
-      console.log("Error authentication token:  " + error.message);
-      if (error.name === "TokenExpiredError") {
-        return res
-          .status(401)
-          .json({ success: false, message: "Token đã hết hạn." });
-      }
-      if (error.name === "JsonWebTokenError") {
-        return res
-          .status(401)
-          .json({ success: false, message: "Token không hợp lệ." });
-      }
-      res
-        .status(401)
-        .json({
-          success: false,
-          message: "Không được phép truy cập, token không hợp lệ.",
-        });
+const middleware = (req,res,next) => {
+    const token = req.headers.token;
+    if (token) {
+      const accessToken = token.split(" ")[1];
+      jwt.verify(accessToken, jwtKey, (err, user) => {
+        if (err) {
+          res.status(403).json("Token is not valid");
+        }
+        req.user = user;
+        next();
+      });
+    } else {
+        res.status(401).json("You're not authenticated")
     }
-  } else {
-       res.status(401).json({ success: false, message: 'Không có token, ủy quyền bị từ chối.' });
-  }
 };
 
-export default protect;
+export default middleware;

@@ -5,6 +5,7 @@ import { createHash } from "crypto";
 import jwt from "jsonwebtoken";
 
 const JWTKey = process.env.JWT_SECRET;
+const JwtRefersh = process.env.JWT_REFERSH;
 
 const generateMD5 = (password) => {
   return createHash("md5").update(password).digest("hex");
@@ -260,51 +261,70 @@ export const userAPILogin = async (req, res) => {
       message: "Please provide email and password.",
     });
   }
-
   try {
     const hashedPassword = generateMD5(password);
 
     const result = await pool.query(
-      `SELECT id, fullname, email FROM "user" WHERE email = $1 AND password = $2`,
+      `SELECT id, fullname, email, rule FROM "user" WHERE email = $1 AND password = $2`,
       [email, hashedPassword]
     );
 
     if (result.rows.length === 1) {
-      /* admin: true , role:"admin" lấy từ db */
       const user = result.rows[0];
 
-      const payload = {
-        id: user.id,
+      const accessTokenPayload = {
+        sub: user.id.toString(),
         email: user.email,
         fullname: user.fullname,
+        rule: user.rule,
       };
 
-      /* có 3 cái jwt.sign, jwt.verify (xác minh kiểm tra được sử dụng trong các middleWare bảo vệ router) , jwt.decode ( giải mã) */
-      jwt.sign(
-        payload,
-        // Đảm bảo JWT_SECRET được định nghĩa ở đầu file (hoặc JWTKey nếu bạn dùng tên đó)
-        // const JWTKey = process.env.JWT_SECRET;
-        JWTKey,
-        { expiresIn: "1h" }, // Token hết hạn sau 3 giờ
-        (error, token) => {
-          if (error) {
-            console.error("Lỗi khi tạo JWT:", error);
-            // Đã sửa lỗi cú pháp res.status.json và biến lỗi
-            return res.status(500).json({
-              success: false,
-              message: "Error generating token.",
-              error: error.message,
-            });
-          }
-          // Nếu không có lỗi, gửi token và dữ liệu người dùng về client
-          res.status(200).json({
-            success: true,
-            message: "Login successful.",
-            token: token, // RẤT QUAN TRỌNG: Gửi JWT về client
-            data: { id: user.id, email: user.email, fullname: user.fullname },
+      const refreshTokenPayload = {
+        sub: user.id.toString(),
+        rule: user.rule,
+      };
+
+      // Promisify jwt.sign để sử dụng async/await
+      const signPromise = (payload, secret, options) => {
+        return new Promise((resolve, reject) => {
+          jwt.sign(payload, secret, options, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
           });
-        }
-      );
+        });
+      };
+      let accessToken;
+      let refreshToken;
+      try {
+        // Tạo Access Token
+        accessToken = await signPromise(accessTokenPayload, JWTKey, {
+          expiresIn: "1d",
+        });
+
+        refreshToken = await signPromise(refreshTokenPayload, JwtRefersh, {
+          expiresIn: "365d",
+        });
+      } catch (jwtError) {
+        console.error("Lỗi khi tạo JWT (Access/Refresh):", jwtError.message);
+        return res.status(500).json({
+          success: false,
+          message: "Error generating tokens.",
+          error: jwtError.message,
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Login successful.",
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        data: {
+          id: user.id,
+          email: user.email,
+          fullname: user.fullname,
+          rule: user.rule,
+        },
+      });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials." });
     }
