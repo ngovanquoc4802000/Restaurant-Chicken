@@ -1,12 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useLogin } from "../../../hooks/authen/useLoginPages";
+import { close } from "../features/modal";
 import Button from "../../../../../common/button/button";
 import InputValue from "../../../../../common/input";
-import "../../../assets/Screenshot 2025-05-08 164110.png";
-import { useLogin } from "../../../hooks/authen/useLoginPages";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 import "../dashboard/styles.scss";
-import { close } from "../features/modal";
+import "../../../assets/Screenshot 2025-05-08 164110.png";
 
 function Login() {
   const {
@@ -14,25 +14,15 @@ function Login() {
     dispatch,
     errorMessage,
     value,
-    setValue,
     createLogin,
     isPaused,
     isPending,
+    handleOnchange,
   } = useLogin();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     createLogin();
-  };
-
-  const handleOnchange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setValue((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   return (
@@ -77,7 +67,7 @@ function Login() {
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <InputValue
                 classNameLabel="mb-4 text-[14px] md:text-[18px] "
-                text="Address *"
+                text="Email *"
                 name="email"
                 type="email"
                 value={value.email}

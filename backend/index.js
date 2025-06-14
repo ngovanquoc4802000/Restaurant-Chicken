@@ -13,6 +13,7 @@ import routerCategoryApi from "./router/category.js";
 
 import routerDishlist from "./router/dishList.js";
 import routerOrder from "./router/order.js";
+import cookieParser from "cookie-parser";
 const app = express();
 
 //PORT
@@ -20,9 +21,11 @@ const PORT = process.env.PORT || 7777;
 //middlewares
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173", //cookie
+    credentials: true
   })
 );
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));

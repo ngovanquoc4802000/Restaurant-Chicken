@@ -1,17 +1,17 @@
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { createUserLogin } from "../../services/users";
-import { useMutation } from "@tanstack/react-query";
 import { open } from "../../components/pages/features/modal";
-import { setUser } from "../../components/pages/features/userLogin";
-import type { LoggedInUser } from "../../mockup/user";
+import type { LoginCredentials } from "../../mockup/user";
+import { createUserLogin } from "../../services/users";
 import type { RootState } from "../../store/store";
+import { setUser } from "../../components/pages/features/userLogin";
 
 export const useLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
-  const [value, setValue] = useState<LoggedInUser>({
+
+  const [value, setValue] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
@@ -25,7 +25,7 @@ export const useLogin = () => {
   const update = async () => {
     return await createUserLogin(value);
   };
- const {
+  const {
     isPending,
     isPaused,
     mutate: createLogin,
@@ -33,15 +33,21 @@ export const useLogin = () => {
     mutationFn: update,
     onSuccess: (data) => {
       if (data.success) {
+        const { accessToken, data: userData } = data;
         dispatch(
           setUser({
-            id: data.data.id,
-            email: data.data.email,
-            password: data.data.password,
+            id: userData.id,
+            email: userData.email,
+            fullname: userData.fullname, // Thêm fullname
+            rule: userData.rule = "customer", // Thêm rule
+            accessToken: accessToken, // Thêm accessToken
+            // isAuthenticated sẽ được đặt tự động trong reducer
           })
         );
-        setValue({ email: "", password: "" });
-        navigate("/home");
+        if (userData.rule === "customer") {
+          navigate("/home");
+          setValue({ email: "", password: "" });
+        }
       } else {
         setErrorMessage(
           data.message || data.data.email || "Đăng nhập không thành công."
@@ -55,7 +61,17 @@ export const useLogin = () => {
       dispatch(open());
     },
   });
+  const handleOnchange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   return {
+    handleOnchange,
     navigate,
     isOpen,
     dispatch,
@@ -66,6 +82,6 @@ export const useLogin = () => {
     update,
     createLogin,
     isPending,
-    isPaused
+    isPaused,
   };
 };

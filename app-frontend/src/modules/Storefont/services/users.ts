@@ -1,4 +1,4 @@
-import type { LoggedInUser, UserLoginResponse, UsersTs } from "../mockup/user";
+import type { LoginCredentials, UserLoginResponse, UsersTs } from "../mockup/user";
 import { Request } from "../utils/http";
 
 export const createUsersRegister = async (user: UsersTs) => {
@@ -11,14 +11,12 @@ export const createUsersRegister = async (user: UsersTs) => {
     }
   }
 }
-export const createUserLogin = async (login: LoggedInUser) => {
+export const createUserLogin = async (login: LoginCredentials) => {
   try {
     const result = await Request.post<UserLoginResponse>("user/login", login);
-
     if (result?.data.success === false) {
       throw new Error(result.data.message || "Email hoặc mật khẩu không đúng.");
     }
-
     return result.data; 
   } catch (error: unknown) {
     if (error instanceof Error) {

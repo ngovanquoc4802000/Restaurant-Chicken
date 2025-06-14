@@ -1,8 +1,9 @@
 import pool from "../database/connectdatabase.js";
 import dotenv from "dotenv";
 dotenv.config();
-import { createHash } from "crypto";
+import { createHash, secureHeapUsed } from "crypto";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 const JWTKey = process.env.JWT_SECRET;
 const JwtRefersh = process.env.JWT_REFERSH;
@@ -312,11 +313,16 @@ export const userAPILogin = async (req, res) => {
           error: jwtError.message,
         });
       }
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true, // Không thể truy cập bằng JavaScript
+        secure: process.env.NODE_ENV === "production", // Chỉ gửi qua HTTPS trong môi trường production
+        sameSite: "Strict", // Hoặc 'Strict' để bảo vệ chống CSRF, 'None' nếu cross-domain (cần secure: true)
+        maxAge: 365 * 24 * 60 * 60 * 1000, // Thời gian sống của cookie (365 ngày, tính bằng ms)
+      });
       res.status(200).json({
         success: true,
         message: "Login successful.",
         accessToken: accessToken,
-        refreshToken: refreshToken,
         data: {
           id: user.id,
           email: user.email,
