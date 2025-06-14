@@ -2,28 +2,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useRegister } from "../../../hooks/authen/userRegisterPages";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import { clearUserRegister } from "../features/userRegister";
 import Button from "../../../../../common/button/button";
 import InputValue from "../../../../../common/input";
 
 function Register() {
-  const { dispatch, value, setValue, updateSave, isPending } = useRegister();
+  const { handleSubmitRegister, onChangeRegister, valueRegister, isPending } =
+    useRegister();
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    dispatch(clearUserRegister());
-    updateSave();
-  };
-
-  const onChangeRegister = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setValue((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
   return (
     <div className="register-page gid grid-cols-2 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
       {isPending && <p className="text-center text-blue-500">Saving...</p>}
@@ -40,20 +25,20 @@ function Register() {
           <h2 className="text-[1.8rem] mb-4 text-center font-bold">
             Create Register
           </h2>
-          <form className="flex flex-col " onSubmit={handleSubmit}>
+          <form className="flex flex-col " onSubmit={handleSubmitRegister}>
             <InputValue
               classNameLabel="md:text-[18px]"
               classNameInput={" p-2 border border-gray-500 rounded mt-1 w-full"}
               text="Fullname *"
               type="text"
               name="fullname"
-              value={value.fullname}
+              value={valueRegister.fullname}
               onChange={onChangeRegister}
             />
             <InputValue
               classNameLabel="md:text-[18px]"
               text="Telephone *"
-              value={value.phone_number}
+              value={valueRegister.phone_number}
               type="tel"
               name="phone_number"
               onChange={onChangeRegister}
@@ -64,7 +49,7 @@ function Register() {
               classNameInput={"w-full p-2 border border-gray-500 rounded mt-1"}
               type="Email *"
               name="email"
-              value={value.email}
+              value={valueRegister.email}
               text="Email của bạn *"
               onChange={onChangeRegister}
             />
@@ -73,7 +58,7 @@ function Register() {
               text="Address *"
               type="address"
               name="address"
-              value={value.address}
+              value={valueRegister.address}
               onChange={onChangeRegister}
               classNameInput={"w-full p-2 border border-gray-500 rounded mt-1"}
             />
@@ -82,7 +67,7 @@ function Register() {
               text="Password *"
               type="password"
               name="password"
-              value={value.password}
+              value={valueRegister.password}
               onChange={onChangeRegister}
               classNameInput="w-full p-2 border border-gray-500 rounded mt-1"
             />
@@ -106,7 +91,7 @@ function Register() {
           </form>
           <div className="login text-center p-3">
             <label htmlFor="" className="text-[16px] md:text-[18px]">
-             You already have an account
+              You already have an account
             </label>
             <NavLink
               className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2"

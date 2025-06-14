@@ -6,7 +6,13 @@ import Footer from "../../../dashboard/footer";
 import Header from "../../header_page/header";
 
 function DetailsPage() {
-  const { isLoading, error, dishlist, quantity, orderData, orderDetails, product, isError, isSuccess, setQuantity, handleCart, handleInputChange, handleNoteChange,} = useProductDetailPages();
+  const {
+     isLoading,
+      error,
+     dishlist, 
+     quantity,
+      orderData, orderDetails, product, isError, isSuccess, setQuantity, handleCart,
+       handleInputChange, handleNoteChange,} = useProductDetailPages();
 
   if (isLoading || !dishlist) return <div>Loading...</div>;
 

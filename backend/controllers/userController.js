@@ -312,7 +312,6 @@ export const userAPILogin = async (req, res) => {
           error: jwtError.message,
         });
       }
-
       res.status(200).json({
         success: true,
         message: "Login successful.",

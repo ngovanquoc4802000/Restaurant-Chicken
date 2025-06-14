@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createUsersRegister } from "../../services/users";
-import { setUserRegister } from "../../components/pages/features/userRegister";
+import { clearUserRegister, setUserRegister } from "../../components/pages/features/userRegister";
 import { useMutation } from "@tanstack/react-query";
 import type { UsersTs } from "../../mockup/user";
 
@@ -16,15 +16,30 @@ const iniatialRegister: UsersTs = {
 };
 
 export const useRegister = () => {
+   const handleSubmitRegister = (e: { preventDefault: () => void }) => {
+      e.preventDefault();
+      dispatch(clearUserRegister());
+      updateSave();
+    };
+  
+    const onChangeRegister = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      const { name, value } = e.target;
+      setValueRegister((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    };
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const [value, setValue] = useState<UsersTs>(iniatialRegister);
+  const [valueRegister, setValueRegister] = useState<UsersTs>(iniatialRegister);
   
   const update = async () => {
-    const res = await createUsersRegister(value);
-    dispatch(setUserRegister(value));
+    const res = await createUsersRegister(valueRegister);
+    dispatch(setUserRegister(valueRegister));
     return res;
   };
   
@@ -32,12 +47,12 @@ export const useRegister = () => {
     mutationFn: update,
     onSuccess: (data) => {
       if (!data) return;
-      setValue(iniatialRegister);
+      setValueRegister(iniatialRegister);
       navigate("/login");
     },
     onError: (error) => {
       alert("Error dupting create" + error);
     },
   });
-  return { navigate, dispatch, value, setValue, isPending, updateSave };
+  return { handleSubmitRegister,onChangeRegister , navigate, dispatch, valueRegister, setValueRegister, isPending, updateSave };
 };

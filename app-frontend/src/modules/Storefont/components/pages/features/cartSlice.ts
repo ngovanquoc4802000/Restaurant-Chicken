@@ -10,25 +10,8 @@ type CartItem = {
   note: string;
 };
 
-/* 
-Khi ứng dụng khởi động: gọi loadCart() để khôi phục dữ liệu từ localStorage vào Redux.
-Khi giỏ hàng thay đổi: gọi saveCart() để cập nhật dữ liệu trong localStorage.
-*/
-const loadCart = (): CartItem[] => {
-  try {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-}
+const initialState: CartItem[] = [];
 
-const saveCart = (cart: CartItem[]) => {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-
-const initialState: CartItem[] = loadCart();
 
 const cartSlice = createSlice({
   name: "cart",
@@ -41,15 +24,12 @@ const cartSlice = createSlice({
       } else {
         state.push(action.payload);
       }
-      saveCart(state)
     },
     removeFromCart(state, action: PayloadAction<number>) {
       const update = state.filter(item => item.id_dishlist !== action.payload);
-      saveCart(update);
       return update;
     },
     clearCart() {
-      saveCart([]);
       return [];
     },
   },

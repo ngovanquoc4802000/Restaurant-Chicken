@@ -1,12 +1,18 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../../store/store";
+import { clearCart } from "../../../features/cartSlice";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
 
   const { fullname } = register;
+  const dispatch = useDispatch();
+  
+  const handleLogout = () => {
+    dispatch(clearCart());
+  }
 
   return (
     <motion.div
@@ -24,7 +30,7 @@ function Sidebar() {
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">Hello,</h2>
             <h2 className="text-2xl font-extrablod">{fullname}</h2>
-            <NavLink style={{ textDecoration: "revert" }} to="/">
+            <NavLink onClick={handleLogout} style={{ textDecoration: "revert" }} to="/">
               Log out
             </NavLink>
           </div>
