@@ -11,14 +11,14 @@ interface MenuItemsDataTs {
 }
 
 const menuItemsData: MenuItemsDataTs[] = [
-  { id: 1, label: "Hot Deals", path: "/menu-page" },
-  { id: 2, label: "New products", path: "/menu-page" },
-  { id: 3, label: "Combo for 1", path: "/menu-page" },
-  { id: 4, label: "Combo for sharing", path: "/menu-page" },
-  { id: 5, label: "Fried & Roasted", path: "/menu-page" },
-  { id: 6, label: "Rice - Burger - Pasta", path: "/menu-page" },
-  { id: 7, label: "Snack", path: "/menu-page" },
-  { id: 8, label: "Dessert & Drinks", path: "/menu-page" },
+  { id: 1, label: "Hot Deals", path: "/menu" },
+  { id: 2, label: "New products", path: "/menu" },
+  { id: 3, label: "Combo for 1", path: "/menu" },
+  { id: 4, label: "Combo for sharing", path: "/menu" },
+  { id: 5, label: "Fried & Roasted", path: "/menu" },
+  { id: 6, label: "Rice - Burger - Pasta", path: "/menu" },
+  { id: 7, label: "Snack", path: "/menu" },
+  { id: 8, label: "Dessert & Drinks", path: "/menu" },
 ];
 
 export const useHeaderPages = () => {
@@ -31,7 +31,7 @@ export const useHeaderPages = () => {
 
   const dispatch = useDispatch();
 
-  const isOffcanvasOpen = useSelector((state: RootState) => state.loginModal);
+  const isOffcanvasOpen = useSelector((state: RootState) => state.showLogin);
 
   const navigate = useNavigate();
 

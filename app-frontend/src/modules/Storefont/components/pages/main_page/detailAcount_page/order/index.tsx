@@ -16,7 +16,7 @@ function Order() {
         <div className="grid grid-cols-1 md:flex md:flex-col md:grid-cols-2 gap-6 items-center bg-[#fbf9f7] p-8 rounded-lg">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold mb-4">START ORDER!</h2>
-            <Link to="/menu-page">
+            <Link to="/menu">
               <Button  className="bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-red-700"  text="Start order"/>
             </Link>
           </div>

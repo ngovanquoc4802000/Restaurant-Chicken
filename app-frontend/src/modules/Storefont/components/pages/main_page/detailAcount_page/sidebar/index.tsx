@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../../store/store";
 import { clearCart } from "../../../features/cartSlice";
+import { clearUser } from "../../../features/userLogin";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
@@ -11,6 +12,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   
   const handleLogout = () => {
+    dispatch(clearUser());
     dispatch(clearCart());
   }
 

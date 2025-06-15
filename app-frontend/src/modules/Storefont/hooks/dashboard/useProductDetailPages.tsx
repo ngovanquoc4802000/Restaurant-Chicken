@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createOrder } from "../../../Admin/services/order";
@@ -30,15 +30,17 @@ export const useProductDetailsPage = () => {
 
   const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
   const isOpen = useSelector((state: RootState) => state.showLogin);
-  
+  useEffect(() => {
+     if(userRule === "customer") {
+      setIsActive(true)
+     } else {
+      setIsActive(false);
+     }
+  },[userRule])
   const handleOrderClick = () => {
     if(!isAuthentication) {
       dispatch(open());
-
-    } else if(userRule === "customer") {
-      setIsActive(true);
     } else {
-
       alert("admin không có quyền đăng nhập")
       dispatch(close());
     }

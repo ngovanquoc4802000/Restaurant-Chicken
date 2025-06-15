@@ -21,7 +21,7 @@ function Header() {
       <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left flex md:items-center md:justify-center">
           <div className="header__logo flex md:items-center md:justify-center rounded-full">
-            <NavLink to="/home">
+            <NavLink to="/">
               <img
                 className="logo w-[78px] h-[78px] block max-w-full h-auto"
                 src={KfcLogoSVG}
@@ -34,7 +34,7 @@ function Header() {
               <li className="header__menu-item-inline">
                 <NavLink
                   className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
-                  to="/menu-page"
+                  to="/menu"
                 >
                   MENU
                 </NavLink>
@@ -83,7 +83,7 @@ function Header() {
               )}
             </AnimatePresence>
 
-            <NavLink to="/orderProduct">
+            <NavLink to="/orderProductDashBoard">
               <img
                 className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down"
                 src={cart1}
@@ -98,7 +98,7 @@ function Header() {
             </NavLink>
           </div>
           <div className="flex-1 flex justify-center md:justify-start lg:hidden">
-            <NavLink to="/home" className="block">
+            <NavLink to="/" className="block">
               <img
                 width={78}
                 height={78}
