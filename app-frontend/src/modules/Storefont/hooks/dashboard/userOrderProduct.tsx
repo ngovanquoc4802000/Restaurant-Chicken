@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { removeFromCart } from "../../components/pages/features/cartSlice";
 
-export const useOrderProduct = () => {
+export const useOrderProductDB = () => {
     
  const cart = useSelector((state: RootState) => state.cart);
 const login = useSelector((state: RootState) => state.userLogin);

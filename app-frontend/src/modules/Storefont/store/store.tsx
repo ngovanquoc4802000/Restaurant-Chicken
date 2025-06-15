@@ -6,7 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {
-    loginModal: modalReducer,
+    showLogin: modalReducer,
     userLogin: userLoginReducer,
     userRegister: userRegister,
     cart: cartSlice,

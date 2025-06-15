@@ -16,7 +16,7 @@ export const useLogin = () => {
     password: "",
   });
 
-  const isOpen = useSelector((state: RootState) => state.loginModal);
+  const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const navigate = useNavigate();
 
@@ -34,13 +34,15 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data.success) {
         const { accessToken, data: userData } = data;
+        localStorage.setItem("accessToken",accessToken);
         dispatch(
           setUser({
             id: userData.id,
             email: userData.email,
-            fullname: userData.fullname, 
-            rule: userData.rule = "customer", 
+            fullname: userData.fullname,
+            rule: (userData.rule = "customer"),
             accessToken: accessToken,
+            isAuthentication: true
           })
         );
         if (userData.rule === "customer") {

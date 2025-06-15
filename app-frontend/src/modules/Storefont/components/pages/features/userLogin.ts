@@ -5,6 +5,7 @@ export interface LoggedInUserState {
   fullname: string | null; 
   rule: string | null;    
   accessToken: string | null; 
+  isAuthentication: boolean | null;
 }
 const initialState: LoggedInUserState = {
   id: null,
@@ -12,10 +13,11 @@ const initialState: LoggedInUserState = {
   fullname: null,
   rule: null,
   accessToken: null,
+  isAuthentication: null
 };
 
 const userLoginSlice = createSlice({
-  name: "login",
+  name: "userlogin",
   initialState,
   reducers: {
      setUser(state, action: PayloadAction<Omit<LoggedInUserState, 'isAuthenticated'>>) {
@@ -24,6 +26,7 @@ const userLoginSlice = createSlice({
       state.fullname = action.payload.fullname;
       state.rule = action.payload.rule;
       state.accessToken = action.payload.accessToken;
+      state.isAuthentication = action.payload.isAuthentication = true;
     },
      clearUser(state) {
       state.id = null;
@@ -31,6 +34,7 @@ const userLoginSlice = createSlice({
       state.fullname = null;
       state.rule = null;
       state.accessToken = null;
+      state.isAuthentication = null;
     },
   }
 })

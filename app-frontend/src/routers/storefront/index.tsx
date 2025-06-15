@@ -3,6 +3,7 @@ import Register from "../../modules/Storefont/components/pages/authentication/re
 import Dashboard from "../../modules/Storefont/components/pages/dashboard";
 import Category from "../../modules/Storefont/components/pages/dashboard/category";
 import ProductDetail from "../../modules/Storefont/components/pages/dashboard/category/details";
+import orderProductDashBoard from "../../modules/Storefont/components/pages/dashboard/category/orderProduct";
 import Home from "../../modules/Storefont/components/pages/main_page";
 import DetailAccountPage from "../../modules/Storefont/components/pages/main_page/detailAcount_page";
 import AddressAccount from "../../modules/Storefont/components/pages/main_page/detailAcount_page/address";
@@ -57,6 +58,10 @@ export const routerStore = [
   {
     path: "orderProduct",
     Component: OrderProduct,
+  },
+  {
+    path: "orderProductDashBoard",
+    Component: orderProductDashBoard,
   },
   {
     path: "/account",

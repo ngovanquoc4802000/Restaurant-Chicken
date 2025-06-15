@@ -20,7 +20,7 @@ const initialState: RegisterUserState = {
 };
 
 const registerSlice = createSlice({
-  name: "register",
+  name: "userRegister",
   initialState,
   reducers: {
     setUserRegister(_state, action: PayloadAction<RegisterUserState>) {

@@ -1,12 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { open } from "../../components/pages/features/modal";
 import { setUser } from "../../components/pages/features/userLogin";
-import type { LoggedInUser, UsersTs } from "../../mockup/user";
+import {
+  clearUserRegister,
+  setUserRegister,
+} from "../../components/pages/features/userRegister";
+import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
-import { clearUserRegister, setUserRegister } from "../../components/pages/features/userRegister";
+import { close } from "../../components/pages/features/modal";
 
 const iniatialRegister: UsersTs = {
   fullname: "",
@@ -18,12 +20,12 @@ const iniatialRegister: UsersTs = {
 };
 
 export const useModalLoginPages = () => {
-  const [value, setValue] = useState<LoggedInUser>({
+  const [value, setValue] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
-    const [valueRegister, setValueRegister] = useState<UsersTs>(iniatialRegister);
-  
+  const [valueRegister, setValueRegister] = useState<UsersTs>(iniatialRegister);
+
   const [showForm, setShowForm] = useState(false);
   const handleFormRegister = () => {
     setShowForm(true);
@@ -39,37 +41,37 @@ export const useModalLoginPages = () => {
     updateSave();
     setShowForm(false);
   };
-   const updateRegister = async () => {
-      const res = await createUsersRegister(valueRegister);
-      dispatch(setUserRegister(valueRegister));
-      return res;
-    };
-    
-    const { mutate: updateSave } = useMutation({
-      mutationFn: updateRegister,
-      onSuccess: (data) => {
-        if (!data) return;
-        setValueRegister(iniatialRegister);
-      },
-      onError: (error) => {
-        alert("Error dupting create" + error);
-      },
-    });
-       const onChangeRegister = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-      const { name, value } = e.target;
-      setValueRegister((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    };
-  const navigate = useNavigate();
+  const updateRegister = async () => {
+    const res = await createUsersRegister(valueRegister);
+    dispatch(setUserRegister(valueRegister));
+    return res;
+  };
+
+  const { mutate: updateSave } = useMutation({
+    mutationFn: updateRegister,
+    onSuccess: (data) => {
+      if (!data) return;
+      setValueRegister(iniatialRegister);
+    },
+    onError: (error) => {
+      alert("Error dupting create" + error);
+    },
+  });
+  const onChangeRegister = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setValueRegister((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const dispatch = useDispatch();
 
   const update = async () => {
-    return await createUserLogin(value);
+    const res = await createUserLogin(value);
+    return res;
   };
   const {
     isError,
@@ -78,23 +80,26 @@ export const useModalLoginPages = () => {
   } = useMutation({
     mutationFn: update,
     onSuccess: (data) => {
-      if (data.success) {
+      if (data.success === true) {
+        const { accessToken, data: loginData } = data;
+        localStorage.setItem("accesstoken", accessToken);
         dispatch(
           setUser({
-            id: data.data.id,
-            email: data.data.email,
-            password: data.data.password,
+            id: loginData.id,
+            email: loginData.email,
+            fullname: loginData.fullname,
+            rule: (loginData.rule = "customer"),
+            accessToken: accessToken,
+            isAuthentication: null
           })
         );
         setValue({ email: "", password: "" });
-        navigate("/home");
-      } else {
-        dispatch(open());
       }
+      
+      dispatch(close());
     },
     onError: (error) => {
-      console.log("Error during create:", error);
-      dispatch(open());
+      console.log("Create login fail:", error);
     },
   });
 
@@ -119,8 +124,6 @@ export const useModalLoginPages = () => {
     isError,
     handleSubmit,
     handleOnchange,
-    createLogin,
-    dispatch,
     value,
     setValue,
   };

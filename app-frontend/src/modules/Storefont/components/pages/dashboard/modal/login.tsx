@@ -28,7 +28,6 @@ function ModalLogin() {
             <h2 className="text-[1.8rem] mb-4 text-center font-bold">
               Create Register
             </h2>
-            {
             <form className="flex flex-col " onSubmit={handleSubmitRegister}>
               <InputValue
                 classNameLabel="md:text-[18px]"
@@ -102,13 +101,14 @@ function ModalLogin() {
                 type="submit"
               />
             </form>
-            }
             <div className="login text-center p-3">
               <label htmlFor="" className="text-[16px] md:text-[18px]">
                 You already have an account
               </label>
               <NavLink
-                className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2" to={""}              >
+                className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2"
+                to={""}
+              >
                 Login
               </NavLink>
             </div>
@@ -123,7 +123,6 @@ function ModalLogin() {
             <h2 className="text-[18px] md:text-[20px] font-medium lg:text-[22px]">
               Login
             </h2>
-
             <form onSubmit={handleSubmit}>
               <InputValue
                 classNameLabel="block text-left font-bold"
