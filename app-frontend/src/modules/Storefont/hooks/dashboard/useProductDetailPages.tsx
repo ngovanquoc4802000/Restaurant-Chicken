@@ -21,7 +21,9 @@ export const useProductDetailsPage = () => {
   const { slugProduct } = useParams();
 
   const userRule = useSelector((state: RootState) => state.userLogin.rule);
-  const isAuthentication = useSelector((state: RootState) => state.userLogin.isAuthentication);
+  const isAuthentication = useSelector(
+    (state: RootState) => state.userLogin.isAuthentication
+  );
   const {
     isLoading,
     error,
@@ -29,23 +31,25 @@ export const useProductDetailsPage = () => {
   } = useQuery({ ...queriesDishlist.list });
 
   const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
+
   const isOpen = useSelector((state: RootState) => state.showLogin);
+
   useEffect(() => {
-     if(userRule === "customer") {
-      setIsActive(true)
-     } else {
-      setIsActive(false);
-     }
-  },[userRule])
-  const handleOrderClick = () => {
-    if(!isAuthentication) {
-      dispatch(open());
-    } else {
-      alert("admin không có quyền đăng nhập")
+    if (userRule === "customer") {
+      setIsActive(true);
+    } else if (userRule === "admin") {
+      alert("admin không có quyền đăng nhập");
       dispatch(close());
+    } else {
+      setIsActive(false);
+    }
+  }, [userRule]);
+  const handleOrderClick = () => {
+    if (!isAuthentication) {
+      dispatch(open());
     }
   };
-/* -------------------------------------- */
+  /* -------------------------------------- */
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
 
@@ -107,7 +111,7 @@ export const useProductDetailsPage = () => {
     mutationFn: create,
     onSuccess: () => {
       navigate("/menu");
-      console.log("đặt đơn đã thành công")
+      console.log("đặt đơn đã thành công");
     },
     onError: () => {
       alert("Thêm vào giỏ hàng thất bại!");
@@ -135,7 +139,6 @@ export const useProductDetailsPage = () => {
     orderData,
     orderDetails,
     quantity,
-
 
     isOpen,
     handleOrderClick,

@@ -3,9 +3,8 @@ import type { RootState } from "../../store/store";
 import { removeFromCart } from "../../components/pages/features/cartSlice";
 
 export const useOrderProduct = () => {
-    
- const cart = useSelector((state: RootState) => state.cart);
-const login = useSelector((state: RootState) => state.userLogin);
+  const cart = useSelector((state: RootState) => state.cart);
+  const login = useSelector((state: RootState) => state.userLogin);
   console.log(login.accessToken);
   const [cartItem] = cart;
 
@@ -22,7 +21,11 @@ const login = useSelector((state: RootState) => state.userLogin);
     dispatch(removeFromCart(id));
   };
 
-    return {
-     cart , cartItem, sumOrder,total_price,handleRemove
-    }
-}
+  return {
+    cart,
+    cartItem,
+    sumOrder,
+    total_price,
+    handleRemove,
+  };
+};

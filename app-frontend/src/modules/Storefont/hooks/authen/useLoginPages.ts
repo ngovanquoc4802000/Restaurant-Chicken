@@ -34,7 +34,8 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data.success) {
         const { accessToken, data: userData } = data;
-        localStorage.setItem("accessToken",accessToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", userData.id.toString());
         dispatch(
           setUser({
             id: userData.id,
@@ -42,7 +43,7 @@ export const useLogin = () => {
             fullname: userData.fullname,
             rule: (userData.rule = "customer"),
             accessToken: accessToken,
-            isAuthentication: true
+            isAuthentication: true,
           })
         );
         if (userData.rule === "customer") {

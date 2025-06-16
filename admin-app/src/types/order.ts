@@ -27,7 +27,6 @@ export interface CreateOrderPayload {
   customer_phone: string;
   list_order: OrderDetailsTs[];
 }
-
 export interface OrderDetailsTs {
   id_dishlist: number | string;
   quantity: number;
@@ -36,7 +35,6 @@ export interface OrderDetailsTs {
   create_at?: Date;
   update_at?: Date;
 }
-
 export interface OrderProcess {
   success: boolean;
   message: string;

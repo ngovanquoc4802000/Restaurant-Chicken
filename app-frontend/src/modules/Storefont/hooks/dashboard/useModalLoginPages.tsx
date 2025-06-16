@@ -83,6 +83,7 @@ export const useModalLoginPages = () => {
       if (data.success === true) {
         const { accessToken, data: loginData } = data;
         localStorage.setItem("accesstoken", accessToken);
+        localStorage.setItem("userId", loginData.id.toString());
         dispatch(
           setUser({
             id: loginData.id,
