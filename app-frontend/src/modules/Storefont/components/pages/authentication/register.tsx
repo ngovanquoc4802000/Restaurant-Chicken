@@ -13,7 +13,7 @@ function Register() {
     <div className="register-page gid grid-cols-2 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
       {isPending && <p className="text-center text-blue-500">Saving...</p>}
       <Header />
-      <div className="register-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-0 md:px-20 lg:px-20">
+      <div className="register-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-0  lg:px-20">
         <div className="register-banner itemns bg-[#e4002b] text-white mt-14 md:mt-0 lg:mt-0 md:p-8 lg:p-8 flex flex-col justify-center items-center text-center">
           <img
             className="w-[240px] md:w-full mt-7 md:mt-0 lg:mt-0"
@@ -21,7 +21,7 @@ function Register() {
             alt="KFC Logo"
           />
         </div>
-        <div className="register-form p-12 md:p-12 md:mt-3.5 flex-col justify-center">
+        <div className="register-form p-12 md:p-12 md:mt-[10rem] flex-col justify-center">
           <h2 className="text-[1.8rem] mb-4 text-center font-bold">
             Create Register
           </h2>

@@ -42,7 +42,7 @@ function Category() {
       <OrderOptions />
       <div className="content">
         <div className="category-page">
-          <div className="tabs  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
+          <div className="tabs pt-[67px] md:pt-[2rem] lg:pt-[2rem]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}
@@ -68,9 +68,9 @@ function Category() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-37 md:scroll-mt-40 lg:scroll-mt-47  xl:max-w-[1200px] xl:m-auto "
+                  className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-4 md:scroll-mt-44 lg:scroll-mt-47  xl:max-w-[1200px] xl:m-auto "
                 >
-                  <h2 className="m-5 text-[16px] md:text-3xl md:m-5 lg:m-5 font-black">
+                  <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">
                     {section.name}
                   </h2>
                   {sectionDishes.length > 0 ? (
@@ -103,10 +103,10 @@ function Category() {
                                       </div>
                                       <div className="product-info min-h-[150px] md:min-h-[160px] lg:min-h-[195px] xl:min-h-[160px] py-[10px] md:px-[15px] lg:px-[15px]">
                                         <div className="title-price flex justify-between items-center">
-                                          <h3 className="text-[12px] md:text-[16px] lg:text-[18px] font-bold m-0">
+                                          <h3 className="text-[16px] md:text-[16px] lg:text-[18px] font-bold m-0">
                                             {item.title}
                                           </h3>
-                                          <span className="price text-[12px] md:text-[16px] lg:text-[18px] font-bold text-[#000]">
+                                          <span className="price text-[16px] md:text-[16px] lg:text-[18px] font-bold text-[#000]">
                                             {item.price}
                                           </span>
                                         </div>

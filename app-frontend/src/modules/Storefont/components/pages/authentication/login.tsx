@@ -46,7 +46,7 @@ function Login() {
           </div>
         )}
 
-        <div className="login-container grid font-sans py-0  md:px-24 lg:md-24 grid-cols-1 min-h-screen md:grid-cols-2">
+        <div className="login-container grid font-sans py-0  lg:md-24 grid-cols-1 min-h-screen md:grid-cols-2">
           <div className="login-banner bg-[#e4002b] items-center text-white p-6 flex flex-col justify-center text-center ">
             <img
               width={100}
@@ -55,7 +55,7 @@ function Login() {
               alt="KFC Logo"
             />
           </div>
-          <div className="login-form p-9 flex flex-col justify-center">
+          <div className="login-form p-9 flex md:mt-[10rem] flex-col justify-center">
             <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">
               Login
             </h2>
@@ -92,7 +92,7 @@ function Login() {
               />
             </form>
 
-            <div className="divider text-center my-4 mx-0 md:text-18px">
+            <div className="divider font-medium text-center my-4 mx-0 md:text-18px">
               Or continue with
             </div>
             <Button

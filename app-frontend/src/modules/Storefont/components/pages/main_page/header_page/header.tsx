@@ -28,8 +28,8 @@ function Header() {
   }, []);
   return (
     <>
-      <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-        <div className="header__left flex md:items-center md:justify-center">
+      <header className="header lg:px-[100px] lg:py-[30px] md:px-[15px] md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+        <div className="header__left  flex md:items-center md:justify-center">
           <div className="header__logo flex md:items-center md:justify-center rounded-full">
             <NavLink to="/">
               <img
@@ -107,7 +107,7 @@ function Header() {
               <i className="fa-solid fa-circle-user"></i>
             </NavLink>
           </div>
-          <div className="flex-1 flex justify-center md:justify-start lg:hidden">
+          <div className="flex-1 flex justify-center  md:hidden md:justify-start lg:hidden">
             <NavLink to="/" className="block">
               <img
                 width={78}

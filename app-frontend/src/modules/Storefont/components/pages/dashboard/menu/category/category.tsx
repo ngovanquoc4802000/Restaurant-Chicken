@@ -14,7 +14,7 @@ function Categories({ category }: CategoriesTs) {
               <NavLink style={{ color: "#000", textDecoration: "none", fontWeight: "700", fontSize: "1.2rem" }} className="menu-link" to="menu">
                 <div className="menu-item hover:scale-105 shadow-md bg-white rounded-lg md:rounded-xl lg:rounded-2xl  overflow-hidden transition-transform duration-200 ease-in " key={item.id}>
                   <img className="w-full rounded-b-none  rounded-lg h-auto block" src={item.image} alt={item.handle} />
-                  <p className="p-2.5 text-[16px] min-h-[65px] lg:text-[20px] lg:min-h-[0px]">{item.name}</p>
+                  <p className="p-2.5 md:text-[18px] text-[16px] min-h-[65px] lg:text-[20px] lg:min-h-[0px]">{item.name}</p>
                 </div>
               </NavLink>
             ))

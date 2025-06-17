@@ -36,8 +36,8 @@ function Header() {
   }, []);
   return (
     <>
-      <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-        <div className="header__left flex items-center justify-between">
+      <header className="header md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+        <div className="header__left md: flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
               <img
@@ -53,7 +53,7 @@ function Header() {
             <ul className="header__menu-inline list-none p-0 m-0 flex gap-5 md:gap-0">
               <li className="header__menu-item-inline">
                 <NavLink
-                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  className="px-2 md:text-[20px] hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   to="/menu"
                 >
                   MENU
@@ -61,7 +61,7 @@ function Header() {
               </li>
               <li className="header__menu-item-inline">
                 <a
-                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  className="px-2 md:text-[20px] hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
                   DEALS
@@ -69,7 +69,7 @@ function Header() {
               </li>
               <li className="header__menu-item-inline">
                 <a
-                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  className="px-2 md:text-[20px] hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
                   BOOK A PARTY
@@ -77,7 +77,7 @@ function Header() {
               </li>
               <li className="header__menu-item-inline">
                 <a
-                  className="px-2 hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
+                  className="px-2 md:text-[20px] hover:underline py-0 block md:text-[15px] xl:text-[20px] lg:text-[20px] md:ml-2 md:p-0 hover:text-[#0d0d0d] font-semibold text-[#201224]"
                   href="#"
                 >
                   FIND A KFC
@@ -109,7 +109,7 @@ function Header() {
             </NavLink>
           </div>
 
-          <div className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
+          <div className="header__icon hover:text-[#0d0d0d] mt-[-3px] md:mt-[0px] lg:mt-[0px]  w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--login">
             <NavLink onClick={handleUser} to={""}>
               <i className=" text-[28px] mt-2 md:mt-0 lg-0 md:text-[30px] lg:text-[30px] fa-solid fa-circle-user"></i>
             </NavLink>

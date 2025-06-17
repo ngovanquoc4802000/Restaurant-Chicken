@@ -15,11 +15,6 @@ $breakpoint-desktop: 1024px;
   }
 
   @media (min-width: $breakpoint-tablet) {
-    row-gap: 0;
-    align-items: center;
-    padding: 15px 60px;
-    display: flex;
-    justify-content: space-around;
     &__left {
       grid-area: left;
       justify-content: flex-start;
@@ -29,13 +24,7 @@ $breakpoint-desktop: 1024px;
       grid-area: right;
       gap: 1rem;
     }
-    .header__icon--cart {
-      .icon-cart {
-      }
-    }
-    .header__icon--login {
-      font-size: 27px;
-    }
+   
     .header__icon--logo {
       display: none;
     }

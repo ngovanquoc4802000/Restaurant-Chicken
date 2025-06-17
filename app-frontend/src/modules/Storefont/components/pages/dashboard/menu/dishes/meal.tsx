@@ -31,7 +31,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
     <div className="xl:max-w-[1200px] xl:m-auto ">
       <div className="md:ml-6 ml-2 mt-4 flex">
         <img src="/src/assets/onggia.png" className="" alt="" />
-        <h2 className=" ml-0 p-3 md:ml-6 text-[18px] md:text-[18px] lg:text-[25px] mt-[10px] lg:m-[10 px]  font-bold">
+        <h2 className=" ml-0 p-3 md:ml-6 text-[18px] md:text-[30px] lg:text-[25px] mt-[10px] lg:m-[10 px]  font-bold">
           We Think You’ll Love These
         </h2>
       </div>
