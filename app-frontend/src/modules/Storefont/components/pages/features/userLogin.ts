@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 export interface LoggedInUserState {
   id?: number | null;
-   email: string | null;
-  fullname: string | null; 
-  rule: string | null;    
-  accessToken: string | null; 
+  email: string | null;
+  fullname: string | null;
+  rule: 'admin' | 'customer' | null;
+  accessToken: string | null;
   isAuthentication: boolean | null;
 }
 const initialState: LoggedInUserState = {
@@ -13,14 +13,17 @@ const initialState: LoggedInUserState = {
   fullname: null,
   rule: null,
   accessToken: null,
-  isAuthentication: null
+  isAuthentication: null,
 };
 
 const userLoginSlice = createSlice({
   name: "userlogin",
   initialState,
   reducers: {
-     setUser(state, action: PayloadAction<Omit<LoggedInUserState, 'isAuthenticated'>>) {
+    setUser(
+      state,
+      action: PayloadAction<Omit<LoggedInUserState, "isAuthenticated">>
+    ) {
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.fullname = action.payload.fullname;
@@ -28,7 +31,7 @@ const userLoginSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.isAuthentication = action.payload.isAuthentication = true;
     },
-     clearUser(state) {
+    clearUser(state) {
       state.id = null;
       state.email = null;
       state.fullname = null;
@@ -36,7 +39,7 @@ const userLoginSlice = createSlice({
       state.accessToken = null;
       state.isAuthentication = null;
     },
-  }
-})
-export const { setUser,clearUser } = userLoginSlice.actions;
+  },
+});
+export const { setUser, clearUser } = userLoginSlice.actions;
 export default userLoginSlice.reducer;

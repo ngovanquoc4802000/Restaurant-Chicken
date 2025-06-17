@@ -4,21 +4,23 @@ import { NavLink } from "react-router-dom";
 import type { RootState } from "../../../../../store/store";
 import { clearCart } from "../../../features/cartSlice";
 import { clearUser } from "../../../features/userLogin";
+import LoginAdmin from "../../../dashboard/modal/loginAdmin";
+import { open } from "../../../features/modal";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
-
   const { fullname } = register;
   const dispatch = useDispatch();
-
-
+  const isOpenModal = useSelector((state: RootState) => state.showLogin);
   const handleLogout = () => {
     dispatch(clearUser());
     dispatch(clearCart());
     localStorage.removeItem("user_order_history");
     localStorage.removeItem("userId");
   };
-
+  const handleAdmin = () => {
+    dispatch(open())
+  };
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -85,6 +87,18 @@ function Sidebar() {
                   Favorite Order
                 </NavLink>
               </li>
+              <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
+                <NavLink
+                  onClick={handleAdmin}
+                  className={({ isActive }) =>
+                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
+                  }
+                  to={""}
+                >
+                  ManageAdmin
+                </NavLink>
+              </li>
+              {isOpenModal && <LoginAdmin />}
             </ul>
           </nav>
         </div>
