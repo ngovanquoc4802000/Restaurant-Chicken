@@ -5,7 +5,7 @@ export interface OrderAllTs {
 }
 
 export interface OrderTableTs {
-  id?: number;
+  id:number;
   user_id: number | string;
   address: string;
   customer_note: string;

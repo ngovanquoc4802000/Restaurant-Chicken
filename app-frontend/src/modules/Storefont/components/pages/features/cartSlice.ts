@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
 type CartItem = {
   id_dishlist: number;
   quantity: number;
@@ -10,7 +9,6 @@ type CartItem = {
 };
 
 const initialState: CartItem[] = [];
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -25,9 +23,10 @@ const cartSlice = createSlice({
       } else {
         state.push(action.payload);
       }
+      localStorage.setItem("cartOrder", String(action.payload));
     },
-    setCart(state,action: PayloadAction<CartItem[]>) {
-     return action.payload;
+    setCart(state, action: PayloadAction<CartItem[]>) {
+      return action.payload;
     },
     removeFromCart(state, action: PayloadAction<number>) {
       const update = state.filter(
@@ -41,5 +40,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, setCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

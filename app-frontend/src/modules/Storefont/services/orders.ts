@@ -20,11 +20,6 @@ export const getOrderId = async (id: number | null | undefined) => {
     return result.data;
   } catch (error) {
     console.log(error);
-    return {
-      success: false,
-      message: "",
-      data: [],
-    };
   }
 };
 

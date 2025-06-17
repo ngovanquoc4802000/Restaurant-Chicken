@@ -63,6 +63,7 @@ export const routerStore = [
     path: "orderProductDashBoard",
     Component: orderProductDashBoard,
   },
+   
   {
     path: "/account",
     Component: DetailAccountPage,
@@ -79,6 +80,7 @@ export const routerStore = [
         path: "order",
         Component: Order,
       },
+       
       {
         path: "order_favorites",
         Component: OrderFavorites,
@@ -87,14 +89,3 @@ export const routerStore = [
   },
 ];
 
-/*   <BrowserRouter>
-        <Routes>
-          <Route element={<AdminLayout/>}>
-              <Route path="category" element={<ListCategory/>} />
-              <Route path="dishlist"  element={<DishList/>}/>
-              <Route path="user"  element={<User/>}/>
-              <Route path="order"  element={<OrderAdmin/>}/>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter> */

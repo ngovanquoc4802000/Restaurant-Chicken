@@ -30,10 +30,11 @@ export const useProductDetailsPage = () => {
     data: dishlist,
   } = useQuery({ ...queriesDishlist.list });
 
-  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
-
   const isOpen = useSelector((state: RootState) => state.showLogin);
 
+  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userRule === "customer") {
       setIsActive(true);
@@ -55,6 +56,7 @@ export const useProductDetailsPage = () => {
 
   const user = useSelector((state: RootState) => state.userLogin.id);
   const [orderData, setOrderData] = useState<OrderTableTs>({
+    id: 0,
     user_id: Number(user),
     address: "",
     customer_note: "",
@@ -93,6 +95,12 @@ export const useProductDetailsPage = () => {
     };
     const res = await createOrder(finalOrder);
     if (product) {
+      localStorage.setItem("id_dishlist",String(product.id));
+      localStorage.setItem("quantity",String(quantity));
+      localStorage.setItem("price",String(product.price));
+      localStorage.setItem("title",String(product.title));
+      localStorage.setItem("image",String(product.images?.[0]?.image ?? ""));
+      localStorage.setItem("note",String(orderDetails.note));
       dispatch(
         addToCart({
           id_dishlist: Number(product.id),
@@ -111,7 +119,8 @@ export const useProductDetailsPage = () => {
     mutationFn: create,
     onSuccess: () => {
       navigate("/menu");
-      console.log("đặt đơn đã thành công");
+      alert("đặt đơn hàng thành công")
+     
     },
     onError: () => {
       alert("Thêm vào giỏ hàng thất bại!");

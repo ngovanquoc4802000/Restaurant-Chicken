@@ -4,17 +4,16 @@ import type { RootState } from "../../store/store";
 
 export const useOrderProductDB = () => {
   const cart = useSelector((state: RootState) => state.cart);
-  const login = useSelector((state: RootState) => state.userLogin);
-  console.log(login.accessToken);
+  const userId = useSelector((state: RootState) => state.userLogin.id);
+  const rule = useSelector((state: RootState) => state.userLogin.rule);
+  const id_dishlist = Number(localStorage.getItem("id_dishlist"));
+  const quantity = Number(localStorage.getItem("quantity"));
+  const price = Number(localStorage.getItem("price"));
+  const title = localStorage.getItem("title");
+  const image = localStorage.getItem("image");
+  const note = localStorage.getItem("note");
+
   const [cartItem] = cart;
-/*   const { data: order } = useQuery({ ...queriesOrder.list });
-  const userId = localStorage.getItem("userId");
-  const list  *//* = order?.map((item) => item.details); */
-/*   useEffect(() => {
-    if (userId === ) {
-      localStorage.setItem("listCart", list);
-    }
-  }, [list]); */
   const sumOrder = cart.reduce((sum, acc) => sum + acc.quantity, 0);
   const total_price = cart.reduce(
     (sum, acc) => sum + acc.price * acc.quantity,
@@ -28,6 +27,16 @@ export const useOrderProductDB = () => {
   };
 
   return {
+    id_dishlist,
+    quantity,
+    price,
+    title,
+    image,
+    note,
+
+
+    rule,
+    userId,
     cart,
     cartItem,
     sumOrder,

@@ -4,7 +4,7 @@ import middleware from "../controllers/middlewareControllers.js";
 
 const router = express.Router();
 
-router.get("/", middleware, routerUser.getAllRegister);
+router.get("/",routerUser.getAllRegister);
 router.put("/:id", routerUser.updateApiRegister);
 
 router.post("/register", routerUser.userAPIRegister);
