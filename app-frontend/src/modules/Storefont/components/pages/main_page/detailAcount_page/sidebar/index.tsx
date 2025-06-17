@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import type { RootState } from "../../../../../store/store";
 import { clearCart } from "../../../features/cartSlice";
 import { clearUser } from "../../../features/userLogin";
@@ -10,11 +10,14 @@ function Sidebar() {
 
   const { fullname } = register;
   const dispatch = useDispatch();
-  
+
+
   const handleLogout = () => {
     dispatch(clearUser());
     dispatch(clearCart());
-  }
+    localStorage.removeItem("user_order_history");
+    localStorage.removeItem("userId");
+  };
 
   return (
     <motion.div
@@ -32,7 +35,11 @@ function Sidebar() {
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">Hello,</h2>
             <h2 className="text-2xl font-extrablod">{fullname}</h2>
-            <NavLink onClick={handleLogout} style={{ textDecoration: "revert" }} to="/">
+            <NavLink
+              onClick={handleLogout}
+              style={{ textDecoration: "revert" }}
+              to="/"
+            >
               Log out
             </NavLink>
           </div>
@@ -75,7 +82,7 @@ function Sidebar() {
                     isActive ? "text-blue-400 font-bold" : "text-white pt-4"
                   }
                 >
-                 Favorite Order
+                  Favorite Order
                 </NavLink>
               </li>
             </ul>

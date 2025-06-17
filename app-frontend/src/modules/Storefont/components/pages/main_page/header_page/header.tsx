@@ -5,17 +5,27 @@ import cart1 from "../../../../assets/cart1.png";
 import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
 import logo from "../../../../assets/kfclogo.png";
 import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../store/store";
 
 function Header() {
   const {
     open,
     handleClose,
     handleOpen,
-    totalQuantity,
     menuItemsData,
     handleNavigate,
   } = useHeaderPages();
+  const [userOrderHistory, setUserOrderHistory] = useState([]);
+  const userRole = useSelector((state:RootState) => state.userLogin.rule);
 
+  useEffect(() => {
+    const data = localStorage.getItem("user_order_history");
+    if (data) {
+      setUserOrderHistory(JSON.parse(data));
+    }
+  }, []);
   return (
     <>
       <header className="header lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -69,16 +79,16 @@ function Header() {
         <div className="flex flex-row-reverse lg:flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative w-6 h-6 flex items-center justify-center">
             <AnimatePresence>
-              {totalQuantity > 0 && (
+              {userRole === "customer" && userOrderHistory.length > 0 && (
                 <motion.div
-                  key={totalQuantity}
+                  key={userOrderHistory.length}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   transition={{ duration: 0.3 }}
                   className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                 >
-                  {totalQuantity}
+                  {userOrderHistory.length}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -120,23 +130,23 @@ function Header() {
       {/* Offcanvas Overlay */}
       <div
         className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
-          open // Use 'open' state here
-            ? "offcanvas-overlay--visible visible opacity-100" // Added 'visible' and 'opacity-100' for clear visibility
-            : "invisible opacity-0" // Added 'invisible' and 'opacity-0' for clear hidden state
+          open 
+            ? "offcanvas-overlay--visible visible opacity-100" 
+            : "invisible opacity-0"
         }`}
-        onClick={handleClose} // Clicking overlay closes it
+        onClick={handleClose} 
       ></div>
 
       {/* Offcanvas Panel */}
       <div
         className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out ${
-          open // Use 'open' state here
-            ? "offcanvas-panel--open translate-x-0" // Add translate-x-0 for visible state
-            : "translate-x-full" // Add translate-x-full for hidden state
+          open
+            ? "offcanvas-panel--open translate-x-0"
+            : "translate-x-full" 
         }`}
       >
         <Button
-          onClick={handleClose} // Close button inside offcanvas
+          onClick={handleClose} 
           className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"
           text="&times;"
         />
@@ -151,7 +161,6 @@ function Header() {
                 <Button
                   className="text-left w-full hover:underline cursor-pointer text-base font-medium text-[#333]"
                   text={item.label}
-                  // When navigating, also close the offcanvas
                   onClick={() => {
                     handleNavigate(item.path);
                     handleClose();
@@ -192,10 +201,10 @@ function Header() {
 
           <ul className="offcanvas__menu list-none p-0 ">
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Order Tracker</a> {/* Close on click */}
+              <a href="#">Order Tracker</a> 
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Contact Us</a> {/* Close on click */}
+              <a href="#">Contact Us</a> 
             </li>
           </ul>
         </div>

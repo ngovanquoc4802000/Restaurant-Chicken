@@ -6,21 +6,23 @@ import { useOrderProductDB } from "../../../../../hooks/dashboard/userOrderProdu
 import queriesOrder from "../../../../../queries/order";
 import Footer from "../../footer";
 import Header from "../../header";
+import { useEffect } from "react";
 
 function orderProductDashBoard() {
-  const { sumOrder, rule, userId, cartItem, total_price, handleRemove } =
+  const { sumOrder, rule, userId, total_price, handleRemove } =
     useOrderProductDB();
   const { data: orderList } = useQuery({ ...queriesOrder.list });
+  
   const findUserId = orderList?.filter((item) => item.user_id === userId);
-  console.log(findUserId);
-  const idDishlistLocal = localStorage.getItem("id_dishlist");
+  useEffect(() => {
+  if (findUserId && findUserId.length > 0) {
+    localStorage.setItem("user_order_history", JSON.stringify(findUserId));
+  }
+}, [findUserId]);
+
   const productTitle = localStorage.getItem("product_title");
   const productImage = localStorage.getItem("product_image");
-  /*  useEffect(() => {
-    if(rule === "customer" && findUserId && userId) {
-      console.log("đã lấy thành công" + findUserId + userId)
-    }
-  },[findUserId,rule,userId]) */
+  const productQuantity = Number(localStorage.getItem("product_quantity"));
   const largerId = findUserId?.map((item) => item.details.length > 0);
   if (!orderList) return <div>Loading</div>;
   return (
@@ -69,45 +71,43 @@ function orderProductDashBoard() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white  rounded-lg shadow-2xl min-h-full p-10 h-fit">
-                  <h2 className="text-xl font-bold mb-4">
-                     dish
-                  </h2>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium mb-1">
-                      Do you have a discount code?
-                    </p>
-                    <div className="flex space-x-2">
-                      <input
-                        type="text"
-                        placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
-                        className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
-                      />
-                      <Button
-                        className="bg-black text-white px-4 py-1 rounded-full text-sm"
-                        text="Apply"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
-                    <div className="flex justify-between">
-                      <span>Total Order</span>
-                      <span>{sumOrder} order</span>
-                    </div>
-                    <div className="flex justify-between font-bold text-base">
-                      <span>Total payment</span>
-                      <span>{total_price.toFixed(3)} VND</span>
-                    </div>
-                  </div>
-                  <Button
-                    text={`Payment ${total_price.toFixed(3)} VND`}
-                    className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
-                  />
-                </div>
               </div>
             ))
           )}
+          <div className="bg-white  rounded-lg shadow-2xl min-h-full p-10 h-fit">
+            <h2 className="text-xl font-bold mb-4">{productQuantity} dish</h2>
+            <div className="mb-4">
+              <p className="text-sm font-medium mb-1">
+                Do you have a discount code?
+              </p>
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
+                  className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
+                />
+                <Button
+                  className="bg-black text-white px-4 py-1 rounded-full text-sm"
+                  text="Apply"
+                />
+              </div>
+            </div>
+
+            <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
+              <div className="flex justify-between">
+                <span>Total Order</span>
+                <span>{sumOrder} order</span>
+              </div>
+              <div className="flex justify-between font-bold text-base">
+                <span>Total payment</span>
+                <span>{total_price.toFixed(3)} VND</span>
+              </div>
+            </div>
+            <Button
+              text={`Payment ${total_price.toFixed(3)} VND`}
+              className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
+            />
+          </div>
         </div>
       ) : (
         <div className="text-center py-25  lg:py-10 bg-[#fbf9f7]">

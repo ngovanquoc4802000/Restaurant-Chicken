@@ -22,12 +22,11 @@ const menuItemsData: MenuItemsDataTs[] = [
 ];
 
 export const useHeaderPages = () => {
-    const [open, setOpen] = useState(false);
-  
+  const [open, setOpen] = useState(false);
+
   const cartItems = useSelector((state: RootState) =>
     state.cart.map((item) => item)
   );
-  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const dispatch = useDispatch();
 
@@ -35,18 +34,18 @@ export const useHeaderPages = () => {
 
   const navigate = useNavigate();
 
-const handleNavigate = (path: string) => {
+  const handleNavigate = (path: string) => {
     dispatch(close());
     setTimeout(() => {
       navigate(path);
     }, 50);
   };
- const handleOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false); 
+    setOpen(false);
   };
   return {
     open,
@@ -55,9 +54,8 @@ const handleNavigate = (path: string) => {
     navigate,
     menuItemsData,
     cartItems,
-    totalQuantity,
     dispatch,
     isOffcanvasOpen,
-    handleNavigate
+    handleNavigate,
   };
 };

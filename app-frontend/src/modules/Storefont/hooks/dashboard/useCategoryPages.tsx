@@ -32,6 +32,7 @@ export const useCategoryPages = () => {
      localStorage.setItem("id_dishlist", String(product.id));
     localStorage.setItem("product_title", product.title);
     localStorage.setItem("product_image", product.images?.[0]?.image || "");
+    localStorage.setItem("product_quantity", String(product.price));
   }
   };
 

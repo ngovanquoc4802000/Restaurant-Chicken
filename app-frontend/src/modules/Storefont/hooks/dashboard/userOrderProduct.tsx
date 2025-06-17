@@ -8,6 +8,7 @@ export const useOrderProductDB = () => {
   const id_dishlist = useSelector((state: RootState) => state.cart);
   const rule = useSelector((state: RootState) => state.userLogin.rule);
   const [cartItem] = cart;
+  
   const sumOrder = cart.reduce((sum, acc) => sum + acc.quantity, 0);
   const total_price = cart.reduce(
     (sum, acc) => sum + acc.price * acc.quantity,

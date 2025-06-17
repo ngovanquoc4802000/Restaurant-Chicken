@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { open } from "../../components/pages/features/modal";
+import { setUser } from "../../components/pages/features/userLogin";
 import type { LoginCredentials } from "../../mockup/user";
 import { createUserLogin } from "../../services/users";
 import type { RootState } from "../../store/store";
-import { setUser } from "../../components/pages/features/userLogin";
 
 export const useLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -15,7 +15,6 @@ export const useLogin = () => {
     email: "",
     password: "",
   });
-
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -55,10 +54,10 @@ export const useLogin = () => {
           navigate("/home");
           setValue({ email: "", password: "" });
         }
+        localStorage.getItem("userId");
+        localStorage.getItem("user_order_history");
       } else {
-        setErrorMessage(
-          data.message || data.data.email || "Login No fails."
-        );
+        setErrorMessage(data.message || data.data.email || "Login No fails.");
         dispatch(open());
       }
     },
