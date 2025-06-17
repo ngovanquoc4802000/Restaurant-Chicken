@@ -11,29 +11,28 @@ function LoginAdmin() {
     password: "",
   });
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const isValidAdmin =
       formData.email === "ngovanquoc480@gmail.com" &&
       formData.password === "04082000";
     if (isValidAdmin) {
-      // Đăng nhập thành công
       dispatch(
         setUser({
-            id: 1,
-            email: formData.email,
-            fullname: "Admin",
-            rule: "admin",
-            accessToken: "admin-fake-token",
-            isAuthentication: true,
+          id: 1,
+          email: formData.email,
+          fullname: "Admin",
+          rule: "admin",
+          accessToken: "admin-fake-token",
+          isAuthentication: true,
         })
       );
       alert("Đăng nhập thành công Admin");
-      navigate("/admin")
+      navigate("/admin");
       console.log("Đăng nhập thành công (admin)");
     } else {
-        console.log("đăng nhập thất bại")
+      console.log("đăng nhập thất bại");
     }
   };
   const handleChange = (
