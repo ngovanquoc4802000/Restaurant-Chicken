@@ -14,16 +14,11 @@ function Login() {
     dispatch,
     errorMessage,
     value,
-    createLogin,
     isPaused,
     isPending,
+    handleSubmit,
     handleOnchange,
   } = useLogin();
-
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    createLogin();
-  };
 
   return (
     <>

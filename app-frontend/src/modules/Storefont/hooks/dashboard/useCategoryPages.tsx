@@ -18,14 +18,21 @@ export const useCategoryPages = () => {
     navigate(`/menu/${slug}`);
 
     const target = refs.current[slug];
-    if (target) {
-      target.scrollIntoView({ behavior: "instant", block: "start" });
-    }
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
   };
 
   const handleProductClick = (categoryId: string, productTitle: string) => {
     const slug = slugify(productTitle);
     navigate(`/menu/${categoryId}/${slug}`);
+   const product = dishlist.find(
+    (item) => slugify(item.title) === slug
+  );
+
+  if (product) {
+     localStorage.setItem("id_dishlist", String(product.id));
+    localStorage.setItem("product_title", product.title);
+    localStorage.setItem("product_image", product.images?.[0]?.image || "");
+  }
   };
 
   const categories = resultOptions[0].data ?? [];

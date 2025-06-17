@@ -15,7 +15,7 @@ export const useMenuData = () => {
       }
     ]
   })
-  const isOpen = useSelector((state: RootState) => state.loginModal);
+  const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const category = resultQueries[0].data ?? [];
 

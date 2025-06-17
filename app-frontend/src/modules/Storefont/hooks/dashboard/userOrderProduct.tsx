@@ -5,14 +5,8 @@ import type { RootState } from "../../store/store";
 export const useOrderProductDB = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const userId = useSelector((state: RootState) => state.userLogin.id);
+  const id_dishlist = useSelector((state: RootState) => state.cart);
   const rule = useSelector((state: RootState) => state.userLogin.rule);
-  const id_dishlist = Number(localStorage.getItem("id_dishlist"));
-  const quantity = Number(localStorage.getItem("quantity"));
-  const price = Number(localStorage.getItem("price"));
-  const title = localStorage.getItem("title");
-  const image = localStorage.getItem("image");
-  const note = localStorage.getItem("note");
-
   const [cartItem] = cart;
   const sumOrder = cart.reduce((sum, acc) => sum + acc.quantity, 0);
   const total_price = cart.reduce(
@@ -28,17 +22,10 @@ export const useOrderProductDB = () => {
 
   return {
     id_dishlist,
-    quantity,
-    price,
-    title,
-    image,
-    note,
-
-
     rule,
     userId,
-    cart,
     cartItem,
+    cart,
     sumOrder,
     total_price,
     handleRemove,

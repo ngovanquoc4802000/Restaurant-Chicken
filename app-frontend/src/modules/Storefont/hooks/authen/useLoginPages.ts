@@ -16,6 +16,12 @@ export const useLogin = () => {
     password: "",
   });
 
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    createLogin();
+  };
+
   const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const navigate = useNavigate();
@@ -34,7 +40,6 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data.success) {
         const { accessToken, data: userData } = data;
-        localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userId", userData.id.toString());
         dispatch(
           setUser({
@@ -52,14 +57,14 @@ export const useLogin = () => {
         }
       } else {
         setErrorMessage(
-          data.message || data.data.email || "Đăng nhập không thành công."
+          data.message || data.data.email || "Login No fails."
         );
         dispatch(open());
       }
     },
     onError: (error) => {
       console.log("Error during create:", error);
-      setErrorMessage(error?.message || "Đăng ký thất bại. Vui lòng thử lại.");
+      setErrorMessage(error?.message || "Register No fails. Please inter.");
       dispatch(open());
     },
   });
@@ -73,6 +78,7 @@ export const useLogin = () => {
     }));
   };
   return {
+    handleSubmit,
     handleOnchange,
     navigate,
     isOpen,

@@ -34,7 +34,6 @@ export const useProductDetailsPage = () => {
 
   const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userRule === "customer") {
       setIsActive(true);
@@ -95,12 +94,6 @@ export const useProductDetailsPage = () => {
     };
     const res = await createOrder(finalOrder);
     if (product) {
-      localStorage.setItem("id_dishlist",String(product.id));
-      localStorage.setItem("quantity",String(quantity));
-      localStorage.setItem("price",String(product.price));
-      localStorage.setItem("title",String(product.title));
-      localStorage.setItem("image",String(product.images?.[0]?.image ?? ""));
-      localStorage.setItem("note",String(orderDetails.note));
       dispatch(
         addToCart({
           id_dishlist: Number(product.id),

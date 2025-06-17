@@ -19,7 +19,6 @@ function Category() {
     refs,
     setRef,
   } = useCategoryPages();
-
   useEffect(() => {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
