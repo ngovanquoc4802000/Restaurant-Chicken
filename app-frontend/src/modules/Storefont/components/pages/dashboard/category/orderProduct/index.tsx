@@ -9,11 +9,12 @@ import Header from "../../header";
 import { useEffect } from "react";
 
 function orderProductDashBoard() {
-  const { sumOrder, rule, userId, total_price, handleRemove } =
-    useOrderProductDB();
+  const { sumOrder, rule, userId, total_price, handleRemove } = useOrderProductDB();
+  
   const { data: orderList } = useQuery({ ...queriesOrder.list });
 
   const findUserId = orderList?.filter((item) => item.user_id === userId);
+
   useEffect(() => {
     if (findUserId && findUserId.length > 0) {
       localStorage.setItem("user_order_history", JSON.stringify(findUserId));
@@ -21,10 +22,15 @@ function orderProductDashBoard() {
   }, [findUserId]);
 
   const productTitle = localStorage.getItem("product_title");
+  
   const productImage = localStorage.getItem("product_image");
+  
   const productQuantity = Number(localStorage.getItem("product_quantity"));
+
   const largerId = findUserId?.map((item) => item.details.length > 0);
+
   if (!orderList) return <div>Loading</div>;
+  
   return (
     <div>
       <Header />

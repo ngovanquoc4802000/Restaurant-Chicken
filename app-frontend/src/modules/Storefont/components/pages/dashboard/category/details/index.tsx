@@ -34,10 +34,10 @@ function ProductDetail() {
   return (
     <div className="productDetail-container cursor-pointer">
       <Header />
-      <div className="container mx-auto px-4 mt-20 py-8 xl:pl-[12rem] xl:pr-[12rem]">
+      <div className="container mx-auto px-4 md:mt-[6rem] xl:mt-[2rem] py-8 xl:pl-[12rem] xl:pr-[12rem]">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 items-start">
           <div className="md:p-4 p-6">
-            <div className="product-detail shadow-lg rounded-md p-6 bg-white">
+            <div className="product-detail md:mt-8 shadow-lg rounded-md p-6 bg-white">
               <img
                 className="rounded-md w-full h-auto object-cover mb-4"
                 src={product.images?.[0]?.image}
@@ -52,12 +52,12 @@ function ProductDetail() {
               </span>
             </div>
           </div>
-          <div className="md:p-4">
-            <div className="product-button justify-start mb-[-10rem] md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px] md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
+          <div className="md:p-4 md:mt-4">
+            <div className="product-button mb-[-1rem] justify-start md:p-2  md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px]  md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
               {isOpen && <ModalLogin />}
               {/* hiển thị form */}
               {isActive ? (
-                <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-6 lg:p-6 space-y-4 max-w-md w-full mx-auto">
+                <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-4 lg:p-6 space-y-4 max-w-md w-full mx-auto">
                   <form onSubmit={handleCart} className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800">
                       {product.title}

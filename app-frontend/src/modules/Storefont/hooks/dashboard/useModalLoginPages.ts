@@ -28,7 +28,11 @@ export const useModalLoginPages = () => {
 
   const [showForm, setShowForm] = useState(false);
   const handleFormRegister = () => {
-    setShowForm(true);
+    if(!showForm) {
+      setShowForm(true);
+    } else {
+      setShowForm(false);
+    }
   };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
