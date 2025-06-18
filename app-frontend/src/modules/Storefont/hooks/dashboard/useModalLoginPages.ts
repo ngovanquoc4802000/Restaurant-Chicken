@@ -10,7 +10,7 @@ import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
 import { close } from "../../components/pages/features/modal";
 
-const iniatialRegister: UsersTs = {
+const initialRegister: UsersTs = {
   fullname: "",
   email: "",
   phone_number: "",
@@ -19,19 +19,27 @@ const iniatialRegister: UsersTs = {
   create_at: new Date(),
 };
 
-export const useModalLoginPages = () => {
-  const [value, setValue] = useState<LoginCredentials>({
-    email: "",
-    password: "",
-  });
-  const [valueRegister, setValueRegister] = useState<UsersTs>(iniatialRegister);
+const initialLogin: LoginCredentials = {
+  email: "",
+  password: ""
+}
 
+export const useModalLoginPages = () => {
+  const [value, setValue] = useState<LoginCredentials>(initialLogin);
+
+  const [valueRegister, setValueRegister] = useState<UsersTs>(initialRegister);
+  
   const [showForm, setShowForm] = useState(false);
+
   const handleFormRegister = () => {
     if(!showForm) {
+  
       setShowForm(true);
+  
     } else {
+  
       setShowForm(false);
+  
     }
   };
 
@@ -56,7 +64,7 @@ export const useModalLoginPages = () => {
     mutationFn: updateRegister,
     onSuccess: (data) => {
       if (!data) return;
-      setValueRegister(iniatialRegister);
+      setValueRegister(initialRegister);
     },
     onError: (error) => {
       alert("Error dupting create" + error);
@@ -122,15 +130,15 @@ export const useModalLoginPages = () => {
 
   return {
     valueRegister,
+    isError,
+    showForm,
+    isPending,
+    value,
     onChangeRegister,
     handleFormRegister,
     handleSubmitRegister,
-    showForm,
-    isPending,
-    isError,
     handleSubmit,
     handleOnchange,
-    value,
     setValue,
   };
 };

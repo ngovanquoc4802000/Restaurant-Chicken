@@ -314,10 +314,10 @@ export const userAPILogin = async (req, res) => {
         });
       }
       res.cookie("refreshToken", refreshToken, {
-        httpOnly: true, // Không thể truy cập bằng JavaScript
-        secure: process.env.NODE_ENV === "production", // Chỉ gửi qua HTTPS trong môi trường production
-        sameSite: "Strict", // Hoặc 'Strict' để bảo vệ chống CSRF, 'None' nếu cross-domain (cần secure: true)
-        maxAge: 365 * 24 * 60 * 60 * 1000, // Thời gian sống của cookie (365 ngày, tính bằng ms)
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Strict", 
+        maxAge: 365 * 24 * 60 * 60 * 1000,
       });
       res.status(200).json({
         success: true,

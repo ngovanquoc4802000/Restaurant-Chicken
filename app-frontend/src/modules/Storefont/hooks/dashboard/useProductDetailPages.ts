@@ -15,12 +15,15 @@ import queriesDishlist from "../../queries/dishlist";
 import type { RootState } from "../../store/store";
 
 export const useProductDetailsPage = () => {
+
   const [isActive, setIsActive] = useState(false);
 
   const dispatch = useDispatch();
+  
   const { slugProduct } = useParams();
 
   const userRule = useSelector((state: RootState) => state.userLogin.rule);
+  
   const isAuthentication = useSelector(
     (state: RootState) => state.userLogin.isAuthentication
   );
@@ -51,9 +54,11 @@ export const useProductDetailsPage = () => {
   };
   /* -------------------------------------- */
   const navigate = useNavigate();
+
   const [quantity, setQuantity] = useState(1);
 
   const user = useSelector((state: RootState) => state.userLogin.id);
+  
   const [orderData, setOrderData] = useState<OrderTableTs>({
     id: 0,
     user_id: Number(user),
@@ -138,14 +143,13 @@ export const useProductDetailsPage = () => {
     handleInputChange,
     handleNoteChange,
     setQuantity,
+    handleOrderClick,
+    setIsActive,
     orderData,
     orderDetails,
     quantity,
-
     isOpen,
-    handleOrderClick,
     isActive,
-    setIsActive,
     product,
     isLoading,
     error,
