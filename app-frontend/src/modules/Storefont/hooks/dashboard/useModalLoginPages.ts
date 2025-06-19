@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { close } from "../../components/pages/features/modal";
 import { setUser } from "../../components/pages/features/userLogin";
 import {
   clearUserRegister,
@@ -8,7 +9,7 @@ import {
 } from "../../components/pages/features/userRegister";
 import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
-import { close } from "../../components/pages/features/modal";
+import type { RootState } from "../../store/store";
 
 const initialRegister: UsersTs = {
   fullname: "",
@@ -42,7 +43,6 @@ export const useModalLoginPages = () => {
   
     }
   };
-
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     createLogin();
@@ -60,6 +60,8 @@ export const useModalLoginPages = () => {
     return res;
   };
 
+  const accessToken = useSelector((state: RootState) => state.userLogin.accessToken);
+  console.log(accessToken);
   const { mutate: updateSave } = useMutation({
     mutationFn: updateRegister,
     onSuccess: (data) => {
@@ -95,7 +97,6 @@ export const useModalLoginPages = () => {
     onSuccess: (data) => {
       if (data.success === true) {
         const { accessToken, data: loginData } = data;
-        localStorage.setItem("accesstoken", accessToken);
         dispatch(
           setUser({
             id: loginData.id,
@@ -103,13 +104,11 @@ export const useModalLoginPages = () => {
             fullname: loginData.fullname,
             rule: (loginData.rule = "customer"),
             accessToken: accessToken,
-            isAuthentication: null,
           })
         );
         localStorage.setItem("userId", loginData.id.toString());
         setValue({ email: "", password: "" });
       }
-
       dispatch(close());
     },
     onError: (error) => {

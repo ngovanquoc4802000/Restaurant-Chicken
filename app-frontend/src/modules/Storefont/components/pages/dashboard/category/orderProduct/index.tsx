@@ -7,12 +7,19 @@ import queriesOrder from "../../../../../queries/order";
 import Footer from "../../footer";
 import Header from "../../header";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../../store/store";
 
 function orderProductDashBoard() {
-  const { sumOrder, rule, userId, total_price, handleRemove } = useOrderProductDB();
-  
+  const { sumOrder, rule, userId, total_price, handleRemove } =
+    useOrderProductDB();
+  const accessToken = useSelector(
+    (state: RootState) => state.userLogin.accessToken
+  );
+  console.log(accessToken);
   const { data: orderList } = useQuery({ ...queriesOrder.list });
-
+  console.log(orderList);
+  
   const findUserId = orderList?.filter((item) => item.user_id === userId);
 
   useEffect(() => {
@@ -22,15 +29,15 @@ function orderProductDashBoard() {
   }, [findUserId]);
 
   const productTitle = localStorage.getItem("product_title");
-  
+
   const productImage = localStorage.getItem("product_image");
-  
+
   const productQuantity = Number(localStorage.getItem("product_quantity"));
 
   const largerId = findUserId?.map((item) => item.details.length > 0);
 
   if (!orderList) return <div>Loading</div>;
-  
+
   return (
     <div>
       <Header />

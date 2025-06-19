@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 const JWTKey = process.env.JWT_SECRET;
-const JwtRefersh = process.env.JWT_REFERSH;
+const JwtRefresh = process.env.JWT_REFRESH;
 
 const generateMD5 = (password) => {
   return createHash("md5").update(password).digest("hex");
@@ -286,7 +286,7 @@ export const userAPILogin = async (req, res) => {
       };
 
       // Promisify jwt.sign để sử dụng async/await
-      const signPromise = (payload, secret, options) => {
+        const signPromise = (payload, secret, options) => {
         return new Promise((resolve, reject) => {
           jwt.sign(payload, secret, options, (err, token) => {
             if (err) reject(err);
@@ -302,7 +302,7 @@ export const userAPILogin = async (req, res) => {
           expiresIn: "1d",
         });
 
-        refreshToken = await signPromise(refreshTokenPayload, JwtRefersh, {
+        refreshToken = await signPromise(refreshTokenPayload, JwtRefresh, {
           expiresIn: "365d",
         });
       } catch (jwtError) {
@@ -314,9 +314,9 @@ export const userAPILogin = async (req, res) => {
         });
       }
       res.cookie("refreshToken", refreshToken, {
-        httpOnly: true, 
+        httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict", 
+        sameSite: "Strict",
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
       res.status(200).json({
@@ -343,9 +343,115 @@ export const userAPILogin = async (req, res) => {
   }
 };
 
+export const refreshTokenAPI = async (req, res) => {
+  //.Nó trích xuất Refresh Token từ cookie.
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    console.log("No find refresh token");
+    return res.status(401).send({
+      success: false,
+      message: "Authentication required: No refresh token found.",
+    });
+  }
+  try {
+    //.Xác thực Refresh Token (kiểm tra tính hợp lệ, chữ ký, và chưa bị blacklist/revoked).
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(refreshToken, JwtRefresh, (err, decodedData) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(decodedData);
+      });
+    });
+    // Nếu xác thực thành công, `decoded` sẽ chứa payload của Refresh Token
+    // Payload của bạn có `sub` (user ID) và `rule`
+    // 3. Kiểm tra tính hợp lệ của người dùng và trạng thái blacklist (nếu có)
+    // Bạn nên kiểm tra lại trong cơ sở dữ liệu xem user_id (decoded.sub) có tồn tại không,
+    // và người dùng đó có bị vô hiệu hóa, bị khóa, hoặc refresh token này có bị thu hồi không.
+    // Đây là nơi bạn thực hiện "blacklist/revoked" như bạn đã nói.
+    const userResult = await pool.query(
+      `SELECT id, fullname, email, rule FROM "user" WHERE id = $1`,
+      [decoded.sub] // decoded.sub là ID của người dùng từ payload Refresh Token
+    );
+    if (userResult.rows.length === 0) {
+      console.log(`User with ID ${decoded.sub} not found or deactivated.`);
+      return res.status(403).json({
+        // 403 Forbidden
+        success: false,
+        message: "Invalid refresh token: User not found or deactivated.",
+      });
+    }
+    const user = userResult.rows[0];
+    // --- Đến đây, Refresh Token đã được xác thực thành công và người dùng hợp lệ ---
+    // Tiếp theo, bạn sẽ tạo Access Token mới và gửi về client.
+    // tạo access token mới
+    const accessTokenPayload = {
+      sub: user.id.toString(),
+      email: user.email,
+      fullname: user.fullname,
+      rule: user.rule,
+    };
+    // Tạo Access Token mới
+    const newAccessToken = await new Promise((resolve, reject) => {
+      jwt.sign(
+        accessTokenPayload,
+        JWTKey,
+        { expiresIn: "1d" },
+        (err, token) => {
+          if (err) reject(err);
+          resolve(token);
+        }
+      );
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "New Access Token generated.",
+      accessToken: newAccessToken,
+      data: {
+        id: user.id,
+        email: user.email,
+        fullname: user.fullname,
+        rule: user.rule,
+      },
+    });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      console.log("Refresh Token expired.");
+      res.clearCookie("refreshToken"); // Xóa cookie hết hạn
+      return res.status(403).json({
+        success: false,
+        message: "Refresh Token expired. Please log in again.",
+      });
+    }
+    if (error.name === "JsonWebTokenError") {
+      console.log("Invalid Refresh Token:", error.message);
+      res.clearCookie("refreshToken"); // Xóa cookie không hợp lệ
+      return res.status(403).json({
+        success: false,
+        message: "Invalid Refresh Token. Please log in again.",
+      });
+    }
+    console.error("Error in refreshTokenAPI:", error);
+    return res.status(500).json({
+      // Trả về lỗi 500 cho các lỗi không xác định
+      success: false,
+      message: "An unexpected error occurred during token refresh.",
+      error: error.message,
+    });
+  }
+};
+
 export default {
   getAllRegister,
   userAPIRegister,
   userAPILogin,
   updateApiRegister,
+  refreshTokenAPI,
 };
