@@ -3,6 +3,8 @@ import userLoginReducer from "../components/pages/features/userLogin";
 import userRegister from "../components/pages/features/userRegister";
 import cartSlice from "../components/pages/features/cartSlice";
 import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../../../common/middleware/authApp";
+
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +12,9 @@ export const store = configureStore({
     userLogin: userLoginReducer,
     userRegister: userRegister,
     cart: cartSlice,
+    auth: authReducer
   },
 });
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

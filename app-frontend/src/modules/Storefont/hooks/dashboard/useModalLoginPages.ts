@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { close } from "../../components/pages/features/modal";
 import { setUser } from "../../components/pages/features/userLogin";
 import {
@@ -9,7 +9,6 @@ import {
 } from "../../components/pages/features/userRegister";
 import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
-import type { RootState } from "../../store/store";
 
 const initialRegister: UsersTs = {
   fullname: "",
@@ -60,8 +59,6 @@ export const useModalLoginPages = () => {
     return res;
   };
 
-  const accessToken = useSelector((state: RootState) => state.userLogin.accessToken);
-  console.log(accessToken);
   const { mutate: updateSave } = useMutation({
     mutationFn: updateRegister,
     onSuccess: (data) => {

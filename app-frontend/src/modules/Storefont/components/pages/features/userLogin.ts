@@ -23,7 +23,6 @@ const userLoginSlice = createSlice({
   name: "userLogin", 
   initialState,
   reducers: {
-    // setUser sẽ nhận tất cả các trường ngoại trừ isAuthenticated
     setUser(state, action: PayloadAction<Omit<LoggedInUserState, "isAuthenticated">>) {
       state.id = action.payload.id;
       state.email = action.payload.email;

@@ -1,17 +1,26 @@
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import type { RootState } from "../../../../../store/store";
 import { clearCart } from "../../../features/cartSlice";
 import { clearUser } from "../../../features/userLogin";
 import LoginAdmin from "../../../dashboard/modal/loginAdmin";
-import { open } from "../../../features/modal";
+import { close, open } from "../../../features/modal";
+import { useAuth } from "../../../../../../auth/hook/useAuth";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
+
   const { fullname } = register;
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const isOpenModal = useSelector((state: RootState) => state.showLogin);
+
+  const { user, isAuthenticated } = useAuth();
+
   const handleLogout = () => {
     dispatch(clearUser());
     dispatch(clearCart());
@@ -19,7 +28,12 @@ function Sidebar() {
     localStorage.removeItem("userId");
   };
   const handleAdmin = () => {
-    dispatch(open())
+    if (isAuthenticated && user?.rule === "admin") {
+      navigate("/admin");
+      dispatch(close());
+    } else {
+      dispatch(open());
+    }
   };
   return (
     <motion.div
@@ -87,17 +101,30 @@ function Sidebar() {
                   Favorite Order
                 </NavLink>
               </li>
-              <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
-                <NavLink
-                  onClick={handleAdmin}
-                  className={({ isActive }) =>
-                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                  }
-                  to={""}
-                >
-                  ManageAdmin
-                </NavLink>
-              </li>
+
+              {isAuthenticated && user?.rule === "admin" ? (
+                <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
+                  <NavLink
+                    onClick={handleAdmin}
+                    className={({ isActive }) =>
+                      isActive ? "text-blue-400 font-bold" : "text-white pt-4"
+                    }
+                    to={""}
+                  >
+                    ManageAdmin
+                  </NavLink>
+                </li>
+              ) : (
+                <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2 mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
+                  <button
+                    onClick={handleAdmin} // Open modal for non-admin users
+                    className="text-white pt-4 cursor-pointer hover:text-blue-400"
+                    style={{ background: "none", border: "none", padding: 0 }} // Basic styling for button
+                  >
+                    Manage Admin
+                  </button>
+                </li>
+              )}
               {isOpenModal && <LoginAdmin />}
             </ul>
           </nav>

@@ -15,16 +15,3 @@ export const routerAdmin = [
     ],
   },
 ];
-
-
-/*   <BrowserRouter>
-        <Routes>
-          <Route element={<AdminLayout/>}>
-              <Route path="category" element={<ListCategory/>} />
-              <Route path="dishlist"  element={<DishList/>}/>
-              <Route path="user"  element={<User/>}/>
-              <Route path="order"  element={<OrderAdmin/>}/>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter> */

@@ -47,14 +47,15 @@ export const useLogin = () => {
             fullname: userData.fullname,
             rule: (userData.rule = "customer"),
             accessToken: accessToken,
-            isAuthentication: true,
           })
         );
         if (userData.rule === "customer") {
           navigate("/home");
+
           setValue({ email: "", password: "" });
         }
         localStorage.getItem("userId");
+
         localStorage.getItem("user_order_history");
       } else {
         setErrorMessage(data.message || data.data.email || "Login No fails.");

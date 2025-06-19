@@ -424,7 +424,7 @@ export const refreshTokenAPI = async (req, res) => {
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       console.log("Refresh Token expired.");
-      res.clearCookie("refreshToken"); // Xóa cookie hết hạn
+      res.clearCookie("refreshToken"); 
       return res.status(403).json({
         success: false,
         message: "Refresh Token expired. Please log in again.",
@@ -432,7 +432,7 @@ export const refreshTokenAPI = async (req, res) => {
     }
     if (error.name === "JsonWebTokenError") {
       console.log("Invalid Refresh Token:", error.message);
-      res.clearCookie("refreshToken"); // Xóa cookie không hợp lệ
+      res.clearCookie("refreshToken"); 
       return res.status(403).json({
         success: false,
         message: "Invalid Refresh Token. Please log in again.",
@@ -440,7 +440,6 @@ export const refreshTokenAPI = async (req, res) => {
     }
     console.error("Error in refreshTokenAPI:", error);
     return res.status(500).json({
-      // Trả về lỗi 500 cho các lỗi không xác định
       success: false,
       message: "An unexpected error occurred during token refresh.",
       error: error.message,

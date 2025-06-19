@@ -31,5 +31,4 @@ const middleware = (req,res,next) => {
         res.status(401).json("You're not authenticated")
     }
 };
-
 export default middleware;

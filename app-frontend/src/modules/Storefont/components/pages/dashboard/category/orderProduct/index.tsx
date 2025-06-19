@@ -1,24 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "../../../../../../../common/button/button";
 import { useOrderProductDB } from "../../../../../hooks/dashboard/userOrderProduct";
 import queriesOrder from "../../../../../queries/order";
 import Footer from "../../footer";
 import Header from "../../header";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../../../store/store";
 
 function orderProductDashBoard() {
   const { sumOrder, rule, userId, total_price, handleRemove } =
     useOrderProductDB();
-  const accessToken = useSelector(
-    (state: RootState) => state.userLogin.accessToken
-  );
-  console.log(accessToken);
   const { data: orderList } = useQuery({ ...queriesOrder.list });
-  console.log(orderList);
   
   const findUserId = orderList?.filter((item) => item.user_id === userId);
 

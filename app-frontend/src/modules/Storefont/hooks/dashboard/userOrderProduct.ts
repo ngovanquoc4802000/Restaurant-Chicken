@@ -4,12 +4,17 @@ import type { RootState } from "../../store/store";
 
 export const useOrderProductDB = () => {
   const cart = useSelector((state: RootState) => state.cart);
+
   const userId = useSelector((state: RootState) => state.userLogin.id);
+ 
   const id_dishlist = useSelector((state: RootState) => state.cart);
+ 
   const rule = useSelector((state: RootState) => state.userLogin.rule);
+ 
   const [cartItem] = cart;
-  
+ 
   const sumOrder = cart.reduce((sum, acc) => sum + acc.quantity, 0);
+ 
   const total_price = cart.reduce(
     (sum, acc) => sum + acc.price * acc.quantity,
     0

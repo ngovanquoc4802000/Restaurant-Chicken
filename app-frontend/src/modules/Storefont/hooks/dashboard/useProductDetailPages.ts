@@ -25,7 +25,7 @@ export const useProductDetailsPage = () => {
   const userRule = useSelector((state: RootState) => state.userLogin.rule);
   
   const isAuthentication = useSelector(
-    (state: RootState) => state.userLogin.isAuthentication
+    (state: RootState) => state.userLogin.isAuthenticated
   );
   const {
     isLoading,

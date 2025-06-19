@@ -2,8 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { getOrderAll, getOrderId } from "../services/orders";
 
 const queriesOrder = {
-  list: 
-    queryOptions({
+  list:queryOptions({
       queryKey: ["order"],
       queryFn: async () => {
         const { success, data } = await getOrderAll();
@@ -11,7 +10,6 @@ const queriesOrder = {
         return null;
       },
       staleTime: 1000 * 60 * 60,
-      enabled: false
     }),
   detail: (id: number | null | undefined) =>
     queryOptions({
