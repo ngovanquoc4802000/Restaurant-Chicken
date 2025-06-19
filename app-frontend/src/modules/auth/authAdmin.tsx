@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./hook/useAuth";
 import { useEffect, type PropsWithChildren } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../common/loadingSpinner";
+import { useAuth } from "./hook/useAuth";
 
-const AdminAuthGuard = ({ children }: PropsWithChildren) => {
+const AdminAuth = ({ children }: PropsWithChildren) => {
   const { isAuthenticated, user, loading, initializeAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -24,12 +24,16 @@ const AdminAuthGuard = ({ children }: PropsWithChildren) => {
         state: { from: window.location.pathname },
       });
     } else {
-      navigate("/403", { replace: true }); // Or navigate to a default authenticated page
+      navigate("/403-forbidden", { replace: true });
+    }
+    if(isAuthenticated && user?.rule !== "admin") {
+      navigate("/403-forbidden");
+
     }
     return null;
   }
 
-  return <>{children}</>;
+  return children ? {children} : <Outlet/>;
 };
 
-export default AdminAuthGuard;
+export default AdminAuth;

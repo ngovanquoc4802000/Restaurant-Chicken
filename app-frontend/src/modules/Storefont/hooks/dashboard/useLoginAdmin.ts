@@ -20,9 +20,11 @@ export const useLoginAdmin = () => {
      const success = await login(formData.email, formData.password);
     if (success) {
       console.log("Login Success (admin)");
-      navigate("/admin");
+      navigate("admin/category");
       dispatch(close())
     } else {
+      console.log("Login defails (admin)")
+      navigate("/403-forbidden")
       alert("Login fails Email or Password")
     }
   };

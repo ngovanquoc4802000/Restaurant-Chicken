@@ -7,7 +7,7 @@ export const useListCategory = () => {
     showForm: false,
     isDetail: null,
   });
-  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list, enabled: true });
+  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list});
 
   const handleEditClick = useCallback((id: number | undefined) => {
     setFormState((prev) => ({ ...prev, showForm: true, isDetail: id }));
