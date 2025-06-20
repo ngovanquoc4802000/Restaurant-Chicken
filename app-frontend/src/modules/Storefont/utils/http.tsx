@@ -1,5 +1,61 @@
 import axios from "axios";
+import { store } from "../store/store";
+import { LoginSuccess, logout } from "../../../common/middleware/authApp";
+
+const API_URL_BASE = "http://localhost:7777/"
 
 export const Request = axios.create({
-  baseURL: "http://localhost:7777/",
+   baseURL: API_URL_BASE,
 })
+
+export const axiosInstance = axios.create({
+  baseURL: API_URL_BASE,
+  withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token =
+    store.getState().auth.user?.accessToken || localStorage.getItem("accessToken");
+  if (token) {
+    config.headers["token"] = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // nếu token hết hạn thì là true để tránh vòng lặp vô hạn
+      try {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const res = await axios.post(`${API_URL_BASE}user/refresh-token`, {
+          refreshToken,
+        });
+        const newAccessToken = res.data.accessToken;
+        const user = store.getState().auth.user;
+
+        if (user) {
+          store.dispatch(
+            LoginSuccess({
+              success: true,
+              message: "Token refreshed",
+              accessToken: newAccessToken,
+              data: { ...user, accessToken: newAccessToken },
+              refreshToken: ""
+            })
+          );
+          console.log(res.data);
+          localStorage.setItem("accessToken", newAccessToken);
+          originalRequest.headers["token"] = `Bearer ${newAccessToken}`;
+          return axiosInstance(originalRequest);
+        }
+      } catch (err) {
+        store.dispatch(logout());
+        return Promise.reject(err);
+      }
+    }
+    return Promise.reject(error);
+  }
+);

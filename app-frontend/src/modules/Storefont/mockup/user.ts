@@ -9,6 +9,7 @@ export interface UserLoginResponse {
   success: boolean;
   message: string;
   accessToken: string;
+  refreshToken: string;
   data: UserDataResponse; 
 }
 

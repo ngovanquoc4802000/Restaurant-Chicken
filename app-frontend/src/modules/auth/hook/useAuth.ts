@@ -16,7 +16,9 @@ export const useAuth = () => {
   const { isAuthenticated, user, loading, error } = useSelector(
     (state: RootState) => state.auth
   );
-
+  
+  /* login */
+  
   const performLogin = async (email: string, password: string) => {
     dispatch(loginStart());
     try {
@@ -35,6 +37,8 @@ export const useAuth = () => {
       console.log("error No Get Emai and Password in rudex" + error);
     }
   };
+  /* refresh token */
+
   const checkAndRefreshToken = async () => {
     dispatch(loginStart());
     try {
@@ -65,8 +69,9 @@ export const useAuth = () => {
     loading,
     error,
     login: performLogin,
+    /* Logout */
     logout: () => {
-      Request.post("user/logout", {}, { withCredentials: true }) 
+      Request.post("user/logout", {}, { withCredentials: true })
         .then(() => {
           console.log("Server session cleared.");
         })

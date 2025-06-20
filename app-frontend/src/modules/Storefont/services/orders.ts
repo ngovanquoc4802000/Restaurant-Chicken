@@ -1,11 +1,11 @@
 import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../mockup/order";
-import { Request } from "../utils/http";
+import { axiosInstance, Request } from "../utils/http";
 
 
 
 export const getOrderAll = async () => {
   try {
-    const result = await Request.get<OrderAllTs>("order");
+    const result = await axiosInstance.get<OrderAllTs>("order");
     return result.data;
   } catch (error) {
     console.log(error);
