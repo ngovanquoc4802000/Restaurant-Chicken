@@ -6,6 +6,7 @@ import { axiosInstance, Request } from "../utils/http";
 export const getOrderAll = async () => {
   try {
     const result = await axiosInstance.get<OrderAllTs>("order");
+    console.log(result.data.data + "Order all")
     return result.data;
   } catch (error) {
     console.log(error);

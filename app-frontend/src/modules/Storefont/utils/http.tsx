@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // nếu token hết hạn thì là true để tránh vòng lặp vô hạn
+      originalRequest._retry = true; 
       console.log("⚠️ Token lỗi rồi, đang refresh token...");
       try {
         const refreshToken = localStorage.getItem("refreshToken");
@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use(
           originalRequest.headers["token"] = `Bearer ${newAccessToken}`;
 
           console.log("✅ Refresh thành công, đang gửi lại request...");
-          
+          console.log("🎟️ New Access Token được cấp lại: ", newAccessToken);
           return axiosInstance(originalRequest);
         }
       } catch (err) {
