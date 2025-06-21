@@ -36,14 +36,14 @@ function Header() {
   }, []);
   return (
     <>
-      <header className="header flex-col flex md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+      <header className="header flex-col lg:flex-row md:flex-row  md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="header__left md: flex items-center justify-between">
           <div className="header__logo flex items-center justify-center rounded-full">
             <NavLink to="/">
               <img
                 width={78}
                 height={78}
-                className="logo block max-w-full h-auto hidden"
+                className="logo block max-w-full h-auto hidden lg:block md:block"
                 src={KfcLogoSVG}
                 alt="hình ảnh logo"
               />

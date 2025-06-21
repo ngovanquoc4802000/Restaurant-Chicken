@@ -299,7 +299,7 @@ export const userAPILogin = async (req, res) => {
       try {
         // Tạo Access Token
         accessToken = await signPromise(accessTokenPayload, JWTKey, {
-          expiresIn: "40s",
+          expiresIn: "1d",
         });
 
         refreshToken = await signPromise(refreshTokenPayload, JwtRefresh, {
@@ -396,7 +396,7 @@ export const refreshTokenAPI = async (req, res) => {
       jwt.sign(
         accessTokenPayload,
         JWTKey,
-        { expiresIn: "50s" },
+        { expiresIn: "1d" },
         (err, token) => {
           if (err) reject(err);
           resolve(token);

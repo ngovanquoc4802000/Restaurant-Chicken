@@ -4,16 +4,29 @@ import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "../../../../../../../common/button/button";
 import { useOrderProductDB } from "../../../../../hooks/dashboard/userOrderProduct";
+import queriesDishlist from "../../../../../queries/dishlist";
 import queriesOrder from "../../../../../queries/order";
 import Footer from "../../footer";
 import Header from "../../header";
 
 function orderProductDashBoard() {
-  const { sumOrder, rule, userId, total_price, handleRemove } =
+  const { sumOrder, rule, userId, handleRemove } =
     useOrderProductDB();
-  const { data: orderList } = useQuery({ ...queriesOrder.list });
-  
+  const { data: orderList, isError ,isLoading } = useQuery({ ...queriesOrder.list });
+
+  const { data: dishlist } = useQuery({ ...queriesDishlist.list });
+
   const findUserId = orderList?.filter((item) => item.user_id === userId);
+
+  const totalDishes =
+    findUserId?.reduce((acc, curr) => acc + curr.details.length, 0) ?? 0;
+
+ const totalQuantity =
+  findUserId?.reduce(
+    (acc, curr) =>
+      acc + curr.details.reduce((sum, d) => sum + d.quantity * d.price, 0),
+    0
+  ) ?? 0;
 
   useEffect(() => {
     if (findUserId && findUserId.length > 0) {
@@ -21,16 +34,11 @@ function orderProductDashBoard() {
     }
   }, [findUserId]);
 
-  const productTitle = localStorage.getItem("product_title");
-
-  const productImage = localStorage.getItem("product_image");
-
-  const productQuantity = Number(localStorage.getItem("product_quantity"));
-
   const largerId = findUserId?.map((item) => item.details.length > 0);
 
-  if (!orderList) return <div>Loading</div>;
+  if (isLoading && !orderList) return <div>Loading...</div>;
 
+  if(isError) return <div>Error...</div>
   return (
     <div>
       <Header />
@@ -41,49 +49,55 @@ function orderProductDashBoard() {
             {/* Left side - Product List */}
             <div className="lg:col-span-2 space-y-4">
               {findUserId?.map((item) =>
-                item.details.map((details) => (
-                  <div
-                    key={details.id_dishlist}
-                    className="md:flex justify-between border border-gray-200 rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition duration-200"
-                  >
-                    <div className="flex">
-                      <img
-                        src={productImage ?? ""}
-                        alt={productTitle ?? ""}
-                        className="w-[100px] h-[100px] object-cover rounded-xl shadow-md p-2"
-                      />
-                      <div className="ml-3">
-                        <h2 className="text-lg font-semibold text-gray-800">
-                          {productTitle}
-                        </h2>
-                        <p className="text-gray-600">
-                          Quantity: {details.quantity}
+                item.details.map((details) => {
+                  const dish = dishlist?.find(
+                    (d) => d.id === details.id_dishlist
+                  );
+
+                  return (
+                    <div
+                      key={details.id_dishlist}
+                      className="md:flex justify-between border border-gray-200 rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition duration-200"
+                    >
+                      <div className="flex">
+                        <img
+                          src={dish?.images?.[0]?.image || ""}
+                          alt={dish?.title || ""}
+                          className="w-[100px] h-[100px] object-cover rounded-xl shadow-md p-2"
+                        />
+                        <div className="ml-3">
+                          <h2 className="text-lg font-semibold text-gray-800">
+                            {dish?.title}
+                          </h2>
+                          <p className="text-gray-600">
+                            Quantity: {details.quantity}
+                          </p>
+                          <p className="text-gray-600">
+                            Price: {details.price} VND
+                          </p>
+                          <p className="text-gray-600">Notes: {details.note}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4 mt-4 md:mt-0">
+                        <p
+                          className="text-red-500 cursor-pointer"
+                          onClick={() => handleRemove(details.id_dishlist)}
+                        >
+                          Delete
                         </p>
-                        <p className="text-gray-600">
-                          Price: {details.price} VND
-                        </p>
-                        <p className="text-gray-600">Notes: {details.note}</p>
+                        <NavLink to="/menu">
+                          <p className="text-red-500">Edit</p>
+                        </NavLink>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-4 mt-4 md:mt-0">
-                      <p
-                        className="text-red-500 cursor-pointer"
-                        onClick={() => handleRemove(details.id_dishlist)}
-                      >
-                        Delete
-                      </p>
-                      <NavLink to="/menu">
-                        <p className="text-red-500">Edit</p>
-                      </NavLink>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
 
             {/* Right side - Payment Summary */}
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4">{productQuantity} dish</h2>
+              <h2 className="text-xl font-bold mb-4"> {totalDishes}dish</h2>
               <div className="mb-4">
                 <p className="text-sm font-medium mb-1">
                   Do you have a discount code?
@@ -107,11 +121,11 @@ function orderProductDashBoard() {
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total payment</span>
-                  <span>{total_price.toFixed(3)} VND</span>
+                  <span>{Number(totalQuantity).toFixed(3)} VND</span>
                 </div>
               </div>
               <Button
-                text={`Payment ${total_price.toFixed(3)} VND`}
+                text={`Payment ${Number(totalQuantity).toFixed(3)} VND`}
                 className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />
             </div>

@@ -2,10 +2,10 @@ import { MenuContext } from "../../../contexts/menuContext";
 import { useHomePages } from "../../../hooks/menu_page/useHomePages";
 import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
+import OrderOptions from "../dashboard/oder";
 import Carousel from "../dashboard/slider/carousel";
 import Header from "./header_page/header";
 import MenuAndMealPage from "./menu_page/menuParent";
-import OrderOptionsPage from "./options_page";
 import Welcome from "./welcome";
 
 function Home() {
@@ -19,7 +19,7 @@ function Home() {
   return (
     <div className="Home">
       <Header />
-      <OrderOptionsPage />
+      <OrderOptions />
       <Welcome />
       <Carousel />
       <MenuContext.Provider value={{ category, findComboGroup }}>

@@ -4,6 +4,8 @@ import queriesCategories from "../../queries/categories";
 import queriesDishlist from "../../queries/dishlist";
 import { slugify } from "../../components/pages/dashboard/menu/ultils";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../components/pages/features/cartSlice";
 
 export const useCategoryPages = () => {
   const { id } = useParams();
@@ -12,7 +14,7 @@ export const useCategoryPages = () => {
     queries: [{ ...queriesCategories.list }, { ...queriesDishlist.list }],
   });
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleClick = (name: string) => {
     const slug = slugify(name);
     navigate(`/menu/${slug}`);
@@ -29,10 +31,14 @@ export const useCategoryPages = () => {
   );
 
   if (product) {
-     localStorage.setItem("id_dishlist", String(product.id));
-    localStorage.setItem("product_title", product.title);
-    localStorage.setItem("product_image", product.images?.[0]?.image || "");
-    localStorage.setItem("product_quantity", String(product.price));
+    dispatch(addToCart({
+      id_dishlist: Number(product.id),
+      quantity: 1,
+      price: product.price,
+      title: product.title,
+      image: product.images?.[0]?.image || "",
+      note: ""
+    }))
   }
   };
 
