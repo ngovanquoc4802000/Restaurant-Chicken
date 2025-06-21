@@ -9,17 +9,14 @@ import { close, open } from "../../../features/modal";
 import { useAuth } from "../../../../../../../auth/hook/useAuth";
 
 function Sidebar() {
-  const register = useSelector((item: RootState) => item.userRegister);
-
-  const { fullname } = register;
-
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const isOpenModal = useSelector((state: RootState) => state.showLogin);
-
-  const { user, isAuthenticated } = useAuth();  
+  const stateLogin = useSelector((state: RootState) => state.updateLogin );
+  const rule = useSelector((state: RootState) => state.userLogin.rule );
+  const { user, isAuthenticated } = useAuth();   
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -50,7 +47,7 @@ function Sidebar() {
           />
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">Hello,</h2>
-            <h2 className="text-2xl font-extrablod">{fullname}</h2>
+            <h2 className="text-2xl font-extrablod">{ rule ? stateLogin.fullname : " "}</h2>
             <NavLink
               onClick={handleLogout}
               style={{ textDecoration: "revert" }}
@@ -118,8 +115,7 @@ function Sidebar() {
                 <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2 mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                   <button
                     onClick={handleAdmin} // Open modal for non-admin users
-                    className="text-white pt-4 cursor-pointer hover:text-blue-400"
-                    style={{ background: "none", border: "none", padding: 0 }} // Basic styling for button
+                    className="text-white pt-4 cursor-pointer hover:text-blue-400 bg-none border-none p-0"
                   >
                     Manage Admin
                   </button>

@@ -7,6 +7,7 @@ import { setUser } from "../../components/pages/features/userLogin";
 import type { LoginCredentials } from "../../mockup/user";
 import { createUserLogin } from "../../services/users";
 import type { RootState } from "../../store/store";
+import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 
 export const useLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -49,6 +50,13 @@ export const useLogin = () => {
             accessToken: accessToken,
           })
         );
+        dispatch(
+          setUpdateLogin({
+            fullname: data.data.fullname,
+            email: data.data.email,
+            phone_number: ""
+          })
+        )
         if (userData.rule === "customer") {
           navigate("/home");
 

@@ -4,6 +4,7 @@ import userRegister from "../components/pages/features/userRegister";
 import cartSlice from "../components/pages/features/cartSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../../../common/middleware/authApp";
+import updateLoginReducer from "../components/pages/features/updateLogin";
 
 
 export const store = configureStore({
@@ -12,7 +13,8 @@ export const store = configureStore({
     userLogin: userLoginReducer,
     userRegister: userRegister,
     cart: cartSlice,
-    auth: authReducer
+    auth: authReducer,
+    updateLogin : updateLoginReducer
   },
 });
 

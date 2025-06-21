@@ -9,6 +9,7 @@ import {
 } from "../../components/pages/features/userRegister";
 import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
+import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 
 const initialRegister: UsersTs = {
   fullname: "",
@@ -101,6 +102,13 @@ export const useModalLoginPages = () => {
             accessToken: accessToken,
           })
         );
+        dispatch(
+          setUpdateLogin({
+            fullname: loginData.fullname,
+            phone_number: valueRegister.phone_number,
+            email: loginData.email
+          })
+        )
         localStorage.setItem("userId", loginData.id.toString());
         setValue({ email: "", password: "" });
       }
