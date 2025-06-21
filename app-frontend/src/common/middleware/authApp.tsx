@@ -50,8 +50,6 @@ const authSlice = createSlice({
       state.error = null;
       localStorage.setItem('accessToken', action.payload.accessToken);
      localStorage.setItem('refreshToken', action.payload.refreshToken);
-     console.log("✅ accessToken saved:", localStorage.getItem("accessToken"));
-     console.log("✅ refreshToken saved:", localStorage.getItem("refreshToken"));
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isAuthenticated = false;

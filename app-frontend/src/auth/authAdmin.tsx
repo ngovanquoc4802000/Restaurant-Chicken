@@ -4,7 +4,9 @@ import { useAuth } from "./hook/useAuth";
 import LoadingSpinner from "../common/loadingSpinner";
 
 const AdminAuth = ({ children }: PropsWithChildren) => {
+  
   const { isAuthenticated, user, loading, initializeAuth } = useAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {

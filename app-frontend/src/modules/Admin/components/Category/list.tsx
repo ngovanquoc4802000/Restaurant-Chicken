@@ -82,7 +82,7 @@ const ListCategory = () => {
                 {/* dòng này có data-id kết hợp với useCallback để không bị rendering */}
                 <DetailStatusCategory item={item} />
               </td>
-              <td className="p-2.5 border border-solid border-gray-500 text-[18px] font-bold text-left border border-solid border-gray-200 p-4 ">
+              <td className="p-2.5  p-2 rounded-[4px] border-solid border-gray-500 text-[18px] font-bold text-left border border-solid border-gray-200 p-4 ">
                 {item.status ? "True" : "False"}
               </td>
             </tr>

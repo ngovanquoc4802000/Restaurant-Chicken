@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import { LoginSuccess } from "./common/middleware/authApp";
-import "./index.css";
 import { routerRoot } from "./routers/routers";
 import { useDispatch } from "react-redux";
 
