@@ -2,11 +2,11 @@ import axios from "axios";
 import { store } from "../store/store";
 import { LoginSuccess, logout } from "../../../common/middleware/authApp";
 
-const API_URL_BASE = "http://localhost:7777/"
+const API_URL_BASE = "http://localhost:7777/";
 
 export const Request = axios.create({
-   baseURL: API_URL_BASE,
-})
+  baseURL: API_URL_BASE,
+});
 
 export const axiosInstance = axios.create({
   baseURL: API_URL_BASE,
@@ -15,11 +15,12 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const token =
-    store.getState().auth.user?.accessToken || localStorage.getItem("accessToken");
+    localStorage.getItem("accessToken") ||
+    store.getState().auth.user?.accessToken;
   if (token) {
     config.headers["token"] = `Bearer ${token}`;
-    console.log("loi o day")
   }
+  console.log("token + " + token);
   return config;
 });
 
@@ -29,12 +30,17 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // nếu token hết hạn thì là true để tránh vòng lặp vô hạn
+      console.log("⚠️ Token lỗi rồi, đang refresh token...");
       try {
         const refreshToken = localStorage.getItem("refreshToken");
+
+        if (!refreshToken) throw new Error("Không tìm thấy refresh token");
         const res = await axios.post(`${API_URL_BASE}user/refresh-token`, {
           refreshToken,
         });
+
         const newAccessToken = res.data.accessToken;
+
         const user = store.getState().auth.user;
 
         if (user) {
@@ -44,12 +50,16 @@ axiosInstance.interceptors.response.use(
               message: "Token refreshed",
               accessToken: newAccessToken,
               data: { ...user, accessToken: newAccessToken },
-              refreshToken: ""
+              refreshToken: "",
             })
           );
-          console.log(res.data);
+
           localStorage.setItem("accessToken", newAccessToken);
+
           originalRequest.headers["token"] = `Bearer ${newAccessToken}`;
+
+          console.log("✅ Refresh thành công, đang gửi lại request...");
+          
           return axiosInstance(originalRequest);
         }
       } catch (err) {
@@ -57,7 +67,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(err);
       }
     }
-    console.log("token khongo cos")
+    console.log("token khongo cos");
     return Promise.reject(error);
   }
 );

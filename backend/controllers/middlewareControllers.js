@@ -16,18 +16,19 @@ if (!jwtKey) {
   process.exit(1);
 }
 
-export const verify = (req,res,next) => {
-    const token = req.headers.token;
+const verify = (req,res,next) => {
+    const token = req.headers.token || req.headers.authorization;
     if (token) {
       const accessToken = token.split(" ")[1];
       jwt.verify(accessToken, jwtKey, (err, user) => {
         if (err) {
-          res.status(403).json("Token is not valid");
+          res.status(401).json("Token is not valid");
         }
         req.user = user;
         next();
       });
     } else {
-        res.status(401).json("You're not authenticated")
+        res.status(403).json("You're not authenticated")
     }
 };
+export default verify

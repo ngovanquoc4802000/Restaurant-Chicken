@@ -89,7 +89,9 @@ export const useModalLoginPages = () => {
     mutationFn: update,
     onSuccess: (data) => {
       if (data.success === true) {
-        const { accessToken, data: loginData } = data;
+        const { accessToken, refreshToken  ,data: loginData } = data;
+        localStorage.setItem("accessToken",accessToken);
+        localStorage.setItem("refreshToken", refreshToken );
         dispatch(
           setUser({
             id: loginData.id,
