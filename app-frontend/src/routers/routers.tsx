@@ -1,8 +1,8 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { routerStore } from "./storefront";
-import NotFound from "../modules/notfound";
+import NotFound from "../notfound";
 import { routerAdmin } from "./admin";
-import ForbiddenPage from "../modules/forbiddenPag";
+import ForbiddenPage from "../forbiddenPag";
 
 function StorefrontRootLayout() {
   return <Outlet />;

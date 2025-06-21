@@ -20,7 +20,6 @@ axiosInstance.interceptors.request.use((config) => {
   if (token) {
     config.headers["token"] = `Bearer ${token}`;
   }
-  console.log("token + " + token);
   return config;
 });
 
