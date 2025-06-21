@@ -16,7 +16,7 @@ if (!jwtKey) {
   process.exit(1);
 }
 
-const middleware = (req,res,next) => {
+export const verify = (req,res,next) => {
     const token = req.headers.token;
     if (token) {
       const accessToken = token.split(" ")[1];
@@ -31,4 +31,3 @@ const middleware = (req,res,next) => {
         res.status(401).json("You're not authenticated")
     }
 };
-export default middleware;

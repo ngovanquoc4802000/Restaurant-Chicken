@@ -18,6 +18,7 @@ axiosInstance.interceptors.request.use((config) => {
     store.getState().auth.user?.accessToken || localStorage.getItem("accessToken");
   if (token) {
     config.headers["token"] = `Bearer ${token}`;
+    console.log("loi o day")
   }
   return config;
 });
@@ -56,6 +57,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(err);
       }
     }
+    console.log("token khongo cos")
     return Promise.reject(error);
   }
 );
