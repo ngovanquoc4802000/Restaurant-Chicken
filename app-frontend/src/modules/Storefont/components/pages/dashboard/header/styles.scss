@@ -2,20 +2,7 @@
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 .header {
-  &__left {
-    grid-area: left;
-  }
-
-  &__right {
-    grid-area: right;
-  }
-
   @media (min-width: $breakpoint-tablet) {
-    &__left {
-      grid-area: left;
-      justify-content: flex-start;
-    }
-
     &__right {
       grid-area: right;
       gap: 1rem;
