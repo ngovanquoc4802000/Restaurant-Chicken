@@ -20,7 +20,7 @@ export const useLoginAdmin = () => {
      const success = await login(formData.email, formData.password);
     if (success) {
       console.log("Login Success (admin)");
-      navigate("admin/category");
+      navigate("/admin/category");
       dispatch(close())
     } else {
       console.log("Login defails (admin)")
