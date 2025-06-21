@@ -1,7 +1,7 @@
 import { useEffect, type PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../../common/loadingSpinner";
 import { useAuth } from "./hook/useAuth";
+import LoadingSpinner from "../common/loadingSpinner";
 
 const AuthGuard = ({ children }: PropsWithChildren) => {
   const { isAuthenticated, user, loading, error, initializeAuth } = useAuth();

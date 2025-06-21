@@ -6,7 +6,7 @@ import { clearCart } from "../../../features/cartSlice";
 import { clearUser } from "../../../features/userLogin";
 import LoginAdmin from "../../../dashboard/modal/loginAdmin";
 import { close, open } from "../../../features/modal";
-import { useAuth } from "../../../../../../auth/hook/useAuth";
+import { useAuth } from "../../../../../../../auth/hook/useAuth";
 
 function Sidebar() {
   const register = useSelector((item: RootState) => item.userRegister);
@@ -19,7 +19,7 @@ function Sidebar() {
 
   const isOpenModal = useSelector((state: RootState) => state.showLogin);
 
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();  
 
   const handleLogout = () => {
     dispatch(clearUser());

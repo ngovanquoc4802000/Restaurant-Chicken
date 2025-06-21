@@ -1,14 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../Storefont/store/store";
-import {
-  loginFailure,
-  loginStart,
-  LoginSuccess,
-  logout,
-} from "../../../common/middleware/authApp";
-import { createUserLogin } from "../../Storefont/services/users";
-import { Request } from "../../Storefont/utils/http";
-import type { UserLoginResponse } from "../../Storefont/mockup/user";
+
+import type { RootState } from "../../modules/Storefont/store/store";
+import type { UserLoginResponse } from "../../modules/Storefont/mockup/user";
+import { Request } from "../../modules/Storefont/utils/http";
+import { createUserLogin } from "../../modules/Storefont/services/users";
+import { loginFailure, loginStart, LoginSuccess, logout } from "../../common/middleware/authApp";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
