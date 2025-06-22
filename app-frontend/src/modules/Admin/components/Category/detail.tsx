@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCategoryMutation } from "../../hooks/useCategoryMutation";
 import type { ValueCategory } from "../../types/categories";
 import queriesCategories from "../../queries/categories";
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 
 interface DetailTs {
   onHideModal: () => void;

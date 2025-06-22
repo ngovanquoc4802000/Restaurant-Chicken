@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { ValueCategory } from "../../../../../mockup/categories";
-import type { DishTs } from "../../../../../mockup/dishlist";
-import Button from "../../../../../../../common/button/button";
+import Button from "$/common/button/button";
+import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
+import type { ValueCategory } from "$/modules/Storefont/mockup/categories";
 
 interface DishMealPageTs {
   findComboGroup: DishTs[];

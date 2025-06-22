@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import queriesOrder from "../../queries/orders";
 import { useOrderForm } from "../../hooks/useOrderForm";
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 
 interface OrderFormTs {
   idDetail: number | undefined | null;

@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
-import Button from "../../../../../../common/button/button";
+import Button from "$/common/button/button";
 import "../styles.scss";
-import shipping from "../../../../assets/shipprt.png";
-import cart from "../../../../assets/cart-heading.png";
+import shipping from "$/modules/Storefont/assets/shipprt.png";
+import cart from "$/modules/Storefont/assets/cart-heading.png"
+
 
 function OrderOptions() {
   return (

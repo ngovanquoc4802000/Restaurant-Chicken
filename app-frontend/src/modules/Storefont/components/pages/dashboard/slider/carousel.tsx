@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../../../../../../common/button/button";
+import Button from "$/common/button/button";
 const images: string[] = [
   "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Party.webp?v=g99R2g",
   "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Combo99k.webp?v=g99R2g",

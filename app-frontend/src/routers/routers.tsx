@@ -1,8 +1,8 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
-import { routerStore } from "./storefront";
-import NotFound from "../notfound";
 import { routerAdmin } from "./admin";
-import ForbiddenPage from "../forbiddenPag";
+import { routerStore } from "./storefront";
+import ForbiddenPage from "$/forbiddenPag";
+import NotFound from "$/notfound";
 
 function StorefrontRootLayout() {
   return <Outlet />;
@@ -10,12 +10,12 @@ function StorefrontRootLayout() {
 export const routerRoot = createBrowserRouter([
   {
     path: "/",
-    Component: StorefrontRootLayout,
+    element: <StorefrontRootLayout/>,
     children: [
       ...routerStore,
       ...routerAdmin,
-      { path: "403-forbidden", Component: ForbiddenPage },
-      { path: "*", Component: NotFound },
+      { path: "403-forbidden", element: <ForbiddenPage/> },
+      { path: "*", element: <NotFound/> },
     ],
   },
 ]);

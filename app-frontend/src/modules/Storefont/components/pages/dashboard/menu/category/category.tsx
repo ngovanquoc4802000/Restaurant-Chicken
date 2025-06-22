@@ -1,5 +1,5 @@
+import type { ValueCategory } from "$/modules/Storefont/mockup/categories";
 import { NavLink } from "react-router-dom";
-import type { ValueCategory } from "../../../../../mockup/categories";
 interface CategoriesTs {
   category: ValueCategory[];
 }

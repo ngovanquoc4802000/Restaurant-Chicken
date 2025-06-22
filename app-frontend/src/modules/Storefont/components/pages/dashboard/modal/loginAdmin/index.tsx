@@ -1,6 +1,6 @@
-import Button from "../../../../../../../common/button/button";
-import InputValue from "../../../../../../../common/input";
-import { useLoginAdmin } from "../../../../../hooks/dashboard/useLoginAdmin";
+import { useLoginAdmin } from "$/modules/Storefont/hooks/dashboard/useLoginAdmin";
+import Button from "$/common/button/button";
+import InputValue from "$/common/input";
 
 function LoginAdmin() {
   const { formData, handleChange, handleSubmit } = useLoginAdmin();

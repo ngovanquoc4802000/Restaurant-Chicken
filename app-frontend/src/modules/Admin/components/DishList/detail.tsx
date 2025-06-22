@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDetailDishlist } from "../../hooks/useDetailDishlist";
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 
 interface DetailsTs {
   onHideModal: () => void;

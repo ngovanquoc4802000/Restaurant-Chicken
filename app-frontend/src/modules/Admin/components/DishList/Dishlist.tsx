@@ -1,4 +1,4 @@
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 import { useDishlist } from "../../hooks/useDishlist";
 import DetailDishlist from "./detail";
 import DetailById from "./detailbyId";

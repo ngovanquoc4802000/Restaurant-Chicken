@@ -1,4 +1,4 @@
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 import { useOrderDetails } from "../../hooks/userOrderDetails";
 import type { OrderDetailsTs } from "../../types/order";
 

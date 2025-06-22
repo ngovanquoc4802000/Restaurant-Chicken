@@ -1,8 +1,8 @@
 import Footer from "../dashboard/footer";
 import Header from "../main_page/header_page/header";
-import Button from "../../../../../common/button/button";
+import Button from "$/common/button/button";
 import { NavLink } from "react-router-dom";
-import { useOrderProduct } from "../../../hooks/menu_page/useOrderProduct";
+import { useOrderProduct } from "$/modules/Storefont/hooks/menu_page/useOrderProduct";
 
 function OrderProduct() {
   const { cart, cartItem, sumOrder, total_price, handleRemove } = useOrderProduct();

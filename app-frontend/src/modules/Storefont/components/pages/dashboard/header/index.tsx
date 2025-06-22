@@ -2,11 +2,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import Button from "../../../../../../common/button/button";
-import cart1 from "../../../../assets/cart1.png";
-import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
-import logoMobile from "../../../../assets/kfclogo.png";
-import type { RootState } from "../../../../store/store";
+import type { RootState } from "$/modules/Storefont/store/store";
+import Button from "$/common/button/button";
+import cart1 from "$/modules/Storefont/assets/cart1.png"
+import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg"
+import logoMobile from "$/modules/Storefont/assets/kfclogo.png"
 import "./styles.scss";
 
 function Header() {

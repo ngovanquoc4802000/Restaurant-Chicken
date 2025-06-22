@@ -1,9 +1,9 @@
+import { useMenuPages } from "$/modules/Storefont/hooks/menu_page/useMenuPages";
 import { useEffect } from "react";
 import { slugify } from "../../dashboard/menu/ultils";
-import { useMenuPages } from "../../../../hooks/menu_page/useMenuPages";
 import Header from "../header_page/header";
 import Footer from "../../dashboard/footer";
-import Button from "../../../../../../common/button/button";
+import Button from "$/common/button/button";
 import OrderOptions from "../../dashboard/oder";
 
 function MenuPage() {

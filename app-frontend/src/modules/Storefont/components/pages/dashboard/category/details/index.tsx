@@ -1,7 +1,7 @@
-import Button from "../../../../../../../common/button/button";
-import InputValue from "../../../../../../../common/input";
-import TextareaValue from "../../../../../../../common/textarea";
-import { useProductDetailsPage } from "../../../../../hooks/dashboard/useProductDetailPages";
+import Button from "$/common/button/button";
+import InputValue from "$/common/input";
+import TextareaValue from "$/common/textarea";
+import { useProductDetailsPage } from "$/modules/Storefont/hooks/dashboard/useProductDetailPages";
 import Footer from "../../footer";
 import Header from "../../header";
 import ModalLogin from "../../modal/login";

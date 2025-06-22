@@ -1,6 +1,9 @@
+import { useMenuData } from "$/modules/Storefont/hooks/dashboard/useDashboard";
+import { MenuContext } from "$/modules/Storefont/contexts/menuContext";
+import type { RootState } from "$/modules/Storefont/store/store";
 import { Outlet } from "react-router-dom";
-import { useMenuData } from "../../../hooks/dashboard/useDashboard";
-import { MenuContext } from "../../../contexts/menuContext";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import AppDownLoad from "./app-download";
 import Footer from "./footer";
 import Header from "./header";
@@ -10,13 +13,12 @@ import OrderOptions from "./oder";
 import Carousel from "./slider/carousel";
 import "./styles.scss";
 import Welcome from "../main_page/welcome";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store/store";
-import { useEffect, useState } from "react";
 
 function Dashboard() {
   const { category, isLoading, error, findComboGroup, isOpen } = useMenuData();
+
   const [isShow, setIsShow] = useState(false);
+  
   const role = useSelector((state: RootState) => state.userLogin.rule);
   useEffect(() => {
     if (role === "customer") {

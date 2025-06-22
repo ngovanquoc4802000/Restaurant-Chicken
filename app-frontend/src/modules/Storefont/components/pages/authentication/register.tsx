@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useRegister } from "../../../hooks/authen/userRegisterPages";
+import { useRegister } from "$/modules/Storefont/hooks/authen/userRegisterPages";
+import Button from "$/common/button/button";
+import InputValue from "$/common/input";
 import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
-import Button from "../../../../../common/button/button";
-import InputValue from "../../../../../common/input";
 
 function Register() {
   const { handleSubmitRegister, onChangeRegister, valueRegister, isPending } =

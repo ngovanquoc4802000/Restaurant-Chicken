@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import Button from "../../../../../../common/button/button";
-import InputValue from "../../../../../../common/input";
-import { useModalLoginPages } from "../../../../hooks/dashboard/useModalLoginPages";
+import { useModalLoginPages } from "$/modules/Storefont/hooks/dashboard/useModalLoginPages";
+import Button from "$/common/button/button";
+import InputValue from "$/common/input";
 
 function ModalLogin() {
   const {

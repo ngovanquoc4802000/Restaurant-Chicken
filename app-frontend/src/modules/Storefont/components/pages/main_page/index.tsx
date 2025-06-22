@@ -1,5 +1,5 @@
-import { MenuContext } from "../../../contexts/menuContext";
-import { useHomePages } from "../../../hooks/menu_page/useHomePages";
+import { MenuContext } from "$/modules/Storefont/contexts/menuContext";
+import { useHomePages } from "$/modules/Storefont/hooks/menu_page/useHomePages";
 import AppDownLoad from "../dashboard/app-download";
 import Footer from "../dashboard/footer";
 import OrderOptions from "../dashboard/oder";

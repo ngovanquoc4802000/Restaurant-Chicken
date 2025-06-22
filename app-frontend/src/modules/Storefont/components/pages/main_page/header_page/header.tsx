@@ -1,13 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import Button from "../../../../../../common/button/button";
-import cart1 from "../../../../assets/cart1.png";
-import KfcLogoSVG from "../../../../assets/kfc-logo.svg";
-import logo from "../../../../assets/kfclogo.png";
-import { useHeaderPages } from "../../../../hooks/menu_page/useHeaderPages";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../../../store/store";
+import type { RootState } from "$/modules/Storefont/store/store";
+import { useHeaderPages } from "$/modules/Storefont/hooks/menu_page/useHeaderPages";
+import Button from "$/common/button/button";
+import logo from "$/modules/Storefont/assets/kfclogo.png";
+import cart1 from "$/modules/Storefont/assets/cart1.png";
+import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
 
 function Header() {
   const {

@@ -6,8 +6,8 @@ import { open } from "../../components/pages/features/modal";
 import { setUser } from "../../components/pages/features/userLogin";
 import type { LoginCredentials } from "../../mockup/user";
 import { createUserLogin } from "../../services/users";
-import type { RootState } from "../../store/store";
 import { setUpdateLogin } from "../../components/pages/features/updateLogin";
+import type { RootState } from "../../store/store";
 
 export const useLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

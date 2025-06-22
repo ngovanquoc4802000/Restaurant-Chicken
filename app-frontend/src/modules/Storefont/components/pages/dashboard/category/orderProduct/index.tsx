@@ -2,14 +2,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import Button from "../../../../../../../common/button/button";
-import { useOrderProductDB } from "../../../../../hooks/dashboard/userOrderProduct";
-import queriesDishlist from "../../../../../queries/dishlist";
-import queriesOrder from "../../../../../queries/order";
+import Button from "$/common/button/button";
+import queriesOrder from "$/modules/Storefont/queries/order";
+import queriesDishlist from "$/modules/Storefont/queries/dishlist";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
 import Footer from "../../footer";
 import Header from "../../header";
 
-function orderProductDashBoard() {
+function OrderProductDashBoard() {
   const { sumOrder, rule, userId, handleRemove } =
     useOrderProductDB();
   const { data: orderList, isError ,isLoading } = useQuery({ ...queriesOrder.list });
@@ -153,4 +153,4 @@ function orderProductDashBoard() {
   );
 }
 
-export default orderProductDashBoard;
+export default OrderProductDashBoard;

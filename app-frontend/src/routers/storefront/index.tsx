@@ -1,89 +1,89 @@
-import Login from "../../modules/Storefont/components/pages/authentication/login";
-import Register from "../../modules/Storefont/components/pages/authentication/register";
-import Dashboard from "../../modules/Storefont/components/pages/dashboard";
-import Category from "../../modules/Storefont/components/pages/dashboard/category";
-import ProductDetail from "../../modules/Storefont/components/pages/dashboard/category/details";
-import orderProductDashBoard from "../../modules/Storefont/components/pages/dashboard/category/orderProduct";
-import Home from "../../modules/Storefont/components/pages/main_page";
-import DetailAccountPage from "../../modules/Storefont/components/pages/main_page/detailAcount_page";
-import AddressAccount from "../../modules/Storefont/components/pages/main_page/detailAcount_page/address";
-import DetailChildren from "../../modules/Storefont/components/pages/main_page/detailAcount_page/detailChildren";
-import Order from "../../modules/Storefont/components/pages/main_page/detailAcount_page/order";
-import OrderFavorites from "../../modules/Storefont/components/pages/main_page/detailAcount_page/order_favorites";
-import MenuPage from "../../modules/Storefont/components/pages/main_page/menu_page";
-import DetailsPage from "../../modules/Storefont/components/pages/main_page/menu_page/details";
-import OrderProduct from "../../modules/Storefont/components/pages/orderProduct";
+import Login from "$/modules/Storefont/components/pages/authentication/login";
+import Register from "$/modules/Storefont/components/pages/authentication/register";
+import Dashboard from "$/modules/Storefont/components/pages/dashboard";
+import Category from "$/modules/Storefont/components/pages/dashboard/category";
+import ProductDetail from "$/modules/Storefont/components/pages/dashboard/category/details";
+import OrderProductDashBoard from "$/modules/Storefont/components/pages/dashboard/category/orderProduct";
+import Home from "$/modules/Storefont/components/pages/main_page";
+import DetailAccountPage from "$/modules/Storefont/components/pages/main_page/detailAcount_page";
+import AddressAccount from "$/modules/Storefont/components/pages/main_page/detailAcount_page/address";
+import DetailChildren from "$/modules/Storefont/components/pages/main_page/detailAcount_page/detailChildren";
+import Order from "$/modules/Storefont/components/pages/main_page/detailAcount_page/order";
+import OrderFavorites from "$/modules/Storefont/components/pages/main_page/detailAcount_page/order_favorites";
+import MenuPage from "$/modules/Storefont/components/pages/main_page/menu_page";
+import DetailsPage from "$/modules/Storefont/components/pages/main_page/menu_page/details";
+import OrderProduct from "$/modules/Storefont/components/pages/orderProduct";
 
 export const routerStore = [
   {
     path: "/",
-    Component: Dashboard,
+    element: <Dashboard/>,
   },
   {
     path: "login",
-    Component: Login,
+    element: <Login/>,
   },
   {
     path: "login/register",
-    Component: Register,
+    element: <Register/>,
   },
   {
     path: "menu",
-    Component: Category,
+    element: <Category/>,
   },
   {
     path: "menu/:id",
-    Component: Category,
+    element: <Category/>,
   },
   {
     path: "menu/:id/:slugProduct",
-    Component: ProductDetail,
+    element: <ProductDetail/>,
   },
   {
     path: "/home",
-    Component: Home,
+    element: <Home/>,
   },
   {
     path: "menu-page",
-    Component: MenuPage,
+    element: <MenuPage/>,
   },
   {
     path: "menu-page/:id",
-    Component: MenuPage,
+    element: <MenuPage/>,
   },
   {
     path: "menu-page/:id/:slugProduct",
-    Component: DetailsPage,
+    element: <DetailsPage/>,
   },
   {
     path: "orderProduct",
-    Component: OrderProduct,
+    element: <OrderProduct/>,
   },
   {
     path: "orderProductDashBoard",
-    Component: orderProductDashBoard,
+    element: <OrderProductDashBoard/>,
   },
    
   {
     path: "/account",
-    Component: DetailAccountPage,
+    element: <DetailAccountPage/>,
     children: [
       {
         index: true,
-        Component: DetailChildren,
+        element: <DetailChildren/>,
       },
       {
         path: "address",
-        Component: AddressAccount,
+        element: <AddressAccount/>,
       },
       {
         path: "order",
-        Component: Order,
+        element: <Order/>,
       },
        
       {
         path: "order_favorites",
-        Component: OrderFavorites,
+        element: <OrderFavorites/>,
       },
     ],
   },

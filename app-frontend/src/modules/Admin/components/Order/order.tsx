@@ -1,4 +1,4 @@
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 import { useOrder } from "../../hooks/useOrder";
 import OrderDetails from "./orderDetail";
 import OrderForm from "./orderForm";

@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import Button from "../../../../../../../common/button/button";
-import InputValue from "../../../../../../../common/input";
-import type { RootState } from "../../../../../store/store";
+import Button from "$/common/button/button";
+import InputValue from "$/common/input";
+import type { RootState} from "$/modules/Storefont/store/store"
 
 function DetailChildren() {
   const rule = useSelector((item: RootState) => item.userLogin.rule); 
   const stateLogin = useSelector((items : RootState) => items.updateLogin)
-  if(stateLogin === null) return console.log("no find data state login")
   return (
     <div>
       <motion.div

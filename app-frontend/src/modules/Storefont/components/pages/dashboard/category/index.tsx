@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import Button from "../../../../../../common/button/button";
-import { useCategoryPages } from "../../../../hooks/dashboard/useCategoryPages";
-import "../../dashboard/styles.scss";
+import { useCategoryPages } from "$/modules/Storefont/hooks/dashboard/useCategoryPages";
+import Button from "$/common/button/button";
 import Footer from "../footer";
 import Header from "../header";
 import OrderOptions from "../oder";

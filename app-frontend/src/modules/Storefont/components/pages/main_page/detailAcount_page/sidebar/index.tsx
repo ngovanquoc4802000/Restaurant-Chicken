@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import type { RootState } from "../../../../../store/store";
-import { clearCart } from "../../../features/cartSlice";
+import type { RootState } from "$/modules/Storefont/store/store";
+import { useAuth } from "$/auth/hook/useAuth";
 import { clearUser } from "../../../features/userLogin";
 import LoginAdmin from "../../../dashboard/modal/loginAdmin";
 import { close, open } from "../../../features/modal";
-import { useAuth } from "../../../../../../../auth/hook/useAuth";
+import { clearCart } from "../../../features/cartSlice";
 
 function Sidebar() {
   const dispatch = useDispatch();

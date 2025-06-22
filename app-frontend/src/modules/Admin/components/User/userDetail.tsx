@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import queriesUser from "../../queries/users";
 import ModalSuccess from "../modal/modalSuccess";
 import { useCustomerUsersDetail } from "../../hooks/userCustomUsersDetail";
-import Button from "../../../../common/button/button";
+import Button from "$/common/button/button";
 
 interface UserDetailTs {
   idDetail: number | undefined | null;

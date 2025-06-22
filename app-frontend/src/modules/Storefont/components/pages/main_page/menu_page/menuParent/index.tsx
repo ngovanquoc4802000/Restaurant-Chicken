@@ -1,6 +1,6 @@
+import { useHomePages } from "$/modules/Storefont/hooks/menu_page/useHomePages";
 import CategoryPage from "../category";
 import DishShesPage from "../dishshes";
-import { useHomePages } from "../../../../../hooks/menu_page/useHomePages";
 
 function MenuAndMealPage() {
   const { category, findComboGroup } = useHomePages();
