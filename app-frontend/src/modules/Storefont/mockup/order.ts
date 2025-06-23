@@ -3,7 +3,6 @@ export interface OrderAllTs {
   message: string;
   data: OrderTableTs[];
 }
-
 export interface OrderTableTs {
   id?: number;
   user_id: number;
