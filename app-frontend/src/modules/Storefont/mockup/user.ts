@@ -2,7 +2,7 @@ export interface UserDataResponse {
   id: number; 
   email: string;
   fullname: string;
-  rule: string | null; 
+  rule: "admin" | "customer" | null; 
 }
 
 export interface UserLoginResponse {

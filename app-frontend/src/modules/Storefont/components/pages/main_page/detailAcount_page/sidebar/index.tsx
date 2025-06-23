@@ -14,8 +14,11 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const isOpenModal = useSelector((state: RootState) => state.showLogin);
+  
   const stateLogin = useSelector((state: RootState) => state.updateLogin );
+  
   const rule = useSelector((state: RootState) => state.userLogin.rule );
+  
   const { user, isAuthenticated } = useAuth();   
 
   const handleLogout = () => {
@@ -24,6 +27,8 @@ function Sidebar() {
     localStorage.removeItem("user_order_history");
     localStorage.removeItem("userId");
   };
+  console.log(user?.rule === "admin");
+
   const handleAdmin = () => {
     if (isAuthenticated && user?.rule === "admin") {
       navigate("/admin");

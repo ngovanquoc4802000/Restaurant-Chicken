@@ -6,7 +6,7 @@ interface UserData {
   fullname: string;
   accessToken?: string;
   refreshToken?:string;
-  rule: string | null;
+  rule: "admin" | "customer" | null;
 }
 
 interface UserLoginResponse { 

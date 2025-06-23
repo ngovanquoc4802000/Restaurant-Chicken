@@ -1,5 +1,5 @@
-import Sidebar from "$/modules/Storefont/components/pages/main_page/detailAcount_page/sidebar";
 import { Outlet } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
 
 const AdminLayout = () => {
   return (

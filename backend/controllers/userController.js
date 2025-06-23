@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import { createHash, secureHeapUsed } from "crypto";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 
 const JWTKey = process.env.JWT_SECRET;
 const JwtRefresh = process.env.JWT_REFRESH;
@@ -81,10 +80,11 @@ export const userAPIRegister = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Email already exists." });
     }
-
+    const adminEmails = ["admin@gmail.com"];
+    const rule = adminEmails.includes(email) ? "admin" : "customer";
     const insertResult = await pool.query(
-      `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email`,
+      `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status,rule)
+       VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING id, email`,
       [
         fullname,
         email,
@@ -93,6 +93,7 @@ export const userAPIRegister = async (req, res) => {
         hashedPassword,
         formatDbTimestamp(),
         status,
+        rule,
       ]
     );
 
@@ -286,7 +287,7 @@ export const userAPILogin = async (req, res) => {
       };
 
       // Promisify jwt.sign để sử dụng async/await
-        const signPromise = (payload, secret, options) => {
+      const signPromise = (payload, secret, options) => {
         return new Promise((resolve, reject) => {
           jwt.sign(payload, secret, options, (err, token) => {
             if (err) reject(err);
@@ -319,6 +320,8 @@ export const userAPILogin = async (req, res) => {
         sameSite: "Strict",
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
+      const adminEmails = ["admin@gmail.com"];
+      const rule = adminEmails.includes(email) ? "admin" : "customer";
       res.status(200).json({
         success: true,
         message: "Login successful.",
@@ -327,7 +330,7 @@ export const userAPILogin = async (req, res) => {
           id: user.id,
           email: user.email,
           fullname: user.fullname,
-          rule: user.rule,
+          rule: rule,
         },
       });
     } else {
@@ -424,7 +427,7 @@ export const refreshTokenAPI = async (req, res) => {
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       console.log("Refresh Token expired.");
-      res.clearCookie("refreshToken"); 
+      res.clearCookie("refreshToken");
       return res.status(403).json({
         success: false,
         message: "Refresh Token expired. Please log in again.",
@@ -432,7 +435,7 @@ export const refreshTokenAPI = async (req, res) => {
     }
     if (error.name === "JsonWebTokenError") {
       console.log("Invalid Refresh Token:", error.message);
-      res.clearCookie("refreshToken"); 
+      res.clearCookie("refreshToken");
       return res.status(403).json({
         success: false,
         message: "Invalid Refresh Token. Please log in again.",

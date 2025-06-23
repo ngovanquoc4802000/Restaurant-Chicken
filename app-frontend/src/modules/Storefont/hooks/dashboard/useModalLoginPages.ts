@@ -98,7 +98,7 @@ export const useModalLoginPages = () => {
             id: loginData.id,
             email: loginData.email,
             fullname: loginData.fullname,
-            rule: (loginData.rule = "customer"),
+            rule: loginData.rule,
             accessToken: accessToken,
           })
         );

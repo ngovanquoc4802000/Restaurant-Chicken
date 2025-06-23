@@ -3,9 +3,9 @@ import type { RootState } from "../../store/store";
 import { removeFromCart } from "../../components/pages/features/cartSlice";
 
 export const useOrderProduct = () => {
+  
   const cart = useSelector((state: RootState) => state.cart);
-  const login = useSelector((state: RootState) => state.userLogin);
-  console.log(login.accessToken);
+
   const [cartItem] = cart;
 
   const sumOrder = cart.reduce((sum, acc) => sum + acc.quantity, 0);

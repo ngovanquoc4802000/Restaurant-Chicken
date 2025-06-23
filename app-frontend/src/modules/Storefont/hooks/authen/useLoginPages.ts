@@ -46,7 +46,7 @@ export const useLogin = () => {
             id: userData.id,
             email: userData.email,
             fullname: userData.fullname,
-            rule: (userData.rule = "customer"),
+            rule: userData.rule,
             accessToken: accessToken,
           })
         );

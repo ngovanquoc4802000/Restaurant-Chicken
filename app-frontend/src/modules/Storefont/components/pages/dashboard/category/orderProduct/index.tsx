@@ -34,7 +34,7 @@ function OrderProductDashBoard() {
     }
   }, [findUserId]);
 
-  const largerId = findUserId?.map((item) => item.details.length > 0);
+ const hasOrders = orderList && orderList.length > 0 && orderList.some(o => o.details.length > 0);
 
   if (isLoading && !orderList) return <div>Loading...</div>;
 
@@ -42,7 +42,7 @@ function OrderProductDashBoard() {
   return (
     <div>
       <Header />
-      {rule === "customer" && largerId ? (
+      {rule === "customer" && hasOrders? (
         <div className="max-w-7xl mx-auto md:mt-[6rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
           <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
