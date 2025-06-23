@@ -4,7 +4,7 @@ import verify from "../middleware/verifyToken.js";
 import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
-router.get("/", verify,checkRole(["customer"]),orderControllers.getOrders);
+router.get("/", verify,checkRole(["customer","admin"]),orderControllers.getOrders);
 router.get("/cart/:id",orderControllers.getOrderDetails);
 router.post("/create", orderControllers.createOrder);
 router.put("/process/:id",orderControllers.updateOrderProcess);
