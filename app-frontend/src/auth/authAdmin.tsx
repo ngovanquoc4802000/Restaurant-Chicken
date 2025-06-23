@@ -1,7 +1,7 @@
 import { useEffect, type PropsWithChildren } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "./hook/useAuth";
-import LoadingSpinner from "../common/loadingSpinner";
+import LoadingSpinner from "$/common/loadingSpinner";
 
 const AdminAuth = ({ children }: PropsWithChildren) => {
   

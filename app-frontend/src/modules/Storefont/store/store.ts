@@ -3,9 +3,8 @@ import userLoginReducer from "../components/pages/features/userLogin";
 import userRegister from "../components/pages/features/userRegister";
 import cartSlice from "../components/pages/features/cartSlice";
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../../../common/middleware/authApp";
 import updateLoginReducer from "../components/pages/features/updateLogin";
-
+import authReducer from "$/common/middleware/authApp";
 
 export const store = configureStore({
   reducer: {

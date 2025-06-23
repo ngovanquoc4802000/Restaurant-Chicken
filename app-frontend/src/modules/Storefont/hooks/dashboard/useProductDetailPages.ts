@@ -3,16 +3,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createOrder } from "../../../Admin/services/order";
-import type {
-  CreateOrderPayload,
-  OrderDetailsTs,
-  OrderTableTs,
-} from "../../../Admin/types/order";
+
 import { slugify } from "../../components/pages/dashboard/menu/ultils";
 import { addToCart } from "../../components/pages/features/cartSlice";
 import { close, open } from "../../components/pages/features/modal";
 import queriesDishlist from "../../queries/dishlist";
 import type { RootState } from "../../store/store";
+import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "$/modules/Admin/types/order";
 
 export const useProductDetailsPage = () => {
 

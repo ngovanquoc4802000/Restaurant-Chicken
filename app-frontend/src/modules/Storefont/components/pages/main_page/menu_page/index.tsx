@@ -11,15 +11,24 @@ function MenuPage() {
   const {id,categories,dishlist,isLoading,isError,refs,setRef,handleClick,handleProductClick} = useMenuPages();
 
   useEffect(() => {
+
     if (id && refs.current[id]) {
+    
       const timeout = setTimeout(() => {
+   
         refs.current[id]?.scrollIntoView({
+   
           behavior: "instant",
+   
           block: "start",
+   
         });
+   
       }, 50);
+   
       return () => clearTimeout(timeout);
-    }
+    };
+
   }, [id, refs]);
 
   if (isLoading || categories.length === 0 || dishlist.length === 0) return <div>Loading...</div>;

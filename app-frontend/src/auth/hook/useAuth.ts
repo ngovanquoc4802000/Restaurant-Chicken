@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-
-import type { RootState } from "../../modules/Storefont/store/store";
-import type { UserLoginResponse } from "../../modules/Storefont/mockup/user";
-import { Request } from "../../modules/Storefont/utils/http";
-import { createUserLogin } from "../../modules/Storefont/services/users";
-import { loginFailure, loginStart, LoginSuccess, logout } from "../../common/middleware/authApp";
+import { loginFailure, loginStart, LoginSuccess, logout } from "$/common/middleware/authApp";
+import { createUserLogin } from "$/modules/Storefont/services/users";
+import { Request } from "$/modules/Storefont/utils/http";
+import type { UserLoginResponse } from "$/modules/Storefont/mockup/user";
+import type { RootState } from "$/modules/Storefont/store/store";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -12,9 +11,7 @@ export const useAuth = () => {
   const { isAuthenticated, user, loading, error } = useSelector(
     (state: RootState) => state.auth
   );
-  
   /* login */
-  
   const performLogin = async (email: string, password: string) => {
     dispatch(loginStart());
     try {
@@ -34,7 +31,6 @@ export const useAuth = () => {
     }
   };
   /* refresh token */
-
   const checkAndRefreshToken = async () => {
     dispatch(loginStart());
     try {

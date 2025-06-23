@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { close } from "../../components/pages/features/modal";
-import { useAuth } from "../../../../auth/hook/useAuth";
+import { useAuth } from "$/auth/hook/useAuth";
 
 export const useLoginAdmin = () => {
   const [formData, setFormData] = useState({

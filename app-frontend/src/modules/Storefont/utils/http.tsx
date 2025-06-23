@@ -1,13 +1,12 @@
 import axios from "axios";
+import { LoginSuccess, logout } from "$/common/middleware/authApp";
 import { store } from "../store/store";
-import { LoginSuccess, logout } from "../../../common/middleware/authApp";
 
 const API_URL_BASE = "http://localhost:7777/";
 
 export const Request = axios.create({
   baseURL: API_URL_BASE,
 });
-
 export const axiosInstance = axios.create({
   baseURL: API_URL_BASE,
   withCredentials: true,
