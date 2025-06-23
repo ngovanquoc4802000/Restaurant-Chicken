@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createOrder } from "../../../Admin/services/order";
 
+import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "$/modules/Admin/types/order";
 import { slugify } from "../../components/pages/dashboard/menu/ultils";
 import { addToCart } from "../../components/pages/features/cartSlice";
-import { close, open } from "../../components/pages/features/modal";
+import { open } from "../../components/pages/features/modal";
 import queriesDishlist from "../../queries/dishlist";
 import type { RootState } from "../../store/store";
-import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "$/modules/Admin/types/order";
 
 export const useProductDetailsPage = () => {
 
@@ -38,8 +38,8 @@ export const useProductDetailsPage = () => {
     if (userRule === "customer") {
       setIsActive(true);
     } else if (userRule === "admin") {
-      alert("admin không có quyền đăng nhập");
-      dispatch(close());
+      alert("admin does not have permission to log in");
+      dispatch(open())
     } else {
       setIsActive(false);
     }

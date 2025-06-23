@@ -54,7 +54,6 @@ const DishList = () => {
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">CATEGORY</th>
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">NAME</th>
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">TITLE</th>
-            <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">CURRENCY</th>
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">PRICE</th>
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">DESCRIPTION</th>
             <th className="border border-solid border-gray-500 p-3 text-left bg-[#f0f0f0] font-bold">IMAGE</th>
@@ -68,8 +67,7 @@ const DishList = () => {
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{getCategoryName(dish.category_id)}</td>
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.name}</td>
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.title}</td>
-              <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.currency}</td>
-              <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.price}</td>
+              <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.price} VND</td>
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">{dish.description}</td>
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa]">
                 {dish.images && dish.images.length > 0 ? (
@@ -88,10 +86,10 @@ const DishList = () => {
                 )}
               </td>
               <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa]">
-                <Button className="py-[10px] cursor-pointer px-[35px] m-1 rounded-[4px] text-white bg-blue-500" text="edit" onClick={() => handleEdit(dish.id)} />
+                <Button className="py-[10px] cursor-pointer px-[35px] m-1 rounded-[4px] text-white bg-blue-500" text="Edit" onClick={() => handleEdit(dish.id)} />
                 <Button
                 className="py-[8px] px-[10px] cursor-pointer rounded-[4px] m-1 text-white bg-amber-500"
-                  text="showDeTails"
+                  text="Show"
                   onClick={() => handleDetail(dish.images)}
                 />
               </td>

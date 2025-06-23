@@ -27,7 +27,6 @@ function Sidebar() {
     localStorage.removeItem("user_order_history");
     localStorage.removeItem("userId");
   };
-  console.log(user?.rule === "admin");
 
   const handleAdmin = () => {
     if (isAuthenticated && user?.rule === "admin") {

@@ -10,10 +10,10 @@ import routerUser from "./router/user.js";
 import cors from "cors";
 
 import routerCategoryApi from "./router/category.js";
-
 import routerDishlist from "./router/dishList.js";
 import routerOrder from "./router/order.js";
 import cookieParser from "cookie-parser";
+
 const app = express();
 
 //PORT
@@ -29,6 +29,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
+
 app.use("/category", routerCategoryApi);
 app.use("/dishlist", routerDishlist);
 app.use("/user", routerUser);

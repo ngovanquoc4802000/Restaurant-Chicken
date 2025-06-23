@@ -20,7 +20,9 @@ function Header() {
     setIsOffcanvasOpen(false);
   };
   const navigate = useNavigate();
+
   const userRole = useSelector((state: RootState) => state.userLogin.rule);
+  
   const handleUser = () => {
     if (userRole === "customer") {
       navigate("/account");
