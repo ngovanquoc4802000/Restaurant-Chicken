@@ -78,10 +78,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
 
         <form className="form" onSubmit={handleFormSubmit}>
           <div className="form-group mb-3.5">
-            <label
-              className="block mb-1.5 mt-1.5 font-bold"
-              htmlFor="name"
-            >
+            <label className="block mb-1.5 mt-1.5 font-bold" htmlFor="name">
               Name:
             </label>
             <input
@@ -96,7 +93,9 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
             />
           </div>
           <div className="form-group">
-            <label className="block mb-1.5 mt-1.5 font-bold" htmlFor="handle">Handle:</label>
+            <label className="block mb-1.5 mt-1.5 font-bold" htmlFor="handle">
+              Handle:
+            </label>
             <input
               className="w-full p-1.5 border border-solid border-gray-300  rounded-[4px] text-[16px]"
               type="text"
@@ -109,7 +108,9 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="image" className="block mb-1.5 mt-1.5 font-bold">Image:</label>
+            <label htmlFor="image" className="block mb-1.5 mt-1.5 font-bold">
+              Image:
+            </label>
             <input
               className="w-full p-1.5 rounded-[4px] text-[16px] border border-solid border-gray-300 "
               type="text"
