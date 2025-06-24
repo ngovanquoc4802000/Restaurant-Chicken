@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import queriesOrder from "../../queries/orders";
-import { useOrderForm } from "../../hooks/useOrderForm";
 import Button from "$/common/button/button";
+import { useEffect } from "react";
+import { useOrderForm } from "../../hooks/useOrderForm";
+import queriesOrder from "../../queries/orders";
 
 interface OrderFormTs {
   idDetail: number | undefined | null;
@@ -25,8 +25,8 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     handleOrderInputDetails,
     findNameDishList,
   } = useOrderForm(onHideModal, idDetail);
-
   useEffect(() => {
+
     if (isEdit && detail) {
       const list = queryClient.getQueryData(queriesOrder.list.queryKey);
 
@@ -59,12 +59,29 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
   return (
     <form
       onSubmit={handleSubmitOrder}
-      className="form max-w-[600px] bg-blue-900 p-5 mt-auto absolute left-[25%] top-[10%] rounded-[5px] overflow-y-auto"
-    >
-      <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">Create new order</h2>
+      className="form
+       max-w-[600px]
+        bg-red-900
+        p-5 
+         absolute
+          fixed
+           overflow-y-auto
+             bg-black/70
+              left-1/2   
+                top-1/2
+                 -translate-x-1/2
+                 -translate-y-1/2
+                rounded-[5px]
+                 max-h-[95vh]
+       
+       "
+       style={{ zIndex: 1000 }}
+       >
+      <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">
+        Create new order
+      </h2>
 
       <div>
-        <h3 className="mb-2.5 text-white text-center text-[18px] bg-blue-700 font-bold rounded-[4px]">Customer information</h3>
         {isPending && <h1>Save...</h1>}
 
         <div className="form-group mb-3.5">
@@ -81,7 +98,11 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           >
             <option value="">Select User</option>
             {userData?.map((user) => (
-              <option className="text-black" key={user.id} value={String(user.id)}>
+              <option
+                className="text-black"
+                key={user.id}
+                value={String(user.id)}
+              >
                 {user.fullname}
               </option>
             ))}
@@ -134,10 +155,10 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
       {/* Thêm món ăn */}
       <div className="dish-form mb-5 pt-5 border-t border-solid border-gray-300">
-        <h3 className="text-center text-[18px] rounded-[4px] font-bold text-white bg-blue-700">Add dishlist</h3>
+       
         <div className="dish-grid grid grid-cols-[1fr_1fr_1fr_auto] gap-2.5 mb-2.5 items-end">
           <div className="form-group">
-            <label  className=" text-white">ID dishlist:</label>
+            <label className=" text-white">ID dishlist:</label>
             <select
               className="h-10 border border-solid border-gray-200 rounded-[4px] bg-white text-black"
               name="id_dishlist"
@@ -155,9 +176,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           </div>
 
           <div>
-            <label  className=" text-white">Quantity:</label>
+            <label className=" text-white">Quantity:</label>
             <input
-            className="border bg-white border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black"
+              className="border bg-white border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black"
               type="number"
               name="quantity"
               value={orderDetails.quantity}
@@ -166,9 +187,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           </div>
 
           <div>
-            <label  className=" text-white">Price:</label>
+            <label className=" text-white">Price:</label>
             <input
-            className="border border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black bg-white"
+              className="border border-solid w-[120px] border-gray-200 h-[40px] rounded-[4px] text-black bg-white"
               type="number"
               name="price"
               value={orderDetails.price}
@@ -205,9 +226,12 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         ) : (
           <ul className="list-none p-0">
             {orderData.details?.map((item, index) => (
-              <li key={index} className="border-b border-dashed border-gray-300 pb-2.5 mb-2.5 text-gray-300">
-                dishlist {index + 1}: ID {findNameDishList(item.id_dishlist)}, quantity{" "}
-                {item.quantity}, Giá {item.price} - notes:{" "}
+              <li
+                key={index}
+                className="border-b border-dashed border-gray-300 pb-2.5 mb-2.5 text-gray-300"
+              >
+                dishlist {index + 1}: ID {findNameDishList(item.id_dishlist)},
+                quantity {item.quantity}, Giá {item.price} - notes:{" "}
                 {item.note || "No"}
               </li>
             ))}
@@ -215,18 +239,30 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         )}
       </div>
 
-      <button className="submit-button w-full disabled:bg-gray-400 cursor-not-allowed  p-2.5 bg-[#28a745] text-white border-none rounded-[4px] cursor-pointer text-base mb-2.5" disabled={isPending} type="submit">
+      <button
+        className="submit-button w-full disabled:bg-gray-400 cursor-not-allowed  p-2.5 bg-[#28a745] text-white border-none rounded-[4px] cursor-pointer text-base mb-2.5"
+        disabled={isPending}
+        type="submit"
+      >
         Create order
       </button>
 
       <div className="form-actions flex justify-end">
-        <button type="submit" className="save-button mr-1 px-[8px] py-[10px] bg-[#007bff] border-none text-white rounded-[4px] cursor-pointer disabled:bg-gray-500 cursor-not-allowed" disabled={isPending}>
+        <button
+          type="submit"
+          className="save-button mr-1 px-[8px] py-[10px] bg-[#007bff] border-none text-white rounded-[4px] cursor-pointer disabled:bg-gray-500 cursor-not-allowed"
+          disabled={isPending}
+        >
           {idDetail ? "Update" : "Save"}
           {isPending && (
             <span className="spinner-border spinner-border-sm"></span>
           )}
         </button>
-        <Button className="bg-red-400 border-none text-white px-[10px] py-[15px] rounded-[4px] cursor-pointer" text="cancel" onClick={onHideModal} />
+        <Button
+          className="bg-red-400 border-none text-white px-[10px] py-[15px] rounded-[4px] cursor-pointer"
+          text="cancel"
+          onClick={onHideModal}
+        />
       </div>
     </form>
   );

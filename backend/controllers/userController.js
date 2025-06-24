@@ -81,13 +81,10 @@ export const userAPIRegister = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Email already exists." });
     }
-    const adminEmails = ["admin@gmail.com"];
-
-    const rule = adminEmails.includes(email) ? "admin" : "customer";
     
     const insertResult = await pool.query(
-      `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status,rule)
-       VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING id, email`,
+      `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email`,
       [
         fullname,
         email,
@@ -96,7 +93,6 @@ export const userAPIRegister = async (req, res) => {
         hashedPassword,
         formatDbTimestamp(),
         status,
-        rule,
       ]
     );
 
@@ -324,10 +320,7 @@ export const userAPILogin = async (req, res) => {
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
      
-      const adminEmails = ["admin@gmail.com"];
-     
-      const rule = adminEmails.includes(email) ? "admin" : "customer";
-     
+    
       res.status(200).json({
         success: true,
         message: "Login successful.",
@@ -336,7 +329,7 @@ export const userAPILogin = async (req, res) => {
           id: user.id,
           email: user.email,
           fullname: user.fullname,
-          rule: rule,
+          rule: user.rule,
         },
       });
     } else {

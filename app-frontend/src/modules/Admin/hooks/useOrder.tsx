@@ -22,9 +22,9 @@ export const useOrder = () => {
   const [stateOrder, setStateOrder] = useState<OrderStateTs>(initialOrderTs);
 
   const { isLoading, isError, data: orderList } = useQuery({ ...queriesOrder.list });
-
+  console.log(orderList)
   const { data: userName } = useQuery({ ...queriesUser.list });
-
+  
   const findUserMap = useMemo(() => {
     const map = new Map();
     userName?.forEach((cat) => map.set(cat.id, cat.fullname));

@@ -1,9 +1,11 @@
+import { axiosInstance } from "$/modules/Storefont/utils/http";
 import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
 import { Request } from "../utils/http";
 
 export const getOrderAll = async () => {
   try {
-    const result = await Request.get<OrderAllTs>("order");
+    const result = await axiosInstance.get<OrderAllTs>("order");
+    console.log(result.data)
     return result.data;
   } catch (error) {
     console.log(error);
@@ -17,7 +19,7 @@ export const getOrderAll = async () => {
 
 export const getOrderId = async (id: number | undefined | null) => {
   try {
-    const result = await Request.get<OrderAllTs>(`order/${id}`);
+    const result = await axiosInstance.get<OrderAllTs>(`order/cart/${id}`);
     return result;
   } catch (error) {
     console.log(error);
@@ -26,7 +28,7 @@ export const getOrderId = async (id: number | undefined | null) => {
 
 export const createOrder = async (payload: CreateOrderPayload) => {
   try {
-    const { data } = await Request.post<OrderTableTs>("order/create", payload);
+    const data = await axiosInstance.post<OrderTableTs>("order/create", payload);
     return data;
   } catch (error) {
     console.error("Error in createOrder service:", error);
@@ -45,7 +47,7 @@ export const updateOrder = async (id: number | undefined | null, update: CreateO
 
 export const updateOrderProcess = async (id: number | undefined | null) => {
   try {
-    const data = await Request.put(`order/process/${id}`);
+    const data = await axiosInstance.put(`order/process/${id}`);
     return data.data;
   } catch (error) {
     console.log(error);

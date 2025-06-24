@@ -7,7 +7,7 @@ const formatDbTimestamp = () => {
 export const getOrders = async (req, res) => {
   try {
    const rule = req.user.rule;
-    const userId = parseInt(req.user.sub); // ID từ token
+    const userId = parseInt(req.user.sub); 
     let ordersResult;
     if (rule === "admin") {
       ordersResult = await pool.query(`
@@ -435,14 +435,19 @@ export const updateOrder = async (req, res) => {
 
 export const updateOrderProcess = async (req, res) => {
   const orderId = req.params.id;
+  const rule = req.user.rule;
+  const userId = parseInt(req.user.sub); 
   const steps = ["Xử lý", "Đang chờ", "Đang thực hiện", "Hoàn thành"];
   const now = formatDbTimestamp();
 
   try {
-    const orderResult = await pool.query(
-      `SELECT process FROM "order_table" WHERE id = $1`,
-      [orderId]
-    );
+    let orderResult;
+    if(rule === "admin") {
+      await pool.query(
+        `SELECT process FROM "order_table" WHERE id = $1`,
+        [orderId]
+      );
+    }
 
     if (orderResult.rows.length === 0) {
       return res

@@ -1,7 +1,9 @@
 import Button from "$/common/button/button";
+import { useSelector } from "react-redux";
 import { useOrder } from "../../hooks/useOrder";
 import OrderDetails from "./orderDetail";
 import OrderForm from "./orderForm";
+import type { RootState } from "$/modules/Storefont/store/store";
 
 const Order = () => {
   const {
@@ -16,15 +18,18 @@ const Order = () => {
     orderList,
     userName,
   } = useOrder();
-
+  const rule = useSelector((state: RootState) => state.userLogin.rule);
+  console.log(rule === "admin")
+  
   if (isLoading || !orderList || !userName) return <div>Loading...</div>;
 
   if (isError) return <div>Error...</div>;
-
+  
+  const sortdDish = [...orderList].sort((a,b) => Number(a) - Number(b))
   return (
-    <div className="order-list bg-[#f5f5f5] p-5 rounded-[5px] relative">
-      <h2 className="text-center text-2xl text-gray-700 mt-0 mb-5">Order List</h2>
-
+    <div className="order-list  rounded-[5px] relative">
+      <h2 className="text-center text-2xl bg-red-800 p-5 text-white font-bold text-gray-700 mt-0 mb-5">Order List</h2>
+    <div className="p-5">
       <Button
       className="px-[8px] cursor-pointer py-[10px] bg-green-600 text-white rounded-[4px]"
         text="+ Create"
@@ -52,23 +57,23 @@ const Order = () => {
       <table className="w-full border-collapse mt-2">
         <thead>
           <tr>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Id</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">User</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Address</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_name</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_phone</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_note</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Total Price</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Process</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Paid</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Create_at</th>
-            <th className="bg-gray-200 font-bold border border-solid border-gray-500 p-2.5 text-left">Actions</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Id</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">User</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Address</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_name</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_phone</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Customer_note</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Total Price</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Process</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Paid</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Create_at</th>
+            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {orderList?.map((item) => (
+          { sortdDish?.map((item) => (
             <tr key={item.id}>
-              <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.id}</td>
+              <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{Number(item.id)}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{getFindUser(item.user_id)}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.address}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_name}</td>
@@ -107,6 +112,8 @@ const Order = () => {
       </table>
 
       {orderList.length === 0 && <p>No orders found.</p>}
+
+    </div>
     </div>
   );
 };

@@ -5,9 +5,9 @@ import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
 router.get("/", verify,checkRole(["customer","admin"]),orderControllers.getOrders);
-router.get("/cart/:id",orderControllers.getOrderDetails);
-router.post("/create", orderControllers.createOrder);
-router.put("/process/:id",orderControllers.updateOrderProcess);
+router.get("/cart/:id", verify,checkRole(["customer","admin"]),orderControllers.getOrderDetails);
+router.post("/create",verify,checkRole(["customer","admin"]),orderControllers.createOrder);
+router.put("/process/:id",verify,checkRole(["admin"]),orderControllers.updateOrderProcess);
 
 router
   .route("/:id")

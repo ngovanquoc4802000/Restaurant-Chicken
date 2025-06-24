@@ -5,6 +5,8 @@ import queriesOrder from "../queries/orders";
 import queriesDishlist from "../queries/dishlist";
 import { createOrder, updateOrder } from "../services/order";
 import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../types/order";
+import { useSelector } from "react-redux";
+import type { RootState } from "$/modules/Storefont/store/store";
 
 const initialOrder: OrderTableTs = {
   user_id: "",
@@ -28,9 +30,13 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
 
   const [orderDetails, setOrderDetails] = useState<OrderDetailsTs>(initialDetail);
 
+  const rule = useSelector((state:RootState) => state.userLogin.rule);
+
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    submitOrder();
+    if(rule === "admin") {
+      submitOrder();
+    }
   };
   const isEdit = idDetail !== null && idDetail !== undefined;
 

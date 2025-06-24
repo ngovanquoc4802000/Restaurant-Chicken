@@ -17,7 +17,7 @@ export const getOrderAll = async () => {
 };
 export const getOrderId = async (id: number | null | undefined) => {
   try {
-    const result = await Request.get<OrderAllTs>(`order/${id}`);
+    const result = await axiosInstance.get<OrderAllTs>(`order/${id}`);
     return result.data;
   } catch (error) {
     console.log(error);
