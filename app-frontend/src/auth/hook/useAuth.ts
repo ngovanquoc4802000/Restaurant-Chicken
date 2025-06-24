@@ -7,7 +7,7 @@ import type { RootState } from "$/modules/Storefont/store/store";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-
+  
   const { isAuthenticated, user, loading, error } = useSelector(
     (state: RootState) => state.auth
   );

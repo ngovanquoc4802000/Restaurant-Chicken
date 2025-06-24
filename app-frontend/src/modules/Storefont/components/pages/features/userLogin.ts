@@ -2,12 +2,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface LoggedInUserState {
-  id: number | null; // Có thể là number | undefined nếu bạn muốn nullable cho API
+  id: number | null; 
   email: string | null;
   fullname: string | null;
   rule: "admin" | "customer" | null;
   accessToken: string | null;
-  isAuthenticated: boolean; // Nên là boolean, không phải boolean | null
+  isAuthenticated: boolean;
 }
 
 const initialState: LoggedInUserState = {

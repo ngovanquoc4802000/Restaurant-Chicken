@@ -12,6 +12,7 @@ const queryClient = new QueryClient({
     },
   },
 });
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {

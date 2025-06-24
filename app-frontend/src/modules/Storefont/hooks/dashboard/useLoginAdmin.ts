@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { close } from "../../components/pages/features/modal";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const useLoginAdmin = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export const useLoginAdmin = () => {
     password: "",
   });
   const {login} = useAuth();
-
+const queryClient = useQueryClient()
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const useLoginAdmin = () => {
      const success = await login(formData.email, formData.password);
     if (success) {
       console.log("Login Success (admin)");
+       queryClient.invalidateQueries({ queryKey: ["orders", "list"] });
       navigate("/admin/category");
       dispatch(close())
     } else {

@@ -1,16 +1,18 @@
+import Button from "$/common/button/button";
+import cart1 from "$/modules/Storefont/assets/cart1.png";
+import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
+import logoMobile from "$/modules/Storefont/assets/kfclogo.png";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
+import queriesOrder from "$/modules/Storefont/queries/order";
+import type { RootState } from "$/modules/Storefont/store/store";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import type { RootState } from "$/modules/Storefont/store/store";
-import Button from "$/common/button/button";
-import cart1 from "$/modules/Storefont/assets/cart1.png"
-import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg"
-import logoMobile from "$/modules/Storefont/assets/kfclogo.png"
 import "./styles.scss";
 
 function Header() {
-  const [userOrderHistory, setUserOrderHistory] = useState([]);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const openOffcanvas = () => {
     setIsOffcanvasOpen(true);
@@ -19,10 +21,12 @@ function Header() {
   const closeOffcanvas = () => {
     setIsOffcanvasOpen(false);
   };
+
+  const { userId } = useOrderProductDB();
   const navigate = useNavigate();
 
   const userRole = useSelector((state: RootState) => state.userLogin.rule);
-  
+
   const handleUser = () => {
     if (userRole === "customer") {
       navigate("/account");
@@ -30,12 +34,20 @@ function Header() {
       navigate("/login");
     }
   };
+  const { data: orderList } = useQuery({
+    ...queriesOrder.list,
+    enabled: !!userId,
+  });
+  const queryClient = useQueryClient();
+  const currentUserOrders =
+    orderList?.filter((item) => item.user_id === userId) || [];
+  const totalCartItems = currentUserOrders.reduce(
+    (acc, curr) => acc + curr.details.length,
+    0
+  );
   useEffect(() => {
-    const data = localStorage.getItem("user_order_history");
-    if (data) {
-      setUserOrderHistory(JSON.parse(data));
-    }
-  }, []);
+    queryClient.invalidateQueries({ ...queriesOrder.list });
+  }, [userId, queryClient]);
   return (
     <>
       <header className="header flex-col lg:flex-row md:flex-row  md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -120,16 +132,16 @@ function Header() {
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
             <div className="relative w-6 h-6 flex items-center justify-center">
               <AnimatePresence>
-                {userRole === "customer" && userOrderHistory.length > 0 && (
+                {userRole === "customer" && totalCartItems > 0 && (
                   <motion.div
-                    key={userOrderHistory.length}
+                    key={totalCartItems}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                     className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                   >
-                    {userOrderHistory.length}
+                    {totalCartItems}
                   </motion.div>
                 )}
               </AnimatePresence>

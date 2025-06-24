@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { open } from "../../components/pages/features/modal";
+import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 import { setUser } from "../../components/pages/features/userLogin";
 import type { LoginCredentials } from "../../mockup/user";
 import { createUserLogin } from "../../services/users";
-import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 import type { RootState } from "../../store/store";
 
 export const useLogin = () => {
@@ -25,7 +25,7 @@ export const useLogin = () => {
   const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const navigate = useNavigate();
-
+  
   const dispatch = useDispatch();
 
   const update = async () => {
@@ -54,9 +54,9 @@ export const useLogin = () => {
           setUpdateLogin({
             fullname: data.data.fullname,
             email: data.data.email,
-            phone_number: ""
+            phone_number: "",
           })
-        )
+        );
         if (userData.rule === "customer") {
           navigate("/home");
 

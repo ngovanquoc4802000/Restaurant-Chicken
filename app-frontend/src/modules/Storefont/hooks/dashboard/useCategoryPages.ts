@@ -14,7 +14,9 @@ export const useCategoryPages = () => {
     queries: [{ ...queriesCategories.list }, { ...queriesDishlist.list }],
   });
   const navigate = useNavigate();
+  
   const dispatch = useDispatch();
+  
   const handleClick = (name: string) => {
     const slug = slugify(name);
     navigate(`/menu/${slug}`);

@@ -1,48 +1,66 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useQuery } from "@tanstack/react-query";
+import Button from "$/common/button/button";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
+import queriesDishlist from "$/modules/Storefont/queries/dishlist";
+import queriesOrder from "$/modules/Storefont/queries/order";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import Button from "$/common/button/button";
-import queriesOrder from "$/modules/Storefont/queries/order";
-import queriesDishlist from "$/modules/Storefont/queries/dishlist";
-import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
 import Footer from "../../footer";
 import Header from "../../header";
 
-function OrderProductDashBoard() {
-  const { sumOrder, rule, userId, handleRemove } =
-    useOrderProductDB();
-  const { data: orderList, isError ,isLoading } = useQuery({ ...queriesOrder.list });
+function orderProductDashBoard() {
+  const { sumOrder, rule, userId, handleRemove } = useOrderProductDB();
+  const queryClient = useQueryClient();
+  console.log(userId);
+  const {
+    data: orderList,
+    isError,
+    isLoading,
+  } = useQuery({ ...queriesOrder.list });
 
-  const { data: dishlist } = useQuery({ ...queriesDishlist.list });
+  console.log(orderList);
+
+  const {
+    isError: isErrorDishlist,
+    isLoading: isLoadingDishlist,
+    data: dishlist,
+  } = useQuery({ ...queriesDishlist.list });
 
   const findUserId = orderList?.filter((item) => item.user_id === userId);
-
+  console.log("Filtered Orders (findUserId):", findUserId);
   const totalDishes =
     findUserId?.reduce((acc, curr) => acc + curr.details.length, 0) ?? 0;
 
- const totalQuantity =
-  findUserId?.reduce(
-    (acc, curr) =>
-      acc + curr.details.reduce((sum, d) => sum + d.quantity * d.price, 0),
-    0
-  ) ?? 0;
+  const totalQuantity =
+    findUserId?.reduce(
+      (acc, curr) =>
+        acc + curr.details.reduce((sum, d) => sum + d.quantity * d.price, 0),
+      0
+    ) ?? 0;
 
   useEffect(() => {
     if (findUserId && findUserId.length > 0) {
       localStorage.setItem("user_order_history", JSON.stringify(findUserId));
     }
-  }, [findUserId]);
+    queryClient.invalidateQueries({ queryKey: queriesOrder.list.queryKey });
+    queryClient.refetchQueries({ queryKey: queriesOrder.list.queryKey });
+  }, [findUserId, queryClient, userId]);
 
- const hasOrders = orderList && orderList.length > 0 && orderList.some(o => o.details.length > 0);
+  const hasOrders =
+    orderList &&
+    orderList.length > 0 &&
+    orderList.some((item) => item.details.length > 0);
+  /*   const largerId = findUserId?.map((item) => item.details.length > 0); */
 
-  if (isLoading && !orderList) return <div>Loading...</div>;
+  if (isLoadingDishlist && isLoading && !orderList)
+    return <div>Loading...</div>;
 
-  if(isError) return <div>Error...</div>
+  if (isError && isErrorDishlist) return <div>Error...</div>;
   return (
     <div>
       <Header />
-      {rule === "customer" && hasOrders? (
+      {rule === "customer" && hasOrders ? (
         <div className="max-w-7xl mx-auto md:mt-[6rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
           <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -97,7 +115,7 @@ function OrderProductDashBoard() {
 
             {/* Right side - Payment Summary */}
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4"> {totalDishes}dish</h2>
+              <h2 className="text-xl font-bold mb-4"> {totalDishes} dish</h2>
               <div className="mb-4">
                 <p className="text-sm font-medium mb-1">
                   Do you have a discount code?
@@ -153,4 +171,4 @@ function OrderProductDashBoard() {
   );
 }
 
-export default OrderProductDashBoard;
+export default orderProductDashBoard;

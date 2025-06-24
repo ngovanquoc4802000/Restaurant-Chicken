@@ -18,17 +18,17 @@ export const createUserLogin = async (login: LoginCredentials) => {
       console.log("No create user login")
     }
     if (result.data.success === false) {
-      throw new Error(result.data.message || "Email hoặc mật khẩu không đúng.");
+      throw new Error(result.data.message || "Email or Password Error.");
     }
    
     return result.data; 
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Chi tiết lỗi:", error.message);
+      console.error("Details Error:", error.message);
     } else {
-      console.error("Chi tiết lỗi không xác định:", error);
+      console.error("Details Null:", error);
     }
-    throw new Error("Lỗi kết nối đến máy chủ.");
+    throw new Error("Error connect server.");
   }
 };
 

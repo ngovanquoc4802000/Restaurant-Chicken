@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { createHash, secureHeapUsed } from "crypto";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 const JWTKey = process.env.JWT_SECRET;
 const JwtRefresh = process.env.JWT_REFRESH;
@@ -81,7 +82,9 @@ export const userAPIRegister = async (req, res) => {
         .json({ success: false, message: "Email already exists." });
     }
     const adminEmails = ["admin@gmail.com"];
+
     const rule = adminEmails.includes(email) ? "admin" : "customer";
+    
     const insertResult = await pool.query(
       `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status,rule)
        VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING id, email`,
@@ -320,8 +323,11 @@ export const userAPILogin = async (req, res) => {
         sameSite: "Strict",
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
+     
       const adminEmails = ["admin@gmail.com"];
+     
       const rule = adminEmails.includes(email) ? "admin" : "customer";
+     
       res.status(200).json({
         success: true,
         message: "Login successful.",
@@ -357,7 +363,6 @@ export const refreshTokenAPI = async (req, res) => {
     });
   }
   try {
-    //.Xác thực Refresh Token (kiểm tra tính hợp lệ, chữ ký, và chưa bị blacklist/revoked).
     const decoded = await new Promise((resolve, reject) => {
       jwt.verify(refreshToken, JwtRefresh, (err, decodedData) => {
         if (err) {
@@ -366,15 +371,9 @@ export const refreshTokenAPI = async (req, res) => {
         resolve(decodedData);
       });
     });
-    // Nếu xác thực thành công, `decoded` sẽ chứa payload của Refresh Token
-    // Payload của bạn có `sub` (user ID) và `rule`
-    // 3. Kiểm tra tính hợp lệ của người dùng và trạng thái blacklist (nếu có)
-    // Bạn nên kiểm tra lại trong cơ sở dữ liệu xem user_id (decoded.sub) có tồn tại không,
-    // và người dùng đó có bị vô hiệu hóa, bị khóa, hoặc refresh token này có bị thu hồi không.
-    // Đây là nơi bạn thực hiện "blacklist/revoked" như bạn đã nói.
     const userResult = await pool.query(
       `SELECT id, fullname, email, rule FROM "user" WHERE id = $1`,
-      [decoded.sub] // decoded.sub là ID của người dùng từ payload Refresh Token
+      [decoded.sub] 
     );
     if (userResult.rows.length === 0) {
       console.log(`User with ID ${decoded.sub} not found or deactivated.`);
@@ -385,16 +384,13 @@ export const refreshTokenAPI = async (req, res) => {
       });
     }
     const user = userResult.rows[0];
-    // --- Đến đây, Refresh Token đã được xác thực thành công và người dùng hợp lệ ---
-    // Tiếp theo, bạn sẽ tạo Access Token mới và gửi về client.
-    // tạo access token mới
+    
     const accessTokenPayload = {
       sub: user.id.toString(),
       email: user.email,
       fullname: user.fullname,
       rule: user.rule,
     };
-    // Tạo Access Token mới
     const newAccessToken = await new Promise((resolve, reject) => {
       jwt.sign(
         accessTokenPayload,

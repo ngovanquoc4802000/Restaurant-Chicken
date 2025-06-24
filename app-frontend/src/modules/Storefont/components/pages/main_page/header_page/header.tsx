@@ -1,31 +1,40 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "$/modules/Storefont/store/store";
-import { useHeaderPages } from "$/modules/Storefont/hooks/menu_page/useHeaderPages";
 import Button from "$/common/button/button";
-import logo from "$/modules/Storefont/assets/kfclogo.png";
 import cart1 from "$/modules/Storefont/assets/cart1.png";
 import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
+import logo from "$/modules/Storefont/assets/kfclogo.png";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
+import { useHeaderPages } from "$/modules/Storefont/hooks/menu_page/useHeaderPages";
+import queriesOrder from "$/modules/Storefont/queries/order";
+import type { RootState } from "$/modules/Storefont/store/store";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 function Header() {
-  const {
-    open,
-    handleClose,
-    handleOpen,
-    menuItemsData,
-    handleNavigate,
-  } = useHeaderPages();
-  const [userOrderHistory, setUserOrderHistory] = useState([]);
-  const userRole = useSelector((state:RootState) => state.userLogin.rule);
+  const { open, handleClose, handleOpen, menuItemsData, handleNavigate } =
+    useHeaderPages();
 
+  const userRole = useSelector((state: RootState) => state.userLogin.rule);
+
+  const { userId } = useOrderProductDB();
+
+  const { data: orderList } = useQuery({
+    ...queriesOrder.list,
+    enabled: !!userId,
+  });
+  const queryClient = useQueryClient();
+  const currentUserOrders =
+    orderList?.filter((item) => item.user_id === userId) || [];
+  const totalCartItems = currentUserOrders.reduce(
+    (acc, curr) => acc + curr.details.length,
+    0
+  );
   useEffect(() => {
-    const data = localStorage.getItem("user_order_history");
-    if (data) {
-      setUserOrderHistory(JSON.parse(data));
-    }
-  }, []);
+    queryClient.invalidateQueries({ ...queriesOrder.list });
+  }, [userId, queryClient]);
+
   return (
     <>
       <header className="header lg:px-[100px] lg:py-[30px] md:px-[15px] md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -79,16 +88,16 @@ function Header() {
         <div className="flex flex-row-reverse lg:flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative w-6 h-6 flex items-center justify-center">
             <AnimatePresence>
-              {userRole === "customer" && userOrderHistory.length > 0 && (
+              {userRole === "customer" && totalCartItems > 0 && (
                 <motion.div
-                  key={userOrderHistory.length}
+                  key={totalCartItems}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   transition={{ duration: 0.3 }}
                   className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                 >
-                  {userOrderHistory.length}
+                  {totalCartItems}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -130,23 +139,21 @@ function Header() {
       {/* Offcanvas Overlay */}
       <div
         className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
-          open 
-            ? "offcanvas-overlay--visible visible opacity-100" 
+          open
+            ? "offcanvas-overlay--visible visible opacity-100"
             : "invisible opacity-0"
         }`}
-        onClick={handleClose} 
+        onClick={handleClose}
       ></div>
 
       {/* Offcanvas Panel */}
       <div
         className={`offcanvas-panel fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[1000] overflow-y-auto shadow-[−2px_0_5px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out ${
-          open
-            ? "offcanvas-panel--open translate-x-0"
-            : "translate-x-full" 
+          open ? "offcanvas-panel--open translate-x-0" : "translate-x-full"
         }`}
       >
         <Button
-          onClick={handleClose} 
+          onClick={handleClose}
           className="offcanvas__close-button absolute top-3 right-3 text-[1.5rem] bg-none border-none cursor-pointer text-[#333] z-10"
           text="&times;"
         />
@@ -201,10 +208,10 @@ function Header() {
 
           <ul className="offcanvas__menu list-none p-0 ">
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Order Tracker</a> 
+              <a href="#">Order Tracker</a>
             </li>
             <li className="offcanvas__menu-item cursor-pointer hover:underline mb-2 ">
-              <a href="#">Contact Us</a> 
+              <a href="#">Contact Us</a>
             </li>
           </ul>
         </div>

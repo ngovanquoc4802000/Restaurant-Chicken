@@ -7,6 +7,8 @@ import { clearUser } from "../../../features/userLogin";
 import LoginAdmin from "../../../dashboard/modal/loginAdmin";
 import { close, open } from "../../../features/modal";
 import { clearCart } from "../../../features/cartSlice";
+import { useQueryClient } from "@tanstack/react-query";
+import queriesOrder from "$/modules/Storefont/queries/order";
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -14,20 +16,21 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const isOpenModal = useSelector((state: RootState) => state.showLogin);
-  
-  const stateLogin = useSelector((state: RootState) => state.updateLogin );
-  
-  const rule = useSelector((state: RootState) => state.userLogin.rule );
-  
-  const { user, isAuthenticated } = useAuth();   
+
+  const stateLogin = useSelector((state: RootState) => state.updateLogin);
+
+  const rule = useSelector((state: RootState) => state.userLogin.rule);
+  const queryClient = useQueryClient();
+  const { user, isAuthenticated } = useAuth();
 
   const handleLogout = () => {
     dispatch(clearUser());
     dispatch(clearCart());
     localStorage.removeItem("user_order_history");
     localStorage.removeItem("userId");
+    queryClient.invalidateQueries({ ...queriesOrder.list });
   };
-
+  console.log(user?.rule === "admin");
   const handleAdmin = () => {
     if (isAuthenticated && user?.rule === "admin") {
       navigate("/admin");
@@ -51,7 +54,9 @@ function Sidebar() {
           />
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">Hello,</h2>
-            <h2 className="text-2xl font-extrablod">{ rule ? stateLogin.fullname : " "}</h2>
+            <h2 className="text-2xl font-extrablod">
+              {rule ? stateLogin.fullname : " "}
+            </h2>
             <NavLink
               onClick={handleLogout}
               style={{ textDecoration: "revert" }}
