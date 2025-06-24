@@ -11,7 +11,7 @@ router.put("/process/:id",verify,checkRole(["admin"]),orderControllers.updateOrd
 
 router
   .route("/:id")
-  .put(orderControllers.updateOrder)
+  .put(verify,checkRole(["admin"]),orderControllers.updateOrder)
   .delete(orderControllers.deleteOrder);
 
 export default router;

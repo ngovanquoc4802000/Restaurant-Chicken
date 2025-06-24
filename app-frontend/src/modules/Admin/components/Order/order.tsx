@@ -66,7 +66,6 @@ const Order = () => {
             <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Total Price</th>
             <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Process</th>
             <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Paid</th>
-            <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Create_at</th>
             <th className="bg-red-800 text-white font-bold border border-solid border-gray-500 p-2.5 text-left">Actions</th>
           </tr>
         </thead>
@@ -79,10 +78,9 @@ const Order = () => {
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_name}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_phone}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_note}</td>
-              <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.total_price}</td>
+              <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.total_price} VND</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.process || "Chưa xác định"}</td>
               <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.paid ? "Đã thanh toán" : "Chưa thanh toán"}</td>
-              <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{new Date(item.create_at).toLocaleString()}</td>
               <td className="font-bold border border-solid border-gray-500 p-2.5 text-left ">
                 <Button
                   className="bg-red-600 text-white px-[8px] py-[10px] rounded-[4px]"

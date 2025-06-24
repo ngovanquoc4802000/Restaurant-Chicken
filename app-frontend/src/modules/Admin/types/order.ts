@@ -4,7 +4,7 @@ export interface OrderAllTs {
   data: OrderTableTs[];
 }
 export interface OrderTableTs {
-  id?:number;
+  id?: number;
   user_id: number | string;
   address: string;
   customer_note: string;
@@ -28,6 +28,7 @@ export interface CreateOrderPayload {
 }
 
 export interface OrderDetailsTs {
+  id?: number;
   id_dishlist: number | string;
   quantity: number;
   price: number;

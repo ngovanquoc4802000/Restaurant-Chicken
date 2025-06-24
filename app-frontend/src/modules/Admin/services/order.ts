@@ -1,6 +1,5 @@
 import { axiosInstance } from "$/modules/Storefont/utils/http";
 import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
-import { Request } from "../utils/http";
 
 export const getOrderAll = async () => {
   try {
@@ -38,7 +37,7 @@ export const createOrder = async (payload: CreateOrderPayload) => {
 
 export const updateOrder = async (id: number | undefined | null, update: CreateOrderPayload) => {
   try {
-    const data = await Request.put(`order/${id}`, update);
+    const data = await axiosInstance.put(`order/${id}`, update);
     return data.data;
   } catch (error) {
     console.log(error);

@@ -26,13 +26,13 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
     findNameDishList,
   } = useOrderForm(onHideModal, idDetail);
   useEffect(() => {
-
     if (isEdit && detail) {
       const list = queryClient.getQueryData(queriesOrder.list.queryKey);
 
       const find = list?.find((item) => item.id === idDetail);
 
       if (find) {
+        // Hoặc dùng trực tiếp 'detail'
         setOrderData({
           user_id: find.user_id,
           address: find.address,
@@ -40,21 +40,34 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           customer_note: find.customer_note,
           customer_phone: find.customer_phone,
           create_at: find.create_at,
-          details: find.details,
+          details: find.details.map((item) => ({
+            // Đảm bảo details từ API có ID riêng
+            id: item.id, // Giả sử API trả về ID cho từng detail item
+            id_dishlist: item.id_dishlist,
+            quantity: item.quantity,
+            price: item.price,
+            note: item.note,
+          })),
+          id: detail.id, // ID của order chính
+          status: detail.status,
+          paid: detail.paid,
+          process: detail.process,
+          total_price: detail.total_price,
+          update_at: detail.update_at,
         });
       }
     } else {
-      setOrderData(orderData);
+      setOrderData({
+        user_id: "",
+        address: "",
+        customer_note: "",
+        customer_name: "",
+        customer_phone: "",
+        details: [],
+        create_at: new Date(),
+      });
     }
-  }, [
-    isEdit,
-    detail,
-    queryClient,
-    userData,
-    idDetail,
-    setOrderData,
-    orderData,
-  ]);
+  }, [isEdit, detail, queryClient, idDetail]);
 
   return (
     <form
@@ -75,8 +88,8 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
                  max-h-[95vh]
        
        "
-       style={{ zIndex: 1000 }}
-       >
+      style={{ zIndex: 1000 }}
+    >
       <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">
         Create new order
       </h2>
@@ -155,7 +168,6 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
 
       {/* Thêm món ăn */}
       <div className="dish-form mb-5 pt-5 border-t border-solid border-gray-300">
-       
         <div className="dish-grid grid grid-cols-[1fr_1fr_1fr_auto] gap-2.5 mb-2.5 items-end">
           <div className="form-group">
             <label className=" text-white">ID dishlist:</label>

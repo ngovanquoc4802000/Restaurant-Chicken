@@ -1,12 +1,14 @@
-import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
-import queriesUser from "../queries/users";
-import queriesOrder from "../queries/orders";
+import { useCallback, useMemo, useState } from "react";
 import queriesDishlist from "../queries/dishlist";
+import queriesOrder from "../queries/orders";
+import queriesUser from "../queries/users";
 import { createOrder, updateOrder } from "../services/order";
-import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../types/order";
-import { useSelector } from "react-redux";
-import type { RootState } from "$/modules/Storefont/store/store";
+import type {
+  CreateOrderPayload,
+  OrderDetailsTs,
+  OrderTableTs,
+} from "../types/order";
 
 const initialOrder: OrderTableTs = {
   user_id: "",
@@ -25,24 +27,23 @@ const initialDetail: OrderDetailsTs = {
   note: "",
 };
 
-export const useOrderForm = (onHideModal: () => void, idDetail: number | undefined | null) => {
+export const useOrderForm = (
+  onHideModal: () => void,
+  idDetail: number | undefined | null
+) => {
   const [orderData, setOrderData] = useState<OrderTableTs>(initialOrder);
 
-  const [orderDetails, setOrderDetails] = useState<OrderDetailsTs>(initialDetail);
-
-  const rule = useSelector((state:RootState) => state.userLogin.rule);
+  const [orderDetails, setOrderDetails] =
+    useState<OrderDetailsTs>(initialDetail);
 
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    if(rule === "admin") {
-      submitOrder();
-    }
+    submitOrder();
   };
   const isEdit = idDetail !== null && idDetail !== undefined;
 
   const createOrUpdate = useCallback(async () => {
     const sanitizedDetails = orderData.details.map((item) => ({
-      id: idDetail,
       id_dishlist: Number(item.id_dishlist),
       quantity: Number(item.quantity),
       price: Number(item.price),
@@ -56,7 +57,9 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
       customer_phone: orderData.customer_phone,
       list_order: sanitizedDetails,
     };
-    return isEdit && idDetail ? await updateOrder(idDetail, payload) : await createOrder(payload);
+    return isEdit && idDetail
+      ? await updateOrder(idDetail, payload)
+      : await createOrder(payload);
   }, [orderData, idDetail, isEdit]);
 
   const { isPending, mutate: submitOrder } = useMutation({
@@ -65,11 +68,16 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
     onSuccess: (data: OrderTableTs) => {
       queryClient.invalidateQueries({ queryKey: queriesOrder.list.queryKey });
 
-      queryClient.setQueryData(queriesOrder.list.queryKey, (update: OrderTableTs[] | undefined | null) => {
-        if (!update) return [];
+      queryClient.setQueryData(
+        queriesOrder.list.queryKey,
+        (update: OrderTableTs[] | undefined | null) => {
+          if (!update) return [];
 
-        return update.map((item) => (item.id === idDetail ? { ...item, ...data } : item));
-      });
+          return update.map((item) =>
+            item.id === idDetail ? { ...item, ...data } : item
+          );
+        }
+      );
 
       if (isEdit && idDetail) {
         queryClient.setQueryData(queriesOrder.detail(idDetail).queryKey, data);
@@ -108,7 +116,11 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
 
   const handleAddDish = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (orderDetails.id_dishlist && orderDetails.quantity && orderDetails.price) {
+    if (
+      orderDetails.id_dishlist &&
+      orderDetails.quantity &&
+      orderDetails.price
+    ) {
       setOrderData((prev) => ({
         ...prev,
         details: [orderDetails, ...prev.details],
@@ -123,7 +135,11 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
     }
   };
 
-  const handleOrderInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleOrderInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setOrderData((prev) => ({
       ...prev,
@@ -131,7 +147,11 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
     }));
   };
 
-  const handleOrderInputDetails = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleOrderInputDetails = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     if (name === "quantity" || name === "price" || name === "id_dishlist") {
       const numValue = Number(value);
@@ -153,7 +173,10 @@ export const useOrderForm = (onHideModal: () => void, idDetail: number | undefin
     return map;
   }, [dishListId]);
 
-  const findNameDishList = useCallback((id: string | number) => dishlistName.get(id) || undefined, [dishlistName]);
+  const findNameDishList = useCallback(
+    (id: string | number) => dishlistName.get(id) || undefined,
+    [dishlistName]
+  );
 
   return {
     handleAddDish,
