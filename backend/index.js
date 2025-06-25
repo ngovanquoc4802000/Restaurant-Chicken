@@ -18,7 +18,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 //PORT
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.DB_PORT || 7777;
 //middlewares
 app.use(
   cors({
@@ -51,7 +51,7 @@ pool
 
     app.listen(PORT, () => {
       console.log(
-        `Server running on port: http://localhost:${process.env.PORT}`.bgMagenta
+        `Server running on port: http://localhost:${process.env.DB_PORT}`.bgMagenta
           .white
       );
     });
