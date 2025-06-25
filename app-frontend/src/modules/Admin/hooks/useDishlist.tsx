@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type Image from "../types/dishlist";
 import queriesCategories from "../queries/categories";
@@ -17,7 +17,13 @@ export const useDishlist = () => {
     idDetail: null,
     selectedDetails: null,
   });
-  const { isLoading, isError, data: dishlist } = useQuery({ ...queriesDishlist.list });
+  const [value, setValue] = useState<string>("");
+
+  const {
+    isLoading,
+    isError,
+    data: dishlist,
+  } = useQuery({ ...queriesDishlist.list });
 
   const { data: categories } = useQuery({ ...queriesCategories.list });
 
@@ -27,7 +33,10 @@ export const useDishlist = () => {
     return map;
   }, [categories]);
 
-  const getCategoryName = useCallback((id: string | number) => categoryMap.get(id) || "undefined", [categoryMap]);
+  const getCategoryName = useCallback(
+    (id: string | number) => categoryMap.get(id) || "undefined",
+    [categoryMap]
+  );
 
   const handleEdit = useCallback((id: number | null | undefined) => {
     setDishState((prev) => ({ ...prev, showForm: true, idDetail: id }));
@@ -38,16 +47,46 @@ export const useDishlist = () => {
   }, []);
 
   const handleDetail = useCallback((images: Image[]) => {
-    setDishState((prev) => ({ ...prev, showOrder: true, selectedDetails: images }));
+    setDishState((prev) => ({
+      ...prev,
+      showOrder: true,
+      selectedDetails: images,
+    }));
   }, []);
   const handleHideDetail = useCallback(() => {
-    setDishState((prev) => ({ ...prev, showOrder: false, selectedDetails: null }));
+    setDishState((prev) => ({
+      ...prev,
+      showOrder: false,
+      selectedDetails: null,
+    }));
   }, []);
   const sortedDishlist = dishlist?.sort((a, b) => {
     return Number(a.id) - Number(b.id);
   });
+  /* scroll */
+  const refs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const handleScrollToCategory = (name: string) => {
+    const target = refs.current[name];
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+    setIsInfomation(false);
+    setValue("");
+  };
+
+  const [isInfomation, setIsInfomation] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
   return {
+    value,
+    setIsInfomation,
+    handleChange,
+    handleScrollToCategory,
+    isInfomation,
+    refs,
+
     sortedDishlist,
     getCategoryName,
     categories,

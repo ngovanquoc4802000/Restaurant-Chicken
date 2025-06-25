@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useListCategory } from "../../hooks/useListCategory";
 import DetailCategory from "./detail";
 import DetailStatusCategory from "./detailStatus";
@@ -12,14 +12,15 @@ const ListCategory = () => {
     categories,
     handleEditClick,
     handleHideModal,
+    value,
+    setIsInfomation,
+    isInfomation,
+    handleChange,
+    matchedName,
+    refs,
+    handleScrollToCategory    
   } = useListCategory();
-  const [value, setValue] = useState<string>("");
 
-  const [isInfomation, setIsInfomation] = useState<boolean>(false);
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (value.trim() === "") {
@@ -31,19 +32,6 @@ const ListCategory = () => {
     return () => clearTimeout(timeOut);
   }, [value, categories]);
 
-  const matchedName = categories?.filter((item) =>
-    item.name.toLowerCase().includes(value.toLowerCase())
-  );
-  
-  const refs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  const handleScrollToCategory = (name: string) => {
-    const target = refs.current[name];
-    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
-    console.log(target);
-    setIsInfomation(false);
-    setValue("");
-  };
 
   if (isLoading || !categories || !matchedName) return <div>Loading...</div>;
 
