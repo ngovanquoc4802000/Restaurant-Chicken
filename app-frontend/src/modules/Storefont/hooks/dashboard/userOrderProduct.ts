@@ -13,7 +13,7 @@ export const useOrderProductDB = () => {
     isError,
     isLoading,
   } = useQuery({ ...queriesOrder.list });
-
+ const userId = useSelector((state: RootState) => state.userLogin.id);
   const {
     isError: isErrorDishlist,
     isLoading: isLoadingDishlist,
@@ -40,7 +40,7 @@ export const useOrderProductDB = () => {
 
   const cart = useSelector((state: RootState) => state.cart);
 
-  const userId = useSelector((state: RootState) => state.userLogin.id);
+ 
 
   const id_dishlist = useSelector((state: RootState) => state.cart);
 
