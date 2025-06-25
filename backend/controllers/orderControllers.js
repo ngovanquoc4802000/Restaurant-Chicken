@@ -1,5 +1,6 @@
 import pool from "../database/connectdatabase.js";
 
+
 const formatDbTimestamp = () => {
   return new Date().toISOString();
 };
