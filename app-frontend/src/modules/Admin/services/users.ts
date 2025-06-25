@@ -1,9 +1,9 @@
+import { axiosInstance } from "$/modules/Storefont/utils/http";
 import type { UserAll, UsersTs } from "../types/users";
-import { Request } from "../utils/http";
 
 export const getUserAll = async () => {
   try {
-    const result = await Request.get<UserAll>("user");
+    const result = await axiosInstance.get<UserAll>("user");
     return result.data;
   } catch (error) {
     console.log(error);
@@ -17,7 +17,7 @@ export const getUserAll = async () => {
 
 export const updateUser = async (id: number | null | undefined, user: UsersTs) => {
   try {
-    const data = await Request.put<UsersTs>(`user/${id}`, user);
+    const data = await axiosInstance.put<UsersTs>(`user/${id}`, user);
     return data.data;
   } catch (error) {
     console.log(error);

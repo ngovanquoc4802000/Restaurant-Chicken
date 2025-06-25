@@ -1,15 +1,16 @@
 import express from 'express';
 import categoryControllers from '../controllers/categoryControllers.js';
-
+import verify from "../middleware/verifyToken.js";
+import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
-router.get('/',categoryControllers.getCategoryAll)
+router.get('/',verify,checkRole(["customer","admin"]),categoryControllers.getCategoryAll)
+router.post('/create', verify, checkRole(["admin"]),categoryControllers.createCategory)
 router.get('/api/v1/product',categoryControllers.categoryPagination)
-router.post('/create',categoryControllers.createCategory)
 
 router.route('/:id')
-  .get(categoryControllers.getCategoryId)
-  .put(categoryControllers.updateCategoryId)
-  .delete(categoryControllers.deleteCategoryId)
+  .get(verify,checkRole(["admin"]),categoryControllers.getCategoryId)
+  .put(verify,checkRole(["admin"]),categoryControllers.updateCategoryId)
+  .delete(verify,checkRole(["admin"]),categoryControllers.deleteCategoryId)
 
 export default router;

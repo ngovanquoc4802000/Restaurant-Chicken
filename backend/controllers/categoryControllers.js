@@ -1,5 +1,6 @@
 import pool from "../database/connectdatabase.js";
 
+
 const getCategoryAll = async (req, res) => {
   try {
     const data = await pool.query(`SELECT * FROM category`);
@@ -153,7 +154,7 @@ const categoryPagination = async (req, res) => {
     );
 
     const [totalPageData] = await pool.query(
-      `SELECT count(*) as count FROM category`
+      `SELECT count (*) as count FROM category`
     );
 
     const totalItems = totalPageData[0]?.count || 0;

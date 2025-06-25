@@ -52,7 +52,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-                <Button onClick={onClick} text="Thêm" className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600"/>
+                <Button onClick={onClick} text="Add" className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600"/>
               </div>
             ))}
           </div>

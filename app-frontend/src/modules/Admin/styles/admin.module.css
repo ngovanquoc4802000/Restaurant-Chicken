@@ -1,17 +1,17 @@
 .adminLayout {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f6f8; /* Màu nền tổng thể */
+  background-color: #f4f6f8; 
 }
 
 .sidebar {
-  width: 250px; /* Tăng độ rộng sidebar */
-  background-color: #3f51b5; /* Màu nền sidebar */
-  color: #fff; /* Màu chữ sidebar */
+  width: 250px; 
+  background-color: #3f51b5;
+  color: #fff; 
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho sidebar */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
   display: flex;
-  flex-direction: column; /* Sắp xếp các phần tử dọc */
+  flex-direction: column; 
 }
 
 .sidebar h2 {

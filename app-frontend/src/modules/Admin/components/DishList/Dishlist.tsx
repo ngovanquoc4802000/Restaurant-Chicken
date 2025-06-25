@@ -65,7 +65,7 @@ const DishList = () => {
                 CATEGORY
               </th>
               <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
-                TITLE
+                NAME
               </th>
               <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
                 PRICE
@@ -104,7 +104,7 @@ const DishList = () => {
                   {getCategoryName(dish.category_id)}
                 </td>
                 <td className="border border-solid border-gray-500 p-3 text-center hover:bg-[#e0f7fa] ">
-                  {dish.title}
+                  {dish.name}
                 </td>
                 <td className="border border-solid border-gray-500 p-3 text-center hover:bg-[#e0f7fa] ">
                   {dish.price} VND

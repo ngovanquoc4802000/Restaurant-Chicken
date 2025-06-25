@@ -166,7 +166,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         </div>
       </div>
 
-      {/* Thêm món ăn */}
+      {/* Add dish */}
       <div className="dish-form mb-5 pt-5 border-t border-solid border-gray-300">
         <div className="dish-grid grid grid-cols-[1fr_1fr_1fr_auto] gap-2.5 mb-2.5 items-end">
           <div className="form-group">

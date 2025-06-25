@@ -90,7 +90,7 @@ export const useProductDetailPages = () => {
       navigate("/menu-page");
     },
     onError: () => {
-      alert("Thêm vào giỏ hàng thất bại!");
+      alert("Create Order Fails!");
     },
   });
  const handleInputChange = (

@@ -1,13 +1,15 @@
 import express from 'express';
 import disListControllers from '../controllers/disListControllers.js';
+import verify from "../middleware/verifyToken.js";
+import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
-router.get('/',disListControllers.getDishlistAll)
-router.post('/create',disListControllers.createDishlist)
+router.get('/',verify,checkRole(["customer", "admin"]),disListControllers.getDishlistAll)
+router.post('/create', verify,checkRole(["admin"]),disListControllers.createDishlist)
 
 router.route('/:id')
-  .get(disListControllers.getDishlistId)
-  .put(disListControllers.updateDishlistId)
-  .delete(disListControllers.deleteDishlistId)
+  .get(verify,checkRole(["customer", "admin"]) ,disListControllers.getDishlistId)
+  .put(verify,checkRole(["admin"]) ,disListControllers.updateDishlistId)
+  .delete(verify,checkRole(["admin"]) ,disListControllers.deleteDishlistId)
 
 export default router;

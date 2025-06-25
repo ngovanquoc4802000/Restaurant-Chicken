@@ -1,9 +1,9 @@
 import type { LoginCredentials, UserLoginResponse, UsersTs } from "../mockup/user";
-import { Request } from "../utils/http";
+import { axiosInstance } from "../utils/http";
 
 export const createUsersRegister = async (user: UsersTs) => {
   try {
-    const result = await Request.post<UsersTs>("user/register", user);
+    const result = await axiosInstance.post<UsersTs>("user/register", user);
     return result.data;
   } catch (error) {
     if (!error || error) {
@@ -13,7 +13,7 @@ export const createUsersRegister = async (user: UsersTs) => {
 }
 export const createUserLogin = async (login: LoginCredentials) => {
   try {
-    const result = await Request.post<UserLoginResponse>("user/login", login);
+    const result = await axiosInstance.post<UserLoginResponse>("user/login", login);
     if(!result) {
       console.log("No create user login")
     }

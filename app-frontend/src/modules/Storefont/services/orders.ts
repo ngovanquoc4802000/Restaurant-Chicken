@@ -1,5 +1,5 @@
 import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../mockup/order";
-import { axiosInstance, Request } from "../utils/http";
+import { axiosInstance } from "../utils/http";
 
 export const getOrderAll = async () => {
   try {
@@ -26,7 +26,7 @@ export const getOrderId = async (id: number | null | undefined) => {
 
 export const createOrder = async (payload: CreateOrderPayload) => {
   try {
-    const { data } = await Request.post<OrderTableTs>("order/create", payload);
+    const { data } = await axiosInstance.post<OrderTableTs>("order/create", payload);
     return data;
   } catch (error) {
     console.error("Error in createOrder service:", error);

@@ -114,11 +114,11 @@ export const useProductDetailsPage = () => {
     mutationFn: create,
     onSuccess: () => {
       navigate("/menu");
-      alert("đặt đơn hàng thành công")
+      alert("Create Order Success")
      
     },
     onError: () => {
-      alert("Thêm vào giỏ hàng thất bại!");
+      alert("Create Order fails!");
     },
   });
 

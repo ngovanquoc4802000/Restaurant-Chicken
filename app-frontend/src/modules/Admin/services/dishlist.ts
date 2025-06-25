@@ -1,9 +1,9 @@
+import { axiosInstance } from "$/modules/Storefont/utils/http";
 import type { ApiGetAllDishList, DishTs } from "../types/dishlist";
-import { Request } from "../utils/http";
 
 export const getApiDishListAll = async () => {
   try {
-    const result = await Request.get<ApiGetAllDishList>("dishlist");
+    const result = await axiosInstance.get<ApiGetAllDishList>("dishlist");
     return result.data;
   } catch (error) {
     console.log(error);
@@ -17,7 +17,7 @@ export const getApiDishListAll = async () => {
 
 export const getApiDishlistId = async (id: number | null | undefined) => {
   try {
-    const result = await Request.get<ApiGetAllDishList>(`dishlist/${id}`);
+    const result = await axiosInstance.get<ApiGetAllDishList>(`dishlist/${id}`);
     return result;
   } catch (error) {
     console.log(error);
@@ -26,7 +26,7 @@ export const getApiDishlistId = async (id: number | null | undefined) => {
 
 export const postApiDishlist = async (newDish: DishTs) => {
   try {
-    const { data } = await Request.post<DishTs>("dishlist/create", newDish);
+    const { data } = await axiosInstance.post<DishTs>("dishlist/create", newDish);
     return data;
   } catch (error) {
     console.log(error);
@@ -38,7 +38,7 @@ export const updateApiDishList = async (
   update: DishTs
 ) => {
   try {
-    const result = await Request.put(`dishlist/${id}`, update);
+    const result = await axiosInstance.put(`dishlist/${id}`, update);
     return result.data;
   } catch (error) {
     console.log(error);
