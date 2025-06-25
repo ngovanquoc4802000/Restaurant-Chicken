@@ -8,22 +8,21 @@ import ModalLogin from "../../modal/login";
 
 function ProductDetail() {
   const {
-     handleOrderClick,
-     isOpen,
-      isLoading,
-      isActive,
-      error,
-      product,
-      dishlist,
-      handleCart,
-      handleInputChange,
-      handleNoteChange,
-      setQuantity,
-      orderData,
-      orderDetails,
-      quantity
-         } =
-    useProductDetailsPage();
+    handleOrderClick,
+    isOpen,
+    isLoading,
+    isActive,
+    error,
+    product,
+    dishlist,
+    handleCart,
+    handleInputChange,
+    handleNoteChange,
+    setQuantity,
+    orderData,
+    orderDetails,
+    quantity,
+  } = useProductDetailsPage();
 
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
@@ -137,14 +136,13 @@ function ProductDetail() {
                       className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"
                     />
                   </form>
-                </div>  
+                </div>
               ) : (
                 <Button
                   onClick={handleOrderClick}
                   className="w-11/12 py-4 px-8 border-none rounded-[50px] text-center text-white bg-[#e4002b] font-bold text-xl cursor-pointer mt-4 hover:bg-[#c90025] transition-colors duration-200"
                   text="Start order"
                 />
-                
               )}
             </div>
           </div>

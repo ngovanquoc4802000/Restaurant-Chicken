@@ -1,43 +1,30 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Button from "$/common/button/button";
 import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import queriesDishlist from "$/modules/Storefont/queries/dishlist";
 import queriesOrder from "$/modules/Storefont/queries/order";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
 
 function orderProductDashBoard() {
-  const { sumOrder, rule, userId, handleRemove } = useOrderProductDB();
-  const queryClient = useQueryClient();
-  console.log(userId);
   const {
-    data: orderList,
+    sumOrder,
+    rule,
+    userId,
+    handleRemove,
+    queryClient,
+    totalDishes,
+    totalQuantity,
     isError,
     isLoading,
-  } = useQuery({ ...queriesOrder.list });
-
-  console.log(orderList);
-
-  const {
-    isError: isErrorDishlist,
-    isLoading: isLoadingDishlist,
-    data: dishlist,
-  } = useQuery({ ...queriesDishlist.list });
-
-  const findUserId = orderList?.filter((item) => item.user_id === userId);
-
-  const totalDishes =
-    findUserId?.reduce((acc, curr) => acc + curr.details.length, 0) ?? 0;
-
-  const totalQuantity =
-    findUserId?.reduce(
-      (acc, curr) =>
-        acc + curr.details.reduce((sum, d) => sum + d.quantity * d.price, 0),
-      0
-    ) ?? 0;
+    isErrorDishlist,
+    isLoadingDishlist,
+    dishlist,
+    findUserId,
+    orderList,
+    hasOrders,
+  } = useOrderProductDB();
 
   useEffect(() => {
     if (findUserId && findUserId.length > 0) {
@@ -47,16 +34,10 @@ function orderProductDashBoard() {
     queryClient.refetchQueries({ queryKey: queriesOrder.list.queryKey });
   }, [findUserId, queryClient, userId]);
 
-  const hasOrders =
-    orderList &&
-    orderList.length > 0 &&
-    orderList.some((item) => item.details.length > 0);
-  /*   const largerId = findUserId?.map((item) => item.details.length > 0); */
-
-  if (isLoadingDishlist && isLoading && !orderList)
-    return <div>Loading...</div>;
+  if (isLoadingDishlist && isLoading && !orderList) return <div>Loading...</div>;
 
   if (isError && isErrorDishlist) return <div>Error...</div>;
+
   return (
     <div>
       <Header />

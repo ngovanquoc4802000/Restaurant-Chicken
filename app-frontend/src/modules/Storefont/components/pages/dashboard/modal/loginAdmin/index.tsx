@@ -4,7 +4,6 @@ import InputValue from "$/common/input";
 
 function LoginAdmin() {
   const { formData, handleChange, handleSubmit } = useLoginAdmin();
-  
   return (
     <div className="modal-backdrop fixed top-0 left-0 w-[100vw] h-[100vh] bg-black/60 flex justify-center items-center z-[9999]">
      <div className="modal-box bg-white p-6 w-[90%] max-w-[400px] rounded-[8px] text-center">
