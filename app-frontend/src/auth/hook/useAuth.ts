@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { loginFailure, loginStart, LoginSuccess, logout } from "$/common/middleware/authApp";
 import { createUserLogin } from "$/modules/Storefont/services/users";
-import { Request } from "$/modules/Storefont/utils/http";
+import { axiosInstance, Request } from "$/modules/Storefont/utils/http";
 import type { UserLoginResponse } from "$/modules/Storefont/mockup/user";
 import type { RootState } from "$/modules/Storefont/store/store";
 
@@ -34,7 +34,7 @@ export const useAuth = () => {
   const checkAndRefreshToken = async () => {
     dispatch(loginStart());
     try {
-      const response = await Request.post<UserLoginResponse>(
+      const response = await axiosInstance.post<UserLoginResponse>(
         "user/refresh-token"
       );
       if (response.data.success) {

@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tanstack/react-query": "^5.76.0",
     "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
     "framer-motion": "^12.12.1",
     "keen-slider": "^6.8.6",
     "react": "^19.1.0",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@tailwindcss/vite": "^4.1.5",
+    "@types/node": "^24.0.4",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react-swc": "^3.9.0",

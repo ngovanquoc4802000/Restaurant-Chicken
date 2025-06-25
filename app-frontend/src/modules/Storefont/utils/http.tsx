@@ -2,7 +2,7 @@ import axios from "axios";
 import { LoginSuccess, logout } from "$/common/middleware/authApp";
 import { store } from "../store/store";
 
-const API_URL_BASE = "http://localhost:7777/";
+const API_URL_BASE = import.meta.env.VITE_API_URL;
 
 export const Request = axios.create({
   baseURL: API_URL_BASE,
