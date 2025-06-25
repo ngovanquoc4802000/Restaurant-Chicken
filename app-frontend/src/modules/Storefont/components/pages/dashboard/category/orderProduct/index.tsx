@@ -28,7 +28,7 @@ function orderProductDashBoard() {
   } = useQuery({ ...queriesDishlist.list });
 
   const findUserId = orderList?.filter((item) => item.user_id === userId);
-  console.log("Filtered Orders (findUserId):", findUserId);
+
   const totalDishes =
     findUserId?.reduce((acc, curr) => acc + curr.details.length, 0) ?? 0;
 

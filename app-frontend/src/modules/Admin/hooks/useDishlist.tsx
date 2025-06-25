@@ -43,8 +43,12 @@ export const useDishlist = () => {
   const handleHideDetail = useCallback(() => {
     setDishState((prev) => ({ ...prev, showOrder: false, selectedDetails: null }));
   }, []);
+  const sortedDishlist = dishlist?.sort((a, b) => {
+    return Number(a.id) - Number(b.id);
+  });
 
   return {
+    sortedDishlist,
     getCategoryName,
     categories,
     isLoading,

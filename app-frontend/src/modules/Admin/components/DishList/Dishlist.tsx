@@ -1,4 +1,5 @@
 import Button from "$/common/button/button";
+import { useEffect, useRef, useState } from "react";
 import { useDishlist } from "../../hooks/useDishlist";
 import DetailDishlist from "./detail";
 import DetailById from "./detailbyId";
@@ -15,29 +16,84 @@ const DishList = () => {
     isError,
     isLoading,
     dishlist,
-    categories,
+    sortedDishlist,
   } = useDishlist();
- 
-  if (isLoading || !dishlist || !categories) return <div>Loading...</div>;
+  const [value, setValue] = useState<string>("");
+  const [isInfomation, setIsInfomation] = useState<boolean>(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (value.trim() === "") {
+        setIsInfomation(false);
+        return;
+      }
+      setIsInfomation(true);
+    }, 500);
+    return () => clearTimeout(timeOut);
+  }, [value, dishlist]);
+
+  const refs = useRef<Record<string, HTMLDivElement | null>>({});
+  const handleScrollToCategory = (name: string) => {
+    const target = refs.current[name];
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+    console.log(target);
+    setValue("");
+  };
+  if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (isError) return <div>Error data</div>;
 
   if (!dishlist) return <h1>No find a list</h1>;
-   const sortedDishlist = [...dishlist].sort((a, b) => {
-    // Ensure IDs are treated as numbers for comparison
-    return Number(a.id) - Number(b.id);
-  });
+  const matchedName = dishlist?.filter((item) =>
+    item.title.toLowerCase().includes(value.toLowerCase())
+  );
   return (
     <div className="dish-list-container  rounded-[5px] cursor-pointer">
       <h1 className="text-[#333] p-5 bg-[#dc3545] text-center text-white font-bold text-[1.5rem]">
         Dish List
       </h1>
       <div className="p-5">
-        <Button
-          className="bg-[#4caf50] cursor-pointer py-[10px] px-[10px] text-white rounded-[4px]"
-          text="+ Create"
-          onClick={() => setDishState({ ...dishState, showForm: true })}
-        />
+        <div className="flex relative justify-between flex-row-reverse">
+          <div className="search">
+            <input
+              type="text"
+              value={value}
+              placeholder="Hãy nhập vào đây..."
+              onChange={handleChange}
+              className="border w-[15rem] italic h-[30px] border border-red-500"
+              name=""
+              id=""
+            />
+          </div>
+          {isInfomation && (
+            <div className="absolute top-[30px] shadow-md bg-[#fff] w-[240px] p-[11px] rounded-[4px]">
+              {matchedName.length > 0 ? (
+                matchedName.map((item) => (
+                  <div
+                    className="flex p-[5px] rounded-md hover:bg-red-500 hover:text-white justify-between cursor-pointer"
+                    ref={(el) => {
+                      if (el) refs.current[item.title] = el;
+                    }}
+                    key={item.id}
+                    onClick={() => handleScrollToCategory(item.title)}
+                  >
+                    <p>{item.name}</p>
+                    <p>X</p>
+                  </div>
+                ))
+              ) : (
+                <p>Không tìm thấy kết quả.</p>
+              )}
+            </div>
+          )}
+          <Button
+            className="bg-[#4caf50] cursor-pointer py-[10px] px-[10px] text-white rounded-[4px]"
+            text="+ Create"
+            onClick={() => setDishState({ ...dishState, showForm: true })}
+          />
+        </div>
 
         {dishState.showForm && (
           <DetailDishlist
@@ -79,7 +135,7 @@ const DishList = () => {
             </tr>
           </thead>
           <tbody>
-            {sortedDishlist.map((dish) => (
+            {sortedDishlist?.map((dish) => (
               <tr key={dish.id}>
                 <td className="border border-solid border-gray-500 p-3 text-center hover:bg-[#e0f7fa] ">
                   {Number(dish.id)}
