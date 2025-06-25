@@ -28,8 +28,8 @@ const DishList = () => {
     return Number(a.id) - Number(b.id);
   });
   return (
-    <div className="dish-list-container bg-[#f5f5f5] rounded-[5px] cursor-pointer">
-      <h1 className="text-[#333] p-5 bg-red-800 text-center text-white font-bold text-[1.5rem]">
+    <div className="dish-list-container  rounded-[5px] cursor-pointer">
+      <h1 className="text-[#333] p-5 bg-[#dc3545] text-center text-white font-bold text-[1.5rem]">
         Dish List
       </h1>
       <div className="p-5">
@@ -52,28 +52,28 @@ const DishList = () => {
             onHideModal={handleHideDetail}
           />
         )}
-        <table className="dish-table  w-full border-collapse mt-2.5 bg-white shadow-2xl">
-          <thead>
+        <table className="dish-table w-full border-collapse mt-2.5 bg-white shadow-2xl">
+          <thead className="bg-[#dc3545]">
             <tr>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 ID
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 IMAGE
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 CATEGORY
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 NAME
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 PRICE
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 DESCRIPTION
               </th>
-              <th className="border border-solid bg-red-800 text-white  border-gray-500 p-3 text-center bg-[#f0f0f0] font-bold">
+              <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 ACTION
               </th>
             </tr>

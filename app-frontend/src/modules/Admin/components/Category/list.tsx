@@ -18,7 +18,7 @@ const ListCategory = () => {
 
   return (
     <div className="category-list bg-[#f5f5f5] rounded-[5px]">
-      <h1 className="text-center bg-red-800 p-5 text-white font-bold text-2xl text-[#333] mt-0 mb-5">Categories</h1>
+      <h1 className="text-center bg-[#dc3545] p-5 text-white font-bold text-2xl text-[#333] mt-0 mb-5">Categories</h1>
       <div className="p-5">
       <button
         className="create-button py-[10px] font-bold px-[15px] cursor-pointer bg-[#4caf50] text-white border-none rounded-[5px] cursor-pointer text-[16px] mb-[20px] hover:bg-[#388e3c]"
@@ -35,19 +35,19 @@ const ListCategory = () => {
       <table className="w-full mt-2.5 border-collapse">
         <thead>
           <tr className="text-center">
-            <th className="bg-red-800 text-white border border-solid border-gray-500 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
+            <th className="bg-[#dc3545] text-white border border-solid border-gray-300 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
               IMAGE
             </th>
-            <th className="bg-red-800 text-white border border-solid border-gray-500 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
+            <th className="bg-[#dc3545] text-white border border-solid border-gray-300 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
               NAME
             </th>
-            <th className="bg-red-800 text-white border border-solid border-gray-500 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
+            <th className="bg-[#dc3545] text-white border border-solid border-gray-300 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
               HANDLE
             </th>
-            <th className="bg-red-800 text-white border border-solid border-gray-500 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
+            <th className="bg-[#dc3545] text-white border border-solid border-gray-300 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
               STATUS
             </th>
-            <th className="bg-red-800 text-white border border-solid border-gray-500 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
+            <th className="bg-[#dc3545] text-white border border-solid border-gray-300 text-[18px] font-bold p-2.5 text-center border border-solid border-gray-200 p-4">
               ACTION
             </th>
           </tr>
@@ -76,15 +76,8 @@ const ListCategory = () => {
                 {item.status ? "current categories" : "categories are sold ou"}
               </td>
               <td className="p-2.5 border border-solid border-gray-500 text-[18px] font-bold border border-solid border-gray-200 p-4 ">
-                <button
-                  className="py-[6px] mr-1 px-[15px] cursor-pointer rounded-[4px] text-white bg-blue-500 "
-                  data-id={item.id}
-                  onClick={() => handleEditClick(item.id)}
-                >
-                  Edit
-                </button>
                 {/* dòng này có data-id kết hợp với useCallback để không bị rendering */}
-                <DetailStatusCategory item={item} />
+                <DetailStatusCategory handleEditClick={() => handleEditClick(item.id)} item={item} />
               </td>
             </tr>
           ))}

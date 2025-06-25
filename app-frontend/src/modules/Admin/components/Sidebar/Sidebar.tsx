@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar bg-red-800 text-white w-[200px] h-[100vh] fixed top-0 left-0 pt-[20px]">
+    <div className="sidebar bg-[#dc3545] text-white w-[200px] h-[100vh] fixed top-0 left-0 pt-[20px]">
       <div className="admin-panel-title p-5 text-[1.5em] font-bold text-left">Admin Panel</div>
       <nav>
         <ul className="list-none p-0 m-0 `">

@@ -435,7 +435,7 @@ export const updateOrder = async (req, res) => {
 
 export const updateOrderProcess = async (req, res) => {
   const orderId = req.params.id;
-  const steps = ["Xử lý", "Đang chờ", "Đang thực hiện", "Hoàn thành"];
+  const steps = ["Processing", "Pending", "In Progress", "Completed"];
   const now = formatDbTimestamp();
 
   try {
