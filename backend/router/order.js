@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", verify,checkRole(["customer","admin"]),orderControllers.getOrders);
 router.get("/cart/:id", verify,checkRole(["customer","admin"]),orderControllers.getOrderDetails);
-router.post("/create",verify,checkRole(["customer","admin"]),orderControllers.createOrder);
+router.post("/create",verify,checkRole(["admin"]),orderControllers.createOrder);
 router.put("/process/:id",verify,checkRole(["admin"]),orderControllers.updateOrderProcess);
 
 router
