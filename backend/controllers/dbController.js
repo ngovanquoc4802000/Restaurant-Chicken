@@ -24,3 +24,15 @@ export async function createPgDumpBackup() {
     console.error("Error creating PostgreSQL backup:", error);
   }
 }
+
+export async function importPgDumpBackup(backupFile) {
+  try {
+    const command = `PGPASSWORD=${password} psql -h ${dbHost} -p ${dbPort} -U ${username} -d ${database} -f ${backupFile}`;
+    await execute(command);
+    console.log(`PostgreSQL backup imported successfully: ${backupFile}`);
+    return true;
+  } catch (error) {
+    console.error("Error importing PostgreSQL backup:", error);
+    return false;
+  }
+}
