@@ -22,7 +22,7 @@ const PORT = process.env.APP_PORT || 7777;
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173", //cookie
+    origin: process.env.APP_FE || "http://localhost:5173", //cookie
     credentials: true,
   })
 );
