@@ -9,8 +9,6 @@ const router = express.Router();
 // Configure multer for file upload
 const upload = multer({ dest: 'uploads/' });
 
-
-
 router.post("/demo", upload.single('file'), async (req, res) => {
   try {
 

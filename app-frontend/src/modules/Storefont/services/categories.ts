@@ -1,9 +1,9 @@
 import type { CategoryTs } from "../mockup/categories";
-import { axiosInstance } from "../utils/http";
+import { Request } from "../utils/http";
 
 export const getApiCategoriesAll = async () => {
   try {
-    const result = await axiosInstance.get<CategoryTs>("category");
+    const result = await Request.get<CategoryTs>("category");
     return result.data;
   } catch (error) {
     console.log(error);

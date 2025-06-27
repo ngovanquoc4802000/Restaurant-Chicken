@@ -4,11 +4,11 @@ import verify from "../middleware/verifyToken.js";
 import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
-router.get('/',verify,checkRole(["customer", "admin"]),disListControllers.getDishlistAll)
+router.get('/',disListControllers.getDishlistAll)
 router.post('/create', verify,checkRole(["admin"]),disListControllers.createDishlist)
 
 router.route('/:id')
-  .get(verify,checkRole(["customer", "admin"]) ,disListControllers.getDishlistId)
+  .get(disListControllers.getDishlistId)
   .put(verify,checkRole(["admin"]) ,disListControllers.updateDishlistId)
   .delete(verify,checkRole(["admin"]) ,disListControllers.deleteDishlistId)
 

@@ -4,12 +4,12 @@ import verify from "../middleware/verifyToken.js";
 import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
 
-router.get('/',verify,checkRole(["customer","admin"]),categoryControllers.getCategoryAll)
+router.get('/',categoryControllers.getCategoryAll)
 router.post('/create', verify, checkRole(["admin"]),categoryControllers.createCategory)
 router.get('/api/v1/product',categoryControllers.categoryPagination)
 
 router.route('/:id')
-  .get(verify,checkRole(["admin"]),categoryControllers.getCategoryId)
+  .get(categoryControllers.getCategoryId)
   .put(verify,checkRole(["admin"]),categoryControllers.updateCategoryId)
   .delete(verify,checkRole(["admin"]),categoryControllers.deleteCategoryId)
 
