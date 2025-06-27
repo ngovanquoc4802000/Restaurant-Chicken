@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/", verify, checkRole(["admin"]), routerUser.getAllRegister);
 router.put("/:id", verify, checkRole(["admin"]), routerUser.updateApiRegister);
-router.post("/register", checkRole(["customer","admin"]), routerUser.userAPIRegister);
-router.post("/login", verify, checkRole(["customer","admin"]), routerUser.userAPILogin);
+router.post("/register",routerUser.userAPIRegister);
+router.post("/login", routerUser.userAPILogin);
 
 router.post("/refresh-token", routerUser.refreshTokenAPI);
 
