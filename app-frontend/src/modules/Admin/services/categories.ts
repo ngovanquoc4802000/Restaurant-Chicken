@@ -1,9 +1,9 @@
-import { axiosInstance } from "$/modules/Storefont/utils/http";
+import { axiosInstance, Request } from "$/modules/Storefont/utils/http";
 import type { CategoryTs, ValueCategory } from "../types/categories";
 
 export const getApiCategoriesAll = async () => {
   try {
-    const result = await axiosInstance.get<CategoryTs>("category");
+    const result = await Request.get<CategoryTs>("category");
     return result.data;
   } catch (error) {
     console.log(error);
