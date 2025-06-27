@@ -14,16 +14,16 @@ import routerCategoryApi from "./router/category.js";
 import routerDishlist from "./router/dishList.js";
 import routerOrder from "./router/order.js";
 import cookieParser from "cookie-parser";
-
+import routerImport from "./router/import.js";
 const app = express();
 
 //PORT
-const PORT = process.env.DB_PORT || 7777;
+const PORT = process.env.APP_PORT || 7777;
 //middlewares
 app.use(
   cors({
     origin: "http://localhost:5173", //cookie
-    credentials: true
+    credentials: true,
   })
 );
 app.use(cookieParser());
@@ -35,7 +35,7 @@ app.use("/category", routerCategoryApi);
 app.use("/dishlist", routerDishlist);
 app.use("/user", routerUser);
 app.use("/order", routerOrder);
-
+app.use("/import", routerImport);
 app.get("/", (req, res) => {
   res.status(200).send("<h1> Đã thành công Kết nối PostgreSQL</h1>");
 });
@@ -51,8 +51,8 @@ pool
 
     app.listen(PORT, () => {
       console.log(
-        `Server running on port: http://localhost:${process.env.DB_PORT}`.bgMagenta
-          .white
+        `Server running on port: http://localhost:${process.env.APP_PORT}`
+          .bgMagenta.white
       );
     });
   })

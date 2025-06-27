@@ -1,5 +1,7 @@
 import { Pool } from "pg";
 
+console.log("process.env.DB_PORT", process.env.DB_PORT);
+
 const pool = new Pool({
   host: process.env.DB_HOST || "localhost",
   port: Number(process.env.DB_PORT) || 5432,
