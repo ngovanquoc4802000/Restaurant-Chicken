@@ -34,7 +34,8 @@ function orderProductDashBoard() {
     queryClient.refetchQueries({ queryKey: queriesOrder.list.queryKey });
   }, [findUserId, queryClient, userId]);
 
-  if (isLoadingDishlist && isLoading && !orderList) return <div>Loading...</div>;
+  if (isLoadingDishlist && isLoading && !orderList)
+    return <div>Loading...</div>;
 
   if (isError && isErrorDishlist) return <div>Error...</div>;
 

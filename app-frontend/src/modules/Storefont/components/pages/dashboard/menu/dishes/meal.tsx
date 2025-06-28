@@ -4,11 +4,11 @@ import { useState } from "react";
 import Button from "$/common/button/button";
 interface MealSliderTs {
   findComboGroup: DishTs[];
-  onClick: () => void;
+  onClick?: () => void;
   category: ValueCategory[];
 }
 
-function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
+function MealSlider({ findComboGroup, category }: MealSliderTs) {
   const [startIndex, setStartIndex] = useState(0);
 
   const next = () => {
@@ -65,11 +65,7 @@ function MealSlider({ findComboGroup, onClick, category }: MealSliderTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-                <Button
-                  onClick={onClick}
-                  text="Add Order"
-                  className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600"
-                />
+            
               </div>
             ))}
           </div>

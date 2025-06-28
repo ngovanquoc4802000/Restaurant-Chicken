@@ -125,10 +125,6 @@ function Category() {
                                             : item.description}
                                         </p>
                                       </div>
-                                      <Button
-                                        text="Add"
-                                        className="add-button w-full py-[10px] px-[0px] border-none rounded-[20px] font-bold text-[#444] cursor-pointer bg-[#d9d9d9] hover:bg-[#c4c4c4]"
-                                      />
                                     </div>
                                   )}
                                 </div>

@@ -8,7 +8,7 @@ import ModalLogin from "../../modal/login";
 
 function ProductDetail() {
   const {
-    handleOrderClick,
+    /* handleOrderClick, */
     isOpen,
     isLoading,
     isActive,
@@ -23,7 +23,9 @@ function ProductDetail() {
     orderDetails,
     quantity,
   } = useProductDetailsPage();
-
+  const handleClick = () => {
+    
+  }
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (error) return `Error Product Details ${error}`;
@@ -33,28 +35,21 @@ function ProductDetail() {
   return (
     <div className="productDetail-container cursor-pointer">
       <Header />
-      <div className="container mx-auto px-4 md:mt-[6rem] xl:mt-[2rem] py-8 xl:pl-[12rem] xl:pr-[12rem]">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 items-start">
+      <div className="container mx-auto px-4 md:pr-[0px] md:mt-[4rem] md:pb-[0px] md:ml-[3rem] md:mr-[0px] xl:mb-[0px] xl:mt-[0rem] xl:py-0 py-12 xl:pl-[12rem] xl:pr-[12rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 items-center">
           <div className="md:p-4 p-6">
-            <div className="product-detail md:mt-8 shadow-lg rounded-md p-6 bg-white">
+            <div className="product-detail shadow-lg rounded-md p-6 bg-white">
+              <div></div>
               <img
-                className="rounded-md w-full h-auto object-cover mb-4"
+                className="rounded-md xl:w-full lg:w-full xl:object-fill w-full h-auto object-cover mb-4"
                 src={product.images?.[0]?.image}
                 alt={product.title}
               />
-              <h2 className="text-xl font-bold text-gray-800 mb-2">
-                {product.title}
-              </h2>
-              <p className="text-gray-600 mb-4">{product.description}</p>
-              <span className="text-2xl font-bold text-red-600">
-                {product.price}
-              </span>
             </div>
           </div>
           <div className="md:p-4 md:mt-4">
             <div className="product-button mb-[-1rem] justify-start md:p-2  md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px]  md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
               {isOpen && <ModalLogin />}
-              {/* hiển thị form */}
               {isActive ? (
                 <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-4 lg:p-6 space-y-4 max-w-md w-full mx-auto">
                   <form onSubmit={handleCart} className="space-y-4">
@@ -138,11 +133,29 @@ function ProductDetail() {
                   </form>
                 </div>
               ) : (
-                <Button
-                  onClick={handleOrderClick}
-                  className="w-11/12 py-4 px-8 border-none rounded-[50px] text-center text-white bg-[#e4002b] font-bold text-xl cursor-pointer mt-4 hover:bg-[#c90025] transition-colors duration-200"
-                  text="Start order"
-                />
+                <div className="relative w-full max-w-full bg-white rounded-xl shadow-md p-6">
+                  <div className="absolute top-0 left-0 flex space-x-1 p-4">
+                    <div className="w-2 h-6 bg-red-600"></div>
+                    <div className="w-2 h-6 bg-red-600"></div>
+                    <div className="w-2 h-6 bg-red-600"></div>
+                  </div>
+
+                  <div className="mt-8">
+                    <h2 className="text-2xl font-extrabold text-black uppercase">
+                      {product.title}
+                    </h2>
+                    <p className="text-gray-500 mt-2 text-sm">
+                      {product.description}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleClick}
+                    className="w-full mt-6 bg-gray-300 text-white font-bold py-3 rounded-full "
+                  >
+                    Add
+                  </button>
+                </div>
               )}
             </div>
           </div>

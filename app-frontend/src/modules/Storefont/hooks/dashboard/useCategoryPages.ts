@@ -31,7 +31,6 @@ export const useCategoryPages = () => {
    const product = dishlist.find(
     (item) => slugify(item.title) === slug
   );
-
   if (product) {
     dispatch(addToCart({
       id_dishlist: Number(product.id),
