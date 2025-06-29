@@ -2,7 +2,6 @@ import Button from "$/common/button/button";
 import InputValue from "$/common/input";
 import TextareaValue from "$/common/textarea";
 import { useProductDetailsPage } from "$/modules/Storefont/hooks/dashboard/useProductDetailPages";
-import { useNavigate } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
 import ModalLogin from "../../modal/login";
@@ -23,31 +22,10 @@ function ProductDetail() {
     orderData,
     orderDetails,
     quantity,
+    handleClick,
+    total_price
   } = useProductDetailsPage();
-  const total_price = (Number(product?.price) * quantity).toFixed(3);
-  const navigate = useNavigate();
-  const handleClick = () => {
-    const existingCart = localStorage.getItem("storeCart");
-    let storeCart = [];
-    if (existingCart) {
-      storeCart = JSON.parse(existingCart);
-    }
-    let autoIncrement: number = 1;
-    const order = {
-      id: autoIncrement++,
-      image: product?.images?.[0]?.image,
-      name: product?.title,
-      price: total_price,
-      quantity: quantity,
-      note: "",
-    };
-    storeCart.push(order);
-    localStorage.setItem("storeCart", JSON.stringify(storeCart));
-    if (storeCart) {
-      alert("Create Cart Success");
-      navigate("/orderProductDashBoard")
-    }
-  };
+ 
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (error) return `Error Product Details ${error}`;

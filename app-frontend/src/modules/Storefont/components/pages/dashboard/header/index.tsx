@@ -2,39 +2,25 @@ import Button from "$/common/button/button";
 import cart1 from "$/modules/Storefont/assets/cart1.png";
 import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
 import logoMobile from "$/modules/Storefont/assets/kfclogo.png";
-import type { RootState } from "$/modules/Storefont/store/store";
+import { useHeaderPages } from "$/modules/Storefont/hooks/dashboard/useHeaderPages";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import type { CartTs } from "../category/storeCart";
 import "./styles.scss";
 
 type StoreCart = CartTs[];
-export const LOCAL_STORAGE_CART_EVENT = "localStorageCartUpdated";
+
 function Header() {
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartTs[]>([]);
-
-  const openOffcanvas = () => {
-    setIsOffcanvasOpen(true);
-  };
-
-  const closeOffcanvas = () => {
-    setIsOffcanvasOpen(false);
-  };
-
-  const navigate = useNavigate();
-
-  const userRole = useSelector((state: RootState) => state.userLogin.rule);
-
-  const handleUser = () => {
-    if (userRole === "customer") {
-      navigate("/account");
-    } else {
-      navigate("/login");
-    }
-  };
+  const {
+    totalCartItems,
+    handleUser,
+    isOffcanvasOpen,
+    setCartItems,
+    openOffcanvas,
+    closeOffcanvas,
+    mergedItems,
+  } = useHeaderPages();
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
@@ -49,26 +35,9 @@ function Header() {
       } catch (error) {
         console.log("không có array " + error);
       }
+      setCartItems(Store);
     }
-    setCartItems(Store);
   }, []);
-  const mergedItemsMap = new Map<string, CartTs>();
-
-  cartItems.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
-    if (existing) {
-      existing.quantity += item.quantity;
-    } else {
-      mergedItemsMap.set(item.name, { ...item });
-    }
-  });
-
-  const mergedItems = Array.from(mergedItemsMap.values());
-  
-  const totalCartItems = mergedItems.reduce(
-    (acc, curr) => acc + curr.quantity,
-    0
-  );
 
   return (
     <>

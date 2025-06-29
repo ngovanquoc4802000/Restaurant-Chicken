@@ -1,17 +1,23 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import Button from "$/common/button/button";
 import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
-import { type CartTs, type StoreCart } from "../storeCart";
+import { type StoreCart } from "../storeCart";
 
-function orderProductDashBoard() {
-  const { isError, isLoading, isErrorDishlist, isLoadingDishlist, orderList } =
-    useOrderProductDB();
-  const [loaded, setLoaded] = useState<CartTs[]>([]);
-
+function OrderProductDashBoard() {
+  const {
+    setLoaded,
+    handleDecrease,
+    handleDelete,
+    handleIncrease,
+    calculatOrder,
+    calculatorPrice,
+    orderId,
+    formatCurrency,
+    mergedItems
+  } = useOrderProductDB();
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
@@ -29,65 +35,12 @@ function orderProductDashBoard() {
     }
     setLoaded(Store);
   }, []);
-  const mergedItemsMap = new Map<string, CartTs>();
-
-  loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
-    if (existing) {
-      existing.quantity += item.quantity;
-    } else {
-      mergedItemsMap.set(item.name, { ...item });
-    }
-  });
-
-  const mergedItems = Array.from(mergedItemsMap.values());
-  const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "decimal",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-  const calculatorPrice = mergedItems.reduce(
-    (sum, acc) => sum + acc.price * acc.quantity * 1000,
-    0
-  );
-  const calculatOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
-  const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
-
-  const handleIncrease = useCallback(
-    (name: string) => {
-      const updatedCart = loaded.map((item) =>
-        item.name === name ? { ...item, quantity: item.quantity + 1 } : item
-      );
-
-      setLoaded(updatedCart);
-      localStorage.setItem("storeCart", JSON.stringify(updatedCart));
-    },
-    [loaded]
-  );
-
-  const handleDecrease = useCallback(
-    (name: string) => {
-       const updateDecrease = loaded.map((item) => 
-       item.name === name ? {
-        ...item, quantity: Math.max(1,item.quantity - 1) 
-       } : item
-      )
-    setLoaded(updateDecrease);
-    localStorage.setItem("storeCart",JSON.stringify(updateDecrease))
-    },[loaded])
- 
-  if (isLoadingDishlist && isLoading && !orderList)
-    return <div>Loading...</div>;
-
-  if (isError && isErrorDishlist) return <div>Error...</div>;
 
   return (
     <div>
       <Header />
       {mergedItems?.length > 0 ? (
-        <div className="max-w-7xl mx-auto md:mt-[6rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
+        <div className="max-w-7xl mx-auto md:mt-[8rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
           <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
@@ -95,53 +48,57 @@ function orderProductDashBoard() {
                 return (
                   <div
                     key={item.id}
-                    className="md:flex justify-between border border-gray-200 rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition duration-200"
+                    className="flex flex-col md:flex-row justify-between items-start md:items-center border border-gray-200 rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition duration-200"
                   >
-                    <div className="flex">
+                    {/* Product Info */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1">
                       <img
                         src={item.image || ""}
-                        alt={item.name || "This is Product Image"}
-                        className="w-[100px] h-[100px] object-cover rounded-xl shadow-md p-2"
+                        alt={item.name || "Product Image"}
+                        className="w-[80px] h-[80px] p-1 lg:w-[200px] lg:h-[150px] sm:w-[150px] sm:h-[100px] rounded-xl shadow-md"
                       />
-                      <div className="ml-3">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                      <div className="flex flex-col">
+                        <h2 className="text-base md:text-[18px] lg:text-2xl sm:text-lg font-semibold text-gray-800 line-clamp-1">
                           {item.name}
                         </h2>
-                        <p className="text-gray-600">
-                          Quantity: {item.quantity}
+                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600 mt-1">
+                          Price:{" "}
+                          <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">
+                            {item.price} đ
+                          </span>
                         </p>
-                        <p className="text-gray-600">Price: {item.price} đ</p>
-                        <p className="text-gray-600">Notes: {item.note}</p>
-                        <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
-                          <div className="flex items-center space-x-4">
-                            <button 
-                            onClick={() => handleDecrease(item.name)}
-                            className="w-10 h-10 border rounded-full flex items-center justify-center text-xl text-gray-600 hover:bg-gray-100">
-                              −
-                            </button>
-                            <span className="text-lg font-medium">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => handleIncrease(item.name)}
-                              className="w-10 h-10 border rounded-full flex items-center justify-center text-xl text-gray-600 hover:bg-gray-100"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
+                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600">
+                          Note: {item.note}
+                        </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-4 mt-4 md:mt-0">
-                      <p
-                        className="text-red-500 cursor-pointer"
-                        /*   onClick={() => handleRemove(details.id_dishlist)} */
+
+                    {/* Quantity & Delete */}
+                    <div className="mt-4 md:mt-0 cursor-pointer flex items-center gap-4 flex-wrap">
+                      <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                        <button
+                          onClick={() => handleDecrease(item.name)}
+                          className="w-8 h-8 cursor-pointer text-lg text-gray-600 hover:bg-gray-100"
+                        >
+                          −
+                        </button>
+                        <span className="w-10 text-center text-base font-semibold">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => handleIncrease(item.name)}
+                          className="w-8 h-8 text-lg text-gray-600 hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => handleDelete(item.name)}
+                        className="bg-red-500 lg:text-lg cursor-pointer hover:bg-red-600 text-white px-4 py-1 rounded-md text-[16px]"
                       >
                         Delete
-                      </p>
-                      <NavLink to="/menu">
-                        <p className="text-red-500">Edit</p>
-                      </NavLink>
+                      </button>
                     </div>
                   </div>
                 );
@@ -169,8 +126,8 @@ function orderProductDashBoard() {
               </div>
               <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
                 <div className="flex justify-between">
-                  <span>Total Order</span>
-                  <span>{calculatOrder} order</span>
+                  <span>Total Quantity</span>
+                  <span>{calculatOrder} quantity</span>
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total payment</span>
@@ -206,4 +163,4 @@ function orderProductDashBoard() {
   );
 }
 
-export default orderProductDashBoard;
+export default OrderProductDashBoard;
