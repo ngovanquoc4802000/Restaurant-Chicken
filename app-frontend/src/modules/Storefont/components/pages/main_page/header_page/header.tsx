@@ -2,7 +2,6 @@ import Button from "$/common/button/button";
 import cart1 from "$/modules/Storefont/assets/cart1.png";
 import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
 import logo from "$/modules/Storefont/assets/kfclogo.png";
-import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
 import { useHeaderPages } from "$/modules/Storefont/hooks/menu_page/useHeaderPages";
 import queriesOrder from "$/modules/Storefont/queries/order";
 import type { RootState } from "$/modules/Storefont/store/store";
@@ -13,27 +12,30 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 function Header() {
-  const { open, handleClose, handleOpen, menuItemsData, handleNavigate } =
-    useHeaderPages();
+  const { open, handleClose, handleOpen, menuItemsData, handleNavigate } = useHeaderPages();
 
-  const userRole = useSelector((state: RootState) => state.userLogin.rule);
-
-  const { userId } = useOrderProductDB();
+  const { id, rule } = useSelector(
+    (state: RootState) =>
+      state.userLogin || {
+        id: null,
+        rule: null,
+      }
+  );
 
   const { data: orderList } = useQuery({
     ...queriesOrder.list,
-    enabled: !!userId,
+    enabled: !!id,
   });
+
   const queryClient = useQueryClient();
-  const currentUserOrders =
-    orderList?.filter((item) => item.user_id === userId) || [];
-  const totalCartItems = currentUserOrders.reduce(
-    (acc, curr) => acc + curr.details.length,
-    0
-  );
+
+  const currentUserOrders = orderList?.filter((item) => item.user_id === id) || [];
+
+  const totalCartItems = currentUserOrders.reduce((acc, curr) => acc + curr.details.length, 0);
+
   useEffect(() => {
     queryClient.invalidateQueries({ ...queriesOrder.list });
-  }, [userId, queryClient]);
+  }, [id, queryClient]);
 
   return (
     <>
@@ -41,11 +43,7 @@ function Header() {
         <div className="header__left  flex md:items-center md:justify-center">
           <div className="header__logo flex md:items-center md:justify-center rounded-full">
             <NavLink to="/">
-              <img
-                className="logo w-[78px] h-[78px] block max-w-full h-auto"
-                src={KfcLogoSVG}
-                alt="hình ảnh logo"
-              />
+              <img className="logo w-[78px] h-[78px] block max-w-full h-auto" src={KfcLogoSVG} alt="hình ảnh logo" />
             </NavLink>
           </div>
           <nav className="header__nav-inline hidden md:flex">
@@ -88,7 +86,7 @@ function Header() {
         <div className="flex flex-row-reverse lg:flex-row-reverse justify-between md:justify-center-center md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative w-6 h-6 flex items-center justify-center">
             <AnimatePresence>
-              {userRole === "customer" && totalCartItems > 0 && (
+              {rule === "customer" && totalCartItems > 0 && (
                 <motion.div
                   key={totalCartItems}
                   initial={{ scale: 0 }}
@@ -118,13 +116,7 @@ function Header() {
           </div>
           <div className="flex-1 flex justify-center  md:hidden md:justify-start lg:hidden">
             <NavLink to="/" className="block">
-              <img
-                width={78}
-                height={78}
-                className="logo block max-w-full h-auto"
-                src={logo}
-                alt="hình ảnh logo"
-              />
+              <img width={78} height={78} className="logo block max-w-full h-auto" src={logo} alt="hình ảnh logo" />
             </NavLink>
           </div>
           <div
@@ -139,9 +131,7 @@ function Header() {
       {/* Offcanvas Overlay */}
       <div
         className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
-          open
-            ? "offcanvas-overlay--visible visible opacity-100"
-            : "invisible opacity-0"
+          open ? "offcanvas-overlay--visible visible opacity-100" : "invisible opacity-0"
         }`}
         onClick={handleClose}
       ></div>
