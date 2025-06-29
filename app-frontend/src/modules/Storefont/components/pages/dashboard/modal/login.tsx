@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useModalLoginPages } from "$/modules/Storefont/hooks/dashboard/useModalLoginPages";
 import Button from "$/common/button/button";
 import InputValue from "$/common/input";
@@ -94,11 +94,13 @@ function ModalLogin() {
                   <a href="#" className="text-blue-500 font-bold underline">Privacy policy</a>.
                 </label>
               </div>
+              <Link to="/checkout">
               <Button
                 className="btn-register mt-8 hover:bg-red-500 bg-[#e4002b] text-[16px] md:text-[18px] text-white p-3 border-none rounded-3xl font-bold cursor-pointer text-[1.1rem]"
                 text="Create Register"
                 type="submit"
-              />
+                />
+                </Link>
             </form>
           </div>
         ) : (

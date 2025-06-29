@@ -1,11 +1,14 @@
 import Button from "$/common/button/button";
 import { getUserAll } from "$/modules/Admin/services/users";
 import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
 import { type StoreCart } from "../storeCart";
+import { useSelector } from "react-redux";
+import type { RootState } from "$/modules/Storefont/store/store";
+import ModalLogin from "../../modal/login";
 
 function OrderProductDashBoard() {
   const {
@@ -36,14 +39,32 @@ function OrderProductDashBoard() {
     }
     setLoaded(Store);
   }, []);
-  /*   const [isModal , setIsModal] = useState<boolean>(false); */
-  /*   const { user } = useAuth(); */
-  /*   const role = useSelector((state: RootState) => state.auth.user?.rule); */
-
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const emailRedux : string | null = useSelector(
+    (state: RootState) => state.userLogin.email
+  );
+  console.log(emailRedux);
   const handleCheckOut = async () => {
-    const getAllUser = await getUserAll();
-    if(!getAllUser) console.log("không tìm thấy")
-    console.log("đã tìm thấy all user: " + getAllUser.data.map((item) => item.email));
+    try {
+      const getAllUser = await getUserAll();
+      if (!getAllUser?.data) {
+        console.log("Không lấy được danh sách người dùng");
+        setIsModal(true);
+        return;
+      }
+      const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
+      if (emailExists) {
+        navigate("/checkout");
+        console.log("Get Email Completed")
+      } else {
+        console.log("No find Email")
+        setIsModal(true);
+      }
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra email:", error);
+      setIsModal(true);
+    }
   };
   return (
     <div>
@@ -168,6 +189,7 @@ function OrderProductDashBoard() {
           </NavLink>
         </div>
       )}
+      {isModal && <ModalLogin/>}
       <Footer />
     </div>
   );

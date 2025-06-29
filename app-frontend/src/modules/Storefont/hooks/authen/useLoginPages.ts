@@ -25,7 +25,7 @@ export const useLogin = () => {
   const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const navigate = useNavigate();
-  
+
   const dispatch = useDispatch();
 
   const update = async () => {
@@ -57,11 +57,9 @@ export const useLogin = () => {
             phone_number: "",
           })
         );
-        if (userData.rule === "customer") {
-          navigate("/home");
+        navigate("/home");
 
-          setValue({ email: "", password: "" });
-        }
+        setValue({ email: "", password: "" });
         localStorage.getItem("userId");
 
         localStorage.getItem("user_order_history");

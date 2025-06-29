@@ -1,7 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { close } from "../../components/pages/features/modal";
+import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 import { setUser } from "../../components/pages/features/userLogin";
 import {
   clearUserRegister,
@@ -9,7 +11,6 @@ import {
 } from "../../components/pages/features/userRegister";
 import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
-import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 
 const initialRegister: UsersTs = {
   fullname: "",
@@ -77,7 +78,7 @@ export const useModalLoginPages = () => {
   };
 
   const dispatch = useDispatch();
-
+ const navigate = useNavigate()
   const update = async () => {
     const res = await createUserLogin(value);
     return res;
@@ -112,6 +113,7 @@ export const useModalLoginPages = () => {
         localStorage.setItem("userId", loginData.id.toString());
         setValue({ email: "", password: "" });
       }
+      navigate("/checkout")
       dispatch(close());
     },
     onError: (error) => {
