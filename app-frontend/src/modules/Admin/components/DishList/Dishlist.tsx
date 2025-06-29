@@ -49,7 +49,7 @@ const DishList = () => {
   return (
     <div className="dish-list-container  rounded-[5px] cursor-pointer">
       <h1 className="text-[#333] p-5 bg-[#dc3545] text-center text-white font-bold text-[1.5rem]">
-        Dish List
+        Food
       </h1>
       <div className="p-5">
         <div className="flex relative justify-between flex-row-reverse">
@@ -161,7 +161,7 @@ const DishList = () => {
                     {dish.name}
                   </td>
                   <td className="border border-solid border-gray-500 p-3 text-center hover:bg-[#e0f7fa] ">
-                    {dish.price} VND
+                    {dish.price} đ
                   </td>
                   <td className="border border-solid border-gray-500 p-3 text-left hover:bg-[#e0f7fa] ">
                     {dish.description}

@@ -109,7 +109,7 @@ const Order = () => {
                   {item.customer_note}
                 </td>
                 <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {item.total_price} VND
+                  {item.total_price} đ
                 </td>
                 <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
                   {item.process || "Chưa xác định"}

@@ -8,7 +8,7 @@ import type { DishTs } from "../types/dishlist";
 const initialState: DishTs = {
   name: "",
   title: "",
-  currency: "VND",
+  currency: "đ",
   price: "",
   description: "",
   images: [{ alt_text: "", image: "" }],

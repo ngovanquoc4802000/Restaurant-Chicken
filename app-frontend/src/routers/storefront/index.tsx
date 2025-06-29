@@ -2,6 +2,7 @@ import Login from "$/modules/Storefont/components/pages/authentication/login";
 import Register from "$/modules/Storefont/components/pages/authentication/register";
 import Dashboard from "$/modules/Storefont/components/pages/dashboard";
 import Category from "$/modules/Storefont/components/pages/dashboard/category";
+import CheckOutPages from "$/modules/Storefont/components/pages/dashboard/category/checkout";
 import ProductDetail from "$/modules/Storefont/components/pages/dashboard/category/details";
 import OrderProductDashBoard from "$/modules/Storefont/components/pages/dashboard/category/orderProduct";
 import Home from "$/modules/Storefont/components/pages/main_page";
@@ -63,7 +64,10 @@ export const routerStore = [
     path: "orderProductDashBoard",
     element: <OrderProductDashBoard/>,
   },
-   
+   {
+    path: "checkout",
+    element: <CheckOutPages/>,
+  },
   {
     path: "/account",
     element: <DetailAccountPage/>,
