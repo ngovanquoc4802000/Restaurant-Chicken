@@ -1,4 +1,5 @@
 import Button from "$/common/button/button";
+import { getUserAll } from "$/modules/Admin/services/users";
 import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
@@ -16,7 +17,7 @@ function OrderProductDashBoard() {
     calculatorPrice,
     orderId,
     formatCurrency,
-    mergedItems
+    mergedItems,
   } = useOrderProductDB();
   useEffect(() => {
     let Store: StoreCart = [];
@@ -27,15 +28,23 @@ function OrderProductDashBoard() {
         if (Array.isArray(parsedCart)) {
           Store = parsedCart;
         } else {
-          console.log("không có dữ liệu từ localStorage: " + Store);
+          console.log("No data in localStorage: " + Store);
         }
       } catch (error) {
-        console.log("không có array " + error);
+        console.log("No array " + error);
       }
     }
     setLoaded(Store);
   }, []);
+  /*   const [isModal , setIsModal] = useState<boolean>(false); */
+  /*   const { user } = useAuth(); */
+  /*   const role = useSelector((state: RootState) => state.auth.user?.rule); */
 
+  const handleCheckOut = async () => {
+    const getAllUser = await getUserAll();
+    if(!getAllUser) console.log("không tìm thấy")
+    console.log("đã tìm thấy all user: " + getAllUser.data.map((item) => item.email));
+  };
   return (
     <div>
       <Header />
@@ -135,6 +144,7 @@ function OrderProductDashBoard() {
                 </div>
               </div>
               <Button
+                onClick={handleCheckOut}
                 text={`CHECK OUT ${formatCurrency(calculatorPrice)} đ`}
                 className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />

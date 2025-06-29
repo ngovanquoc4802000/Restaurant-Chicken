@@ -1,5 +1,16 @@
-import type { LoginCredentials, UserLoginResponse, UsersTs } from "../mockup/user";
-import { Request } from "../utils/http";
+import type { LoginCredentials, UserAll, UserLoginResponse, UsersTs } from "../mockup/user";
+import { axiosInstance, Request } from "../utils/http";
+
+export const getUserRegister = async () => {
+  try {
+    const result = await Request.get<UserAll>("user");
+    return result.data;
+  } catch (error) {
+    if (!error || error) {
+      throw { response: { data: { message: error || "Login failed" } } };
+    }
+  }
+}
 
 export const createUsersRegister = async (user: UsersTs) => {
   try {
@@ -13,7 +24,7 @@ export const createUsersRegister = async (user: UsersTs) => {
 }
 export const createUserLogin = async (login: LoginCredentials) => {
   try {
-    const result = await Request.post<UserLoginResponse>("user/login", login);
+    const result = await axiosInstance.post<UserLoginResponse>("user/login", login);
     if(!result) {
       console.log("No create user login")
     }

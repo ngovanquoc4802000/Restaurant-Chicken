@@ -1,9 +1,9 @@
-import { axiosInstance } from "$/modules/Storefont/utils/http";
+import { axiosInstance, Request } from "$/modules/Storefont/utils/http";
 import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/order";
 
 export const getOrderAll = async () => {
   try {
-    const result = await axiosInstance.get<OrderAllTs>("order");
+    const result = await Request.get<OrderAllTs>("order");
     console.log(result.data)
     return result.data;
   } catch (error) {
