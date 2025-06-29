@@ -39,7 +39,6 @@ function CheckOutPages() {
           </div>
           <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-6 lg:p-6 space-y-4 max-w-md w-full mx-auto">
             <form onSubmit={handleCart} className="space-y-4">
-             
               <InputValue
                 text="Address"
                 placeholder="Address..."

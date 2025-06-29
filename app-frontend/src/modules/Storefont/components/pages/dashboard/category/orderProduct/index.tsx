@@ -40,6 +40,7 @@ function OrderProductDashBoard() {
     setLoaded(Store);
   }, []);
   const [isModal, setIsModal] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const emailRedux : string | null = useSelector(
     (state: RootState) => state.userLogin.email
@@ -189,7 +190,7 @@ function OrderProductDashBoard() {
           </NavLink>
         </div>
       )}
-      {isModal && <ModalLogin/>}
+      {isModal && <ModalLogin isModal={isModal} setIsModal={setIsModal} />}
       <Footer />
     </div>
   );

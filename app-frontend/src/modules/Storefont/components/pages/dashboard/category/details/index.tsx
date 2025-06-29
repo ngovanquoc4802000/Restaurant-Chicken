@@ -49,7 +49,7 @@ function ProductDetail() {
           </div>
           <div className="md:p-4 md:mt-4">
             <div className="product-button mb-[-1rem] justify-start md:p-2  md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px]  md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
-              {isOpen && <ModalLogin />}
+              {isOpen && <ModalLogin/>}
               {isActive ? (
                 <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-4 lg:p-6 space-y-4 max-w-md w-full mx-auto">
                   <form onSubmit={handleCart} className="space-y-4">
