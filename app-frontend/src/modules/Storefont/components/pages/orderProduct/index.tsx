@@ -22,7 +22,7 @@ function OrderProduct() {
                     <div className="flex-1 ml-3">
                       <h2 className="text-lg font-semibold text-gray-800">{item.title}</h2>
                       <p className="text-gray-600">Quantity: {item.quantity}</p>
-                      <p className="text-gray-600">Price: {item.price} VND</p>
+                      <p className="text-gray-600">Price: {item.price} đ</p>
                       <p className="text-gray-600">Notes: {item.note}</p>
                     </div>
                   </div>
@@ -56,11 +56,11 @@ function OrderProduct() {
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total payment</span>
-                  <span>{total_price.toFixed(3)} VND</span>
+                  <span>{total_price.toFixed(3)} đ</span>
                 </div>
               </div>
               <Button
-                text={`Payment ${total_price.toFixed(3)} VND`}
+                text={`Payment ${total_price.toFixed(3)} đ`}
                 className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />
             </div>

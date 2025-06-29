@@ -2,18 +2,20 @@ import Button from "$/common/button/button";
 import cart1 from "$/modules/Storefont/assets/cart1.png";
 import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
 import logoMobile from "$/modules/Storefont/assets/kfclogo.png";
-import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import queriesOrder from "$/modules/Storefont/queries/order";
 import type { RootState } from "$/modules/Storefont/store/store";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import type { CartTs } from "../category/storeCart";
 import "./styles.scss";
 
+type StoreCart = CartTs[];
+export const LOCAL_STORAGE_CART_EVENT = "localStorageCartUpdated";
 function Header() {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartTs[]>([]);
+
   const openOffcanvas = () => {
     setIsOffcanvasOpen(true);
   };
@@ -22,7 +24,6 @@ function Header() {
     setIsOffcanvasOpen(false);
   };
 
-  const { userId } = useOrderProductDB();
   const navigate = useNavigate();
 
   const userRole = useSelector((state: RootState) => state.userLogin.rule);
@@ -34,20 +35,41 @@ function Header() {
       navigate("/login");
     }
   };
-  const { data: orderList } = useQuery({
-    ...queriesOrder.list,
-    enabled: !!userId,
+  useEffect(() => {
+    let Store: StoreCart = [];
+    const findCart = localStorage.getItem("storeCart");
+    if (findCart) {
+      try {
+        const parsedCart: unknown = JSON.parse(findCart);
+        if (Array.isArray(parsedCart)) {
+          Store = parsedCart;
+        } else {
+          console.log("không có dữ liệu từ localStorage: " + Store);
+        }
+      } catch (error) {
+        console.log("không có array " + error);
+      }
+    }
+    setCartItems(Store);
+  }, []);
+  const mergedItemsMap = new Map<string, CartTs>();
+
+  cartItems.forEach((item) => {
+    const existing = mergedItemsMap.get(item.name);
+    if (existing) {
+      existing.quantity += item.quantity;
+    } else {
+      mergedItemsMap.set(item.name, { ...item });
+    }
   });
-  const queryClient = useQueryClient();
-  const currentUserOrders =
-    orderList?.filter((item) => item.user_id === userId) || [];
-  const totalCartItems = currentUserOrders.reduce(
-    (acc, curr) => acc + curr.details.length,
+
+  const mergedItems = Array.from(mergedItemsMap.values());
+  
+  const totalCartItems = mergedItems.reduce(
+    (acc, curr) => acc + curr.quantity,
     0
   );
-  useEffect(() => {
-    queryClient.invalidateQueries({ ...queriesOrder.list });
-  }, [userId, queryClient]);
+
   return (
     <>
       <header className="header flex-col lg:flex-row md:flex-row  md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -132,9 +154,9 @@ function Header() {
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
             <div className="relative w-6 h-6 flex items-center justify-center">
               <AnimatePresence>
-                {userRole === "customer" && totalCartItems > 0 && (
+                {mergedItems.length > 0 && (
                   <motion.div
-                    key={totalCartItems}
+                    key={mergedItems.length}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}

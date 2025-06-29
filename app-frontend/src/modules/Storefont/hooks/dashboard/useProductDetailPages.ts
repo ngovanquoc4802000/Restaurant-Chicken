@@ -31,6 +31,7 @@ export const useProductDetailsPage = () => {
   } = useQuery({ ...queriesDishlist.list });
 
   const isOpen = useSelector((state: RootState) => state.showLogin);
+  
   const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
 
 
@@ -136,10 +137,10 @@ export const useProductDetailsPage = () => {
   };
 
   return {
+    setQuantity,
     handleCart,
     handleInputChange,
     handleNoteChange,
-    setQuantity,
     handleOrderClick,
     setIsActive,
     orderData,

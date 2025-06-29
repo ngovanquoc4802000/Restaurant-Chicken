@@ -2,6 +2,7 @@ import Button from "$/common/button/button";
 import InputValue from "$/common/input";
 import TextareaValue from "$/common/textarea";
 import { useProductDetailsPage } from "$/modules/Storefont/hooks/dashboard/useProductDetailPages";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
 import ModalLogin from "../../modal/login";
@@ -23,9 +24,30 @@ function ProductDetail() {
     orderDetails,
     quantity,
   } = useProductDetailsPage();
+  const total_price = (Number(product?.price) * quantity).toFixed(3);
+  const navigate = useNavigate();
   const handleClick = () => {
-    
-  }
+    const existingCart = localStorage.getItem("storeCart");
+    let storeCart = [];
+    if (existingCart) {
+      storeCart = JSON.parse(existingCart);
+    }
+    let autoIncrement: number = 1;
+    const order = {
+      id: autoIncrement++,
+      image: product?.images?.[0]?.image,
+      name: product?.title,
+      price: total_price,
+      quantity: quantity,
+      note: "",
+    };
+    storeCart.push(order);
+    localStorage.setItem("storeCart", JSON.stringify(storeCart));
+    if (storeCart) {
+      alert("Create Cart Success");
+      navigate("/orderProductDashBoard")
+    }
+  };
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (error) return `Error Product Details ${error}`;
@@ -127,7 +149,7 @@ function ProductDetail() {
                       type="submit"
                       text={`Add cart (${(
                         Number(product.price) * quantity
-                      ).toFixed(3)} VND)`}
+                      ).toFixed(3)} đ)`}
                       className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"
                     />
                   </form>
@@ -140,21 +162,72 @@ function ProductDetail() {
                     <div className="w-2 h-6 bg-red-600"></div>
                   </div>
 
-                  <div className="mt-8">
-                    <h2 className="text-2xl font-extrabold text-black uppercase">
-                      {product.title}
+                  <div className="mt-10">
+                    <h2 className="text-2xl font-extrabold uppercase text-gray-900">
+                      {product.name}
                     </h2>
                     <p className="text-gray-500 mt-2 text-sm">
                       {product.description}
                     </p>
-                  </div>
 
-                  <button
-                    onClick={handleClick}
-                    className="w-full mt-6 bg-gray-300 text-white font-bold py-3 rounded-full "
-                  >
-                    Add
-                  </button>
+                    <hr className="my-4 border-gray-200" />
+
+                    <h3 className="font-bold text-gray-800 uppercase mb-2">
+                      Your Meal
+                    </h3>
+                    <ul className="text-sm space-y-1">
+                      <li>
+                        <span className="font-semibold">{product.name}</span>1{" "}
+                        {product.name}:
+                      </li>
+                      <li>
+                        1 Drink:
+                        <span className="font-semibold">
+                          {product.description
+                            .split("+")
+                            .find(
+                              (part) =>
+                                part
+                                  .toLocaleLowerCase()
+                                  .includes("String Can") ===
+                                part.toLocaleLowerCase().includes("Pepsi")
+                            )}
+                        </span>{" "}
+                        - ***Standard:
+                        <span className="font-bold">STD</span>
+                        <span className="inline-block ml-1 text-black">🖉</span>
+                      </li>
+                    </ul>
+
+                    <hr className="my-4 border-gray-200" />
+
+                    <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
+                      <div className="flex items-center space-x-4">
+                        <button
+                          onClick={() =>
+                            setQuantity((prev) => Math.max(1, prev - 1))
+                          }
+                          className="w-10 h-10 border rounded-full flex items-center justify-center text-xl text-gray-600 hover:bg-gray-100"
+                        >
+                          −
+                        </button>
+                        <span className="text-lg font-medium">{quantity}</span>
+                        <button
+                          onClick={() => setQuantity((prev) => prev + 1)}
+                          className="w-10 h-10 border rounded-full flex items-center justify-center text-xl text-gray-600 hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        onClick={handleClick}
+                        className="bg-red-600 cursor-pointer hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition text-sm md:text-base"
+                      >
+                        Add to Bucket ({total_price})đ
+                      </button>
+                    </div>
+                  </div>
+                  <br />
                 </div>
               )}
             </div>

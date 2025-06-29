@@ -119,7 +119,7 @@ function DetailsPage() {
                 type="submit"
                 text={`Add cart (${(Number(product.price) * quantity).toFixed(
                   3
-                )} VND)`}
+                )} đ)`}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"
               />
             </form>
