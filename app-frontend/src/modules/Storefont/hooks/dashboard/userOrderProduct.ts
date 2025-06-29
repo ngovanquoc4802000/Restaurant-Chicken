@@ -111,6 +111,7 @@ export const useOrderProductDB = () => {
       0
     );
     const calculatOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
+    
     const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
   
     const handleIncrease = useCallback(

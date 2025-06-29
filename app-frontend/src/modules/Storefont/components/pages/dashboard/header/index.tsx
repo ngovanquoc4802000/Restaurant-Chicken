@@ -13,13 +13,14 @@ type StoreCart = CartTs[];
 
 function Header() {
   const {
-    totalCartItems,
+   /*  totalCartItems, */
     handleUser,
     isOffcanvasOpen,
     setCartItems,
     openOffcanvas,
     closeOffcanvas,
-    mergedItems,
+    /* mergedItems, */
+    orderId,
   } = useHeaderPages();
   useEffect(() => {
     let Store: StoreCart = [];
@@ -123,16 +124,16 @@ function Header() {
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
             <div className="relative w-6 h-6 flex items-center justify-center">
               <AnimatePresence>
-                {mergedItems.length > 0 && (
+                {orderId > 0 && (
                   <motion.div
-                    key={mergedItems.length}
+                    key={orderId}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                     className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                   >
-                    {totalCartItems}
+                    {orderId}
                   </motion.div>
                 )}
               </AnimatePresence>
