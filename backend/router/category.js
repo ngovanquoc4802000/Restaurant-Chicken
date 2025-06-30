@@ -3,7 +3,7 @@ import categoryControllers from '../controllers/categoryControllers.js';
 import verify from "../middleware/verifyToken.js";
 import { checkRole } from "../middleware/checkRole.js";
 const router = express.Router();
-alo
+alo 111
 
 router.get('/',categoryControllers.getCategoryAll)
 router.post('/create', verify, checkRole(["admin"]),categoryControllers.createCategory)
