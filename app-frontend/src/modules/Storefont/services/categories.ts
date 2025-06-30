@@ -2,7 +2,7 @@ import type { CategoryTs } from "../mockup/categories";
 
 export const getApiCategoriesAll = async () => {
   try {
-    const result = await Request.get<CategoryTs>("category");
+    const result = await Request.get<CategoryTs | undefined>("category");
     console.log(result.data + "không có data")
     return result.data;
   } catch (error) {
