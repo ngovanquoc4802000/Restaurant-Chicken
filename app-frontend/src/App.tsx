@@ -31,7 +31,7 @@ function App() {
         })
       );
     }
-  }, []);
+  }, [dispatch]);
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={routerRoot} />
