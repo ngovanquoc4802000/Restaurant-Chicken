@@ -1,225 +1,368 @@
-import express from "express";
-import multer from "multer";
-import pool from "../database/connection.js";
+import pool from "../database/connectdatabase.js"; 
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/category");
-  },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-  },
-});
 
-const upload = multer({ storage: storage });
-const router = express.Router();
-
-router.get("/", async (req, res) => {
-  const connection = await pool.getConnection();
+const getCategoryAll = async (req, res) => {
   try {
-    const data = await connection.query(`SELECT * FROM api_db`);
-    if (!data) {
+    const data = await pool.query(`SELECT * FROM category`);
+    if (!data || data.length === 0) {
       return res.status(404).send({
         success: false,
-        message: "404 not found",
+        message: "No categories found",
       });
     }
+    const result = data.rows;
+
     res.status(200).send({
       success: true,
-      message: "get success api All",
-      data: data[0],
+      message: "Successfully retrieved all categories",
+      data: result,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "error category",
+      message: "Error retrieving categories", 
+      error: error.message,
     });
   } finally {
     connection.release();
   }
-});
+};
 
-router.get("/api/v1/product", async (req, res) => {
-  const connection = await pool.getConnection();
+const getCategoryId = async (req, res) => {
   try {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    const offset = (page - 1) * limit;
-    const [data] = await pool.query(`SELECT * FROM api_db  limit ? offset ? `, [
-      +limit,
-      +offset,
-    ]);
-    const [totalPageData] = await pool.query(
-      `SELECT count(*) as count from api_db`
-    );
-    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
-    console.log(totalPage);
+    const categoryId = req.params.id;
+
+    if (!categoryId) {
+      return res.status(400).send({
+        success: false,
+        message: "Category ID is required",
+      });
+    }
+    const insertQuery = `SELECT * FROM category WHERE id = $1`;
+
+    const data = await pool.query(insertQuery, [categoryId]);
+
+    if (!data || data.length === 0) {
+      return res.status(404).send({
+        success: false,
+        message: `Category with ID ${categoryId} not found`,
+      });
+    }
+    const result = data.rows[0];
     res.status(200).send({
       
       success: true,
-      message: "pagination success",
+      message: "Successfully retrieved category by ID",
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error retrieving category by ID",
+      error: error.message,
+    });
+  } finally {
+    connection.release();
+  }
+};
+
+const createCategory = async (req, res) => {
+  try {
+    const { name, handle, image, status = true } = req.body;
+
+    if (!name || !handle) {
+      return res.status(400).send({
+        success: false,
+        message: "Name and handle are required fields",
+      });
+    }
+
+    if (status !== undefined && typeof status !== "boolean") {
+      return res.status(400).send({
+        success: false,
+        message: "Status must be a boolean value (true/false).",
+      });
+    }
+
+    const insertQuery = `
+      INSERT INTO category (name, handle, image, status)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id;
+    `;
+    const result = await pool.query(insertQuery, [
+      name,
+      handle,
+      image,
+     status,
+    ]);
+
+    if (!result || !result.rows || result.rows.length === 0) {
+      return res.status(500).send({
+        success: false,
+        message: "Failed to create category or retrieve new ID.",
+      });
+    }
+
+    const newCategoryId = result.rows[0].id;
+
+    const newData = await pool.query(`SELECT * FROM category WHERE id = $1`, [
+      newCategoryId,
+    ]);
+
+    if (!newData || newData.length === 0) {
+      return res.status(500).send({
+        success: false,
+        message: "Failed to retrieve newly created category.",
+      });
+    }
+
+    res.status(201).send({
+      success: true,
+      message: "Category created successfully",
+      data: newData.rows[0],
+    });
+  } catch (error) {
+    console.log(error);
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(409).send({
+        success: false,
+        message: "Category with this handle already exists.",
+      });
+    }
+    res.status(500).send({
+      success: false,
+      message: "Error creating category",
+      error: error.message,
+    });
+  } finally {
+    connection.release();
+  }
+};
+
+const categoryPagination = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+
+    if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid page or limit parameters. Must be positive integers.",
+      });
+    }
+
+    const offset = (page - 1) * limit;
+
+    const [data] = await pool.query(
+      `SELECT * FROM category LIMIT ? OFFSET ? `,
+      [limit, offset]
+    );
+
+    const [totalPageData] = await pool.query(
+      `SELECT count (*) as count FROM category`
+    );
+
+    const totalItems = totalPageData[0]?.count || 0;
+    const totalPage = Math.ceil(totalItems / limit);
+
+    if (page > totalPage && totalPage > 0) {
+      return res.status(404).send({
+        success: false,
+        message: `Page ${page} not found. Max available page is ${totalPage}.`,
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Categories pagination success",
       data: data,
       pagination: {
-        page: +page,
-        limit: +limit,
-        totalPage,
+        page: page,
+        limit: limit,
+        totalItems: totalItems,
+        totalPage: totalPage,
       },
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "lỗi phân trang",
+      message: "Error fetching paginated categories",
+      error: error.message,
     });
   } finally {
     connection.release();
   }
-});
-router.post("/image", upload.single("file"), async (req, res) => {
-  const connection = await pool.getConnection();
+};
 
-  try {
-    const ImageName = req.file.filename;
-    const { name, handle } = req.body;
-    if (!ImageName || !name || !handle) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid Error",
-      });
-    }
-    const data = await connection.query(
-      `INSERT INTO api_db 
-      (image, name , handle) 
-      VALUES(?,?,?)`,
-      [ImageName, name, handle]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success api ",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error",
-    });
-  } finally {
-    connection.release();
-  }
-});
-router.get("/:id", async (req, res) => {
-  const connection = await pool.getConnection();
-
+const updateCategoryId = async (req, res) => {
   try {
     const categoryId = req.params.id;
-    if (!categoryId) {
-      return res.status(403).send({
-        success: false,
-        message: "Invalid , Please connect fields",
-      });
-    }
-    const [data] = await connection.query(
-      `
-       SELECT * FROM api_db WHERE id = ?
-      `,
-      [categoryId]
-    );
-    if (!data) {
-      return res.status(404).send({
-        success: false,
-        message: "404 not found",
-      });
-    }
-    res.status(200).send({
-      success: true,
-      message: "success categoryId",
-      data: data[0],
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Kết nối thất bại",
-    });
-  } finally {
-    connection.release();
-  }
-});
-router.put("/:id", upload.single("file"), async (req, res) => {
-  const connection = await pool.getConnection();
+    const { name, handle, image, status } = req.body;
 
-  try {
-    const categoryTable = req.params.id;
-    if (!categoryTable) {
-      return res.status(403).send({
+    if (!categoryId) {
+      return res.status(400).send({
         success: false,
-        message: "403 not found",
+        message: "Category ID is required for update",
       });
     }
-    const file = req.file.filename;
-    const { name, handle } = req.body;
-    const data = await connection.query(
-      `
-      UPDATE api_db SET
-      image = ? ,
-      name = ?,
-      handle = ?
-      WHERE id = ?
-      `,
-      [file, name, handle, categoryTable]
-    );
-    if (!data) {
-      return res.status(404).send({
+
+    if (status !== undefined && typeof status !== "boolean") {
+      return res.status(400).send({
         success: false,
-        message: "404 not found",
+        message: "Status must be a boolean value (true/false).",
       });
     }
+
+    const statusValue = status;
+
+    let updateFields = [];
+    let queryParams = [];
+    let paramIndex = 1;
+
+    if (name !== undefined) {
+      updateFields.push(`name = $${paramIndex}`);
+      queryParams.push(name);
+      paramIndex++;
+    }
+    if (handle !== undefined) {
+      updateFields.push(`handle = $${paramIndex}`);
+      queryParams.push(handle);
+      paramIndex++;
+    }
+    if (image !== undefined) {
+      updateFields.push(`image = $${paramIndex}`);
+      queryParams.push(image);
+      paramIndex++;
+    }
+    if (status !== undefined) {
+      updateFields.push(`status = $${paramIndex}`);
+      queryParams.push(statusValue);
+      paramIndex++;
+    }
+
+    if (updateFields.length === 0) {
+      return res.status(400).send({
+        success: false,
+        message: "No fields provided for update.",
+      });
+    }
+
+    const finalIdParamIndex = paramIndex;
+    queryParams.push(categoryId);
+
+    const updateQuery = `UPDATE category SET ${updateFields.join(
+      ", "
+    )} WHERE id = $${finalIdParamIndex} RETURNING *;`;
+
+    const result = await pool.query(updateQuery, queryParams);
+
+    if (!result || !result.rows || result.rows.length === 0) {
+      const existingCategoryResult = await pool.query(
+        `SELECT id FROM category WHERE id = $1`,
+        [categoryId]
+      );
+
+      if (
+        !existingCategoryResult.rows ||
+        existingCategoryResult.rows.length === 0
+      ) {
+        return res.status(404).send({
+          success: false,
+          message: `Category with ID ${categoryId} not found.`,
+        });
+      } else {
+        return res.status(200).send({
+          success: false,
+          message: "Category data was already up to date, no changes made.",
+        });
+      }
+    }
+    const updatedCategoryData = result.rows[0];
+
     res.status(200).send({
       success: true,
-      message: "success api UpdateCategory",
+      message: "Category updated successfully",
+      data: updatedCategoryData,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error updating category:", error);
+
+    // --- Sửa lỗi 5: Mã lỗi cho UNIQUE constraint violation trong PostgreSQL là "23505" ---
+    if (error.code === "23505") {
+      return res.status(409).send({
+        success: false,
+        message: "Update failed: Category with this handle already exists.",
+      });
+    }
     return res.status(500).send({
       success: false,
-      message: "Error Api Category",
+      message: "Error updating category",
+      error: error.message,
     });
   } finally {
     connection.release();
   }
-});
-router.delete("/:id", async (req, res) => {
-  const connection = await pool.getConnection();
+};
 
+const deleteCategoryId = async (req, res) => {
   try {
     const removeCategory = req.params.id;
+
     if (!removeCategory) {
-      return res.status(404).send({
+      return res.status(400).send({
         success: false,
-        message: "404 , Not found deleteCategory",
+        message: "Category ID is required for deletion",
       });
     }
-    await connection.query(`DELETE FROM api_db WHERE id =?`, [removeCategory]);
+    const [relatedDishes] = await pool.query(
+      `SELECT id FROM dishlist WHERE category_id = ?`,
+      [removeCategory]
+    );
+
+    if (relatedDishes.length > 0) {
+      return res.status(409).send({
+        success: false,
+        message:
+          "Cannot delete category. There are dishes associated with this category. Please delete those dishes first.",
+      });
+    }
+
+    const [deleteResult] = await pool.query(
+      `DELETE FROM category WHERE id = ?`,
+      [removeCategory]
+    );
+
+    if (deleteResult.affectedRows === 0) {
+      return res.status(404).send({
+        success: false,
+        message: `Category with ID ${removeCategory} not found.`,
+      });
+    }
+
     res.status(200).send({
       success: true,
-      message: "Success delete Id category",
+      message: "Category deleted successfully",
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
-      success: true,
-      message: "Error deleteCategory",
+      success: false,
+      message: "Error deleting category",
+      error: error.message,
     });
   } finally {
     connection.release();
   }
-});
+};
 
-export default router;
+export default {
+  getCategoryAll,
+  getCategoryId,
+  createCategory,
+  categoryPagination,
+  updateCategoryId,
+  deleteCategoryId,
+};

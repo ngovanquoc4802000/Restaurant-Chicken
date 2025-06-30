@@ -1,0 +1,213 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f8; 
+}
+
+.sidebar {
+  width: 250px; 
+  background-color: #3f51b5;
+  color: #fff; 
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  flex-direction: column; 
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 12px 15px; /* Tăng padding nút */
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Hiệu ứng hover mượt mà */
+}
+
+.sidebar button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Màu nền hover nhạt hơn */
+}
+
+.sidebar button.active {
+  background-color: #5c6bc0; /* Màu nền nút active đậm hơn */
+  font-weight: bold;
+}
+
+.contentArea {
+  flex-grow: 1;
+  padding: 30px; /* Tăng padding vùng nội dung */
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05); /* Thêm bóng đổ nhẹ bên trái */
+}
+
+.pageTitle {
+  font-size: 28px; /* Tăng kích thước tiêu đề */
+  margin-bottom: 30px;
+  color: #333; /* Màu chữ tiêu đề */
+  border-bottom: 2px solid #eee; /* Đường kẻ dưới tiêu đề */
+  padding-bottom: 10px;
+}
+
+/* Style chung cho container của danh sách/bảng */
+.listContainer {
+  background-color: #fff;
+  border-radius: 12px; /* Bo tròn góc hiện đại hơn */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08); /* Bóng đổ sâu hơn, hiện đại hơn */
+}
+
+.listTitle {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+}
+
+/* Style cho bảng */
+.listTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #e0e0e0; /* Border nhẹ hơn */
+  border-radius: 8px;
+  overflow: hidden; /* Ẩn border-radius cho các phần tử bên trong */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03); /* Bóng đổ nhẹ hơn cho bảng */
+}
+
+.listTable th,
+.listTable td {
+  padding: 16px 20px; /* Padding rộng hơn */
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0; /* Border nhẹ hơn */
+}
+
+.listTable th {
+  background-color: #f7f7f7; /* Màu nền header rất nhạt */
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase; /* Chữ hoa cho header */
+  letter-spacing: 0.5px; /* Khoảng cách chữ nhỏ */
+}
+
+.listTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Màu nền dòng chẵn rất nhạt */
+}
+
+.listTable tbody tr:hover {
+  background-color: #f2f2f2; /* Hiệu ứng hover nhẹ nhàng */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.listTable td:last-child {
+  text-align: center; /* Căn giữa các nút hành động */
+}
+
+/* Style cho nút hành động */
+.actionButton {
+  padding: 10px 18px; /* Padding nút lớn hơn */
+  border: none;
+  border-radius: 8px; /* Bo tròn góc nút hơn */
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 8px;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Bóng đổ nhẹ cho nút */
+  color: #fff; /* Màu chữ trắng mặc định */
+}
+
+.actionButton:hover {
+  opacity: 0.9;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); /* Bóng đổ sâu hơn khi hover */
+}
+
+.editButton {
+  background-color: #5cb85c; /* Xanh lá cây tươi */
+}
+
+.editButton:hover {
+  background-color: #4cae4c;
+}
+
+.deleteButton {
+  background-color: #d9534f; /* Đỏ tươi */
+}
+
+.deleteButton:hover {
+  background-color: #c9302c;
+}
+
+.viewButton {
+  background-color: #5bc0de; /* Xanh dương sáng */
+}
+
+.viewButton:hover {
+  background-color: #46b8da;
+}
+
+.shippedButton {
+  background-color: #f0ad4e; /* Vàng cam */
+  color: #fff; /* Đảm bảo chữ trắng */
+}
+
+.shippedButton:hover {
+  background-color: #eea236;
+}
+
+/* Style cho bảng Category (nếu hiển thị dạng bảng) */
+.categoryTable {
+  width: 100%; /* Điều chỉnh độ rộng cho phù hợp */
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.categoryTable th,
+.categoryTable td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.categoryTable th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.categoryTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.categoryTable tbody tr:hover {
+  background-color: #f2f2f2;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.categoryTable td:last-child {
+}
