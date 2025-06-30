@@ -1,9 +1,9 @@
-import { axiosInstance } from "$/modules/Storefont/utils/http";
+import { axiosInstance, Request } from "$/modules/Storefont/utils/http";
 import type { UserAll, UsersTs } from "../types/users";
 
 export const getUserAll = async () => {
   try {
-    const result = await axiosInstance.get<UserAll>("user");
+    const result = await Request.get<UserAll>("user");
     return result.data;
   } catch (error) {
     console.log(error);

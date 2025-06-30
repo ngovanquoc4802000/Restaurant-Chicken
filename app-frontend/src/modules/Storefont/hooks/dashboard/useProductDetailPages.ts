@@ -115,8 +115,6 @@ export const useProductDetailsPage = () => {
     mutationFn: create,
     onSuccess: () => {
       navigate("/menu");
-      alert("Create Order Success")
-     
     },
     onError: () => {
       alert("Create Order fails!");

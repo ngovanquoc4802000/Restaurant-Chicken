@@ -27,6 +27,7 @@ const initialLogin: LoginCredentials = {
 }
 
 export const useModalLoginPages = () => {
+  const [error,setError] = useState<object>({});
   const [value, setValue] = useState<LoginCredentials>(initialLogin);
 
   const [valueRegister, setValueRegister] = useState<UsersTs>(initialRegister);
@@ -34,6 +35,7 @@ export const useModalLoginPages = () => {
   const [showForm, setShowForm] = useState(false);
 
   const handleFormRegister = () => {
+    setError(error);
     if(!showForm) {
       setShowForm(true);
     } else {
@@ -138,6 +140,8 @@ export const useModalLoginPages = () => {
     showForm,
     isPending,
     value,
+    error,
+    setShowForm,
     onChangeRegister,
     handleFormRegister,
     handleSubmitRegister,
