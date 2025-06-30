@@ -1,1 +1,0 @@
-cd admin-app && npx eslint . && npx lint-staged 
