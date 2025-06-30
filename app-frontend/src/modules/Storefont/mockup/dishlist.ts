@@ -14,7 +14,7 @@ export interface DishTs {
   images: Image[];
 }
 export interface Image {
-  id_dishlist?:number;
+  id_dishlist?: number;
   alt_text: string;
   image: string;
 }

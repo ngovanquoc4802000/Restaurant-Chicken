@@ -42,9 +42,7 @@ function OrderProductDashBoard() {
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const emailRedux : string | null = useSelector(
-    (state: RootState) => state.userLogin.email
-  );
+  const emailRedux: string | null = useSelector((state: RootState) => state.userLogin.email);
   console.log(emailRedux);
   const handleCheckOut = async () => {
     try {
@@ -57,9 +55,9 @@ function OrderProductDashBoard() {
       const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
       if (emailExists) {
         navigate("/checkout");
-        console.log("Get Email Completed")
+        console.log("Get Email Completed");
       } else {
-        console.log("No find Email")
+        console.log("No find Email");
         setIsModal(true);
       }
     } catch (error) {
@@ -94,13 +92,9 @@ function OrderProductDashBoard() {
                         </h2>
                         <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600 mt-1">
                           Price:{" "}
-                          <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">
-                            {item.price} đ
-                          </span>
+                          <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">{item.price} đ</span>
                         </p>
-                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600">
-                          Note: {item.note}
-                        </p>
+                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600">Note: {item.note}</p>
                       </div>
                     </div>
 
@@ -113,9 +107,7 @@ function OrderProductDashBoard() {
                         >
                           −
                         </button>
-                        <span className="w-10 text-center text-base font-semibold">
-                          {item.quantity}
-                        </span>
+                        <span className="w-10 text-center text-base font-semibold">{item.quantity}</span>
                         <button
                           onClick={() => handleIncrease(item.name)}
                           className="w-8 h-8 text-lg text-gray-600 hover:bg-gray-100"
@@ -140,19 +132,14 @@ function OrderProductDashBoard() {
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
               <h2 className="text-xl font-bold mb-4"> {orderId} Food</h2>
               <div className="mb-4">
-                <p className="text-sm font-medium mb-1">
-                  Do you have a discount code?
-                </p>
+                <p className="text-sm font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">
                   <input
                     type="text"
                     placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
                     className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
                   />
-                  <Button
-                    className="bg-black text-white px-4 py-1 rounded-full text-sm"
-                    text="Apply"
-                  />
+                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm" text="Apply" />
                 </div>
               </div>
               <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
@@ -179,9 +166,7 @@ function OrderProductDashBoard() {
             src="https://static.kfcvietnam.com.vn/images/web/empty-cart.png?v=5.0"
             className="mx-auto lg:mx-auto lg:w-70 lg:h-70 w-40 h-40 mb-4 mr-[7rem] md:mr-[18rem] lg:mr-[20rem] xl:mr-[36rem]"
           />
-          <p className="text-gray-600 text-xl mb-4 font-semibold lg:text-2xl">
-            No product order
-          </p>
+          <p className="text-gray-600 text-xl mb-4 font-semibold lg:text-2xl">No product order</p>
           <NavLink
             to="/menu"
             className="inline-block bg-red-600 text-white px-6 py-3 lg:text-xl rounded-full lg:mb-2 hover:bg-red-700 transition"

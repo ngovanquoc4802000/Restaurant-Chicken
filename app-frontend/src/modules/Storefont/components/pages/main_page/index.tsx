@@ -9,13 +9,12 @@ import MenuAndMealPage from "./menu_page/menuParent";
 import Welcome from "./welcome";
 
 function Home() {
-
   const { category, isLoading, error, findComboGroup } = useHomePages();
 
   if (isLoading || !category) return <div>Loading...</div>;
 
   if (error) return "An error has occurred";
-  
+
   return (
     <div className="Home">
       <Header />

@@ -7,16 +7,36 @@ const Sidebar = () => {
       <nav>
         <ul className="list-none p-0 m-0 `">
           <li>
-            <NavLink className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 " to="category">Categories</NavLink>
+            <NavLink
+              className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 "
+              to="category"
+            >
+              Categories
+            </NavLink>
           </li>
           <li>
-            <NavLink className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 " to="dishlist">Dish List</NavLink>
+            <NavLink
+              className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 "
+              to="dishlist"
+            >
+              Dish List
+            </NavLink>
           </li>
           <li>
-            <NavLink className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 " to="user">User</NavLink>
+            <NavLink
+              className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 "
+              to="user"
+            >
+              User
+            </NavLink>
           </li>
           <li>
-            <NavLink className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 " to="order">Orders</NavLink>
+            <NavLink
+              className="block p-[1.2rem] decoration-none font-medium text-white text-left transition-colors duration-300 ease-in-out  hover:bg-red-400 "
+              to="order"
+            >
+              Orders
+            </NavLink>
           </li>
         </ul>
       </nav>

@@ -10,12 +10,12 @@ function CheckOutPages() {
     error,
     dishlist,
     orderData,
-   /*  orderDetails, */
+    /*  orderDetails, */
     isError,
     isSuccess,
     handleCart,
     handleInputChange,
-  /*   handleNoteChange, */
+    /*   handleNoteChange, */
   } = useProductDetailPages();
 
   if (isLoading || !dishlist) return <div>Loading...</div>;
@@ -33,13 +33,9 @@ function CheckOutPages() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 items-start">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200">
-              <h2 className="text-xl md:text-2xl font-extrabold text-gray-800 mb-6 border-b pb-4">
-                GIỎ HÀNG CỦA TÔI
-              </h2>
+              <h2 className="text-xl md:text-2xl font-extrabold text-gray-800 mb-6 border-b pb-4">GIỎ HÀNG CỦA TÔI</h2>
               {dishlist.length === 0 ? (
-                <p className="text-gray-600 text-center py-8">
-                  Giỏ hàng của bạn đang trống.
-                </p>
+                <p className="text-gray-600 text-center py-8">Giỏ hàng của bạn đang trống.</p>
               ) : (
                 <div className="space-y-4">
                   {dishlist.map((dish) => (
@@ -47,7 +43,7 @@ function CheckOutPages() {
                       key={dish.id}
                       className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 rounded-lg bg-white border border-gray-200"
                     >
-                  {/*     <img
+                      {/*     <img
                         src={
                           dish.image ||
                           `https://placehold.co/150x100?text=${dish.name.replace(
@@ -66,17 +62,10 @@ function CheckOutPages() {
                         }}
                       /> */}
                       <div className="flex-1 w-full text-center sm:text-left">
-                        <h3 className="text-lg md:text-xl font-bold text-gray-900">
-                          {dish.name}
-                        </h3>
-                        <p className="text-gray-600 text-sm mt-1">
-                          {dish.description}
-                        </p>
+                        <h3 className="text-lg md:text-xl font-bold text-gray-900">{dish.name}</h3>
+                        <p className="text-gray-600 text-sm mt-1">{dish.description}</p>
                         <div className="flex justify-center sm:justify-start items-center mt-3 text-sm">
-                          <a
-                            href="#"
-                            className="text-blue-600 hover:underline mr-4"
-                          >
+                          <a href="#" className="text-blue-600 hover:underline mr-4">
                             Chỉnh sửa
                           </a>
                           <a href="#" className="text-blue-600 hover:underline">
@@ -86,15 +75,9 @@ function CheckOutPages() {
                       </div>
                       <div className="flex flex-col items-end justify-between h-full">
                         <div className="flex items-center border border-gray-300 rounded-full px-2 py-1 text-sm">
-                          <button className="text-gray-500 hover:text-red-500 px-1 font-bold">
-                            -
-                          </button>
-                          <span className="mx-2 font-semibold">
-                         {/*    {dish.quantity} */}
-                          </span>
-                          <button className="text-gray-500 hover:text-red-500 px-1 font-bold">
-                            +
-                          </button>
+                          <button className="text-gray-500 hover:text-red-500 px-1 font-bold">-</button>
+                          <span className="mx-2 font-semibold">{/*    {dish.quantity} */}</span>
+                          <button className="text-gray-500 hover:text-red-500 px-1 font-bold">+</button>
                         </div>
                         <span className="text-lg font-bold text-red-600 mt-2 sm:mt-0">
                           {dish.price.toLocaleString("vi-VN")}₫
@@ -112,7 +95,7 @@ function CheckOutPages() {
                 SẼ NGON HƠN KHI THƯỞNG THỨC CÙNG...
               </h2>
               <div className="flex overflow-x-auto pb-4 -mx-4 px-4 sm:px-0 sm:-mx-0 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900">
-            {/*     {suggestedItems.map((item) => (
+                {/*     {suggestedItems.map((item) => (
                   <div
                     key={item.id}
                     className="flex-shrink-0 w-32 sm:w-40 md:w-48 mr-4 last:mr-0 flex flex-col items-center p-3 rounded-lg bg-gray-700 shadow-md transform hover:scale-105 transition duration-200"
@@ -166,7 +149,7 @@ function CheckOutPages() {
                   placeholder="Mã giảm giá *"
                   className="flex-grow border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-400 outline-none text-sm"
                 />
-           {/*      <Button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-semibold hover:bg-gray-300 transition text-sm">
+                {/*      <Button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-semibold hover:bg-gray-300 transition text-sm">
                   Áp dụng
                 </Button> */}
               </div>
@@ -176,7 +159,7 @@ function CheckOutPages() {
             <div className="space-y-2 text-gray-800 font-semibold text-base">
               <div className="flex justify-between">
                 <span>Tổng đơn hàng:</span>
-            {/*     <span>{subtotal.toLocaleString("vi-VN")}₫</span> */}
+                {/*     <span>{subtotal.toLocaleString("vi-VN")}₫</span> */}
               </div>
               <div className="flex justify-between">
                 <span>Phí giao hàng:</span>
@@ -184,17 +167,13 @@ function CheckOutPages() {
               </div>
               <div className="flex justify-between text-xl font-bold border-t pt-3 mt-3">
                 <span>Tổng thanh toán:</span>
-                <span className="text-red-600">
-             {/*      {totalPayment.toLocaleString("vi-VN")}₫ */}
-                </span>
+                <span className="text-red-600">{/*      {totalPayment.toLocaleString("vi-VN")}₫ */}</span>
               </div>
             </div>
 
             {/* Checkout Form */}
             <form onSubmit={handleCart} className="space-y-4 pt-4 border-t">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                Thông tin giao hàng
-              </h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Thông tin giao hàng</h3>
               <InputValue
                 text="Địa chỉ nhận hàng"
                 placeholder="Địa chỉ..."
@@ -246,7 +225,7 @@ function CheckOutPages() {
                                 value={orderDetails.note}
                             /> */}
 
-         {/*      <Button
+              {/*      <Button
                 type="submit"
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 md:py-4 rounded-full transition-colors duration-300 shadow-md text-lg"
               >

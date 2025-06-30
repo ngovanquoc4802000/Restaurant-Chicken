@@ -26,10 +26,18 @@ function OrderDetails({ item, onHideModal, orderId, currentStep }: OrderTs) {
             className="modal-details flex flex-col mb-4 border border-solid border-gray-300 rounded-[4px] p-2.5 bg-white "
             key={item.id_dishlist}
           >
-            <p className="mx-5px p-2 font-bold">Dish: <span className="font-medium italic ml-1">{getOrderName(item.id_dishlist)}</span></p>
-            <p className="mx-5px p-2 font-bold">Quantity:<span className="font-medium italic ml-1">{item.quantity}</span></p>
-            <p className="mx-5px p-2 font-bold">Price:<span className="font-medium italic ml-1">{item.price}</span></p>
-            <p className="mx-5px p-2 font-bold">Notes:<span className="font-medium italic ml-1">{item.note}</span></p>
+            <p className="mx-5px p-2 font-bold">
+              Dish: <span className="font-medium italic ml-1">{getOrderName(item.id_dishlist)}</span>
+            </p>
+            <p className="mx-5px p-2 font-bold">
+              Quantity:<span className="font-medium italic ml-1">{item.quantity}</span>
+            </p>
+            <p className="mx-5px p-2 font-bold">
+              Price:<span className="font-medium italic ml-1">{item.price}</span>
+            </p>
+            <p className="mx-5px p-2 font-bold">
+              Notes:<span className="font-medium italic ml-1">{item.note}</span>
+            </p>
           </div>
         ))}
 

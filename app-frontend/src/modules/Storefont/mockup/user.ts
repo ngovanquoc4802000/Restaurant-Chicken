@@ -1,8 +1,8 @@
 export interface UserDataResponse {
-  id: number; 
+  id: number;
   email: string;
   fullname: string;
-  rule: "admin" | "customer" | null; 
+  rule: "admin" | "customer" | null;
 }
 
 export interface UserLoginResponse {
@@ -10,7 +10,7 @@ export interface UserLoginResponse {
   message: string;
   accessToken: string;
   refreshToken: string;
-  data: UserDataResponse; 
+  data: UserDataResponse;
 }
 
 export interface LoginCredentials {

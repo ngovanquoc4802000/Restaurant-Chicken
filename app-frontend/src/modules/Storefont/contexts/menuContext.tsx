@@ -13,4 +13,4 @@ export const useMenuContext = () => {
     throw new Error("useMenuContext must be used within a MenuContext.Provider");
   }
   return context;
-}
+};

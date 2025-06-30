@@ -12,35 +12,27 @@ import queriesDishlist from "../../queries/dishlist";
 import type { RootState } from "../../store/store";
 
 export const useProductDetailsPage = () => {
-
   const [isActive, setIsActive] = useState(false);
 
   const dispatch = useDispatch();
-  
+
   const { slugProduct } = useParams();
 
   const userRule = useSelector((state: RootState) => state.userLogin.rule);
-  
-  const isAuthentication = useSelector(
-    (state: RootState) => state.userLogin.isAuthenticated
-  );
-  const {
-    isLoading,
-    error,
-    data: dishlist,
-  } = useQuery({ ...queriesDishlist.list });
+
+  const isAuthentication = useSelector((state: RootState) => state.userLogin.isAuthenticated);
+  const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
 
   const isOpen = useSelector((state: RootState) => state.showLogin);
-  
-  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
 
+  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
 
   useEffect(() => {
     if (userRule === "customer") {
       setIsActive(true);
     } else if (userRule === "admin") {
       alert("admin does not have permission to log in");
-      dispatch(open())
+      dispatch(open());
     } else {
       setIsActive(false);
     }
@@ -56,7 +48,7 @@ export const useProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
 
   const user = useSelector((state: RootState) => state.userLogin.id);
-  
+
   const [orderData, setOrderData] = useState<OrderTableTs>({
     id: 0,
     user_id: Number(user),
@@ -121,21 +113,16 @@ export const useProductDetailsPage = () => {
     },
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setOrderData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNoteChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
 
-
-   const total_price = (Number(product?.price) * quantity).toFixed(3);
+  const total_price = (Number(product?.price) * quantity).toFixed(3);
   const handleClick = () => {
     const existingCart = localStorage.getItem("storeCart");
     let storeCart = [];
@@ -155,7 +142,7 @@ export const useProductDetailsPage = () => {
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
     if (storeCart) {
       alert("Create Cart Success");
-      navigate("/orderProductDashBoard")
+      navigate("/orderProductDashBoard");
     }
   };
   return {

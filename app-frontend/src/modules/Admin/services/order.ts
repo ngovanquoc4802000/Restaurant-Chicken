@@ -4,7 +4,7 @@ import type { CreateOrderPayload, OrderAllTs, OrderTableTs } from "../types/orde
 export const getOrderAll = async () => {
   try {
     const result = await Request.get<OrderAllTs>("order");
-    console.log(result.data)
+    console.log(result.data);
     return result.data;
   } catch (error) {
     console.log(error);

@@ -2,10 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createUsersRegister } from "../../services/users";
-import {
-  clearUserRegister,
-  setUserRegister,
-} from "../../components/pages/features/userRegister";
+import { clearUserRegister, setUserRegister } from "../../components/pages/features/userRegister";
 import { useMutation } from "@tanstack/react-query";
 import type { UsersTs } from "../../mockup/user";
 
@@ -25,9 +22,7 @@ export const useRegister = () => {
     updateSave();
   };
 
-  const onChangeRegister = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setValueRegister((prev) => ({
       ...prev,

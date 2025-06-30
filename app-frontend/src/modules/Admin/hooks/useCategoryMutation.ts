@@ -4,7 +4,11 @@ import { createApiCategory, updateCategoryId } from "../services/categories";
 import type { ValueCategory } from "../types/categories";
 import queriesCategories from "../queries/categories";
 
-export const useCategoryMutation = (isDetail: number | null | undefined, value: ValueCategory, onSuccessCallback: () => void) => {
+export const useCategoryMutation = (
+  isDetail: number | null | undefined,
+  value: ValueCategory,
+  onSuccessCallback: () => void
+) => {
   const queryClient = useQueryClient();
 
   const isEdit = isDetail != null && typeof isDetail === "number";

@@ -42,19 +42,14 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
       className="modal-backdrop fixed top-0 left-0 w-[100vw] h-[100vh] bg-black/60 flex justify-center items-center z-[9999]"
     >
       <div className="relative ml-[1rem] bg-white rounded-xl lg:mb-0  shadow-xl">
-        <button
-          onClick={handleOnclose}
-          className="absolute top-4 right-4 text-gray-600 hover:text-black"
-        >
+        <button onClick={handleOnclose} className="absolute top-4 right-4 text-gray-600 hover:text-black">
           <AiOutlineClose size={20} />
         </button>
         {isPending && <p className="text-center text-blue-500">Saving...</p>}
         <div className="modal-box w-[500px] md:mt-[-4px] md:p-[2rem] md:pb-[4rem] lg:mt-[0px] lg:p-[2rem] bg-white p-6 max-w-[400px] rounded-[8px] text-center">
           {showForm && (
             <div className="register-form md:h-[70vh]  lg:p-0 p-0 md:p-0 md:mt-3.5 flex-col justify-center">
-              <h2 className="text-[20px] text-center md:mb-[0px] xl:mb-[0px] lg:mb-[0px] font-bold">
-                Create Register
-              </h2>
+              <h2 className="text-[20px] text-center md:mb-[0px] xl:mb-[0px] lg:mb-[0px] font-bold">Create Register</h2>
               <form className="flex flex-col " onSubmit={handleSubmitRegister}>
                 <InputValue
                   classNameLabel="md:text-[18px] font-bold text-start hover:border-red-500 border-none rounded-md lg:m-[0px]"
@@ -110,16 +105,8 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
                   classNameInput="w-full p-2 border border-gray-500 md:mt-2 md:mb-0 outline focus:border-blue-500 rounded mt-1"
                 />
                 <div className="terms mt-6 flex ">
-                  <input
-                    className="mr-2 mt-1"
-                    type="checkbox"
-                    id="agree"
-                    required
-                  />
-                  <label
-                    htmlFor="agree"
-                    className="text-[18px] mb-[10px] text-left"
-                  >
+                  <input className="mr-2 mt-1" type="checkbox" id="agree" required />
+                  <label htmlFor="agree" className="text-[18px] mb-[10px] text-left">
                     I have read and agree to the{" "}
                     <a href="#" className="">
                       Operational policy
@@ -143,15 +130,9 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
           )}
           {!showForm && isModal ? (
             <>
-              {isError && (
-                <p className="text-center text-red-500">
-                  You have entered the wrong Password or Email
-                </p>
-              )}
+              {isError && <p className="text-center text-red-500">You have entered the wrong Password or Email</p>}
               <div className="">
-                <h2 className="text-[18px] font-bold lg:mb-4 md:text-[20px] font-medium lg:text-[22px]">
-                  Login
-                </h2>
+                <h2 className="text-[18px] font-bold lg:mb-4 md:text-[20px] font-medium lg:text-[22px]">Login</h2>
 
                 <form onSubmit={handleSubmit}>
                   <InputValue
@@ -179,11 +160,7 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
                     text="Login"
                   />
                 </form>
-                <NavLink
-                  onClick={handleFormRegister}
-                  className="text-blue-500 font-bold underline"
-                  to={""}
-                >
+                <NavLink onClick={handleFormRegister} className="text-blue-500 font-bold underline" to={""}>
                   Register
                 </NavLink>
               </div>

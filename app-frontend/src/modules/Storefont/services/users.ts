@@ -1,9 +1,4 @@
-import type {
-  LoginCredentials,
-  UserAll,
-  UserLoginResponse,
-  UsersTs,
-} from "../mockup/user";
+import type { LoginCredentials, UserAll, UserLoginResponse, UsersTs } from "../mockup/user";
 import { Request } from "../utils/http";
 
 export const getUserRegister = async () => {

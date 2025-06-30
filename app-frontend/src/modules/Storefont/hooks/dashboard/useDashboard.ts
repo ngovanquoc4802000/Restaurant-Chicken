@@ -1,8 +1,8 @@
-import { useQueries } from "@tanstack/react-query"
-import queriesCategories from "../../queries/categories"
-import queriesDishlist from "../../queries/dishlist"
-import { useSelector } from "react-redux"
-import type { RootState } from "../../store/store"
+import { useQueries } from "@tanstack/react-query";
+import queriesCategories from "../../queries/categories";
+import queriesDishlist from "../../queries/dishlist";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
 export const useMenuData = () => {
   const resultQueries = useQueries({
@@ -11,10 +11,10 @@ export const useMenuData = () => {
         ...queriesCategories.list,
       },
       {
-        ...queriesDishlist.list
-      }
-    ]
-  })
+        ...queriesDishlist.list,
+      },
+    ],
+  });
   const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const category = resultQueries[0].data ?? [];
@@ -25,7 +25,7 @@ export const useMenuData = () => {
 
   const dishlist = resultQueries[1].data ?? [];
 
-  const findComboGroup = dishlist.filter((item) => item.category_id === 4)
+  const findComboGroup = dishlist.filter((item) => item.category_id === 4);
 
-  return { category, isLoading, error, findComboGroup, dishlist , isOpen }
-}
+  return { category, isLoading, error, findComboGroup, dishlist, isOpen };
+};

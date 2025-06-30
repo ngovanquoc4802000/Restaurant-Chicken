@@ -14,9 +14,9 @@ export const useCategoryPages = () => {
     queries: [{ ...queriesCategories.list }, { ...queriesDishlist.list }],
   });
   const navigate = useNavigate();
-  
+
   const dispatch = useDispatch();
-  
+
   const handleClick = (name: string) => {
     const slug = slugify(name);
     navigate(`/menu/${slug}`);
@@ -28,19 +28,19 @@ export const useCategoryPages = () => {
   const handleProductClick = (categoryId: string, productTitle: string) => {
     const slug = slugify(productTitle);
     navigate(`/menu/${categoryId}/${slug}`);
-   const product = dishlist.find(
-    (item) => slugify(item.title) === slug
-  );
-  if (product) {
-    dispatch(addToCart({
-      id_dishlist: Number(product.id),
-      quantity: 1,
-      price: product.price,
-      title: product.title,
-      image: product.images?.[0]?.image || "",
-      note: ""
-    }))
-  }
+    const product = dishlist.find((item) => slugify(item.title) === slug);
+    if (product) {
+      dispatch(
+        addToCart({
+          id_dishlist: Number(product.id),
+          quantity: 1,
+          price: product.price,
+          title: product.title,
+          image: product.images?.[0]?.image || "",
+          note: "",
+        })
+      );
+    }
   };
 
   const categories = resultOptions[0].data ?? [];
