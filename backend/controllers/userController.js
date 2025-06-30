@@ -42,6 +42,8 @@ export const getAllRegister = async (req, res) => {
       message: "Error retrieving users.",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -251,6 +253,8 @@ export const updateApiRegister = async (req, res) => {
       message: "Error updating user.",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -343,6 +347,8 @@ export const userAPILogin = async (req, res) => {
       message: "Error during login.",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -437,8 +443,11 @@ export const refreshTokenAPI = async (req, res) => {
       message: "An unexpected error occurred during token refresh.",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
+
 
 export default {
   getAllRegister,

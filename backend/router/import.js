@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs";
 import multer from "multer";
 import { Client } from 'pg';
-import { createPgDumpBackup, importPgDumpBackup } from "../controllers/dbController.js";
+import { createPgDumpBackup, importPgDumpBackup, getTestDishlist } from "../controllers/dbController.js";
 
 const router = express.Router();
 
@@ -58,5 +58,8 @@ router.get("/dump", async (req, res) => {
   const dumpFile = await createPgDumpBackup();
   res.status(200).send(dumpFile);
 });
+
+// get test data
+router.get("/test", getTestDishlist);
 
 export default router;

@@ -6,6 +6,7 @@ const formatDbTimestamp = () => {
 };
 
 export const getOrders = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
    const rule = req.user.rule;
     const userId = parseInt(req.user.sub); 
@@ -59,6 +60,8 @@ export const getOrders = async (req, res) => {
       message: "Error retrieving orders.",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 

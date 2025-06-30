@@ -24,6 +24,8 @@ const getCategoryAll = async (req, res) => {
       message: "Error retrieving categories", 
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -49,6 +51,7 @@ const getCategoryId = async (req, res) => {
     }
     const result = data.rows[0];
     res.status(200).send({
+      
       success: true,
       message: "Successfully retrieved category by ID",
       data: result,
@@ -60,6 +63,8 @@ const getCategoryId = async (req, res) => {
       message: "Error retrieving category by ID",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -131,6 +136,8 @@ const createCategory = async (req, res) => {
       message: "Error creating category",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -185,6 +192,8 @@ const categoryPagination = async (req, res) => {
       message: "Error fetching paginated categories",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -293,6 +302,8 @@ const updateCategoryId = async (req, res) => {
       message: "Error updating category",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 
@@ -342,6 +353,8 @@ const deleteCategoryId = async (req, res) => {
       message: "Error deleting category",
       error: error.message,
     });
+  } finally {
+    connection.release();
   }
 };
 

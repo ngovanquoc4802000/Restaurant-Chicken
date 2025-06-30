@@ -1,0 +1,1 @@
+cd app-frontend && npx eslint . && npx tsc -b && npx lint-staged 
