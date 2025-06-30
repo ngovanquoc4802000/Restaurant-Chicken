@@ -12,7 +12,7 @@ import routerCategoryApi from "./controllers/categoryControllers.js";
 import router from "./router/dishList.js";
 import routerOrder from "./router/order.js";
 import routerCustomer from "./router/customer.js";
-
+console.log("aaa")
 //rest object
 const app = express();
 
