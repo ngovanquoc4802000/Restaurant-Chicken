@@ -13,7 +13,6 @@ import cors from "cors";
 import routerCategoryApi from "./router/category.js";
 import routerDishlist from "./router/dishList.js";
 import routerOrder from "./router/order.js";
-import routerCustomer from "./router/customer.js";
 //rest object
 import cookieParser from "cookie-parser";
 import routerImport from "./router/import.js";

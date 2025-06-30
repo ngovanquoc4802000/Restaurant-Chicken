@@ -43,7 +43,7 @@ export const getAllRegister = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    pool.release();
   }
 };
 
@@ -254,7 +254,7 @@ export const updateApiRegister = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    pool.release();
   }
 };
 
@@ -348,7 +348,7 @@ export const userAPILogin = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    pool.release();
   }
 };
 
@@ -444,7 +444,7 @@ export const refreshTokenAPI = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    pool.release();
   }
 };
 
