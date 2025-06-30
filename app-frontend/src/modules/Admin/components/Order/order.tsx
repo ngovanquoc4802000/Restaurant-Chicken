@@ -51,7 +51,7 @@ const Order = () => {
           <thead>
             <tr>
               <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">
-                Id
+                Stt
               </th>
               {/*        <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">User</th> */}
               <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">

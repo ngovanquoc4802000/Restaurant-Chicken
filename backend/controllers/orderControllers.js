@@ -6,7 +6,7 @@ const formatDbTimestamp = () => {
 };
 
 export const getOrders = async (req, res) => {
-  const connection = await pool.getConnection();
+  const connection = await pool.connect();
   try {
    const rule = req.user.rule;
     const userId = parseInt(req.user.sub); 

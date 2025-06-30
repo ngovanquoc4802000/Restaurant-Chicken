@@ -97,7 +97,7 @@ const DishList = () => {
           <thead className="bg-[#dc3545]">
             <tr>
               <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
-                ID
+                STT
               </th>
               <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 IMAGE

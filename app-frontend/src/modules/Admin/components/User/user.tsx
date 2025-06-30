@@ -22,7 +22,7 @@ function User() {
         <table className="user-table shadow-md w-full border-collapse bg-white overflow-hidden rounded-[8px]">
           <thead className="bg-[#dc3545] p-2 text-white">
             <tr className=" text-center border border-b border-gray-200 font-bold text-[18px]">
-              <th>ID</th>
+              <th>STT</th>
               <th>FullName</th>
               <th>Email</th>
               <th>Phone Number</th>

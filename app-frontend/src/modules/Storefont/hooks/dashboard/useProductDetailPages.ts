@@ -141,7 +141,6 @@ export const useProductDetailsPage = () => {
     storeCart.push(order);
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
     if (storeCart) {
-      alert("Create Cart Success");
       navigate("/orderProductDashBoard");
     }
   };
@@ -149,7 +148,6 @@ export const useProductDetailsPage = () => {
     total_price,
     handleClick,
     navigate,
-
     setQuantity,
     handleCart,
     handleInputChange,
