@@ -82,6 +82,10 @@ import queriesDishlist from "../../queries/dishlist";
 
 import { useCallback, useState } from "react";
 import type { CartTs } from "../../components/pages/dashboard/category/storeCart";
+import { useNavigate } from "react-router-dom";
+import type { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { getUserAll } from "$/modules/Admin/services/users";
 
 export const useOrderProductDB = () => {
   const [loaded, setLoaded] = useState<CartTs[]>([]);
@@ -98,6 +102,7 @@ export const useOrderProductDB = () => {
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
+
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
       style: "decimal",
@@ -141,7 +146,38 @@ export const useOrderProductDB = () => {
     setLoaded(deleteCart);
     localStorage.setItem("storeCart", JSON.stringify(deleteCart));
   };
+
+  const [isModal, setIsModal] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const emailRedux: string | null = useSelector((state: RootState) => state.userLogin.email);
+
+  const handleCheckOut = async () => {
+    try {
+      const getAllUser = await getUserAll();
+      if (!getAllUser?.data) {
+        console.log("Không lấy được danh sách người dùng");
+        setIsModal(true);
+        return;
+      }
+      const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
+      if (emailExists) {
+        navigate("/checkout");
+        console.log("Get Email Completed");
+      } else {
+        console.log("No find Email");
+        setIsModal(true);
+      }
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra email:", error);
+      setIsModal(true);
+    }
+  };
   return {
+    handleCheckOut,
+    setIsModal,
+    isModal,
     setLoaded,
     handleDecrease,
     handleDelete,

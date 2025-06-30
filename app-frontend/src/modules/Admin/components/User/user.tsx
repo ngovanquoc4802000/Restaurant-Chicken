@@ -28,32 +28,30 @@ function User() {
               <th>Phone Number</th>
               <th>Address</th>
               <th>Create_At</th>
-              <th>Status</th>
+              {/*   <th>Status</th> */}
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortUserList.map((item) => (
               <tr
-                className="py-[12px]  px-[16px] text-left border border-b border-gray-200 font-bold text-[15px]"
+                className="py-[12px]  px-[16px] text-center border border-b border-gray-200 font-bold text-[15px]"
                 key={item.id}
               >
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
-                  {item.id}
-                </td>
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
+                <td className="py-[12px] px-[16px]  border border-b  border-gray-300 text-[14px]">{item.id}</td>
+                <td className="py-[12px] px-[16px] text-center border border-b  border-gray-300 text-[14px]">
                   {item.fullname}
                 </td>
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
+                <td className="py-[12px] px-[16px] text-center border border-b  border-gray-300 text-[14px]">
                   {item.email}
                 </td>
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
+                <td className="py-[12px] px-[16px] text-center border border-b  border-gray-300 text-[14px]">
                   {item.phone_number}
                 </td>
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
+                <td className="py-[12px] px-[16px] text-center border border-b  border-gray-300 text-[14px]">
                   {item.address}
                 </td>
-                <td className="py-[12px] px-[16px] text-left border border-b  border-gray-300 text-[14px]">
+                <td className="py-[12px] px-[16px] text-center border border-b  border-gray-300 text-[14px]">
                   {new Intl.DateTimeFormat("vi-VN", {
                     day: "2-digit",
                     month: "2-digit",
@@ -65,12 +63,12 @@ function User() {
                     timeZone: "Asia/Ho_Chi_Minh",
                   }).format(new Date(item.create_at))}
                 </td>
-                <td className="p-2 bg-blue-600 hover:bg-blue-400 cursor-pointer py-[10px] rounded-[4px] text-white  border border-b border-amber-100 ">
+                {/*      <td className="p-2 bg-blue-600 hover:bg-blue-400 cursor-pointer py-[10px] rounded-[4px] text-white  border border-b border-amber-100 ">
                   online
-                </td>
-                <td>
+                </td> */}
+                <td className="text-center">
                   <Button
-                    className="p-2 bg-amber-300 hover:bg-amber-200 cursor-pointer text-white rounded-[4px]  border border-b border-amber-100"
+                    className="p-2  bg-amber-300 hover:bg-amber-200 cursor-pointer m-auto text-white rounded-[4px]  border border-b border-amber-100"
                     text="Edit"
                     onClick={() => handleEdit(item.id)}
                   />

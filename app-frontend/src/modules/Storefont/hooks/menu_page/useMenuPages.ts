@@ -32,7 +32,7 @@ export const useMenuPages = () => {
   const handleClick = (name: string) => {
     const slug = slugify(name);
 
-    navigate(`/menu-page/${slug}`);
+    navigate(`/menu/${slug}`);
 
     const target = refs.current[slug];
 

@@ -1,14 +1,11 @@
 import Button from "$/common/button/button";
-import { getUserAll } from "$/modules/Admin/services/users";
-import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
-import { type StoreCart } from "../storeCart";
-import { useSelector } from "react-redux";
-import type { RootState } from "$/modules/Storefont/store/store";
 import ModalLogin from "../../modal/login";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
+import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { type StoreCart } from "../storeCart";
 
 function OrderProductDashBoard() {
   const {
@@ -21,7 +18,11 @@ function OrderProductDashBoard() {
     orderId,
     formatCurrency,
     mergedItems,
+    handleCheckOut,
+    isModal,
+    setIsModal,
   } = useOrderProductDB();
+
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
@@ -39,38 +40,12 @@ function OrderProductDashBoard() {
     }
     setLoaded(Store);
   }, []);
-  const [isModal, setIsModal] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-  const emailRedux: string | null = useSelector((state: RootState) => state.userLogin.email);
-  console.log(emailRedux);
-  const handleCheckOut = async () => {
-    try {
-      const getAllUser = await getUserAll();
-      if (!getAllUser?.data) {
-        console.log("Không lấy được danh sách người dùng");
-        setIsModal(true);
-        return;
-      }
-      const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
-      if (emailExists) {
-        navigate("/checkout");
-        console.log("Get Email Completed");
-      } else {
-        console.log("No find Email");
-        setIsModal(true);
-      }
-    } catch (error) {
-      console.error("Lỗi khi kiểm tra email:", error);
-      setIsModal(true);
-    }
-  };
   return (
     <div>
       <Header />
       {mergedItems?.length > 0 ? (
         <div className="max-w-7xl mx-auto md:mt-[8rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
-          <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
               {mergedItems?.map((item) => {
@@ -94,11 +69,9 @@ function OrderProductDashBoard() {
                           Price:{" "}
                           <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">{item.price} đ</span>
                         </p>
-                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600">Note: {item.note}</p>
                       </div>
                     </div>
 
-                    {/* Quantity & Delete */}
                     <div className="mt-4 md:mt-0 cursor-pointer flex items-center gap-4 flex-wrap">
                       <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
                         <button
@@ -128,7 +101,6 @@ function OrderProductDashBoard() {
               })}
             </div>
 
-            {/* Right side - Payment Summary */}
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
               <h2 className="text-xl font-bold mb-4"> {orderId} Food</h2>
               <div className="mb-4">
@@ -154,7 +126,7 @@ function OrderProductDashBoard() {
               </div>
               <Button
                 onClick={handleCheckOut}
-                text={`CHECK OUT ${formatCurrency(calculatorPrice)} đ`}
+                text={`CHECK OUT`}
                 className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />
             </div>
