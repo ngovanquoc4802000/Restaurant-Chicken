@@ -2,7 +2,7 @@ import Button from "$/common/button/button";
 import cart1 from "$/modules/Storefont/assets/cart1.png";
 import KfcLogoSVG from "$/modules/Storefont/assets/kfc-logo.svg";
 import logoMobile from "$/modules/Storefont/assets/kfclogo.png";
-import { useHeaderPages } from "$/modules/Storefont/hooks/dashboard/useHeaderPages";
+import { useHeaderPagesDB } from "$/modules/Storefont/hooks/dashboard/useHeaderPages";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
@@ -21,7 +21,7 @@ function Header() {
     closeOffcanvas,
     /* mergedItems, */
     orderId,
-  } = useHeaderPages();
+  } = useHeaderPagesDB();
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");

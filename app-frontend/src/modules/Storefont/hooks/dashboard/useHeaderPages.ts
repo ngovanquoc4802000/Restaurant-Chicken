@@ -4,7 +4,7 @@ import type { RootState } from "../../store/store";
 import { useState } from "react";
 import type { CartTs } from "../../components/pages/dashboard/category/storeCart";
 
-export const useHeaderPages = () => {
+export const useHeaderPagesDB = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
   const [cartItems, setCartItems] = useState<CartTs[]>([]);
