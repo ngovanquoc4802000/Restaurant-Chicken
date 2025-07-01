@@ -71,18 +71,6 @@ function Login() {
                 className="btn-login bg-[#28a745] text-white p-3 border-none rounded-3xl md:text-[18px] cursor-pointer mb-4"
               />
             </form>
-
-            {/*   <div className="divider font-medium text-center my-4 mx-0 md:text-18px">
-              Or continue with
-            </div> */}
-            {/*  <Button
-              className="bg-black p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-apple"
-              text="Sign in with Apple"
-            />
-            <Button
-              className="bg-[#db4437] p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-google"
-              text="Sign in with Google"
-            /> */}
             <p className="text-center mt-4 md:text-[18px]">
               You do not have an account?
               <NavLink className="text-[#007bff] font-bold md:text-[18px] ml-2" to="register">

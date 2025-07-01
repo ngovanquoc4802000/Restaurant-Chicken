@@ -79,7 +79,7 @@ export const useProductDetailPages = () => {
   } = useMutation({
     mutationFn: create,
     onSuccess: () => {
-      navigate("/menu-page");
+      navigate("/menu");
     },
     onError: () => {
       alert("Create Order Fails!");
