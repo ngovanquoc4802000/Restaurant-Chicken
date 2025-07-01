@@ -7,7 +7,9 @@ export interface CartTs {
   note: string;
 }
 export type StoreCart = CartTs[];
+
 export let Store: StoreCart = [];
+
 const findCart = localStorage.getItem("storeCart");
 if (findCart) {
   try {
