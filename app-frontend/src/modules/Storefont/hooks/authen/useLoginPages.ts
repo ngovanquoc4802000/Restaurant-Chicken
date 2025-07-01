@@ -57,7 +57,7 @@ export const useLogin = () => {
             phone_number: "",
           })
         );
-        navigate("/home");
+        navigate("/");
 
         setValue({ email: "", password: "" });
         localStorage.getItem("userId");
