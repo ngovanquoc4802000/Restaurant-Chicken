@@ -13,7 +13,7 @@ export const store = configureStore({
     userRegister: userRegister,
     cart: cartSlice,
     auth: authReducer,
-    updateLogin : updateLoginReducer
+    updateLogin: updateLoginReducer,
   },
 });
 

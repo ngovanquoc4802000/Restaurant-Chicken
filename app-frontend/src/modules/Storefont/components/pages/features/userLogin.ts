@@ -2,7 +2,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface LoggedInUserState {
-  id: number | null; 
+  id: number | null;
   email: string | null;
   fullname: string | null;
   rule: "admin" | "customer" | null;
@@ -16,11 +16,11 @@ const initialState: LoggedInUserState = {
   fullname: null,
   rule: null,
   accessToken: null,
-  isAuthenticated: false, 
+  isAuthenticated: false,
 };
 
 const userLoginSlice = createSlice({
-  name: "userLogin", 
+  name: "userLogin",
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<Omit<LoggedInUserState, "isAuthenticated">>) {
@@ -29,11 +29,11 @@ const userLoginSlice = createSlice({
       state.fullname = action.payload.fullname;
       state.rule = action.payload.rule;
       state.accessToken = action.payload.accessToken ?? null;
-      state.isAuthenticated = true; 
+      state.isAuthenticated = true;
     },
     refreshTokenSuccess(state, action: PayloadAction<{ newAccessToken: string }>) {
-        state.accessToken = action.payload.newAccessToken;
-        state.isAuthenticated = true; 
+      state.accessToken = action.payload.newAccessToken;
+      state.isAuthenticated = true;
     },
     clearUser(state) {
       state.id = null;
@@ -41,7 +41,7 @@ const userLoginSlice = createSlice({
       state.fullname = null;
       state.rule = null;
       state.accessToken = null;
-      state.isAuthenticated = false; 
+      state.isAuthenticated = false;
     },
   },
 });

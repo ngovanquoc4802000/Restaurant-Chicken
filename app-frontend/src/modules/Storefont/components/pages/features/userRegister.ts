@@ -7,7 +7,6 @@ export interface RegisterUserState {
   email: string;
   address: string;
   password: string;
-
 }
 
 const initialState: RegisterUserState = {
@@ -24,7 +23,7 @@ const registerSlice = createSlice({
   initialState,
   reducers: {
     setUserRegister(_state, action: PayloadAction<RegisterUserState>) {
-      return {..._state , ...action.payload};
+      return { ..._state, ...action.payload };
     },
     clearUserRegister() {
       return initialState;

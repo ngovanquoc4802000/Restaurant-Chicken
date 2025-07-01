@@ -20,7 +20,6 @@ function Sidebar() {
   const stateLogin = useSelector((state: RootState) => state.updateLogin);
 
   const rule = useSelector((state: RootState) => state.userLogin.rule);
-  
   const queryClient = useQueryClient();
 
   const { user, isAuthenticated } = useAuth();
@@ -56,14 +55,8 @@ function Sidebar() {
           />
           <div className=" flex flex-col item-start">
             <h2 className="text-2xl font-extrabold">Hello,</h2>
-            <h2 className="text-2xl font-extrablod">
-              {rule ? stateLogin.fullname : " "}
-            </h2>
-            <NavLink
-              onClick={handleLogout}
-              style={{ textDecoration: "revert" }}
-              to="/"
-            >
+            <h2 className="text-2xl font-extrablod">{rule ? stateLogin.fullname : " "}</h2>
+            <NavLink onClick={handleLogout} style={{ textDecoration: "revert" }} to="/">
               Log out
             </NavLink>
           </div>
@@ -72,9 +65,7 @@ function Sidebar() {
               <li className="pl-2 lg:text-[18px] mb-[8px] md:mb-0 lg:mb-0 md:pl-0 lg:pl-0 p-2 bg-red-500 md:bg-black lg:bg-black  mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                 <NavLink
                   to="/account/"
-                  className={({ isActive }) =>
-                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                  }
+                  className={({ isActive }) => (isActive ? "text-blue-400 font-bold" : "text-white pt-4")}
                 >
                   Detail Order
                 </NavLink>
@@ -82,9 +73,7 @@ function Sidebar() {
               <li className="pl-2 lg:text-[18px] mb-[8px] md:mb-0 lg:mb-0 md:pl-0 lg:pl-0 p-2 bg-red-500 md:bg-black lg:bg-black  mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                 <NavLink
                   to="/account/address"
-                  className={({ isActive }) =>
-                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                  }
+                  className={({ isActive }) => (isActive ? "text-blue-400 font-bold" : "text-white pt-4")}
                 >
                   Your Address
                 </NavLink>
@@ -92,9 +81,7 @@ function Sidebar() {
               <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                 <NavLink
                   to="/account/order"
-                  className={({ isActive }) =>
-                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                  }
+                  className={({ isActive }) => (isActive ? "text-blue-400 font-bold" : "text-white pt-4")}
                 >
                   Order Placed
                 </NavLink>
@@ -102,9 +89,7 @@ function Sidebar() {
               <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2   bg-red-500 mb-[8px] md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                 <NavLink
                   to="/account/order_favorites"
-                  className={({ isActive }) =>
-                    isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                  }
+                  className={({ isActive }) => (isActive ? "text-blue-400 font-bold" : "text-white pt-4")}
                 >
                   Favorite Order
                 </NavLink>
@@ -114,9 +99,7 @@ function Sidebar() {
                 <li className="pl-2 lg:text-[18px] md:pl-0 lg:pl-0 p-2  mb-[8px] md:mb-0 bg-red-500 md:bg-black lg:bg-black mr-[5px] md:mr-right[0px] md:pl-0 lg:pl-0 lg:pt-0 md:pt-6">
                   <NavLink
                     onClick={handleAdmin}
-                    className={({ isActive }) =>
-                      isActive ? "text-blue-400 font-bold" : "text-white pt-4"
-                    }
+                    className={({ isActive }) => (isActive ? "text-blue-400 font-bold" : "text-white pt-4")}
                     to={""}
                   >
                     ManageAdmin

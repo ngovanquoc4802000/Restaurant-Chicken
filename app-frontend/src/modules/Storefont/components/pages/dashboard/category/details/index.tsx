@@ -23,9 +23,9 @@ function ProductDetail() {
     orderDetails,
     quantity,
     handleClick,
-    total_price
+    total_price,
   } = useProductDetailsPage();
- 
+
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (error) return `Error Product Details ${error}`;
@@ -49,13 +49,11 @@ function ProductDetail() {
           </div>
           <div className="md:p-4 md:mt-4">
             <div className="product-button mb-[-1rem] justify-start md:p-2  md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px]  md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
-              {isOpen && <ModalLogin/>}
+              {isOpen && <ModalLogin />}
               {isActive ? (
                 <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-4 lg:p-6 space-y-4 max-w-md w-full mx-auto">
                   <form onSubmit={handleCart} className="space-y-4">
-                    <h2 className="text-2xl font-bold text-gray-800">
-                      {product.title}
-                    </h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{product.title}</h2>
                     <p className="text-gray-600">{product.description}</p>
                     <InputValue
                       text="Address"
@@ -109,9 +107,7 @@ function ProductDetail() {
                     <div className="flex items-center gap-4">
                       <Button
                         type="button"
-                        onClick={() =>
-                          setQuantity((prev) => Math.max(1, prev - 1))
-                        }
+                        onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
                         className="px-3 py-1 bg-gray-200 text-lg rounded hover:bg-gray-300"
                         text="-"
                       />
@@ -125,9 +121,7 @@ function ProductDetail() {
                     </div>
                     <Button
                       type="submit"
-                      text={`Add cart (${(
-                        Number(product.price) * quantity
-                      ).toFixed(3)} đ)`}
+                      text={`Add cart (${(Number(product.price) * quantity).toFixed(3)} đ)`}
                       className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"
                     />
                   </form>
@@ -141,22 +135,15 @@ function ProductDetail() {
                   </div>
 
                   <div className="mt-10">
-                    <h2 className="text-2xl font-extrabold uppercase text-gray-900">
-                      {product.name}
-                    </h2>
-                    <p className="text-gray-500 mt-2 text-sm">
-                      {product.description}
-                    </p>
+                    <h2 className="text-2xl font-extrabold uppercase text-gray-900">{product.name}</h2>
+                    <p className="text-gray-500 mt-2 text-sm">{product.description}</p>
 
                     <hr className="my-4 border-gray-200" />
 
-                    <h3 className="font-bold text-gray-800 uppercase mb-2">
-                      Your Meal
-                    </h3>
+                    <h3 className="font-bold text-gray-800 uppercase mb-2">Your Meal</h3>
                     <ul className="text-sm space-y-1">
                       <li>
-                        <span className="font-semibold">{product.name}</span>1{" "}
-                        {product.name}:
+                        <span className="font-semibold">{product.name}</span>1 {product.name}:
                       </li>
                       <li>
                         1 Drink:
@@ -165,9 +152,7 @@ function ProductDetail() {
                             .split("+")
                             .find(
                               (part) =>
-                                part
-                                  .toLocaleLowerCase()
-                                  .includes("String Can") ===
+                                part.toLocaleLowerCase().includes("String Can") ===
                                 part.toLocaleLowerCase().includes("Pepsi")
                             )}
                         </span>{" "}
@@ -182,9 +167,7 @@ function ProductDetail() {
                     <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
                       <div className="flex items-center space-x-4">
                         <button
-                          onClick={() =>
-                            setQuantity((prev) => Math.max(1, prev - 1))
-                          }
+                          onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
                           className="w-10 h-10 border rounded-full flex items-center justify-center text-xl text-gray-600 hover:bg-gray-100"
                         >
                           −

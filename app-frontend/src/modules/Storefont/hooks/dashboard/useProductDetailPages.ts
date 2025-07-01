@@ -48,7 +48,6 @@ export const useProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
 
   const user = useSelector((state: RootState) => state.userLogin.id);
-
   const [orderData, setOrderData] = useState<OrderTableTs>({
     id: 0,
     user_id: Number(user),
@@ -148,7 +147,6 @@ export const useProductDetailsPage = () => {
     total_price,
     handleClick,
     navigate,
-
     setQuantity,
     handleCart,
     handleInputChange,

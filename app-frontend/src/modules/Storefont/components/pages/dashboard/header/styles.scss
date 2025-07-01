@@ -1,4 +1,3 @@
-
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 .header {
@@ -7,7 +6,6 @@ $breakpoint-desktop: 1024px;
       grid-area: right;
       gap: 1rem;
     }
-   
     .header__icon--logo {
       display: none;
     }
@@ -60,7 +58,7 @@ $breakpoint-desktop: 1024px;
     transform: translateX(-20px);
     a {
       &:hover {
-        color:#333;
+        color: #333;
       }
     }
   }

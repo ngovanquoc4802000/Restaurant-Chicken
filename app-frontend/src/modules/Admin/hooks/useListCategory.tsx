@@ -19,11 +19,7 @@ export const useListCategory = () => {
   };
 
   /* scroll */
-  const {
-    isLoading,
-    error,
-    data: categories,
-  } = useQuery({ ...queriesCategories.list });
+  const { isLoading, error, data: categories } = useQuery({ ...queriesCategories.list });
 
   const handleEditClick = useCallback((id: number | undefined) => {
     setFormState((prev) => ({ ...prev, showForm: true, isDetail: id }));
@@ -32,9 +28,7 @@ export const useListCategory = () => {
   const handleHideModal = useCallback(() => {
     setFormState((prev) => ({ ...prev, showForm: false, isDetail: null }));
   }, []);
-  const matchedName = categories?.filter((item) =>
-    item.name.toLowerCase().includes(value.toLowerCase())
-  );
+  const matchedName = categories?.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
 
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
 

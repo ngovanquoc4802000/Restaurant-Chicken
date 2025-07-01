@@ -13,9 +13,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token =
-    localStorage.getItem("accessToken") ||
-    store.getState().auth.user?.accessToken;
+  const token = localStorage.getItem("accessToken") || store.getState().auth.user?.accessToken;
   if (token) {
     config.headers["token"] = `Bearer ${token}`;
   }
@@ -27,7 +25,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; 
+      originalRequest._retry = true;
       console.log("⚠️ Token lỗi rồi, đang refresh token...");
       try {
         const refreshToken = localStorage.getItem("refreshToken");

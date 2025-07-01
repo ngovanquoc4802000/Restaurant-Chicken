@@ -33,10 +33,7 @@ export const postApiDishlist = async (newDish: DishTs) => {
   }
 };
 
-export const updateApiDishList = async (
-  id: number | undefined | null,
-  update: DishTs
-) => {
+export const updateApiDishList = async (id: number | undefined | null, update: DishTs) => {
   try {
     const result = await axiosInstance.put(`dishlist/${id}`, update);
     return result.data;

@@ -16,7 +16,19 @@ interface InputTs {
 }
 
 const InputValue = React.memo(
-  ({ htmlFor, id, defaultValue, placeholder, type, name, text, classNameLabel, classNameInput, value, onChange }: InputTs) => {
+  ({
+    htmlFor,
+    id,
+    defaultValue,
+    placeholder,
+    type,
+    name,
+    text,
+    classNameLabel,
+    classNameInput,
+    value,
+    onChange,
+  }: InputTs) => {
     return (
       <label htmlFor={htmlFor} className={classNameLabel}>
         {text}

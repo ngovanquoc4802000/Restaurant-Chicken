@@ -6,8 +6,7 @@ import Footer from "../dashboard/footer";
 import Header from "../dashboard/header";
 
 function Register() {
-  const { handleSubmitRegister, onChangeRegister, valueRegister, isPending } =
-    useRegister();
+  const { handleSubmitRegister, onChangeRegister, valueRegister, isPending } = useRegister();
 
   return (
     <div className="register-page gid grid-cols-2 font-sans lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
@@ -22,9 +21,7 @@ function Register() {
           />
         </div>
         <div className="register-form p-12 md:p-12 md:mt-[10rem] flex-col justify-center">
-          <h2 className="text-[1.8rem] mb-4 text-center font-bold">
-            Create Register
-          </h2>
+          <h2 className="text-[1.8rem] mb-4 text-center font-bold">Create Register</h2>
           <form className="flex flex-col " onSubmit={handleSubmitRegister}>
             <InputValue
               classNameLabel="md:text-[18px]"
@@ -72,15 +69,9 @@ function Register() {
               classNameInput="w-full p-2 border border-gray-500 rounded mt-1"
             />
             <div className="terms mt-6 flex ">
-              <input
-                className="mr-2 mt-1"
-                type="checkbox"
-                id="agree"
-                required
-              />
+              <input className="mr-2 mt-1" type="checkbox" id="agree" required />
               <label htmlFor="agree" className="text-[18px]">
-                I have read and agree to the <a href="#">Operational policy</a>{" "}
-                <a href="#">Privacy policy</a>.
+                I have read and agree to the <a href="#">Operational policy</a> <a href="#">Privacy policy</a>.
               </label>
             </div>
             <Button
@@ -93,10 +84,7 @@ function Register() {
             <label htmlFor="" className="text-[16px] md:text-[18px]">
               You already have an account
             </label>
-            <NavLink
-              className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2"
-              to="/login"
-            >
+            <NavLink className="font-bold  text-[16px] md:text-[18px] text-[#007bff] font-bold md:ml-2" to="/login">
               Login
             </NavLink>
           </div>

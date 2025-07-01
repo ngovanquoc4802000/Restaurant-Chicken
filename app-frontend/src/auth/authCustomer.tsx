@@ -17,7 +17,6 @@ const AuthGuard = ({ children }: PropsWithChildren) => {
     </>;
 
   if (!isAuthenticated || user?.rule === "customer") {
-    
     if (!isAuthenticated) {
       navigate("/login", {
         replace: true,

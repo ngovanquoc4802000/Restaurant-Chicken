@@ -4,9 +4,9 @@ import type { RootState } from "../../store/store";
 import { useState } from "react";
 import type { CartTs } from "../../components/pages/dashboard/category/storeCart";
 
-
 export const useHeaderPages = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
   const [cartItems, setCartItems] = useState<CartTs[]>([]);
 
   const openOffcanvas = () => {
@@ -26,7 +26,7 @@ export const useHeaderPages = () => {
       navigate("/login");
     }
   };
-   const mergedItemsMap = new Map<string, CartTs>();
+  const mergedItemsMap = new Map<string, CartTs>();
 
   cartItems.forEach((item) => {
     const existing = mergedItemsMap.get(item.name);
@@ -38,11 +38,11 @@ export const useHeaderPages = () => {
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
-  const orderId  = mergedItems.reduce((sum,acc) => sum + acc.id,0);
-  const totalCartItems = mergedItems.reduce(
-    (acc, curr) => acc + curr.quantity,
-    0
-  );
+
+  const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
+
+  const totalCartItems = mergedItems.reduce((acc, curr) => acc + curr.quantity, 0);
+
   return {
     totalCartItems,
     handleUser,
@@ -51,6 +51,6 @@ export const useHeaderPages = () => {
     openOffcanvas,
     closeOffcanvas,
     mergedItems,
-    orderId
+    orderId,
   };
 };

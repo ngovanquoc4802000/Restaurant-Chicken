@@ -6,16 +6,11 @@ import { slugify } from "../../components/pages/dashboard/menu/ultils";
 import { createOrder } from "../../services/orders";
 import { addToCart } from "../../components/pages/features/cartSlice";
 import type { RootState } from "../../store/store";
-import type {
-    CreateOrderPayload,
-    OrderDetailsTs,
-    OrderTableTs,
-} from "../../mockup/order";
+import type { CreateOrderPayload, OrderDetailsTs, OrderTableTs } from "../../mockup/order";
 import queriesDishlist from "../../queries/dishlist";
 
 export const useProductDetailPages = () => {
   const user = useSelector((state: RootState) => state.userLogin.id);
-  
   const [orderData, setOrderData] = useState<OrderTableTs>({
     user_id: Number(user),
     address: "",
@@ -36,11 +31,7 @@ export const useProductDetailPages = () => {
   const navigate = useNavigate();
   const { slugProduct } = useParams();
   const dispatch = useDispatch();
-  const {
-    isLoading,
-    error,
-    data: dishlist,
-  } = useQuery({ ...queriesDishlist.list });
+  const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
 
   const handleCart = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -87,21 +78,17 @@ export const useProductDetailPages = () => {
   } = useMutation({
     mutationFn: create,
     onSuccess: () => {
-      navigate("/menu-page");
+      navigate("/menu");
     },
     onError: () => {
       alert("Create Order Fails!");
     },
   });
- const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setOrderData((prev) => ({ ...prev, [name]: value }));
   };
-    const handleNoteChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
   return {

@@ -19,11 +19,7 @@ export const useDishlist = () => {
   });
   const [value, setValue] = useState<string>("");
 
-  const {
-    isLoading,
-    isError,
-    data: dishlist,
-  } = useQuery({ ...queriesDishlist.list });
+  const { isLoading, isError, data: dishlist } = useQuery({ ...queriesDishlist.list });
 
   const { data: categories } = useQuery({ ...queriesCategories.list });
 
@@ -33,10 +29,7 @@ export const useDishlist = () => {
     return map;
   }, [categories]);
 
-  const getCategoryName = useCallback(
-    (id: string | number) => categoryMap.get(id) || "undefined",
-    [categoryMap]
-  );
+  const getCategoryName = useCallback((id: string | number) => categoryMap.get(id) || "undefined", [categoryMap]);
 
   const handleEdit = useCallback((id: number | null | undefined) => {
     setDishState((prev) => ({ ...prev, showForm: true, idDetail: id }));

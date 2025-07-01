@@ -18,78 +18,77 @@ import OrderProduct from "$/modules/Storefont/components/pages/orderProduct";
 export const routerStore = [
   {
     path: "/",
-    element: <Dashboard/>,
+    element: <Dashboard />,
   },
   {
     path: "login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "login/register",
-    element: <Register/>,
+    element: <Register />,
   },
   {
     path: "menu",
-    element: <Category/>,
+    element: <Category />,
   },
   {
     path: "menu/:id",
-    element: <Category/>,
+    element: <Category />,
   },
   {
     path: "menu/:id/:slugProduct",
-    element: <ProductDetail/>,
+    element: <ProductDetail />,
   },
   {
     path: "/home",
-    element: <Home/>,
+    element: <Home />,
   },
   {
     path: "menu-page",
-    element: <MenuPage/>,
+    element: <MenuPage />,
   },
   {
     path: "menu-page/:id",
-    element: <MenuPage/>,
+    element: <MenuPage />,
   },
   {
     path: "menu-page/:id/:slugProduct",
-    element: <DetailsPage/>,
+    element: <DetailsPage />,
   },
   {
     path: "orderProduct",
-    element: <OrderProduct/>,
+    element: <OrderProduct />,
   },
   {
     path: "orderProductDashBoard",
-    element: <OrderProductDashBoard/>,
+    element: <OrderProductDashBoard />,
   },
-   {
+  {
     path: "checkout",
-    element: <CheckOutPages/>,
+    element: <CheckOutPages />,
   },
   {
     path: "/account",
-    element: <DetailAccountPage/>,
+    element: <DetailAccountPage />,
     children: [
       {
         index: true,
-        element: <DetailChildren/>,
+        element: <DetailChildren />,
       },
       {
         path: "address",
-        element: <AddressAccount/>,
+        element: <AddressAccount />,
       },
       {
         path: "order",
-        element: <Order/>,
+        element: <Order />,
       },
-       
+
       {
         path: "order_favorites",
-        element: <OrderFavorites/>,
+        element: <OrderFavorites />,
       },
     ],
   },
 ];
-

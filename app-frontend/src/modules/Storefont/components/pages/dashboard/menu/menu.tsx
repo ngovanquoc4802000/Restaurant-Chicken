@@ -5,11 +5,10 @@ import Categories from "./category/category";
 import MealSlider from "./dishes/meal";
 
 function MenuAndMeal() {
-  
   const dispatch = useDispatch();
 
-  const { category, findComboGroup } = useMenuContext()
-  
+  const { category, findComboGroup } = useMenuContext();
+
   return (
     <div>
       <Categories category={category} />

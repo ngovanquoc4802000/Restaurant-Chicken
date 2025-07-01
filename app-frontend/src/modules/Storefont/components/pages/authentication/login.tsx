@@ -8,16 +8,7 @@ import Header from "../dashboard/header";
 import "../dashboard/styles.scss";
 
 function Login() {
-  const {
-    isOpen,
-    dispatch,
-    errorMessage,
-    value,
-    isPaused,
-    isPending,
-    handleSubmit,
-    handleOnchange,
-  } = useLogin();
+  const { isOpen, dispatch, errorMessage, value, isPaused, isPending, handleSubmit, handleOnchange } = useLogin();
 
   return (
     <>
@@ -28,12 +19,8 @@ function Login() {
         {isOpen && (
           <div className="fixed inset-0  flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-sm p-6">
-              <h2 className="text-xl font-bold text-red-600 mb-4 text-center">
-                {errorMessage}
-              </h2>
-              <p className="text-gray-700 text-center mb-6">
-                Login fails , Please enter !
-              </p>
+              <h2 className="text-xl font-bold text-red-600 mb-4 text-center">{errorMessage}</h2>
+              <p className="text-gray-700 text-center mb-6">Login fails , Please enter !</p>
               <div className="flex justify-center">
                 <Button
                   text="cancel"
@@ -55,9 +42,7 @@ function Login() {
             />
           </div>
           <div className="login-form p-9 flex md:mt-[10rem] flex-col justify-center">
-            <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">
-              Login
-            </h2>
+            <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">Login</h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <InputValue
                 classNameLabel="mb-4 text-[14px] md:text-[18px] "
@@ -77,11 +62,7 @@ function Login() {
                 onChange={handleOnchange}
                 classNameInput="w-full p-2 mt-1 text-[14px] md:text-[1.6rem] rounded-md border border-gray-500"
               />
-              <a
-                className="text-[14px] md:text[20px] text-[#007bff] no-underline mb-4"
-                target="_blank"
-                href="#"
-              >
+              <a className="text-[14px] md:text[20px] text-[#007bff] no-underline mb-4" target="_blank" href="#">
                 Forgot Your Password?
               </a>
               <Button
@@ -90,24 +71,9 @@ function Login() {
                 className="btn-login bg-[#28a745] text-white p-3 border-none rounded-3xl md:text-[18px] cursor-pointer mb-4"
               />
             </form>
-
-          {/*   <div className="divider font-medium text-center my-4 mx-0 md:text-18px">
-              Or continue with
-            </div> */}
-           {/*  <Button
-              className="bg-black p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-apple"
-              text="Sign in with Apple"
-            />
-            <Button
-              className="bg-[#db4437] p-3 border-none rounded-3xl md:text-[18px] text-white mb-3 cursor-pointer w-full btn-google"
-              text="Sign in with Google"
-            /> */}
             <p className="text-center mt-4 md:text-[18px]">
               You do not have an account?
-              <NavLink
-                className="text-[#007bff] font-bold md:text-[18px] ml-2"
-                to="register"
-              >
+              <NavLink className="text-[#007bff] font-bold md:text-[18px] ml-2" to="register">
                 Register
               </NavLink>
             </p>

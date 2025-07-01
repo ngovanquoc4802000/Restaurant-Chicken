@@ -7,12 +7,12 @@ import User from "$/modules/Admin/components/User/user";
 export const routerAdmin = [
   {
     path: "admin",
-    element: <AdminLayout/>,
+    element: <AdminLayout />,
     children: [
-      {  path: "category", element: <ListCategory/> },
-      { path: "dishlist", element: <DishList/> },
-      { path: "user", element: <User/> },
-      { path: "order", element: <OrderAdmin/> },
+      { path: "category", element: <ListCategory /> },
+      { path: "dishlist", element: <DishList /> },
+      { path: "user", element: <User /> },
+      { path: "order", element: <OrderAdmin /> },
     ],
   },
 ];

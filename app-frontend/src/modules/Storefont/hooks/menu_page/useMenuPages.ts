@@ -6,7 +6,6 @@ import { useCallback, useRef } from "react";
 import { slugify } from "../../components/pages/dashboard/menu/ultils";
 
 export const useMenuPages = () => {
-
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -17,12 +16,12 @@ export const useMenuPages = () => {
   const categories = resultOptions[0].data ?? [];
 
   const dishlist = resultOptions[1].data ?? [];
- 
+
   const isLoading = resultOptions.some((res) => res.isLoading);
 
   const isError = resultOptions.some((res) => res.error);
-  
- const refs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const refs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const setRef = useCallback(
     (slug: string) => (el: HTMLDivElement | null) => {
@@ -30,10 +29,10 @@ export const useMenuPages = () => {
     },
     []
   );
- const handleClick = (name: string) => {
+  const handleClick = (name: string) => {
     const slug = slugify(name);
 
-    navigate(`/menu-page/${slug}`);
+    navigate(`/menu/${slug}`);
 
     const target = refs.current[slug];
 
@@ -41,7 +40,7 @@ export const useMenuPages = () => {
       target.scrollIntoView({ behavior: "instant", block: "start" });
     }
   };
-    const handleProductClick = (categoryId: string, productTitle: string) => {
+  const handleProductClick = (categoryId: string, productTitle: string) => {
     const slug = slugify(productTitle);
     navigate(`/menu-page/${categoryId}/${slug}`);
   };
@@ -54,6 +53,7 @@ export const useMenuPages = () => {
     dishlist,
     isLoading,
     isError,
-    refs,setRef
+    refs,
+    setRef,
   };
 };

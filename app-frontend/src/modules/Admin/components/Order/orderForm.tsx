@@ -90,9 +90,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
        "
       style={{ zIndex: 1000 }}
     >
-      <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">
-        Create new order
-      </h2>
+      <h2 className="text-center mb-5 text-gray-200 text-2xl font-semibold">Create new order</h2>
 
       <div>
         {isPending && <h1>Save...</h1>}
@@ -111,11 +109,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           >
             <option value="">Select User</option>
             {userData?.map((user) => (
-              <option
-                className="text-black"
-                key={user.id}
-                value={String(user.id)}
-              >
+              <option className="text-black" key={user.id} value={String(user.id)}>
                 {user.fullname}
               </option>
             ))}
@@ -238,13 +232,9 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
         ) : (
           <ul className="list-none p-0">
             {orderData.details?.map((item, index) => (
-              <li
-                key={index}
-                className="border-b border-dashed border-gray-300 pb-2.5 mb-2.5 text-gray-300"
-              >
-                dishlist {index + 1}: ID {findNameDishList(item.id_dishlist)},
-                quantity {item.quantity}, Giá {item.price} - notes:{" "}
-                {item.note || "No"}
+              <li key={index} className="border-b border-dashed border-gray-300 pb-2.5 mb-2.5 text-gray-300">
+                dishlist {index + 1}: ID {findNameDishList(item.id_dishlist)}, quantity {item.quantity}, Giá{" "}
+                {item.price} - notes: {item.note || "No"}
               </li>
             ))}
           </ul>
@@ -266,9 +256,7 @@ function OrderForm({ onHideModal, idDetail }: OrderFormTs) {
           disabled={isPending}
         >
           {idDetail ? "Update" : "Save"}
-          {isPending && (
-            <span className="spinner-border spinner-border-sm"></span>
-          )}
+          {isPending && <span className="spinner-border spinner-border-sm"></span>}
         </button>
         <Button
           className="bg-red-400 border-none text-white px-[10px] py-[15px] rounded-[4px] cursor-pointer"
