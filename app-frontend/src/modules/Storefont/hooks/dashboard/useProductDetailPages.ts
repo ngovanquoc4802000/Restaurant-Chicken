@@ -120,7 +120,6 @@ export const useProductDetailsPage = () => {
   const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
-
   const total_price = (Number(product?.price) * quantity).toFixed(3);
   const handleClick = () => {
     const existingCart = localStorage.getItem("storeCart");
@@ -140,6 +139,7 @@ export const useProductDetailsPage = () => {
     storeCart.push(order);
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
     if (storeCart) {
+      alert("Create Cart Success");
       navigate("/orderProductDashBoard");
     }
   };
