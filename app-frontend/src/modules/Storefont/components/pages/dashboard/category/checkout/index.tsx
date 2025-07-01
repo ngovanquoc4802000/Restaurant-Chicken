@@ -104,12 +104,12 @@ function CheckOutPages() {
         );
       } else {
         const newCartEight: CartTs = {
-          id: Number(itemToAdd.id),
           image: itemToAdd?.images?.[0].image,
           name: itemToAdd.name,
           price: itemToAdd.price,
           quantity: 1,
           note: "",
+          id: 1,
         };
         updatedCart = [...prevCart, newCartEight];
       }

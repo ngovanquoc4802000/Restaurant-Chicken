@@ -42,7 +42,7 @@ export const useMenuPages = () => {
   };
   const handleProductClick = (categoryId: string, productTitle: string) => {
     const slug = slugify(productTitle);
-    navigate(`/menu-page/${categoryId}/${slug}`);
+    navigate(`/menu/${categoryId}/${slug}`);
   };
   return {
     handleProductClick,

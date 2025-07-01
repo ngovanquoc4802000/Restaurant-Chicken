@@ -11,6 +11,7 @@ function Header() {
   const { open, handleClose, handleOpen, menuItemsData, handleNavigate } = useHeaderPages();
 
   const { orderId } = useHeaderPagesDB();
+
   return (
     <>
       <header className="header lg:px-[100px] lg:py-[30px] md:px-[15px] md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-[999] px-[15px] py-[30px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]">

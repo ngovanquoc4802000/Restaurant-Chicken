@@ -5,7 +5,7 @@ import logoMobile from "$/modules/Storefont/assets/kfclogo.png";
 import { useHeaderPagesDB } from "$/modules/Storefont/hooks/dashboard/useHeaderPages";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import type { CartTs } from "../category/storeCart";
 import "./styles.scss";
 
@@ -146,7 +146,6 @@ function Header() {
             </div>
           </div>
         </div>
-        <Outlet />
       </header>
       <div
         className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${

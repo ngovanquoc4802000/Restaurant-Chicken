@@ -1,5 +1,5 @@
 import Footer from "../../dashboard/footer";
-import Header from "../header_page/header";
+import Header from "../../dashboard/header";
 import Sidebar from "./sidebar";
 import { Outlet } from "react-router-dom";
 
