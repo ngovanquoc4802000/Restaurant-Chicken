@@ -37,12 +37,12 @@ const DetailStatusCategory = ({ item, handleEditClick }: DetailTs) => {
         className="py-[6px] mr-1 px-[15px] cursor-pointer rounded-[4px] text-white "
         data-id={item.id}
         onClick={() => handleEditClick(item.id)}
-          style={{
+        style={{
           backgroundColor: item.status ? "blue" : "#6c757d",
           cursor: item.status ? "pointer" : "not-allowed",
         }}
       >
-       {item.status ? "Edit" : "Locked"}
+        {item.status ? "Edit" : "Locked"}
       </button>
       <button
         className={`text-white border-none rounded-[4px] cursor-pointer py-1.5 px-3`}

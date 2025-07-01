@@ -24,9 +24,7 @@ const menuItemsData: MenuItemsDataTs[] = [
 export const useHeaderPages = () => {
   const [open, setOpen] = useState(false);
 
-  const cartItems = useSelector((state: RootState) =>
-    state.cart.map((item) => item)
-  );
+  const cartItems = useSelector((state: RootState) => state.cart.map((item) => item));
 
   const dispatch = useDispatch();
 

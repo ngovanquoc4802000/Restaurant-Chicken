@@ -10,29 +10,27 @@ export const useLoginAdmin = () => {
     email: "",
     password: "",
   });
-  const {login} = useAuth();
-const queryClient = useQueryClient()
+  const { login } = useAuth();
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const handleSubmit = async(e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-     const success = await login(formData.email, formData.password);
+    const success = await login(formData.email, formData.password);
     if (success) {
       console.log("Login Success (admin)");
-       queryClient.invalidateQueries({ queryKey: ["orders", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["orders", "list"] });
       navigate("/admin/category");
-      dispatch(close())
+      dispatch(close());
     } else {
-      console.log("Login defails (admin)")
-      navigate("/403-forbidden")
-      alert("Login fails Email or Password")
+      console.log("Login defails (admin)");
+      navigate("/403-forbidden");
+      alert("Login fails Email or Password");
     }
   };
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
     setFormData((prev) => ({

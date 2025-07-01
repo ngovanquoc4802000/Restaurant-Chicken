@@ -4,7 +4,6 @@ import { useAuth } from "./hook/useAuth";
 import LoadingSpinner from "$/common/loadingSpinner";
 
 const AdminAuth = ({ children }: PropsWithChildren) => {
-  
   const { isAuthenticated, user, loading, initializeAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -28,14 +27,13 @@ const AdminAuth = ({ children }: PropsWithChildren) => {
     } else {
       navigate("/403-forbidden", { replace: true });
     }
-    if(isAuthenticated && user?.rule !== "admin") {
+    if (isAuthenticated && user?.rule !== "admin") {
       navigate("/403-forbidden");
-
     }
     return null;
   }
 
-  return children ? {children} : <Outlet/>;
+  return children ? { children } : <Outlet />;
 };
 
 export default AdminAuth;

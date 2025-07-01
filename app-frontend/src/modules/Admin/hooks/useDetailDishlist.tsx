@@ -31,7 +31,9 @@ export const useDetailDishlist = (idDetail: number | undefined | null, onHideMod
   };
 
   const createOrUpdate = useCallback(async () => {
-    return isEdit && typeof idDetail === "number" ? await updateApiDishList(idDetail, value) : await postApiDishlist(value);
+    return isEdit && typeof idDetail === "number"
+      ? await updateApiDishList(idDetail, value)
+      : await postApiDishlist(value);
   }, [isEdit, value, idDetail]);
 
   const { isPending, mutate: createOrUpdateDishList } = useMutation({
@@ -60,7 +62,7 @@ export const useDetailDishlist = (idDetail: number | undefined | null, onHideMod
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    console.log(name,value)
+    console.log(name, value);
     setValue((prev) => ({
       ...prev,
       [name]: value,

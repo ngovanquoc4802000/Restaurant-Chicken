@@ -16,9 +16,16 @@ function OrderProduct() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 shadow-2xl p-4 rounded-2xl ">
               {cart.map((item) => (
-                <div key={item.id_dishlist}className=" md:flex lg:flex xl:flex md:justify-between lg:justify-between xl:justify-between border border-gray-200 rounded-lg p-4 mb-4 shadow-sm bg-white hover:shadow-md transition-shadow duration-200 ease-in-out">
+                <div
+                  key={item.id_dishlist}
+                  className=" md:flex lg:flex xl:flex md:justify-between lg:justify-between xl:justify-between border border-gray-200 rounded-lg p-4 mb-4 shadow-sm bg-white hover:shadow-md transition-shadow duration-200 ease-in-out"
+                >
                   <div className="md:flex lg:flex xl:flex">
-                    <img src={item.image} alt={item.title} className="w-[100px] h-[100px] object-cover rounded-xl shadow-md p-2"/>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-[100px] h-[100px] object-cover rounded-xl shadow-md p-2"
+                    />
                     <div className="flex-1 ml-3">
                       <h2 className="text-lg font-semibold text-gray-800">{item.title}</h2>
                       <p className="text-gray-600">Quantity: {item.quantity}</p>
@@ -27,16 +34,18 @@ function OrderProduct() {
                     </div>
                   </div>
                   <div className="md:flex lg:flex xl:flex flex items-center space-x-4 mt-4 md:mt-0">
-                    <p  className="text-red-500 cursor-pointer lg:mr-5" onClick={() => handleRemove(item.id_dishlist)}>Delete</p>
-                    <NavLink to="/menu-page"><p className="text-red-500">Edit</p></NavLink>
+                    <p className="text-red-500 cursor-pointer lg:mr-5" onClick={() => handleRemove(item.id_dishlist)}>
+                      Delete
+                    </p>
+                    <NavLink to="/menu-page">
+                      <p className="text-red-500">Edit</p>
+                    </NavLink>
                   </div>
                 </div>
               ))}
             </div>
             <div className="bg-white  rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4">
-                {cartItem.quantity} dish
-              </h2>
+              <h2 className="text-xl font-bold mb-4">{cartItem.quantity} dish</h2>
               <div className="mb-4">
                 <p className="text-sm font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">
@@ -45,7 +54,7 @@ function OrderProduct() {
                     placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
                     className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
                   />
-                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm" text="Apply"/>
+                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm" text="Apply" />
                 </div>
               </div>
 
@@ -72,9 +81,7 @@ function OrderProduct() {
             src="https://static.kfcvietnam.com.vn/images/web/empty-cart.png?v=5.0"
             className="mx-auto lg:mx-auto lg:w-70 lg:h-70 w-40 h-40 mb-4 mr-[7rem] md:mr-[18rem] lg:mr-[20rem] xl:mr-[36rem]"
           />
-          <p className="text-gray-600 text-xl mb-4">
-            No product order 
-          </p>
+          <p className="text-gray-600 text-xl mb-4">No product order</p>
           <NavLink
             to="/menu-page"
             className="inline-block bg-red-600 text-white px-6 py-3 rounded-full lg:mb-2 hover:bg-red-700 transition"

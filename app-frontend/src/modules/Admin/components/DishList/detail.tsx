@@ -33,9 +33,11 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
         {isPending && <h1>Save...</h1>}
         <form className="" onSubmit={handleSubmit}>
           <div className="form-group mb-4">
-            <label className="block mb-[5px] font-bold text-[#555]" htmlFor="category_id">Category:</label>
+            <label className="block mb-[5px] font-bold text-[#555]" htmlFor="category_id">
+              Category:
+            </label>
             <select
-            className="border border-solid border-gray-700"
+              className="border border-solid border-gray-700"
               id="category_id"
               name="category_id"
               value={value.category_id}
@@ -51,7 +53,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             </select>
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="name">Name:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="name">
+              Name:
+            </label>
             <input
               type="text"
               className="w-full p-1.5 border border-solid border-gray-400 rounded-[4px] text-[16px]"
@@ -63,7 +67,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             />
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="title">Title:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="title">
+              Title:
+            </label>
             <input
               type="text"
               className="w-full p-1.5 border border-solid border-gray-400 rounded-[4px] text-[16px]"
@@ -76,7 +82,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             />
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="currency">Currency:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="currency">
+              Currency:
+            </label>
             <input
               type="text"
               className="w-full p-1.5 border border-solid border-gray-400 rounded-[4px] text-[16px]"
@@ -87,7 +95,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             />
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="price">Price:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="price">
+              Price:
+            </label>
             <input
               type="number"
               className="w-full p-1.5 border border-solid border-gray-300 text-[16px]"
@@ -99,7 +109,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             />
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="description">Description:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="description">
+              Description:
+            </label>
             <textarea
               id="description"
               name="description"
@@ -109,7 +121,9 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
             ></textarea>
           </div>
           <div className="form-group">
-            <label className="block mb-[5px] font-bold" htmlFor="image">Image Link:</label>
+            <label className="block mb-[5px] font-bold" htmlFor="image">
+              Image Link:
+            </label>
             {value.images.map((item, index) => (
               <div className="imageUrl flex mb-2" key={index}>
                 <input
@@ -121,26 +135,41 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
                   value={item.image || ""}
                 />
                 {item.image && (
-                  <img className="rounded-[4px] w-[60px] h-[60px] object-cover border border-solid border-gray-300" src={item.image} alt={`Preview ${index}`} />
+                  <img
+                    className="rounded-[4px] w-[60px] h-[60px] object-cover border border-solid border-gray-300"
+                    src={item.image}
+                    alt={`Preview ${index}`}
+                  />
                 )}
               </div>
             ))}
-            <button type="button" className="addImage hover:bg-[#007bff] cursor-pointer rounded-[5px] text-white mt-1.5 p-1.5 bg-[#2dde71]" onClick={addImageField}>
+            <button
+              type="button"
+              className="addImage hover:bg-[#007bff] cursor-pointer rounded-[5px] text-white mt-1.5 p-1.5 bg-[#2dde71]"
+              onClick={addImageField}
+            >
               + Add Image
             </button>
           </div>
           <div className="form-actions flex justify-end gap-2.5 mt-[20px]">
-            <button type="submit" className="save-button cursor-pointer bg-green-600 p-2.5 text-white rounded-[4px] hover:bg-green-400" disabled={isPending}>
+            <button
+              type="submit"
+              className="save-button cursor-pointer bg-green-600 p-2.5 text-white rounded-[4px] hover:bg-green-400"
+              disabled={isPending}
+            >
               {idDetail ? "Update" : "Save"}
 
-              {isPending && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
+              {isPending && <span className="spinner-border spinner-border-sm"></span>}
             </button>
-            <Button className="px-[8px] cursor-pointer py-[10px] rounded-[4px] text-white bg-[#f44336]" text="Cancel" onClick={onHideModal} />
+            <Button
+              className="px-[8px] cursor-pointer py-[10px] rounded-[4px] text-white bg-[#f44336]"
+              text="Cancel"
+              onClick={onHideModal}
+            />
           </div>
         </form>
-      </div>F
+      </div>
+      F
     </div>
   );
 };

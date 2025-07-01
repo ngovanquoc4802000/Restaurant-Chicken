@@ -22,7 +22,7 @@ function Welcome() {
           Welcome <br /> Return,
         </h1>
         <h2 className="text-4xl font-extrabold text-red-700 mt-2">
-          { register.fullname} 
+          {register.fullname}
           {stateLogin.fullname}
         </h2>
 

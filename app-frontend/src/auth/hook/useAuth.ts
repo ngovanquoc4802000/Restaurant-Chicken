@@ -7,10 +7,8 @@ import type { RootState } from "$/modules/Storefont/store/store";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  
-  const { isAuthenticated, user, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
+
+  const { isAuthenticated, user, loading, error } = useSelector((state: RootState) => state.auth);
   /* login */
   const performLogin = async (email: string, password: string) => {
     dispatch(loginStart());
@@ -34,9 +32,7 @@ export const useAuth = () => {
   const checkAndRefreshToken = async () => {
     dispatch(loginStart());
     try {
-      const response = await axiosInstance.post<UserLoginResponse>(
-        "user/refresh-token"
-      );
+      const response = await axiosInstance.post<UserLoginResponse>("user/refresh-token");
       if (response.data.success) {
         dispatch(LoginSuccess(response.data));
         console.log("true");
@@ -47,11 +43,7 @@ export const useAuth = () => {
       }
     } catch (error) {
       console.log(error);
-      dispatch(
-        loginFailure(
-          "Failed to refresh token. Please check your network or try again."
-        )
-      );
+      dispatch(loginFailure("Failed to refresh token. Please check your network or try again."));
       return false;
     }
   };

@@ -10,12 +10,12 @@ function StorefrontRootLayout() {
 export const routerRoot = createBrowserRouter([
   {
     path: "/",
-    element: <StorefrontRootLayout/>,
+    element: <StorefrontRootLayout />,
     children: [
       ...routerStore,
       ...routerAdmin,
-      { path: "403-forbidden", element: <ForbiddenPage/> },
-      { path: "*", element: <NotFound/> },
+      { path: "403-forbidden", element: <ForbiddenPage /> },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

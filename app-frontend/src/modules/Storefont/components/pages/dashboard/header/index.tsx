@@ -13,7 +13,7 @@ type StoreCart = CartTs[];
 
 function Header() {
   const {
-   /*  totalCartItems, */
+    /*  totalCartItems, */
     handleUser,
     isOffcanvasOpen,
     setCartItems,
@@ -98,9 +98,7 @@ function Header() {
             className="header__icon hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--menu block"
             onClick={openOffcanvas}
           >
-            <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">
-              ☰
-            </div>
+            <div className="header__icon--menu-placeholder text-[1.5rem] font-bold cursor-pointer text-[#333]">☰</div>
           </div>
 
           <div className="flex-1 flex justify-center md:justify-start md:hidden">
@@ -152,9 +150,7 @@ function Header() {
       </header>
       <div
         className={`offcanvas-overlay fixed top-0 left-0 right-0 bottom-0 z-[999] invisible bg-[rgba(0,0,0,0.5)] transition-opacity transition-[visibility] duration-300 ease-in-out ${
-          isOffcanvasOpen
-            ? "offcanvas-overlay--visible visible opacity-100 "
-            : ""
+          isOffcanvasOpen ? "offcanvas-overlay--visible visible opacity-100 " : ""
         }`}
         onClick={closeOffcanvas}
       ></div>

@@ -51,11 +51,7 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
                 className="meal-suggestion-card w-[200px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4"
               >
                 <div className="meal-suggestion-card__image">
-                  <img
-                    className="meal__image w-full"
-                    src={meal.images[0]?.image || ""}
-                    alt={meal.title}
-                  />
+                  <img className="meal__image w-full" src={meal.images[0]?.image || ""} alt={meal.title} />
                 </div>
                 <div className="meal-suggestion-card__info min-h-[200px] lg:min-h-[140px]">
                   <h3 className="font-semibold text-base">{meal.title}</h3>
@@ -65,7 +61,6 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-            
               </div>
             ))}
           </div>

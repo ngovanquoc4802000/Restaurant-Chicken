@@ -1,14 +1,11 @@
 import Button from "$/common/button/button";
-import { getUserAll } from "$/modules/Admin/services/users";
-import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import Footer from "../../footer";
 import Header from "../../header";
-import { type StoreCart } from "../storeCart";
-import { useSelector } from "react-redux";
-import type { RootState } from "$/modules/Storefont/store/store";
 import ModalLogin from "../../modal/login";
+import { useOrderProductDB } from "$/modules/Storefont/hooks/dashboard/userOrderProduct";
+import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { type StoreCart } from "../storeCart";
 
 function OrderProductDashBoard() {
   const {
@@ -21,7 +18,11 @@ function OrderProductDashBoard() {
     orderId,
     formatCurrency,
     mergedItems,
+    handleCheckOut,
+    isModal,
+    setIsModal,
   } = useOrderProductDB();
+
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
@@ -39,40 +40,12 @@ function OrderProductDashBoard() {
     }
     setLoaded(Store);
   }, []);
-  const [isModal, setIsModal] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-  const emailRedux : string | null = useSelector(
-    (state: RootState) => state.userLogin.email
-  );
-  console.log(emailRedux);
-  const handleCheckOut = async () => {
-    try {
-      const getAllUser = await getUserAll();
-      if (!getAllUser?.data) {
-        console.log("Không lấy được danh sách người dùng");
-        setIsModal(true);
-        return;
-      }
-      const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
-      if (emailExists) {
-        navigate("/checkout");
-        console.log("Get Email Completed")
-      } else {
-        console.log("No find Email")
-        setIsModal(true);
-      }
-    } catch (error) {
-      console.error("Lỗi khi kiểm tra email:", error);
-      setIsModal(true);
-    }
-  };
   return (
     <div>
       <Header />
       {mergedItems?.length > 0 ? (
         <div className="max-w-7xl mx-auto md:mt-[8rem] lg:mt-[0px] xl:mt-[0px] px-4 py-8 mt-16">
-          <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
               {mergedItems?.map((item) => {
@@ -94,17 +67,11 @@ function OrderProductDashBoard() {
                         </h2>
                         <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600 mt-1">
                           Price:{" "}
-                          <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">
-                            {item.price} đ
-                          </span>
-                        </p>
-                        <p className="text-[16px] md:text-[18px] lg:text-lg text-gray-600">
-                          Note: {item.note}
+                          <span className="font-medium md:text-[18px] lg:text-lg text-[#e4002b]">{item.price} đ</span>
                         </p>
                       </div>
                     </div>
 
-                    {/* Quantity & Delete */}
                     <div className="mt-4 md:mt-0 cursor-pointer flex items-center gap-4 flex-wrap">
                       <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
                         <button
@@ -113,9 +80,7 @@ function OrderProductDashBoard() {
                         >
                           −
                         </button>
-                        <span className="w-10 text-center text-base font-semibold">
-                          {item.quantity}
-                        </span>
+                        <span className="w-10 text-center text-base font-semibold">{item.quantity}</span>
                         <button
                           onClick={() => handleIncrease(item.name)}
                           className="w-8 h-8 text-lg text-gray-600 hover:bg-gray-100"
@@ -136,23 +101,17 @@ function OrderProductDashBoard() {
               })}
             </div>
 
-            {/* Right side - Payment Summary */}
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
               <h2 className="text-xl font-bold mb-4"> {orderId} Food</h2>
               <div className="mb-4">
-                <p className="text-sm font-medium mb-1">
-                  Do you have a discount code?
-                </p>
+                <p className="text-sm font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">
                   <input
                     type="text"
                     placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
                     className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
                   />
-                  <Button
-                    className="bg-black text-white px-4 py-1 rounded-full text-sm"
-                    text="Apply"
-                  />
+                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm" text="Apply" />
                 </div>
               </div>
               <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
@@ -167,7 +126,7 @@ function OrderProductDashBoard() {
               </div>
               <Button
                 onClick={handleCheckOut}
-                text={`CHECK OUT ${formatCurrency(calculatorPrice)} đ`}
+                text={`CHECK OUT`}
                 className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />
             </div>
@@ -179,9 +138,7 @@ function OrderProductDashBoard() {
             src="https://static.kfcvietnam.com.vn/images/web/empty-cart.png?v=5.0"
             className="mx-auto lg:mx-auto lg:w-70 lg:h-70 w-40 h-40 mb-4 mr-[7rem] md:mr-[18rem] lg:mr-[20rem] xl:mr-[36rem]"
           />
-          <p className="text-gray-600 text-xl mb-4 font-semibold lg:text-2xl">
-            No product order
-          </p>
+          <p className="text-gray-600 text-xl mb-4 font-semibold lg:text-2xl">No product order</p>
           <NavLink
             to="/menu"
             className="inline-block bg-red-600 text-white px-6 py-3 lg:text-xl rounded-full lg:mb-2 hover:bg-red-700 transition"

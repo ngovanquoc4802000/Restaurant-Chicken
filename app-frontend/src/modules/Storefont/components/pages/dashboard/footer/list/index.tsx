@@ -10,36 +10,28 @@ function ListFooter({
   classNameImage = "h-10 mr-2",
   onClickItem,
   classNameTitle = "text-[1.4rem] mb-4 text-[#ff] font-semibold",
-  textTitle
-}:
-  ListClassNameTs) {
+  textTitle,
+}: ListClassNameTs) {
   return (
     <div className="footer__column">
-    <h3 className={`${classNameTitle}`}>{textTitle}</h3>
-    <ul className={classNameUl}>
-      {
-        item?.map((item, index) => (
-          <li
-            key={index}
-            className={classNameLi}
-            onClick={() => onClickItem?.(item)}
-          >{item}</li>
+      <h3 className={`${classNameTitle}`}>{textTitle}</h3>
+      <ul className={classNameUl}>
+        {item?.map((item, index) => (
+          <li key={index} className={classNameLi} onClick={() => onClickItem?.(item)}>
+            {item}
+          </li>
         ))}
-    </ul>
-    <div className="footer_apps">
-      {
-        itemImage?.map((item,index) => (
-          <img key={index} className={classNameImage} src={item} alt={item}  />
-        ))
-      }
-      <div className="footer__socials mt-4">
-        {
-          itemIcons?.map((item,id) => (
+      </ul>
+      <div className="footer_apps">
+        {itemImage?.map((item, index) => (
+          <img key={index} className={classNameImage} src={item} alt={item} />
+        ))}
+        <div className="footer__socials mt-4">
+          {itemIcons?.map((item, id) => (
             <i key={id} className={`${classNameIcons}${item}`}></i>
-          ))
-        }
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 }

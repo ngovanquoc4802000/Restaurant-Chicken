@@ -1,10 +1,12 @@
-import pool from "../database/connectdatabase.js"; 
-
+import pool from "../database/connectdatabase.js";
 
 const getCategoryAll = async (req, res) => {
+  let client; 
   try {
-    const data = await pool.query(`SELECT * FROM category`);
-    if (!data || data.length === 0) {
+    client = await pool.connect(); 
+    const data = await client.query(`SELECT * FROM category`); 
+
+    if (!data || data.rows.length === 0) {
       return res.status(404).send({
         success: false,
         message: "No categories found",
@@ -21,15 +23,18 @@ const getCategoryAll = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error retrieving categories", 
+      message: "Error retrieving categories",
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 
 const getCategoryId = async (req, res) => {
+  let client;
   try {
     const categoryId = req.params.id;
 
@@ -39,11 +44,11 @@ const getCategoryId = async (req, res) => {
         message: "Category ID is required",
       });
     }
-    const insertQuery = `SELECT * FROM category WHERE id = $1`;
 
-    const data = await pool.query(insertQuery, [categoryId]);
+    client = await pool.connect();
+    const data = await client.query(`SELECT * FROM category WHERE id = $1`, [categoryId]);
 
-    if (!data || data.length === 0) {
+    if (!data || data.rows.length === 0) { 
       return res.status(404).send({
         success: false,
         message: `Category with ID ${categoryId} not found`,
@@ -51,7 +56,6 @@ const getCategoryId = async (req, res) => {
     }
     const result = data.rows[0];
     res.status(200).send({
-      
       success: true,
       message: "Successfully retrieved category by ID",
       data: result,
@@ -64,11 +68,14 @@ const getCategoryId = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 
 const createCategory = async (req, res) => {
+  let client;
   try {
     const { name, handle, image, status = true } = req.body;
 
@@ -86,16 +93,17 @@ const createCategory = async (req, res) => {
       });
     }
 
+    client = await pool.connect();
     const insertQuery = `
       INSERT INTO category (name, handle, image, status)
       VALUES ($1, $2, $3, $4)
       RETURNING id;
     `;
-    const result = await pool.query(insertQuery, [
+    const result = await client.query(insertQuery, [
       name,
       handle,
       image,
-     status,
+      status,
     ]);
 
     if (!result || !result.rows || result.rows.length === 0) {
@@ -107,11 +115,11 @@ const createCategory = async (req, res) => {
 
     const newCategoryId = result.rows[0].id;
 
-    const newData = await pool.query(`SELECT * FROM category WHERE id = $1`, [
+    const newData = await client.query(`SELECT * FROM category WHERE id = $1`, [
       newCategoryId,
     ]);
 
-    if (!newData || newData.length === 0) {
+    if (!newData || newData.rows.length === 0) { 
       return res.status(500).send({
         success: false,
         message: "Failed to retrieve newly created category.",
@@ -125,7 +133,7 @@ const createCategory = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    if (error.code === "ER_DUP_ENTRY") {
+    if (error.code === "23505") {
       return res.status(409).send({
         success: false,
         message: "Category with this handle already exists.",
@@ -137,11 +145,14 @@ const createCategory = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 
 const categoryPagination = async (req, res) => {
+  let client;
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -155,16 +166,18 @@ const categoryPagination = async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    const [data] = await pool.query(
-      `SELECT * FROM category LIMIT ? OFFSET ? `,
+    client = await pool.connect();
+
+    const data = await client.query(
+      `SELECT * FROM category LIMIT $1 OFFSET $2`,
       [limit, offset]
     );
 
-    const [totalPageData] = await pool.query(
-      `SELECT count (*) as count FROM category`
+    const totalPageData = await client.query(
+      `SELECT count(*) as count FROM category`
     );
 
-    const totalItems = totalPageData[0]?.count || 0;
+    const totalItems = totalPageData.rows[0]?.count || 0; 
     const totalPage = Math.ceil(totalItems / limit);
 
     if (page > totalPage && totalPage > 0) {
@@ -177,7 +190,7 @@ const categoryPagination = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Categories pagination success",
-      data: data,
+      data: data.rows,
       pagination: {
         page: page,
         limit: limit,
@@ -193,11 +206,14 @@ const categoryPagination = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 
 const updateCategoryId = async (req, res) => {
+  let client;
   try {
     const categoryId = req.params.id;
     const { name, handle, image, status } = req.body;
@@ -215,8 +231,6 @@ const updateCategoryId = async (req, res) => {
         message: "Status must be a boolean value (true/false).",
       });
     }
-
-    const statusValue = status;
 
     let updateFields = [];
     let queryParams = [];
@@ -237,9 +251,9 @@ const updateCategoryId = async (req, res) => {
       queryParams.push(image);
       paramIndex++;
     }
-    if (status !== undefined) {
+    if (status !== undefined) { 
       updateFields.push(`status = $${paramIndex}`);
-      queryParams.push(statusValue);
+      queryParams.push(status);
       paramIndex++;
     }
 
@@ -253,14 +267,15 @@ const updateCategoryId = async (req, res) => {
     const finalIdParamIndex = paramIndex;
     queryParams.push(categoryId);
 
+    client = await pool.connect();
     const updateQuery = `UPDATE category SET ${updateFields.join(
       ", "
     )} WHERE id = $${finalIdParamIndex} RETURNING *;`;
 
-    const result = await pool.query(updateQuery, queryParams);
+    const result = await client.query(updateQuery, queryParams);
 
     if (!result || !result.rows || result.rows.length === 0) {
-      const existingCategoryResult = await pool.query(
+      const existingCategoryResult = await client.query(
         `SELECT id FROM category WHERE id = $1`,
         [categoryId]
       );
@@ -290,7 +305,6 @@ const updateCategoryId = async (req, res) => {
   } catch (error) {
     console.error("Error updating category:", error);
 
-    // --- Sửa lỗi 5: Mã lỗi cho UNIQUE constraint violation trong PostgreSQL là "23505" ---
     if (error.code === "23505") {
       return res.status(409).send({
         success: false,
@@ -303,11 +317,14 @@ const updateCategoryId = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 
 const deleteCategoryId = async (req, res) => {
+  let client;
   try {
     const removeCategory = req.params.id;
 
@@ -317,10 +334,13 @@ const deleteCategoryId = async (req, res) => {
         message: "Category ID is required for deletion",
       });
     }
-    const [relatedDishes] = await pool.query(
-      `SELECT id FROM dishlist WHERE category_id = ?`,
+
+    client = await pool.connect();
+    const relatedDishesResult = await client.query(
+      `SELECT id FROM dishlist WHERE category_id = $1`,
       [removeCategory]
     );
+    const relatedDishes = relatedDishesResult.rows;
 
     if (relatedDishes.length > 0) {
       return res.status(409).send({
@@ -330,12 +350,12 @@ const deleteCategoryId = async (req, res) => {
       });
     }
 
-    const [deleteResult] = await pool.query(
-      `DELETE FROM category WHERE id = ?`,
+    const deleteResult = await client.query(
+      `DELETE FROM category WHERE id = $1 RETURNING id`,
       [removeCategory]
     );
 
-    if (deleteResult.affectedRows === 0) {
+    if (deleteResult.rows.length === 0) {
       return res.status(404).send({
         success: false,
         message: `Category with ID ${removeCategory} not found.`,
@@ -354,7 +374,9 @@ const deleteCategoryId = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release();
+    }
   }
 };
 

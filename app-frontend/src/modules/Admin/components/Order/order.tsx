@@ -28,9 +28,7 @@ const Order = () => {
   const sortdDish = [...orderList].sort((a, b) => Number(a) - Number(b));
   return (
     <div className="order-list  rounded-[5px] relative">
-      <h2 className="text-center text-2xl bg-[#dc3545] p-5 text-white font-bold text-gray-700 mt-0 mb-5">
-        Order List
-      </h2>
+      <h2 className="text-center text-2xl bg-[#dc3545] p-5 text-white font-bold text-gray-700 mt-0 mb-5">Order List</h2>
       <div className="p-5">
         <Button
           className="px-[8px] cursor-pointer py-[10px] bg-green-600 text-white rounded-[4px]"
@@ -38,19 +36,12 @@ const Order = () => {
           onClick={() => setStateOrder((prev) => ({ ...prev, showForm: true }))}
         />
 
-        {stateOrder.showForm && (
-          <OrderForm
-            idDetail={stateOrder.idDetail}
-            onHideModal={handleHideDetail}
-          />
-        )}
+        {stateOrder.showForm && <OrderForm idDetail={stateOrder.idDetail} onHideModal={handleHideDetail} />}
 
         {stateOrder.showOrder && stateOrder.selectedDetails && (
           <OrderDetails
             item={stateOrder.selectedDetails}
-            onHideModal={() =>
-              setStateOrder((prev) => ({ ...prev, showOrder: false }))
-            }
+            onHideModal={() => setStateOrder((prev) => ({ ...prev, showOrder: false }))}
             orderId={stateOrder.idDetail}
             currentStep={stateOrder.currentStep}
           />
@@ -60,7 +51,7 @@ const Order = () => {
           <thead>
             <tr>
               <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">
-                Id
+                Stt
               </th>
               {/*        <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">User</th> */}
               <th className="bg-[#dc3545] text-white font-bold border border-solid border-gray-500 p-2.5 text-left">
@@ -92,25 +83,15 @@ const Order = () => {
           <tbody>
             {sortdDish?.map((item) => (
               <tr key={item.id}>
-                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {Number(item.id)}
-                </td>
+                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{Number(item.id)}</td>
                 {/*  <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{getFindUser(item.user_id)}</td> */}
-                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {item.address}
-                </td>
-                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {item.customer_name}
-                </td>
+                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.address}</td>
+                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_name}</td>
                 <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
                   {item.customer_phone}
                 </td>
-                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {item.customer_note}
-                </td>
-                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
-                  {item.total_price} đ
-                </td>
+                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.customer_note}</td>
+                <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">{item.total_price} đ</td>
                 <td className=" font-bold border border-solid border-gray-500 p-2.5 text-left">
                   {item.process || "Chưa xác định"}
                 </td>
@@ -121,9 +102,7 @@ const Order = () => {
                   <Button
                     className="bg-red-600 cursor-pointer text-white px-[37px] py-[10px] rounded-[4px]"
                     text="Show"
-                    onClick={() =>
-                      handleDetails(item.details, item.id, item.process || "")
-                    }
+                    onClick={() => handleDetails(item.details, item.id, item.process || "")}
                   />
                   <Button
                     className="bg-amber-400 text-[16px] text-white py-[12px] mt-2 mb-2 px-[44px] rounded-[4px]"

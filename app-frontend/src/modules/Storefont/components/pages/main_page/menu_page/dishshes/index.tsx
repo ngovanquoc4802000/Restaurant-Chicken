@@ -13,13 +13,13 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
 
   const next = () => {
     if (startIndex + visibleItems < category.length) {
-      setStartIndex(prev => prev + visibleItems);
+      setStartIndex((prev) => prev + visibleItems);
     }
   };
 
   const previous = () => {
     if (startIndex > 0) {
-      setStartIndex(prev => prev - visibleItems);
+      setStartIndex((prev) => prev - visibleItems);
     }
   };
 
@@ -31,7 +31,11 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
     <div className=" xl:max-w-[1200px] xl:m-auto">
       <h2 className="text-[20px] md:text-[20px] lg:text-[24px] ml-8 font-black ">We Think You’ll Love These</h2>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
-        <Button text="&lt;" onClick={previous} className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" />
+        <Button
+          text="&lt;"
+          onClick={previous}
+          className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
+        />
         <div className="meal-suggestion-section__viewport w-full overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-in-out flex-nowrap"
@@ -46,11 +50,7 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                sm:w-[50%] md:w-1/3 lg:w-1/4"
               >
                 <div className="meal-suggestion-card__image">
-                  <img
-                    className="meal__image w-full"
-                    src={meal.images[0]?.image || ""}
-                    alt={meal.title}
-                  />
+                  <img className="meal__image w-full" src={meal.images[0]?.image || ""} alt={meal.title} />
                 </div>
                 <div className="meal-suggestion-card__info min-h-[143px] md:min-h-[150px] lg:min-h-[150px]">
                   <h3 className="font-semibold text-base">{meal.title}</h3>
@@ -59,12 +59,19 @@ function DishShesPage({ findComboGroup, category }: DishMealPageTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
-                <Button text="Add" className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600" />
+                <Button
+                  text="Add"
+                  className="meal-add mt-2 py-3 px-4 border-none w-full text-white bg-red-500 rounded-full hover:bg-red-600"
+                />
               </div>
             ))}
           </div>
         </div>
-        <Button text="&gt;" onClick={next} className="meal-suggestion-section__button meal-suggestion-section__button--next  z-10 absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center" />
+        <Button
+          text="&gt;"
+          onClick={next}
+          className="meal-suggestion-section__button meal-suggestion-section__button--next  z-10 absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
+        />
       </div>
     </div>
   );

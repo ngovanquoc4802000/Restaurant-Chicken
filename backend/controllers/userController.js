@@ -1,25 +1,28 @@
-import pool from "../database/connectdatabase.js";
-
 import dotenv from "dotenv";
 dotenv.config();
-import { createHash, secureHeapUsed } from "crypto";
+import { createHash } from "crypto"; // secureHeapUsed không được sử dụng
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
+
+import pool from "../database/connectdatabase.js";
 
 const JWTKey = process.env.JWT_SECRET;
 const JwtRefresh = process.env.JWT_REFRESH;
 
+// Helper function to generate MD5 hash
 const generateMD5 = (password) => {
   return createHash("md5").update(password).digest("hex");
 };
 
+// Helper function to get current timestamp in ISO format
 const formatDbTimestamp = () => {
   return new Date().toISOString();
 };
 
 export const getAllRegister = async (req, res) => {
+  let client; // Khai báo client
   try {
-    const result = await pool.query(
+    client = await pool.connect(); // Lấy client từ pool
+    const result = await client.query( // Sử dụng client.query
       `SELECT id, fullname, email, phone_number, address, create_at, status FROM "user"`
     );
 
@@ -43,11 +46,14 @@ export const getAllRegister = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release(); // Giải phóng client
+    }
   }
 };
 
 export const userAPIRegister = async (req, res) => {
+  let client; // Khai báo client
   const {
     fullname,
     email,
@@ -72,9 +78,10 @@ export const userAPIRegister = async (req, res) => {
   }
 
   try {
+    client = await pool.connect(); // Lấy client từ pool
     const hashedPassword = generateMD5(password);
 
-    const existingUserResult = await pool.query(
+    const existingUserResult = await client.query( // Sử dụng client.query
       `SELECT id FROM "user" WHERE email = $1`,
       [email]
     );
@@ -84,10 +91,10 @@ export const userAPIRegister = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Email already exists." });
     }
-    
-    const insertResult = await pool.query(
+
+    const insertResult = await client.query( // Sử dụng client.query
       `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email`,
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email`,
       [
         fullname,
         email,
@@ -117,13 +124,13 @@ export const userAPIRegister = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in userAPIRegister:", error);
-    if (error.code === "23505") {
+    if (error.code === "23505") { // PostgreSQL unique violation error code
       return res.status(409).send({
         success: false,
         message: "A user with this email already exists.",
         error: error.message,
       });
-    } else if (error.code === "23502") {
+    } else if (error.code === "23502") { // PostgreSQL not null violation error code
       return res.status(400).send({
         success: false,
         message: `Missing required data: ${error.column} cannot be null.`,
@@ -135,10 +142,15 @@ export const userAPIRegister = async (req, res) => {
       message: "Error registering user.",
       error: error.message,
     });
+  } finally {
+    if (client) {
+      client.release(); // Giải phóng client
+    }
   }
 };
 
 export const updateApiRegister = async (req, res) => {
+  let client; // Khai báo client
   const updateId = req.params.id;
   const { fullname, email, phone_number, address, password, status } = req.body;
 
@@ -152,7 +164,7 @@ export const updateApiRegister = async (req, res) => {
   let updateFields = [];
   let queryParams = [];
   let paramIndex = 1;
-  const now = formatDbTimestamp();
+  // const now = formatDbTimestamp(); // not used here
 
   if (fullname !== undefined) {
     updateFields.push(`fullname = $${paramIndex}`);
@@ -203,23 +215,25 @@ export const updateApiRegister = async (req, res) => {
   queryParams.push(updateId);
 
   try {
-    const existingUserCheck = await pool.query(
+    client = await pool.connect(); // Lấy client từ pool
+    const existingUserCheck = await client.query( // Sử dụng client.query
       `SELECT id FROM "user" WHERE id = $1`,
       [updateId]
     );
     if (existingUserCheck.rows.length === 0) {
       return res.status(404).send({
         success: false,
-        message: `User with ID ${updateId} not found.`,
+        message: `User with ID ${updateId} not found.`
       });
     }
 
     const updateQuery = `UPDATE "user" SET ${updateFields.join(
       ", "
     )} WHERE id = $${whereIdParamIndex} RETURNING *`;
-    const result = await pool.query(updateQuery, queryParams);
+    const result = await client.query(updateQuery, queryParams); // Sử dụng client.query
 
     if (result.rowCount === 0) {
+      // This means the user was found, but no rows were actually updated (data was same)
       return res.status(200).send({
         success: false,
         message: "User data was already up to date, no changes made.",
@@ -233,13 +247,13 @@ export const updateApiRegister = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in updateApiRegister:", error);
-    if (error.code === "23505") {
+    if (error.code === "23505") { // PostgreSQL unique violation error code
       return res.status(409).send({
         success: false,
         message: "Update failed: The email provided already exists.",
         error: error.message,
       });
-    } else if (error.code === "23502") {
+    } else if (error.code === "23502") { // PostgreSQL not null violation error code
       return res.status(400).send({
         success: false,
         message: `Missing required data or null value provided for a NOT NULL column: ${
@@ -254,11 +268,14 @@ export const updateApiRegister = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release(); // Giải phóng client
+    }
   }
 };
 
 export const userAPILogin = async (req, res) => {
+  let client; // Khai báo client
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -268,9 +285,10 @@ export const userAPILogin = async (req, res) => {
     });
   }
   try {
+    client = await pool.connect(); // Lấy client từ pool
     const hashedPassword = generateMD5(password);
 
-    const result = await pool.query(
+    const result = await client.query( // Sử dụng client.query
       `SELECT id, fullname, email, rule FROM "user" WHERE email = $1 AND password = $2`,
       [email, hashedPassword]
     );
@@ -290,7 +308,7 @@ export const userAPILogin = async (req, res) => {
         rule: user.rule,
       };
 
-      // Promisify jwt.sign để sử dụng async/await
+      // Promisify jwt.sign để sử dụng async/await (đã đúng)
       const signPromise = (payload, secret, options) => {
         return new Promise((resolve, reject) => {
           jwt.sign(payload, secret, options, (err, token) => {
@@ -324,8 +342,7 @@ export const userAPILogin = async (req, res) => {
         sameSite: "Strict",
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
-     
-    
+
       res.status(200).json({
         success: true,
         message: "Login successful.",
@@ -348,12 +365,15 @@ export const userAPILogin = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release(); // Giải phóng client
+    }
   }
 };
 
 export const refreshTokenAPI = async (req, res) => {
-  //.Nó trích xuất Refresh Token từ cookie.
+  let client; // Khai báo client
+  // Nó trích xuất Refresh Token từ cookie.
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
     console.log("No find refresh token");
@@ -371,9 +391,11 @@ export const refreshTokenAPI = async (req, res) => {
         resolve(decodedData);
       });
     });
-    const userResult = await pool.query(
+
+    client = await pool.connect(); // Lấy client từ pool
+    const userResult = await client.query( // Sử dụng client.query
       `SELECT id, fullname, email, rule FROM "user" WHERE id = $1`,
-      [decoded.sub] 
+      [decoded.sub]
     );
     if (userResult.rows.length === 0) {
       console.log(`User with ID ${decoded.sub} not found or deactivated.`);
@@ -384,7 +406,7 @@ export const refreshTokenAPI = async (req, res) => {
       });
     }
     const user = userResult.rows[0];
-    
+
     const accessTokenPayload = {
       sub: user.id.toString(),
       email: user.email,
@@ -402,6 +424,7 @@ export const refreshTokenAPI = async (req, res) => {
         }
       );
     });
+    // Đặt lại refresh token trong cookie (nếu cần thiết, thường không cần đặt lại nếu không có thay đổi)
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -444,7 +467,9 @@ export const refreshTokenAPI = async (req, res) => {
       error: error.message,
     });
   } finally {
-    connection.release();
+    if (client) {
+      client.release(); // Giải phóng client
+    }
   }
 };
 

@@ -5,10 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { close } from "../../components/pages/features/modal";
 import { setUpdateLogin } from "../../components/pages/features/updateLogin";
 import { setUser } from "../../components/pages/features/userLogin";
-import {
-  clearUserRegister,
-  setUserRegister,
-} from "../../components/pages/features/userRegister";
+import { clearUserRegister, setUserRegister } from "../../components/pages/features/userRegister";
 import type { LoginCredentials, UsersTs } from "../../mockup/user";
 import { createUserLogin, createUsersRegister } from "../../services/users";
 
@@ -23,20 +20,20 @@ const initialRegister: UsersTs = {
 
 const initialLogin: LoginCredentials = {
   email: "",
-  password: ""
-}
+  password: "",
+};
 
 export const useModalLoginPages = () => {
-  const [error,setError] = useState<object>({});
+  const [error, setError] = useState<object>({});
   const [value, setValue] = useState<LoginCredentials>(initialLogin);
 
   const [valueRegister, setValueRegister] = useState<UsersTs>(initialRegister);
-  
+
   const [showForm, setShowForm] = useState(false);
 
   const handleFormRegister = () => {
     setError(error);
-    if(!showForm) {
+    if (!showForm) {
       setShowForm(true);
     } else {
       setShowForm(false);
@@ -69,9 +66,7 @@ export const useModalLoginPages = () => {
       alert("Error dupting create" + error);
     },
   });
-  const onChangeRegister = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setValueRegister((prev) => ({
       ...prev,
@@ -80,7 +75,7 @@ export const useModalLoginPages = () => {
   };
 
   const dispatch = useDispatch();
- const navigate = useNavigate()
+  const navigate = useNavigate();
   const update = async () => {
     const res = await createUserLogin(value);
     return res;
@@ -93,9 +88,9 @@ export const useModalLoginPages = () => {
     mutationFn: update,
     onSuccess: (data) => {
       if (data.success === true) {
-        const { accessToken, refreshToken  ,data: loginData } = data;
-        localStorage.setItem("accessToken",accessToken);
-        localStorage.setItem("refreshToken", refreshToken );
+        const { accessToken, refreshToken, data: loginData } = data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         dispatch(
           setUser({
             id: loginData.id,
@@ -109,13 +104,13 @@ export const useModalLoginPages = () => {
           setUpdateLogin({
             fullname: loginData.fullname,
             phone_number: valueRegister.phone_number,
-            email: loginData.email
+            email: loginData.email,
           })
-        )
+        );
         localStorage.setItem("userId", loginData.id.toString());
         setValue({ email: "", password: "" });
       }
-      navigate("/checkout")
+      navigate("/checkout");
       dispatch(close());
     },
     onError: (error) => {
@@ -123,9 +118,7 @@ export const useModalLoginPages = () => {
     },
   });
 
-  const handleOnchange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
     setValue((prev) => ({

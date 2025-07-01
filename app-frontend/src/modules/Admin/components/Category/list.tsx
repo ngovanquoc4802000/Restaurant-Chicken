@@ -18,7 +18,7 @@ const ListCategory = () => {
     handleChange,
     matchedName,
     refs,
-    handleScrollToCategory    
+    handleScrollToCategory,
   } = useListCategory();
 
   useEffect(() => {
@@ -31,7 +31,6 @@ const ListCategory = () => {
     }, 500);
     return () => clearTimeout(timeOut);
   }, [value, categories]);
-
 
   if (isLoading || !categories || !matchedName) return <div>Loading...</div>;
 
@@ -79,19 +78,12 @@ const ListCategory = () => {
           </div>
           <button
             className="create-button py-[10px] font-bold px-[15px] cursor-pointer bg-[#4caf50] text-white border-none rounded-[5px] cursor-pointer text-[16px] mb-[20px] hover:bg-[#388e3c]"
-            onClick={() =>
-              setFormState((prev) => ({ ...prev, showForm: true }))
-            }
+            onClick={() => setFormState((prev) => ({ ...prev, showForm: true }))}
           >
             + Create
           </button>
         </div>
-        {formState.showForm && (
-          <DetailCategory
-            isDetail={formState.isDetail}
-            onHideModal={handleHideModal}
-          />
-        )}
+        {formState.showForm && <DetailCategory isDetail={formState.isDetail} onHideModal={handleHideModal} />}
         <table className="w-full mt-2.5 border-collapse">
           <thead>
             <tr className="text-center">
@@ -119,8 +111,7 @@ const ListCategory = () => {
                   <img
                     className="w-[150px] rounded-[4px] flex items-center"
                     style={{
-                      filter:
-                        item.status === false ? "grayscale(100%)" : "none",
+                      filter: item.status === false ? "grayscale(100%)" : "none",
                     }}
                     src={item.image}
                     alt="Hình Ảnh"
@@ -134,16 +125,11 @@ const ListCategory = () => {
                   {item.handle}
                 </td>
                 <td className="p-2.5  p-2 rounded-[4px] border-solid border-gray-500 text-[18px] font-bold text-center border border-solid border-gray-200 p-4 ">
-                  {item.status
-                    ? "current categories"
-                    : "categories are sold ou"}
+                  {item.status ? "current categories" : "categories are sold ou"}
                 </td>
                 <td className="p-2.5 border border-solid border-gray-500 text-[18px] font-bold border border-solid border-gray-200 p-4 ">
                   {/* dòng này có data-id kết hợp với useCallback để không bị rendering */}
-                  <DetailStatusCategory
-                    handleEditClick={() => handleEditClick(item.id)}
-                    item={item}
-                  />
+                  <DetailStatusCategory handleEditClick={() => handleEditClick(item.id)} item={item} />
                 </td>
               </tr>
             ))}

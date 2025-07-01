@@ -7,17 +7,8 @@ import OrderOptions from "../oder";
 import { slugify } from "./ultils/slugify";
 
 function Category() {
-  const {
-    categories,
-    id,
-    dishlist,
-    handleProductClick,
-    handleClick,
-    isLoading,
-    isError,
-    refs,
-    setRef,
-  } = useCategoryPages();
+  const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef } =
+    useCategoryPages();
 
   useEffect(() => {
     if (id && refs.current[id]) {
@@ -31,8 +22,7 @@ function Category() {
     }
   }, [id, refs]);
 
-  if (isLoading || categories.length === 0 || dishlist.length === 0)
-    return <div>Loading...</div>;
+  if (isLoading || categories.length === 0 || dishlist.length === 0) return <div>Loading...</div>;
 
   if (isError) return <div>Error loading category or dishes</div>;
 
@@ -48,11 +38,7 @@ function Category() {
                 key={item.id}
                 className="p-2 md:p-4 lg:p-6 hover:underline cursor-pointer"
                 onClick={() => handleClick(item.name)}
-                classNameLogic={
-                  slugify(item.name) === id
-                    ? "active bg-[#e4002b] p-2  text-white "
-                    : "p-2 bg-[#201224]"
-                }
+                classNameLogic={slugify(item.name) === id ? "active bg-[#e4002b] p-2  text-white " : "p-2 bg-[#201224]"}
                 text={item.name}
               />
             ))}
@@ -60,9 +46,7 @@ function Category() {
           <div className="sections-product  pt-5 md:pt-[-2rem] lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
             {categories.map((section) => {
               const categorySlug = slugify(section.name);
-              const sectionDishes = dishlist.filter(
-                (dish) => String(dish.category_id) === String(section.id)
-              );
+              const sectionDishes = dishlist.filter((dish) => String(dish.category_id) === String(section.id));
               return (
                 <div
                   key={section.id}
@@ -70,27 +54,17 @@ function Category() {
                   id={categorySlug}
                   className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-4 md:scroll-mt-44 lg:scroll-mt-47 xl:scroll-mt-52  xl:max-w-[1200px] xl:m-auto "
                 >
-                  <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">
-                    {section.name}
-                  </h2>
+                  <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">{section.name}</h2>
                   {sectionDishes.length > 0 ? (
                     <div className="item">
                       <div className="item-full">
                         <div className="container mx-auto px-4">
                           <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
                             {sectionDishes.map((item) => (
-                              <div
-                                className="w-full sm:1/2 md:1/3 lg:w-1/4"
-                                key={item.id}
-                              >
+                              <div className="w-full sm:1/2 md:1/3 lg:w-1/4" key={item.id}>
                                 <div
                                   className="product-card w-[11rem] cursor-pointer md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
-                                  onClick={() =>
-                                    handleProductClick(
-                                      String(section.id),
-                                      item.title
-                                    )
-                                  }
+                                  onClick={() => handleProductClick(String(section.id), item.title)}
                                 >
                                   {item.images?.[0]?.image && (
                                     <div className="Image shadow-md p-2 md:p-[5px] lg:p-[6px] ">
@@ -114,15 +88,13 @@ function Category() {
                                           {" "}
                                           {window.innerWidth < 500
                                             ? item.description.length > 45
-                                              ? item.description.slice(0, 45) +
-                                                "..."
+                                              ? item.description.slice(0, 45) + "..."
                                               : item.description
                                             : item.description
-                                            ? window.innerWidth < 1024
-                                              ? item.description.length > 62
-                                              : item.description.slice(0, 62) +
-                                                "..."
-                                            : item.description}
+                                              ? window.innerWidth < 1024
+                                                ? item.description.length > 62
+                                                : item.description.slice(0, 62) + "..."
+                                              : item.description}
                                         </p>
                                       </div>
                                     </div>
@@ -135,9 +107,7 @@ function Category() {
                       </div>
                     </div>
                   ) : (
-                    <p className="m-5 md:m-5 lg:m-5 font-stretch-50%">
-                      There are no dishes in this category..
-                    </p>
+                    <p className="m-5 md:m-5 lg:m-5 font-stretch-50%">There are no dishes in this category..</p>
                   )}
                 </div>
               );

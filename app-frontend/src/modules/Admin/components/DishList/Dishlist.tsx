@@ -42,15 +42,11 @@ const DishList = () => {
 
   if (!dishlist) return <h1>No find a list</h1>;
 
-  const matchedName = dishlist?.filter((item) =>
-    item.name.toLowerCase().includes(value.toLowerCase())
-  );
+  const matchedName = dishlist?.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
 
   return (
     <div className="dish-list-container  rounded-[5px] cursor-pointer">
-      <h1 className="text-[#333] p-5 bg-[#dc3545] text-center text-white font-bold text-[1.5rem]">
-        Food
-      </h1>
+      <h1 className="text-[#333] p-5 bg-[#dc3545] text-center text-white font-bold text-[1.5rem]">Food</h1>
       <div className="p-5">
         <div className="flex relative justify-between flex-row-reverse">
           <div className="search">
@@ -92,24 +88,16 @@ const DishList = () => {
           />
         </div>
 
-        {dishState.showForm && (
-          <DetailDishlist
-            onHideModal={handleHideModal}
-            idDetail={dishState.idDetail}
-          />
-        )}
+        {dishState.showForm && <DetailDishlist onHideModal={handleHideModal} idDetail={dishState.idDetail} />}
 
         {dishState.showOrder && dishState.selectedDetails && (
-          <DetailById
-            item={dishState.selectedDetails}
-            onHideModal={handleHideDetail}
-          />
+          <DetailById item={dishState.selectedDetails} onHideModal={handleHideDetail} />
         )}
         <table className="dish-table w-full border-collapse mt-2.5 bg-white shadow-2xl">
           <thead className="bg-[#dc3545]">
             <tr>
               <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
-                ID
+                STT
               </th>
               <th className="border border-solid bg-[#dc3545]  border-gray-300 p-3 text-center text-white font-bold">
                 IMAGE

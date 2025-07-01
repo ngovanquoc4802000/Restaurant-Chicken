@@ -10,20 +10,12 @@ interface ButtonTs {
   classNameLogic?: string | undefined;
 }
 
-const Button = React.memo(
-  ({ text, disabled, type, onClick, style, className }: ButtonTs) => {
-    return (
-      <button
-        style={style}
-        disabled={disabled}
-        type={type}
-        className={className}
-        onClick={onClick}
-      >
-        {text}
-      </button>
-    );
-  }
-);
+const Button = React.memo(({ text, disabled, type, onClick, style, className }: ButtonTs) => {
+  return (
+    <button style={style} disabled={disabled} type={type} className={className} onClick={onClick}>
+      {text}
+    </button>
+  );
+});
 
 export default Button;

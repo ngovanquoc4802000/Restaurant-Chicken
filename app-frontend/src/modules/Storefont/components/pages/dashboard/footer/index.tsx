@@ -1,6 +1,13 @@
 import "../styles.scss";
 import ListFooter from "./list";
-import { initialListApps, initialListFllowOrder, initialListIcons, initialListMenu, initialListPolicy, initialListTitleKFC } from "./mockup/mockup";
+import {
+  initialListApps,
+  initialListFllowOrder,
+  initialListIcons,
+  initialListMenu,
+  initialListPolicy,
+  initialListTitleKFC,
+} from "./mockup/mockup";
 
 function Footer() {
   return (

@@ -74,9 +74,7 @@ export const useLogin = () => {
       dispatch(open());
     },
   });
-  const handleOnchange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setValue((prev) => ({
       ...prev,

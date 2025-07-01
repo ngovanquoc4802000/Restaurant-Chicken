@@ -47,9 +47,7 @@ function DetailsPage() {
           </div>
           <div className="bg-white rounded-xl shadow-lg p-4 md:mb-10 md:p-6 lg:p-6 space-y-4 max-w-md w-full mx-auto">
             <form onSubmit={handleCart} className="space-y-4">
-              <h2 className="text-2xl font-bold text-gray-800">
-                {product.title}
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-800">{product.title}</h2>
               <p className="text-gray-600">{product.description}</p>
               <InputValue
                 text="Address"
@@ -117,9 +115,7 @@ function DetailsPage() {
               </div>
               <Button
                 type="submit"
-                text={`Add cart (${(Number(product.price) * quantity).toFixed(
-                  3
-                )} đ)`}
+                text={`Add cart (${(Number(product.price) * quantity).toFixed(3)} đ)`}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-[50px] transition"
               />
             </form>

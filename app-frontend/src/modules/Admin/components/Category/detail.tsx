@@ -20,9 +20,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
     status: true,
   });
 
-  const handleOnChangeInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setValue((prev) => ({
       ...prev,
@@ -30,20 +28,14 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
     }));
   };
 
-  const { isPending, mutate, isEdit } = useCategoryMutation(
-    isDetail,
-    value,
-    () => {
-      setValue({ name: "", handle: "", image: "", status: true });
-      onHideModal();
-    }
-  );
+  const { isPending, mutate, isEdit } = useCategoryMutation(isDetail, value, () => {
+    setValue({ name: "", handle: "", image: "", status: true });
+    onHideModal();
+  });
 
   useEffect(() => {
     if (isEdit && isDetail != null) {
-      const list = queryClient.getQueryData<ValueCategory[]>(
-        queriesCategories.list.queryKey
-      );
+      const list = queryClient.getQueryData<ValueCategory[]>(queriesCategories.list.queryKey);
       const foundCategory = list?.find((item) => item.id === isDetail);
       if (foundCategory) {
         setValue({
@@ -71,9 +63,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
   return (
     <div className="create-dish-form-overlay fixed top-0 left-0 w-full h-full flex bg-black/50 justify-center items-center z-[1000]  ">
       <div className="create-dish-form bg-white p-[30px] rounded-[8px] shadow-md w-[80%] max-w-[600px] ">
-        <h1 className="text-center text-2xl">
-          {isEdit ? "Edit Category" : "Create New Category"}
-        </h1>
+        <h1 className="text-center text-2xl">{isEdit ? "Edit Category" : "Create New Category"}</h1>
         {isPending && <p className="text-center text-blue-400">Saving...</p>}
 
         <form className="form" onSubmit={handleFormSubmit}>
@@ -129,9 +119,7 @@ const DetailCategory = ({ isDetail, onHideModal }: DetailTs) => {
               disabled={isPending}
             >
               {isEdit ? "Update" : "Save"}
-              {isPending && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
+              {isPending && <span className="spinner-border spinner-border-sm"></span>}
             </button>
             <Button
               className="px-[8px] cursor-pointer py-[10px] rounded-[4px] text-white bg-[#f44336] cursor-pointer"

@@ -5,11 +5,11 @@ interface UserData {
   email: string;
   fullname: string;
   accessToken?: string;
-  refreshToken?:string;
+  refreshToken?: string;
   rule: "admin" | "customer" | null;
 }
 
-interface UserLoginResponse { 
+interface UserLoginResponse {
   success: boolean;
   message: string;
   accessToken: string;
@@ -27,7 +27,7 @@ interface AuthState {
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
-  loading: true, 
+  loading: true,
   error: null,
 };
 
@@ -43,35 +43,32 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.user = {
         ...action.payload.data,
-        accessToken: action.payload.accessToken, 
-        refreshToken: action.payload.refreshToken, 
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
       };
       state.loading = false;
       state.error = null;
-      localStorage.setItem('accessToken', action.payload.accessToken);
-     localStorage.setItem('refreshToken', action.payload.refreshToken);
+      localStorage.setItem("accessToken", action.payload.accessToken);
+      localStorage.setItem("refreshToken", action.payload.refreshToken);
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isAuthenticated = false;
       state.user = null;
       state.loading = false;
       state.error = action.payload;
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem("accessToken");
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
       state.loading = false;
       state.error = null;
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem("accessToken");
     },
-    setInitialAuthStatus: ( 
-      state,
-      action: PayloadAction<{ isAuthenticated: boolean; user: UserData | null }>
-    ) => {
+    setInitialAuthStatus: (state, action: PayloadAction<{ isAuthenticated: boolean; user: UserData | null }>) => {
       state.isAuthenticated = action.payload.isAuthenticated;
       state.user = action.payload.user;
-      state.loading = false; 
+      state.loading = false;
     },
   },
 });
