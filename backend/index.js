@@ -16,7 +16,7 @@ import routerOrder from "./router/order.js";
 import cookieParser from "cookie-parser";
 import routerImport from "./router/import.js";
 const app = express();
-
+console.log("aaaaa")
 //PORT
 const PORT = process.env.APP_PORT || 7777;
 //middlewares
