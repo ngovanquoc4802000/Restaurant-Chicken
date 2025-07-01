@@ -14,7 +14,6 @@ function Home() {
   if (isLoading || !category) return <div>Loading...</div>;
 
   if (error) return "An error has occurred";
-
   return (
     <div className="Home">
       <Header />

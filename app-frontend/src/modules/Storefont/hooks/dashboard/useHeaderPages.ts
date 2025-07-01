@@ -6,6 +6,7 @@ import type { CartTs } from "../../components/pages/dashboard/category/storeCart
 
 export const useHeaderPages = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
   const [cartItems, setCartItems] = useState<CartTs[]>([]);
 
   const openOffcanvas = () => {
@@ -37,8 +38,11 @@ export const useHeaderPages = () => {
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
+
   const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
+
   const totalCartItems = mergedItems.reduce((acc, curr) => acc + curr.quantity, 0);
+
   return {
     totalCartItems,
     handleUser,

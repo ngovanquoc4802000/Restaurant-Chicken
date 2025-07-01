@@ -20,7 +20,6 @@ function Sidebar() {
   const stateLogin = useSelector((state: RootState) => state.updateLogin);
 
   const rule = useSelector((state: RootState) => state.userLogin.rule);
-
   const queryClient = useQueryClient();
 
   const { user, isAuthenticated } = useAuth();

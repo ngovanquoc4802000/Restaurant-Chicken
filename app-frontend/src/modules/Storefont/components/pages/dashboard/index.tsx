@@ -18,7 +18,6 @@ function Dashboard() {
   const { category, isLoading, error, findComboGroup, isOpen } = useMenuData();
 
   const [isShow, setIsShow] = useState(false);
-
   const role = useSelector((state: RootState) => state.userLogin.rule);
   useEffect(() => {
     if (role === "customer") {
