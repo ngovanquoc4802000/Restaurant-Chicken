@@ -24,8 +24,6 @@ const menuItemsData: MenuItemsDataTs[] = [
 export const useHeaderPages = () => {
   const [open, setOpen] = useState(false);
 
-  const cartItems = useSelector((state: RootState) => state.cart.map((item) => item));
-
   const dispatch = useDispatch();
 
   const isOffcanvasOpen = useSelector((state: RootState) => state.showLogin);
@@ -51,7 +49,6 @@ export const useHeaderPages = () => {
     handleOpen,
     navigate,
     menuItemsData,
-    cartItems,
     dispatch,
     isOffcanvasOpen,
     handleNavigate,

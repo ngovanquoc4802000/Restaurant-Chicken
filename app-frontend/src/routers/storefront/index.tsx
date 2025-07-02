@@ -12,8 +12,6 @@ import DetailChildren from "$/modules/Storefont/components/pages/main_page/detai
 import Order from "$/modules/Storefont/components/pages/main_page/detailAcount_page/order";
 import OrderFavorites from "$/modules/Storefont/components/pages/main_page/detailAcount_page/order_favorites";
 import MenuPage from "$/modules/Storefont/components/pages/main_page/menu_page";
-import DetailsPage from "$/modules/Storefont/components/pages/main_page/menu_page/details";
-import OrderProduct from "$/modules/Storefont/components/pages/orderProduct";
 
 export const routerStore = [
   {
@@ -53,12 +51,8 @@ export const routerStore = [
     element: <MenuPage />,
   },
   {
-    path: "menu-page/:id/:slugProduct",
-    element: <DetailsPage />,
-  },
-  {
-    path: "orderProduct",
-    element: <OrderProduct />,
+    path: "menu/:id/:slugProduct",
+    element: <ProductDetail />,
   },
   {
     path: "orderProductDashBoard",
