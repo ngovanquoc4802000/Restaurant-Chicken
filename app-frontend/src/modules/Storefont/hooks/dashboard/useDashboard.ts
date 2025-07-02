@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 
 export const useMenuData = () => {
+  const isOpen = useSelector((state: RootState) => state.showLogin);
+
   const resultQueries = useQueries({
     queries: [
       {
@@ -15,7 +17,6 @@ export const useMenuData = () => {
       },
     ],
   });
-  const isOpen = useSelector((state: RootState) => state.showLogin);
 
   const category = resultQueries[0].data ?? [];
 

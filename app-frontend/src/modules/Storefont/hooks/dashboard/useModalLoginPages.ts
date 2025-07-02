@@ -25,11 +25,16 @@ const initialLogin: LoginCredentials = {
 
 export const useModalLoginPages = () => {
   const [error, setError] = useState<object>({});
+
   const [value, setValue] = useState<LoginCredentials>(initialLogin);
 
   const [valueRegister, setValueRegister] = useState<UsersTs>(initialRegister);
 
   const [showForm, setShowForm] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const handleFormRegister = () => {
     setError(error);
@@ -39,16 +44,19 @@ export const useModalLoginPages = () => {
       setShowForm(false);
     }
   };
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     createLogin();
   };
+
   const handleSubmitRegister = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(clearUserRegister());
     updateSave();
     setShowForm(false);
   };
+
   const updateRegister = async () => {
     const res = await createUsersRegister(valueRegister);
     dispatch(setUserRegister(valueRegister));
@@ -66,6 +74,7 @@ export const useModalLoginPages = () => {
       alert("Error dupting create" + error);
     },
   });
+
   const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setValueRegister((prev) => ({
@@ -74,12 +83,11 @@ export const useModalLoginPages = () => {
     }));
   };
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const update = async () => {
     const res = await createUserLogin(value);
     return res;
   };
+
   const {
     isError,
     isPending,

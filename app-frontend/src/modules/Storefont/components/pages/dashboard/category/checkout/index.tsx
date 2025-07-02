@@ -6,7 +6,21 @@ import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
 import { useCallback, useEffect, useState } from "react";
 import Footer from "../../footer";
 import Header from "../../header";
-import type { CartTs, StoreCart } from "../storeCart";
+import type { CartTs } from "../storeCart";
+
+const mergeCartItems = (cart: CartTs[]): CartTs[] => {
+  const mergedItemsMap = new Map<number, CartTs>();
+  cart.forEach((item) => {
+    const existing = mergedItemsMap.get(item.id);
+    if (existing) {
+      mergedItemsMap.set(item.id, { ...existing, quantity: existing.quantity + item.quantity });
+    } else {
+      // Thêm item mới vào map
+      mergedItemsMap.set(item.id, { ...item });
+    }
+  });
+  return Array.from(mergedItemsMap.values());
+};
 
 function CheckOutPages() {
   const {
@@ -26,33 +40,21 @@ function CheckOutPages() {
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
 
   useEffect(() => {
-    let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
     if (findCart) {
       try {
         const parsedCart: unknown = JSON.parse(findCart);
         if (Array.isArray(parsedCart)) {
-          Store = parsedCart;
+          setLoaded(mergeCartItems(parsedCart as CartTs[]));
         } else {
-          console.log("No data in localStorage: " + Store);
+          console.log("No data in localStorage: " + parsedCart);
         }
       } catch (error) {
         console.log("No array " + error);
       }
     }
-    setLoaded(Store);
   }, []);
-  const mergedItemsMap = new Map<string, CartTs>();
-
-  loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
-    if (existing) {
-      existing.quantity += item.quantity;
-    } else {
-      mergedItemsMap.set(item.name, { ...item });
-    }
-  });
-  const mergedItems = Array.from(mergedItemsMap.values());
+  const mergedItems = loaded;
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
@@ -73,8 +75,8 @@ function CheckOutPages() {
     (name: string) => {
       const updatedCart = loaded.map((item) => (item.name === name ? { ...item, quantity: item.quantity + 1 } : item));
 
-      setLoaded(updatedCart);
       localStorage.setItem("storeCart", JSON.stringify(updatedCart));
+      setLoaded(updatedCart);
     },
     [loaded]
   );
@@ -132,7 +134,7 @@ function CheckOutPages() {
       <main className="flex-grow container mx-auto mt-10 mb-8 px-4 sm:px-6 lg:px-30">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 items-start">
           <div className="lg:col-span-2 md:col-span-1 md:mt-30 lg:mt-[-1rem] space-y-6">
-            <h1 className="text-3xl lg:flex font-bold mb-6">My Shopping Cart</h1>
+            <h1 className="text-3xl mt-[2rem] lg:flex font-bold mb-6">My Shopping Cart</h1>
             <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200">
               {mergedItems.length === 0 ? (
                 <p className="text-gray-600 text-center py-8">Giỏ hàng của bạn đang trống.</p>

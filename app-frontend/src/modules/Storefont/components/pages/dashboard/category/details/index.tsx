@@ -2,25 +2,25 @@ import { useProductDetailsPage } from "$/modules/Storefont/hooks/dashboard/usePr
 import Footer from "../../footer";
 import Header from "../../header";
 import ModalLogin from "../../modal/login";
+import SuccessToast from "../../modal/successToast";
 
 function ProductDetail() {
   const {
-    /* handleOrderClick, */
     isOpen,
     isLoading,
     isActive,
     error,
     product,
     dishlist,
-    /*  handleCart, */
-    /* handleInputChange, */
-    /*   handleNoteChange, */
     setQuantity,
-    /*   orderData, */
-    /*    orderDetails, */
     quantity,
     handleClick,
     total_price,
+    showAddToBucketToast,
+    /*     orderToastMessage, */
+    setShowAddToBucketToast,
+    /*     showSuccessOrderToast, */
+    addToBucketToastMessage,
   } = useProductDetailsPage();
 
   if (isLoading || !dishlist) return <div>Loading...</div>;
@@ -31,6 +31,13 @@ function ProductDetail() {
 
   return (
     <div className="productDetail-container cursor-pointer">
+      {showAddToBucketToast && (
+        <SuccessToast
+          message={addToBucketToastMessage}
+          duration={2000}
+          onClose={() => setShowAddToBucketToast(false)}
+        />
+      )}
       <Header />
       <div className="container mx-auto px-4 md:pr-[0px] md:mt-[4rem] md:pb-[0px] md:ml-[3rem] md:mr-[0px] xl:mb-[0px] xl:mt-[0rem] xl:py-0 py-12 xl:pl-[12rem] xl:pr-[12rem]">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 items-center">
@@ -66,7 +73,7 @@ function ProductDetail() {
                       <li>
                         <span className="font-semibold">Food: {product.name}</span>
                       </li>
-                      {/*    <li>
+                      <li>
                         1 Drink:
                         <span className="font-semibold">
                           {product.description
@@ -80,7 +87,7 @@ function ProductDetail() {
                         - ***Standard:
                         <span className="font-bold">STD</span>
                         <span className="inline-block ml-1 text-black">🖉</span>
-                      </li> */}
+                      </li>
                     </ul>
 
                     <hr className="my-4 border-gray-200" />
@@ -163,7 +170,7 @@ function ProductDetail() {
                         onClick={handleClick}
                         className="bg-red-600 cursor-pointer hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition text-sm md:text-base"
                       >
-                        Add to Bucket ({total_price})đ
+                        Add To Bucket ({total_price})đ
                       </button>
                     </div>
                   </div>
