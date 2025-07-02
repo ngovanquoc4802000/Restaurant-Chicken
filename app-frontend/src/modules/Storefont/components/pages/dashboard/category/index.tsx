@@ -1,20 +1,25 @@
 import Button from "$/common/button/button";
 import { useCategoryPages } from "$/modules/Storefont/hooks/dashboard/useCategoryPages";
+import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
 import type { RootState } from "$/modules/Storefont/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Footer from "../footer";
 import Header from "../header";
+import SuccessToast from "../modal/successToast";
 import OrderOptions from "../oder";
 import { slugify } from "./ultils/slugify";
-import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
+import { useNavigate } from "react-router-dom";
 
 function Category() {
   const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef } =
     useCategoryPages();
+  const [showAddToBucketToast, setShowAddToBucketToast] = useState(false);
+
+  const [addToBucketToastMessage, setAddToBucketToastMessage] = useState("");
 
   const rule = useSelector((state: RootState) => state.userLogin.rule);
-
+  const navigate = useNavigate();
   const handleClickAdd = (item: DishTs) => {
     const existingCart = localStorage.getItem("storeCart");
     let storeCart = [];
@@ -30,7 +35,11 @@ function Category() {
       quantity: 1,
     };
     storeCart.push(order);
-    console.log(order);
+    setAddToBucketToastMessage(`Đã thêm ${item.title} vào giỏ hàng`);
+    setShowAddToBucketToast(true);
+    setTimeout(() => {
+      navigate("/orderProductDashBoard");
+    }, 1000);
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
   };
   useEffect(() => {
@@ -53,6 +62,13 @@ function Category() {
     <div className="category-full">
       <Header />
       <OrderOptions />
+      {showAddToBucketToast && (
+        <SuccessToast
+          message={addToBucketToastMessage}
+          duration={2000}
+          onClose={() => setShowAddToBucketToast(false)}
+        />
+      )}
       <div className="content">
         <div className="category-page">
           <div className="tabs pt-[67px] md:pt-[2rem] lg:pt-[2rem]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
@@ -121,7 +137,7 @@ function Category() {
                                             <Button
                                               onClick={() => handleProductClick(String(section.id), item.title)}
                                               text="Customise"
-                                              className="w-full cursor-pointer border border-gray-950 p-2 rounded-[50px] bg-white font-bold"
+                                              className="w-full hover:bg-gray-300 hover:text-white cursor-pointer border border-gray-300 p-2 rounded-[50px] bg-white font-bold"
                                             />
                                             <Button
                                               onClick={() => handleClickAdd(item)}

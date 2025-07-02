@@ -39,7 +39,17 @@ function Header() {
       setCartItems(Store);
     }
   }, []);
-
+  useEffect(() => {
+    if (orderId) {
+      const handleStorage = () => {
+        const loadedOrder = setTimeout(() => {
+          localStorage.getItem("storeCart");
+        }, 1000);
+        return () => clearTimeout(loadedOrder);
+      };
+      window.addEventListener("storage", handleStorage);
+    }
+  }, [orderId]);
   return (
     <>
       <header className="header flex-col lg:flex-row md:flex-row  md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
