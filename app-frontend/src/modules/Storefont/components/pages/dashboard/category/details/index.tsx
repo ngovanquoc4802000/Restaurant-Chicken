@@ -41,7 +41,7 @@ function ProductDetail() {
       <Header />
       <div className="container mx-auto px-4 md:pr-[0px] md:mt-[4rem] md:pb-[0px] md:ml-[3rem] md:mr-[0px] xl:mb-[0px] xl:mt-[0rem] xl:py-0 py-12 xl:pl-[12rem] xl:pr-[12rem]">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 items-center">
-          <div className="md:p-4 p-6">
+          <div className="md:p-4 p-6 md:pl-0  ">
             <div className="product-detail shadow-lg rounded-md p-6 bg-white">
               <div></div>
               <img
@@ -51,7 +51,7 @@ function ProductDetail() {
               />
             </div>
           </div>
-          <div className="md:p-4 md:mt-4">
+          <div className="md:p-4 md:mt-4  ">
             <div className="product-button mb-[-1rem] justify-start md:p-2  md:mb-[0px] lg:mb-[0px] xl:mb-[0px]  flex flex-col items-center lg:justify-center lg:justify-center xl:justify-center md:justify-center min-h-[300px]  md:min-h-[400px] lg:min-h-[600px]  rounded-md p-6">
               {isOpen && <ModalLogin />}
               {isActive ? (
@@ -91,8 +91,7 @@ function ProductDetail() {
                     </ul>
 
                     <hr className="my-4 border-gray-200" />
-
-                    <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
+                    <div className="flex items-center justify-between mt-4 flex-wrap gap-4 ">
                       <div className="flex items-center space-x-4">
                         <button
                           onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}

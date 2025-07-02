@@ -147,6 +147,7 @@ function Category() {
                                           </div>
                                         ) : (
                                           <Button
+                                            onClick={() => handleProductClick(String(section.id), item.title)}
                                             text="Add"
                                             className="w-full text-white p-2 font-bold rounded-[50px] cursor-pointer hover:bg-gray-400 bg-gray-300"
                                           />

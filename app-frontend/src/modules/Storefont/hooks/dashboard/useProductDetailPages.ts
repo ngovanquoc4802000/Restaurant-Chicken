@@ -49,6 +49,7 @@ export const useProductDetailsPage = () => {
   const userRule = useSelector((state: RootState) => state.userLogin.rule);
 
   const isAuthentication = useSelector((state: RootState) => state.userLogin.isAuthenticated);
+
   const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
 
   const isOpen = useSelector((state: RootState) => state.showLogin);
