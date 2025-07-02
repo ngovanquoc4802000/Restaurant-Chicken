@@ -2,6 +2,8 @@ import type { ValueCategory } from "$/modules/Storefont/mockup/categories";
 import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
 import { useState } from "react";
 import Button from "$/common/button/button";
+import { useSelector } from "react-redux";
+import type { RootState } from "$/modules/Storefont/store/store";
 interface MealSliderTs {
   findComboGroup: DishTs[];
   onClick?: () => void;
@@ -16,7 +18,7 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
       setStartIndex((prev) => prev + visibleItems);
     }
   };
-
+  const rule = useSelector((state: RootState) => state.userLogin.rule);
   const previous = () => {
     if (startIndex > 0) {
       setStartIndex((prev) => prev - visibleItems);
@@ -48,12 +50,12 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
             {findComboGroup?.map((meal) => (
               <div
                 key={meal.id}
-                className="meal-suggestion-card w-[200px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4"
+                className="meal-suggestion-card w-[200px] shadow-lg rounded-[3px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4"
               >
                 <div className="meal-suggestion-card__image">
                   <img className="meal__image w-full" src={meal.images[0]?.image || ""} alt={meal.title} />
                 </div>
-                <div className="meal-suggestion-card__info min-h-[200px] lg:min-h-[140px]">
+                <div className="meal-suggestion-card__info min-h-[200px] lg:min-h-[160px]">
                   <h3 className="font-semibold text-base">{meal.title}</h3>
                   <p className="text-sm">
                     {meal.price}
@@ -61,6 +63,11 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
                   </p>
                   <p className="text-sm">{meal.description}</p>
                 </div>
+                {rule === "customer" ? (
+                  <Button text="Add" className="w-full p-2 bg-red-600 shadow-md text-white font-bold rounded-[50px]" />
+                ) : (
+                  <Button text="Add" className="w-full p-2 bg-gray-300 shadow-md text-white font-bold rounded-[50px]" />
+                )}
               </div>
             ))}
           </div>

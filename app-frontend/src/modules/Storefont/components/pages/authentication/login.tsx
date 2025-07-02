@@ -41,7 +41,7 @@ function Login() {
               alt="KFC Logo"
             />
           </div>
-          <div className="login-form p-9 flex md:mt-[10rem] flex-col justify-center">
+          <div className="login-form p-9 flex md:mt-[-6rem] flex-col justify-center">
             <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">Login</h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <InputValue

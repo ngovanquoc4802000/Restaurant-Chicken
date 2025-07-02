@@ -1,15 +1,38 @@
-import { useEffect } from "react";
-import { useCategoryPages } from "$/modules/Storefont/hooks/dashboard/useCategoryPages";
 import Button from "$/common/button/button";
+import { useCategoryPages } from "$/modules/Storefont/hooks/dashboard/useCategoryPages";
+import type { RootState } from "$/modules/Storefont/store/store";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Footer from "../footer";
 import Header from "../header";
 import OrderOptions from "../oder";
 import { slugify } from "./ultils/slugify";
+import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
 
 function Category() {
   const { categories, id, dishlist, handleProductClick, handleClick, isLoading, isError, refs, setRef } =
     useCategoryPages();
 
+  const rule = useSelector((state: RootState) => state.userLogin.rule);
+
+  const handleClickAdd = (item: DishTs) => {
+    const existingCart = localStorage.getItem("storeCart");
+    let storeCart = [];
+    if (existingCart) {
+      storeCart = JSON.parse(existingCart);
+    }
+    const idCart: number = 1;
+    const order = {
+      id: idCart,
+      image: item.images?.[0]?.image,
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+    };
+    storeCart.push(order);
+    console.log(order);
+    localStorage.setItem("storeCart", JSON.stringify(storeCart));
+  };
   useEffect(() => {
     if (id && refs.current[id]) {
       const timeout = setTimeout(() => {
@@ -62,10 +85,7 @@ function Category() {
                           <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
                             {sectionDishes.map((item) => (
                               <div className="w-full sm:1/2 md:1/3 lg:w-1/4" key={item.id}>
-                                <div
-                                  className="product-card w-[11rem] cursor-pointer md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200"
-                                  onClick={() => handleProductClick(String(section.id), item.title)}
-                                >
+                                <div className="product-card w-[11rem] cursor-pointer md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200">
                                   {item.images?.[0]?.image && (
                                     <div className="Image shadow-md p-2 md:p-[5px] lg:p-[6px] ">
                                       <div className="product-image relative">
@@ -96,6 +116,25 @@ function Category() {
                                                 : item.description.slice(0, 62) + "..."
                                               : item.description}
                                         </p>
+                                        {rule === "customer" ? (
+                                          <div className="flex justify-end">
+                                            <Button
+                                              onClick={() => handleProductClick(String(section.id), item.title)}
+                                              text="Customise"
+                                              className="w-full cursor-pointer border border-gray-950 p-2 rounded-[50px] bg-white font-bold"
+                                            />
+                                            <Button
+                                              onClick={() => handleClickAdd(item)}
+                                              text="Add"
+                                              className="w-full cursor-pointer ml-5 bg-red-500 rounded-[50px] text-white font-bold p-2 "
+                                            />
+                                          </div>
+                                        ) : (
+                                          <Button
+                                            text="Add"
+                                            className="w-full text-white p-2 font-bold rounded-[50px] cursor-pointer hover:bg-gray-400 bg-gray-300"
+                                          />
+                                        )}
                                       </div>
                                     </div>
                                   )}

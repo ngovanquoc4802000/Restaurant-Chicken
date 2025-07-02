@@ -27,8 +27,9 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const handleOnclose = () => {
     if (setIsModal) {
-      setShowForm(false); // reset lại để lần sau vào là login
-      setIsModal(false); // đóng modal luôn
+      setShowForm(false);
+
+      setIsModal(false);
     }
   };
   const isValidCheckRegister = !valueRegister.checkbox;
