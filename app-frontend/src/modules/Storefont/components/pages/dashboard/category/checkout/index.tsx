@@ -145,7 +145,7 @@ function CheckOutPages() {
                       <img
                         src={item.image ?? ""}
                         alt={item.name}
-                        className="xl:w-40 xl:h-32 sm:w-32 sm:h-32 object-cover rounded-md shadow-sm flex-shrink-0"
+                        className="xl:w-40 xl:h-32 lg:w-40 lg:h-32 md:w-32 md:h-32 w-[300px] h-300px object-cover rounded-md shadow-sm flex-shrink-0"
                       />
                       <div className="flex-1 w-full text-center sm:text-left">
                         <h3 className="text-lg md:text-xl font-bold text-gray-900">{item.name}</h3>

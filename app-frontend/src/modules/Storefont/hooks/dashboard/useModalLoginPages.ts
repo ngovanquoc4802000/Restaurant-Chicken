@@ -16,6 +16,7 @@ const initialRegister: UsersTs = {
   address: "",
   password: "",
   create_at: new Date(),
+  checkbox: false,
 };
 
 const initialLogin: LoginCredentials = {
@@ -76,7 +77,9 @@ export const useModalLoginPages = () => {
   });
 
   const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const { name, type } = e.target;
+    const value = type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
+    console.log(value);
     setValueRegister((prev) => ({
       ...prev,
       [name]: value,
@@ -128,7 +131,6 @@ export const useModalLoginPages = () => {
 
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setValue((prev) => ({
       ...prev,
       [name]: value,
