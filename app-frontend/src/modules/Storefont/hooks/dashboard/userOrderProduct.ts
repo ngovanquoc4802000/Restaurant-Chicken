@@ -23,7 +23,7 @@ export const useOrderProductDB = () => {
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
-
+  const numberOrder = mergedItems.length;
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
       style: "decimal",
@@ -102,5 +102,6 @@ export const useOrderProductDB = () => {
     orderId,
     formatCurrency,
     mergedItems,
+    numberOrder,
   };
 };
