@@ -65,13 +65,13 @@ function Category() {
       {showAddToBucketToast && (
         <SuccessToast
           message={addToBucketToastMessage}
-          duration={2000}
+          duration={3000}
           onClose={() => setShowAddToBucketToast(false)}
         />
       )}
       <div className="content">
         <div className="category-page">
-          <div className="tabs pt-[67px]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
+          <div className="tabs pt-[67px] lg:pt-[22px]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}
@@ -82,7 +82,7 @@ function Category() {
               />
             ))}
           </div>
-          <div className="sections-product  pt-5 md:pt-[-2rem] lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
+          <div className="sections-product pt-5 md:pt-[-2rem] lg:pt-0 scroll-mt-[px] md:scroll-mt-0 lg:scroll-mt-0 ">
             {categories.map((section) => {
               const categorySlug = slugify(section.name);
               const sectionDishes = dishlist.filter((dish) => String(dish.category_id) === String(section.id));
@@ -106,12 +106,16 @@ function Category() {
                                     <div className="Image shadow-md p-[1rem] md:p-[16px] lg:p-[16px] ">
                                       <div className="product-image relative">
                                         <img
+                                          onClick={() => handleProductClick(String(section.id), item.title)}
                                           className="min-w-full md:w-full h-auto block"
                                           src={item.images[0].image}
                                           alt={item.title}
                                         />
                                       </div>
-                                      <div className="product-info min-h-[170px]  md:min-h-[120px] lg:min-h-[195px]  xl:min-h-[125px] py-[10px] md:px-[15px] lg:px-[15px]">
+                                      <div
+                                        onClick={() => handleProductClick(String(section.id), item.title)}
+                                        className="product-info min-h-[170px]  md:min-h-[120px] lg:min-h-[195px]  xl:min-h-[125px] py-[10px] md:px-[15px] lg:px-[15px]"
+                                      >
                                         <div className="title-price flex justify-between ">
                                           <h3 className="text-[16px] md:text-[16px] lg:text-[18px] font-bold m-0">
                                             {item.title.length > 20 ? item.title.substring(0, 20) + "..." : item.title}
@@ -140,6 +144,7 @@ function Category() {
                                             text="Customise"
                                             className="w-full hover:bg-gray-300 hover:text-white cursor-pointer border border-gray-300 p-2 rounded-[50px] bg-white font-bold"
                                           />
+                                          <hr />
                                           <Button
                                             onClick={() => handleClickAdd(item)}
                                             text="Add"

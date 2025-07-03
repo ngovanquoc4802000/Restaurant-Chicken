@@ -39,7 +39,7 @@ export const useHeaderPagesDB = () => {
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
-
+  const numberOrder = mergedItems.length;
   const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
 
   const totalCartItems = mergedItems.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -53,5 +53,6 @@ export const useHeaderPagesDB = () => {
     closeOffcanvas,
     mergedItems,
     orderId,
+    numberOrder,
   };
 };
