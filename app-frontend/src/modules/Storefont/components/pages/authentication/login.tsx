@@ -12,10 +12,10 @@ function Login() {
 
   return (
     <>
+      <Header />
       {isPending && <p className="text-center text-blue-500">Saving...</p>}
-      <div className="login-page">
+      <div className="login-page lg:px-20">
         {isPaused && <p className="text-center text-blue-500">Paused...</p>}
-        <Header />
         {isOpen && (
           <div className="fixed inset-0  flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-sm p-6">
@@ -31,7 +31,6 @@ function Login() {
             </div>
           </div>
         )}
-
         <div className="login-container grid font-sans py-0  lg:md-24 grid-cols-1 md:min-h-[800px] min-h-screen md:grid-cols-2">
           <div className="login-banner bg-[#e4002b] md:p-0 md:pt-5   items-center text-white p-6 flex flex-col justify-center text-center ">
             <img
@@ -80,8 +79,8 @@ function Login() {
           </div>
         </div>
         <Outlet />
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }

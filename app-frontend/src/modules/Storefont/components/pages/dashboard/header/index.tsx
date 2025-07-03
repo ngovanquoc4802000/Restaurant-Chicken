@@ -20,7 +20,7 @@ function Header() {
     openOffcanvas,
     closeOffcanvas,
     /* mergedItems, */
-    orderId,
+    numberOrder,
   } = useHeaderPagesDB();
   useEffect(() => {
     let Store: StoreCart = [];
@@ -40,7 +40,7 @@ function Header() {
     }
   }, []);
   useEffect(() => {
-    if (orderId) {
+    if (numberOrder) {
       const handleStorage = () => {
         const loadedOrder = setTimeout(() => {
           localStorage.getItem("storeCart");
@@ -49,7 +49,7 @@ function Header() {
       };
       window.addEventListener("storage", handleStorage);
     }
-  }, [orderId]);
+  }, [numberOrder]);
   return (
     <>
       <header className="header flex-col lg:flex-row md:flex-row  md:flex p-[1.2rem]  md:px-[15px] lg:items-center md:gap-y-0 md:justify-around md:py-[30px] lg:sticky fixed top-0 left-0 w-full flex justify-between bg-white z-999 px-[15px]  shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -132,16 +132,16 @@ function Header() {
           <div className="header__icon  hover:text-[#0d0d0d] w-6 h-6 text-[#333] cursor-pointer flex items-center justify-center header__icon--cart">
             <div className="relative w-6 h-6 flex items-center justify-center">
               <AnimatePresence>
-                {orderId > 0 && (
+                {numberOrder > 0 && (
                   <motion.div
-                    key={orderId}
+                    key={numberOrder}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                     className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                   >
-                    {orderId}
+                    {numberOrder}
                   </motion.div>
                 )}
               </AnimatePresence>
