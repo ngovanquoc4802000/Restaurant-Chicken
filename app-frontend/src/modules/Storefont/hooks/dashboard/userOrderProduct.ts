@@ -1,16 +1,15 @@
 import { useCallback, useState } from "react";
-import type { CartTs } from "../../components/pages/dashboard/category/storeCart";
-import { useNavigate } from "react-router-dom";
-import type { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { getUserAll } from "$/modules/Admin/services/users";
+import { useNavigate } from "react-router-dom";
+import type { CartTs } from "../../components/pages/dashboard/category/storeCart";
+import type { RootState } from "../../store/store";
 
 export const useOrderProductDB = () => {
   const [loaded, setLoaded] = useState<CartTs[]>([]);
-  const [isModal, setIsModal] = useState<boolean>(false);
-  const navigate = useNavigate();
 
-  const emailRedux: string | null = useSelector((state: RootState) => state.userLogin.email);
+  const [isModal, setIsModal] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const mergedItemsMap = new Map<string, CartTs>();
 
@@ -70,16 +69,15 @@ export const useOrderProductDB = () => {
     localStorage.setItem("storeCart", JSON.stringify(deleteCart));
   };
 
+  const user = useSelector((state: RootState) => state.userLogin.email);
   const handleCheckOut = async () => {
     try {
-      const getAllUser = await getUserAll();
-      if (!getAllUser?.data) {
-        console.log("Không lấy được danh sách người dùng");
+      if (!user) {
+        console.log("No user");
         setIsModal(true);
         return;
       }
-      const emailExists = getAllUser.data.some((user) => user.email === emailRedux);
-      if (emailExists) {
+      if (user) {
         navigate("/checkout");
         console.log("Get Email Completed");
       } else {

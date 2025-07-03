@@ -146,7 +146,7 @@ function Header() {
                 )}
               </AnimatePresence>
 
-              <NavLink to="/orderProductDashBoard">
+              <NavLink to="/cart">
                 <img
                   className="block max-w-full h-auto w-[40px] h-[40px] object-scale-down"
                   src={cart1}

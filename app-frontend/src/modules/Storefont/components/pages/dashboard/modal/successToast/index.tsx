@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import "./styles.scss";
 interface SuccessToastTs {
   message: string;
   duration?: number;
@@ -19,33 +19,37 @@ function SuccessToast({ message, duration = 4000, onClose }: SuccessToastTs) {
   return (
     <div
       className="
-       fixed bottom-10 md:bottom-10 left-1/2 -translate-x-1/2 z-50
-        bg-green-600 text-white 
-        w-[92%] max-w-[360px]
-        px-3 py-2 sm:px-5 sm:py-3
-        rounded-md shadow-md
-        flex items-center gap-2
-        animate-fade-in-up
-        text-sm sm:text-base
-     "
+    absolute bottom-[15rem] left-1/2 -translate-x-1/2 z-50
+    bg-[#00bfa5] text-white
+    w-[90%] max-w-[360px]
+    px-4 py-3 sm:px-5 sm:py-4
+    rounded-lg shadow-xl
+    flex items-center gap-3
+    animate-fade-in-up
+    transition-all duration-300 ease-in-out
+  "
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span className="flex-1 break-words">{message}</span>
+      <div className="bg-white text-[#00bfa5] rounded-full p-1 sm:p-1.5 shadow-md">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 sm:h-6 sm:w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+
+      <span className="flex-1 break-words text-sm sm:text-base font-medium">{message}</span>
+
       <button
         onClick={() => {
           setIsVisible(false);
           onClose();
         }}
-        className="ml-1 text-white hover:text-gray-200 focus:outline-none"
+        className="ml-1 text-white hover:text-gray-100 focus:outline-none"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

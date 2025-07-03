@@ -38,7 +38,7 @@ function Category() {
     setAddToBucketToastMessage(`Đã thêm ${item.title} vào giỏ hàng`);
     setShowAddToBucketToast(true);
     setTimeout(() => {
-      navigate("/orderProductDashBoard");
+      navigate("/cart");
     }, 1000);
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
   };
@@ -71,7 +71,7 @@ function Category() {
       )}
       <div className="content">
         <div className="category-page">
-          <div className="tabs pt-[67px] md:pt-[2rem] lg:pt-[2rem]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
+          <div className="tabs pt-[67px]  lg:max-w-[1300px] lg:m-auto lg:overflow-hidden md:sticky lg: lg:shadow  text-[16px] md:text-[18px] md:bg-white md:text-black md:z-[99] lg:z-[99] md:top-[102px] fixed w-full z-[9] pt-22 lg:pt-0 md:pt-0 md:mt-[-1px] bg-[#201224] text-white  md:bg-none lg:bg-none  text-center overflow-x-scroll whitespace-nowrap ">
             {categories.map((item) => (
               <Button
                 key={item.id}
@@ -91,7 +91,7 @@ function Category() {
                   key={section.id}
                   ref={setRef(categorySlug)}
                   id={categorySlug}
-                  className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-4 md:scroll-mt-44 lg:scroll-mt-47 xl:scroll-mt-52  xl:max-w-[1200px] xl:m-auto "
+                  className="section-block pt-[6rem] md:pt-[0.5rem] lg:pt-[0]  scroll-mt-1 md:scroll-mt-44 lg:scroll-mt-47 xl:scroll-mt-52  xl:max-w-[1200px] xl:m-auto "
                 >
                   <h2 className="m-5 text-[18px] md:text-3xl md:m-5 lg:m-5 font-black">{section.name}</h2>
                   {sectionDishes.length > 0 ? (
@@ -101,9 +101,9 @@ function Category() {
                           <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
                             {sectionDishes.map((item) => (
                               <div className="w-full sm:1/2 md:1/3 lg:w-1/4 " key={item.id}>
-                                <div className="product-card w-[11rem] cursor-pointer md:w-[220px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200">
+                                <div className="product-card w-[11rem] cursor-pointer md:w-[250px] lg:w-[230px] xl:w-[280px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-200 rounded-xl overflow-hidden bg-white transition-transform duration-200">
                                   {item.images?.[0]?.image && (
-                                    <div className="Image shadow-md p-[1rem] md:p-[5px] lg:p-[16px] ">
+                                    <div className="Image shadow-md p-[1rem] md:p-[16px] lg:p-[16px] ">
                                       <div className="product-image relative">
                                         <img
                                           className="min-w-full md:w-full h-auto block"
@@ -111,10 +111,10 @@ function Category() {
                                           alt={item.title}
                                         />
                                       </div>
-                                      <div className="product-info min-h-[150px]  md:min-h-[160px] lg:min-h-[195px]  xl:min-h-[160px] py-[10px] md:px-[15px] lg:px-[15px]">
-                                        <div className="title-price flex justify-between items-center">
+                                      <div className="product-info min-h-[170px]  md:min-h-[120px] lg:min-h-[195px]  xl:min-h-[125px] py-[10px] md:px-[15px] lg:px-[15px]">
+                                        <div className="title-price flex justify-between ">
                                           <h3 className="text-[16px] md:text-[16px] lg:text-[18px] font-bold m-0">
-                                            {item.title}
+                                            {item.title.length > 20 ? item.title.substring(0, 20) + "..." : item.title}
                                           </h3>
                                           <span className="price text-[16px] md:text-[16px] lg:text-[18px] font-bold text-[#000]">
                                             {item.price}

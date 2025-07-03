@@ -17,9 +17,7 @@ function ProductDetail() {
     handleClick,
     total_price,
     showAddToBucketToast,
-    /*     orderToastMessage, */
     setShowAddToBucketToast,
-    /*     showSuccessOrderToast, */
     addToBucketToastMessage,
   } = useProductDetailsPage();
 

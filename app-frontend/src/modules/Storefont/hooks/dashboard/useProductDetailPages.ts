@@ -167,7 +167,7 @@ export const useProductDetailsPage = () => {
     setShowAddToBucketToast(true);
 
     setTimeout(() => {
-      navigate("/orderProductDashBoard");
+      navigate("/cart");
     }, 1000);
   };
   return {

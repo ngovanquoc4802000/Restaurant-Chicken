@@ -101,7 +101,7 @@ function OrderProductDashBoard() {
             </div>
 
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4"> {orderId} Food</h2>
+              <h2 className="text-xl font-bold mb-4 text-red-500 font-bold"> {orderId} Food</h2>
               <div className="mb-4">
                 <p className="text-[16px] font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">
@@ -116,11 +116,11 @@ function OrderProductDashBoard() {
               <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
                 <div className="flex justify-between">
                   <span className="text-[16px]">Total Quantity</span>
-                  <span className="text-[16px]">{calculatOrder} quantity</span>
+                  <span className="text-[16px] text-red-500 font-bold">{calculatOrder} quantity</span>
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total payment</span>
-                  <span>{formatCurrency(calculatorPrice)} đ</span>
+                  <span className="text-red-500 font-bold">{formatCurrency(calculatorPrice)} đ</span>
                 </div>
               </div>
               <Button
