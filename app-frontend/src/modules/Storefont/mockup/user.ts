@@ -29,6 +29,7 @@ export interface UsersTs {
   create_at: Date;
   update_at?: Date;
   status?: boolean | number;
+  checkbox?: boolean;
 }
 
 export interface UserAll {

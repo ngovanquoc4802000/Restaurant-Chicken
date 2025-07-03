@@ -76,7 +76,7 @@ function Register() {
             </div>
             <Button
               className="btn-register mt-8 bg-[#e4002b] text-[16px] md:text-[18px] text-white p-3 border-none rounded-3xl font-bold cursor-pointer text-[1.1rem]"
-              text=" Tạo Tài Khoản"
+              text="Create Register"
               type="submit"
             />
           </form>

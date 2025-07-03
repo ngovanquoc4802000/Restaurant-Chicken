@@ -26,16 +26,16 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
   } = useModalLoginPages();
   const backdropRef = useRef<HTMLDivElement>(null);
   const handleOnclose = () => {
-    if (showForm) {
+    if (setIsModal) {
       setShowForm(false);
-    } else {
-      if (setIsModal) {
-        setIsModal(false);
-      }
+
+      setIsModal(false);
     }
   };
-  const isValidCheckRegister = valueRegister.password.trim() === "";
+  const isValidCheckRegister = !valueRegister.checkbox;
+
   const isValidCheckLogin = value.password.trim() === "";
+
   return (
     <div
       ref={backdropRef}
@@ -47,7 +47,7 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
         </button>
         {isPending && <p className="text-center text-blue-500">Saving...</p>}
         <div className="modal-box w-[500px] md:mt-[-4px] md:p-[2rem] md:pb-[4rem] lg:mt-[0px] lg:p-[2rem] bg-white p-6 max-w-[400px] rounded-[8px] text-center">
-          {showForm && (
+          {showForm && isModal ? (
             <div className="register-form md:h-[70vh]  lg:p-0 p-0 md:p-0 md:mt-3.5 flex-col justify-center">
               <h2 className="text-[20px] text-center md:mb-[0px] xl:mb-[0px] lg:mb-[0px] font-bold">Create Register</h2>
               <form className="flex flex-col " onSubmit={handleSubmitRegister}>
@@ -105,7 +105,15 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
                   classNameInput="w-full p-2 border border-gray-500 md:mt-2 md:mb-0 outline focus:border-blue-500 rounded mt-1"
                 />
                 <div className="terms mt-6 flex ">
-                  <input className="mr-2 mt-1" type="checkbox" id="agree" required />
+                  <input
+                    className="mr-2 mt-1"
+                    onChange={onChangeRegister}
+                    checked={valueRegister.checkbox}
+                    type="checkbox"
+                    name="checkbox"
+                    id="agree"
+                    required
+                  />
                   <label htmlFor="agree" className="text-[18px] mb-[10px] text-left">
                     I have read and agree to the{" "}
                     <a href="#" className="">
@@ -127,6 +135,8 @@ function ModalLogin({ isModal, setIsModal }: OnCloseTs) {
                 </Link>
               </form>
             </div>
+          ) : (
+            ""
           )}
           {!showForm && isModal ? (
             <>

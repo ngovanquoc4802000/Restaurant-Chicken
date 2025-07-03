@@ -14,40 +14,18 @@ import type { RootState } from "../../store/store";
 export const useProductDetailsPage = () => {
   const [isActive, setIsActive] = useState(false);
 
-  const dispatch = useDispatch();
+  const [showSuccessOrderToast, setShowSuccessOrderToast] = useState(false);
 
-  const { slugProduct } = useParams();
+  const [orderToastMessage, setOrderToastMessage] = useState("");
 
-  const userRule = useSelector((state: RootState) => state.userLogin.rule);
+  const [showAddToBucketToast, setShowAddToBucketToast] = useState(false);
 
-  const isAuthentication = useSelector((state: RootState) => state.userLogin.isAuthenticated);
-  const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
-
-  const isOpen = useSelector((state: RootState) => state.showLogin);
-
-  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
-
-  useEffect(() => {
-    if (userRule === "customer") {
-      setIsActive(true);
-    } else if (userRule === "admin") {
-      alert("admin does not have permission to log in");
-      dispatch(open());
-    } else {
-      setIsActive(false);
-    }
-  }, [userRule]);
-  const handleOrderClick = () => {
-    if (!isAuthentication) {
-      dispatch(open());
-    }
-  };
-  /* -------------------------------------- */
-  const navigate = useNavigate();
+  const [addToBucketToastMessage, setAddToBucketToastMessage] = useState("");
 
   const [quantity, setQuantity] = useState(1);
 
   const user = useSelector((state: RootState) => state.userLogin.id);
+
   const [orderData, setOrderData] = useState<OrderTableTs>({
     id: 0,
     user_id: Number(user),
@@ -64,6 +42,38 @@ export const useProductDetailsPage = () => {
     price: 0,
     note: "",
   });
+  const dispatch = useDispatch();
+
+  const { slugProduct } = useParams();
+
+  const userRule = useSelector((state: RootState) => state.userLogin.rule);
+
+  const isAuthentication = useSelector((state: RootState) => state.userLogin.isAuthenticated);
+
+  const { isLoading, error, data: dishlist } = useQuery({ ...queriesDishlist.list });
+
+  const isOpen = useSelector((state: RootState) => state.showLogin);
+
+  const product = dishlist?.find((item) => slugify(item.title) === slugProduct);
+
+  useEffect(() => {
+    if (userRule === "customer") {
+      setIsActive(true);
+    } else if (userRule === "admin") {
+      alert("admin does not have permission to log in");
+      dispatch(open());
+    } else {
+      setIsActive(false);
+    }
+  }, [userRule]);
+
+  const handleOrderClick = () => {
+    if (!isAuthentication) {
+      dispatch(open());
+    }
+  };
+  /* -------------------------------------- */
+  const navigate = useNavigate();
 
   const handleCart = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -86,7 +96,9 @@ export const useProductDetailsPage = () => {
         },
       ],
     };
+
     const res = await createOrder(finalOrder);
+
     if (product) {
       dispatch(
         addToCart({
@@ -104,11 +116,18 @@ export const useProductDetailsPage = () => {
 
   const { mutate: createUpdate } = useMutation({
     mutationFn: create,
+
     onSuccess: () => {
-      navigate("/menu");
+      setOrderToastMessage("Đặt hàng thành công!");
+      setShowSuccessOrderToast(true);
+      setTimeout(() => {
+        navigate("/menu");
+      }, 2000);
     },
     onError: () => {
-      alert("Create Order fails!");
+      setShowSuccessOrderToast(true);
+
+      setOrderToastMessage("Create Order failed!");
     },
   });
 
@@ -120,10 +139,14 @@ export const useProductDetailsPage = () => {
   const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
+
   const total_price = (Number(product?.price) * quantity).toFixed(3);
+
   const handleClick = () => {
     const existingCart = localStorage.getItem("storeCart");
+
     let storeCart = [];
+
     if (existingCart) {
       storeCart = JSON.parse(existingCart);
     }
@@ -137,12 +160,24 @@ export const useProductDetailsPage = () => {
       note: "",
     };
     storeCart.push(order);
+    setAddToBucketToastMessage(`Đã thêm ${product?.title} vào giỏ hàng`);
+
     localStorage.setItem("storeCart", JSON.stringify(storeCart));
-    if (storeCart) {
-      navigate("/orderProductDashBoard");
-    }
+
+    setShowAddToBucketToast(true);
+
+    setTimeout(() => {
+      navigate("/cart");
+    }, 1000);
   };
   return {
+    showSuccessOrderToast,
+    orderToastMessage,
+    setShowSuccessOrderToast,
+    showAddToBucketToast,
+    addToBucketToastMessage,
+    setShowAddToBucketToast,
+
     total_price,
     handleClick,
     navigate,
