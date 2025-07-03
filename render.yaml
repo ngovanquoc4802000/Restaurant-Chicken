@@ -1,0 +1,19 @@
+# render.yaml - Đặt ở thư mục gốc của repo
+# REPOSITORY_GOC/render.yaml
+
+services:
+  - type: web
+    name: restaurant-chicken-frontend
+    env: static
+    buildCommand: npm install --prefix app-frontend && npm run build --prefix app-frontend
+    staticPublishPath: ./app-frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+  - type: web
+    name: restaurant-chicken-backend
+    env: node
+    buildCommand: npm install --prefix app-backend
+    startCommand: npm start --prefix app-backend
+    port: 7777
