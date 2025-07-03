@@ -11,7 +11,6 @@ import queriesDishlist from "../../queries/dishlist";
 
 export const useProductDetailPages = () => {
   const user = useSelector((state: RootState) => state.userLogin.id);
-
   const [orderData, setOrderData] = useState<OrderTableTs>({
     user_id: Number(user),
     address: "",

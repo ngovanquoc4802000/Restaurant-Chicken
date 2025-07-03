@@ -1,10 +1,11 @@
 import Button from "$/common/button/button";
 import InputValue from "$/common/input";
 import TextareaValue from "$/common/textarea";
+import { useProductDetailPages } from "$/modules/Storefont/hooks/menu_page/useProductDetailPages";
+import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
+import { useCallback, useEffect, useState } from "react";
 import Footer from "../../footer";
 import Header from "../../header";
-import { useProductDetailPages } from "$/modules/Storefont/hooks/menu_page/useProductDetailPages";
-import { useCallback, useEffect, useState } from "react";
 import type { CartTs, StoreCart } from "../storeCart";
 
 function CheckOutPages() {
@@ -21,7 +22,9 @@ function CheckOutPages() {
     handleNoteChange,
   } = useProductDetailPages();
   const [loaded, setLoaded] = useState<CartTs[]>([]);
+
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
+
   useEffect(() => {
     let Store: StoreCart = [];
     const findCart = localStorage.getItem("storeCart");
@@ -59,9 +62,12 @@ function CheckOutPages() {
     }).format(amount);
   };
   const calculatorPrice = mergedItems.reduce((sum, acc) => sum + acc.price * acc.quantity * 1000, 0);
-  const calculatOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
+
+  const calculateOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
+
   const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
-  const fiveNameOrder = dishlist?.filter((item) => item.name.startsWith("Salad") || item.name.startsWith("Pepsi"));
+
+  const EightNameOrder = dishlist?.filter((item) => item.name.startsWith("Salad") || item.name.startsWith("Pepsi"));
 
   const handleIncrease = useCallback(
     (name: string) => {
@@ -88,6 +94,30 @@ function CheckOutPages() {
     },
     [loaded]
   );
+  const handleClickEightOrder = useCallback((itemToAdd: DishTs) => {
+    setLoaded((prevCart) => {
+      const isCheckLoaded = prevCart.findIndex((item) => item.id === itemToAdd.id);
+      let updatedCart;
+      if (isCheckLoaded > -1) {
+        updatedCart = prevCart.map((cartItem, index) =>
+          index === isCheckLoaded ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+        );
+      } else {
+        const newCartEight: CartTs = {
+          image: itemToAdd?.images?.[0].image,
+          name: itemToAdd.name,
+          price: itemToAdd.price,
+          quantity: 1,
+          note: "",
+          id: 1,
+        };
+        updatedCart = [...prevCart, newCartEight];
+      }
+      localStorage.setItem("storeCart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  }, []);
+
   if (isLoading || !dishlist) return <div>Loading...</div>;
 
   if (error) return `Error Product Details ${error}`;
@@ -147,8 +177,9 @@ function CheckOutPages() {
                 MORE DELICIOUS WHEN ENJOYED WITH...
               </h2>
               <div className="flex overflow-x-auto pb-4 -mx-4 px-4 sm:px-0 sm:-mx-0 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900">
-                {fiveNameOrder?.map((item) => (
+                {EightNameOrder?.map((item) => (
                   <div
+                    onClick={() => handleClickEightOrder(item)}
                     key={item.id}
                     className="flex-shrink-0 w-32 sm:w-40 md:w-48 mr-4 last:mr-0 flex flex-col items-center p-3 rounded-lg bg-gray-700 shadow-md transform hover:scale-105 transition duration-200"
                   >
@@ -173,7 +204,7 @@ function CheckOutPages() {
             <div className="space-y-2 text-gray-800 font-semibold text-base">
               <div className="flex justify-between">
                 <span>Total Order: </span>
-                <span className="text-red-600 font-bold">{calculatOrder} order</span>
+                <span className="text-red-600 font-bold">{calculateOrder} order</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping fee: </span>

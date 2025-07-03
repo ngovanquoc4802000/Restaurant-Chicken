@@ -342,7 +342,6 @@ export const userAPILogin = async (req, res) => {
         sameSite: "Strict",
         maxAge: 365 * 24 * 60 * 60 * 1000,
       });
-
       res.status(200).json({
         success: true,
         message: "Login successful.",
@@ -406,7 +405,6 @@ export const refreshTokenAPI = async (req, res) => {
       });
     }
     const user = userResult.rows[0];
-
     const accessTokenPayload = {
       sub: user.id.toString(),
       email: user.email,

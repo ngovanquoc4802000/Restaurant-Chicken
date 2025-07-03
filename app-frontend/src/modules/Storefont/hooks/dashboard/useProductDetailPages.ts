@@ -48,7 +48,6 @@ export const useProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
 
   const user = useSelector((state: RootState) => state.userLogin.id);
-
   const [orderData, setOrderData] = useState<OrderTableTs>({
     id: 0,
     user_id: Number(user),
@@ -121,7 +120,6 @@ export const useProductDetailsPage = () => {
   const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setOrderDetails((prev) => ({ ...prev, note: e.target.value }));
   };
-
   const total_price = (Number(product?.price) * quantity).toFixed(3);
   const handleClick = () => {
     const existingCart = localStorage.getItem("storeCart");
