@@ -4,7 +4,7 @@ import Dashboard from "$/modules/Storefont/components/pages/dashboard";
 import Category from "$/modules/Storefont/components/pages/dashboard/category";
 import CheckOutPages from "$/modules/Storefont/components/pages/dashboard/category/checkout";
 import ProductDetail from "$/modules/Storefont/components/pages/dashboard/category/details";
-import OrderProductDashBoard from "$/modules/Storefont/components/pages/dashboard/category/orderProduct";
+import OrderProductDashBoard from "$/modules/Storefont/components/pages/dashboard/category/cart";
 import Home from "$/modules/Storefont/components/pages/main_page";
 import DetailAccountPage from "$/modules/Storefont/components/pages/main_page/detailAcount_page";
 import AddressAccount from "$/modules/Storefont/components/pages/main_page/detailAcount_page/address";
@@ -55,7 +55,7 @@ export const routerStore = [
     element: <ProductDetail />,
   },
   {
-    path: "orderProductDashBoard",
+    path: "cart",
     element: <OrderProductDashBoard />,
   },
   {

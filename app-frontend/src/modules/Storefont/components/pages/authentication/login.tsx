@@ -32,8 +32,8 @@ function Login() {
           </div>
         )}
 
-        <div className="login-container grid font-sans py-0  lg:md-24 grid-cols-1 min-h-screen md:grid-cols-2">
-          <div className="login-banner bg-[#e4002b] items-center text-white p-6 flex flex-col justify-center text-center ">
+        <div className="login-container grid font-sans py-0  lg:md-24 grid-cols-1 md:min-h-[800px] min-h-screen md:grid-cols-2">
+          <div className="login-banner bg-[#e4002b] md:p-0 md:pt-5   items-center text-white p-6 flex flex-col justify-center text-center ">
             <img
               width={100}
               className="w-[240px]  mt-15 md:mt-0 lg:mt-0   md:w-full lg:w-full"
@@ -41,7 +41,7 @@ function Login() {
               alt="KFC Logo"
             />
           </div>
-          <div className="login-form p-9 flex md:mt-[10rem] flex-col justify-center">
+          <div className="login-form p-9 flex md:mt-[6rem] flex-col justify-center">
             <h2 className="font-bold text-center  text-[25px] md:text-[1.8rem] mb-4">Login</h2>
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <InputValue

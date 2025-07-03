@@ -26,9 +26,9 @@ function Welcome() {
           {stateLogin.fullname}
         </h2>
 
-        <div className="mt-4">
+        <div className="mt-4 mb-6">
           <NavLink
-            className="text-sm lg:text-md text-gray-600 hover:text-black underline inline-flex items-center"
+            className="text-sm lg:text-[18px] text-gray-600 hover:text-black underline inline-flex items-center"
             to="/account"
           >
             My Account

@@ -101,32 +101,32 @@ function OrderProductDashBoard() {
             </div>
 
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4"> {orderId} Food</h2>
+              <h2 className="text-xl font-bold mb-4 text-red-500 font-bold"> {orderId} Food</h2>
               <div className="mb-4">
-                <p className="text-sm font-medium mb-1">Do you have a discount code?</p>
+                <p className="text-[16px] font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">
                   <input
                     type="text"
                     placeholder="🎁 Tip: Enter code to get 10% off orders over 100K!"
-                    className="flex-1 border-b border-gray-400 focus:outline-none focus:border-black"
+                    className="flex-1 text-[16px] border-b border-gray-400 focus:outline-none focus:border-black"
                   />
-                  <Button className="bg-black text-white px-4 py-1 rounded-full text-sm" text="Apply" />
+                  <Button className="bg-black text-[16px] text-white px-4 py-1 rounded-full text-sm" text="Apply" />
                 </div>
               </div>
               <div className="border-t border-gray-300 pt-4 text-sm space-y-2">
                 <div className="flex justify-between">
-                  <span>Total Quantity</span>
-                  <span>{calculatOrder} quantity</span>
+                  <span className="text-[16px]">Total Quantity</span>
+                  <span className="text-[16px] text-red-500 font-bold">{calculatOrder} quantity</span>
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total payment</span>
-                  <span>{formatCurrency(calculatorPrice)} đ</span>
+                  <span className="text-red-500 font-bold">{formatCurrency(calculatorPrice)} đ</span>
                 </div>
               </div>
               <Button
                 onClick={handleCheckOut}
                 text={`CHECK OUT`}
-                className="cursor-pointer mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
+                className="cursor-pointer text-[16px] md:text-[18px] lg:text-[20px] xl:text-[20px] mt-6 w-full font-black bg-red-600 text-white text-lg py-3 rounded-full shadow hover:bg-red-700"
               />
             </div>
           </div>

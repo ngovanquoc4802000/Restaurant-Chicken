@@ -12,6 +12,7 @@ export const useHeaderPagesDB = () => {
   const openOffcanvas = () => {
     setIsOffcanvasOpen(true);
   };
+
   const closeOffcanvas = () => {
     setIsOffcanvasOpen(false);
   };

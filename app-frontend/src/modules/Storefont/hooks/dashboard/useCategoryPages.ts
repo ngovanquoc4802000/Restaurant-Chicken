@@ -8,6 +8,13 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../components/pages/features/cartSlice";
 
 export const useCategoryPages = () => {
+  const setRef = useCallback(
+    (slug: string) => (el: HTMLDivElement | null) => {
+      if (el) refs.current[slug] = el;
+    },
+    []
+  );
+
   const { id } = useParams();
 
   const resultOptions = useQueries({
@@ -53,12 +60,6 @@ export const useCategoryPages = () => {
 
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const setRef = useCallback(
-    (slug: string) => (el: HTMLDivElement | null) => {
-      if (el) refs.current[slug] = el;
-    },
-    []
-  );
   return {
     categories,
     navigate,
