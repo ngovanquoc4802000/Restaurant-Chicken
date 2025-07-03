@@ -15,26 +15,22 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-// PORT
 const PORT = process.env.APP_PORT || 7777;
 
-// Middleware
 app.use(cookieParser()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(morgan("dev")); 
 
-// --- Cấu hình CORS ---
-// Lấy URL frontend từ biến môi trường và đảm bảo không có dấu / ở cuối
 const APP_FE_URL = (process.env.APP_FE || "http://localhost:5173").replace(/\/$/, ''); 
 
 const corsOptions = {
-  origin: APP_FE_URL, // Cho phép truy cập từ origin của frontend
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Các phương thức HTTP được phép
-  credentials: true, // Cho phép gửi cookies
-  optionsSuccessStatus: 204, // Một số trình duyệt cũ (IE11, various SmartTVs) mắc kẹt ở 200
+  origin: APP_FE_URL, 
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true, 
+  optionsSuccessStatus: 204, 
 };
-app.use(cors(corsOptions)); // Sử dụng middleware CORS
+app.use(cors(corsOptions)); 
 
 app.use("/category", routerCategoryApi);
 app.use("/dishlist", routerDishlist);

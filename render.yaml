@@ -1,0 +1,11 @@
+{
+  "name": "restaurant-chicken-monorepo",
+  "version": "1.0.0",
+  "scripts":
+    {
+      "build:frontend": "cd app-frontend && npm install && npm run build",
+      "start:backend": "cd app-backend && npm install && node index.js",
+    },
+  "devDependencies": {},
+  "dependencies": {},
+}
