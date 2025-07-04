@@ -11,14 +11,14 @@ export const useOrderProductDB = () => {
 
   const navigate = useNavigate();
 
-  const mergedItemsMap = new Map<string, CartTs>();
+  const mergedItemsMap = new Map<number, CartTs>();
 
   loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
+    const existing = mergedItemsMap.get(item.id);
     if (existing) {
       existing.quantity += item.quantity;
     } else {
-      mergedItemsMap.set(item.name, { ...item });
+      mergedItemsMap.set(item.id, { ...item });
     }
   });
 

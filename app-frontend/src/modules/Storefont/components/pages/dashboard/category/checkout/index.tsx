@@ -28,6 +28,7 @@ function CheckOutPages() {
   const [showAddToBucketToast, setShowAddToBucketToast] = useState(false);
 
   const [addToBucketToastMessage] = useState("");
+
   const [loaded, setLoaded] = useState<CartTs[]>([]);
 
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
@@ -49,19 +50,21 @@ function CheckOutPages() {
     }
     setLoaded(Store);
   }, []);
-  const mergedItemsMap = new Map<string, CartTs>();
+  const mergedItemsMap = new Map<number, CartTs>();
 
   loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
+    const existing = mergedItemsMap.get(item.id);
     if (existing) {
       existing.quantity += item.quantity;
     } else {
-      mergedItemsMap.set(item.name, { ...item });
+      mergedItemsMap.set(item.id, { ...item });
     }
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
+
   const numberOfDifferentDishes = mergedItems.length;
+
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
       style: "decimal",
@@ -77,7 +80,6 @@ function CheckOutPages() {
 
   const handleIncrease = useCallback((id: number) => {
     setLoaded((prevLoaded) => {
-      // Sử dụng functional update
       const updatedCart = prevLoaded.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
       localStorage.setItem("storeCart", JSON.stringify(updatedCart));
       return updatedCart;
@@ -86,7 +88,6 @@ function CheckOutPages() {
 
   const handleDecrease = useCallback((id: number) => {
     setLoaded((prevLoaded) => {
-      // Sử dụng functional update
       const updateDecrease = prevLoaded.map((item) =>
         item.id === id
           ? {
@@ -99,6 +100,7 @@ function CheckOutPages() {
       return updateDecrease;
     });
   }, []);
+
   const handleClickEightOrder = useCallback((itemToAdd: DishTs) => {
     setLoaded((prevCart) => {
       const isCheckLoaded = prevCart.findIndex((item) => item.id === itemToAdd.id);
