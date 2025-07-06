@@ -8,12 +8,11 @@ const formatDbTimestamp = () => {
 export const getOrders = async (req, res) => {
   const connection = await pool.connect();
   try {
-    const ordersResult = await pool.query(`
-      SELECT id, user_id, address, customer_note, customer_name, customer_phone,
-             total_price, status, paid, process, create_at, update_at
-      FROM "order_table"
-    `);
-
+      ordersResult = await pool.query(`
+        SELECT id, user_id, address, customer_note, customer_name, customer_phone,
+               total_price, status, paid, process, create_at, update_at
+        FROM "order_table"
+      `);
     if (ordersResult.rows.length === 0) {
       return res.status(404).send({
         success: false,
