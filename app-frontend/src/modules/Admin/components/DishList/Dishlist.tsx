@@ -33,10 +33,10 @@ const DishList = () => {
       ? sortedDishlist
       : dishlist?.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
 
-  const indexOfLastProduct = currentPage * currentProduct;
-  const indexOfFirstProduct = indexOfLastProduct - currentProduct;
-  const currentDishes = filteredDishlist?.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPage = Math.ceil((filteredDishlist?.length || 0) / currentProduct);
+  const indexOfLastProduct = currentPage * currentProduct; // 2 * 10 = 20
+  const indexOfFirstProduct = indexOfLastProduct - currentProduct; // 20 - 10 = 10
+  const currentDishes = filteredDishlist?.slice(indexOfFirstProduct, indexOfLastProduct); // bắt đầu từ 0 - 10
+  const totalPage = Math.ceil((filteredDishlist?.length || 0) / currentProduct); // làm tròn số thập phân
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -44,7 +44,7 @@ const DishList = () => {
       setCurrentPage(1);
     }, 500);
     return () => clearTimeout(timeOut);
-  }, [value, dishlist]);
+  }, [value, dishlist, setIsInfomation]);
 
   if (isLoading || !dishlist || !filteredDishlist) return <div>Loading...</div>;
   if (isError) return <div>Error data</div>;
@@ -157,7 +157,6 @@ const DishList = () => {
           </tbody>
         </table>
 
-        {/* Pagination controls */}
         <div className="flex justify-center mt-6 gap-2">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
