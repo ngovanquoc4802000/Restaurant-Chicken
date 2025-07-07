@@ -27,7 +27,7 @@ const DetailDishlist = ({ onHideModal, idDetail }: DetailsTs) => {
   }, [details, idDetail, isEdit, queryClient]);
 
   return (
-    <div className="create-dish-form-overlay fixed top-0 left-0 w-full h-full flex bg-black/50 justify-center items-center z-[1000] ">
+    <div className="create-dish-form-overlay fixed top-0 left-0 w-full h-full flex bg-black/70 justify-center items-center z-[1000] ">
       <div className="create-dish-form  bg-white p-[30px] rounded-[8px] shadow-md w-[80%] max-w-[600px] max-h-[90vh] overflow-y-auto">
         <h1 className="text-center text-2xl">Create New Dish</h1>
         {isPending && <h1>Save...</h1>}

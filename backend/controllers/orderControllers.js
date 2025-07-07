@@ -8,29 +8,11 @@ const formatDbTimestamp = () => {
 export const getOrders = async (req, res) => {
   const connection = await pool.connect();
   try {
-   const rule = req.user.rule;
-    const userId = parseInt(req.user.sub); 
-    let ordersResult;
-    if (rule === "admin") {
-      ordersResult = await pool.query(`
+     const ordersResult = await pool.query(`
         SELECT id, user_id, address, customer_note, customer_name, customer_phone,
                total_price, status, paid, process, create_at, update_at
         FROM "order_table"
       `);
-    } else if (rule === "customer") {
-      ordersResult = await pool.query(`
-        SELECT id, user_id, address, customer_note, customer_name, customer_phone,
-               total_price, status, paid, process, create_at, update_at
-        FROM "order_table"
-        WHERE user_id = $1
-      `, [userId]);
-    } else {
-      return res.status(403).json({
-        success: false,
-        message: "Access denied: invalid user role.",
-      });
-    }
-
     if (ordersResult.rows.length === 0) {
       return res.status(404).send({
         success: false,

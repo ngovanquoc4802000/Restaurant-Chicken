@@ -11,18 +11,20 @@ export const useOrderProductDB = () => {
 
   const navigate = useNavigate();
 
-  const mergedItemsMap = new Map<string, CartTs>();
+  const mergedItemsMap = new Map<number, CartTs>();
 
   loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
+    const existing = mergedItemsMap.get(item.id);
     if (existing) {
       existing.quantity += item.quantity;
     } else {
-      mergedItemsMap.set(item.name, { ...item });
+      mergedItemsMap.set(item.id, { ...item });
     }
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
+
+  const numberOrder = mergedItems.length;
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
@@ -31,6 +33,7 @@ export const useOrderProductDB = () => {
       maximumFractionDigits: 0,
     }).format(amount);
   };
+
   const calculatorPrice = mergedItems.reduce((sum, acc) => sum + acc.price * acc.quantity * 1000, 0);
 
   const calculatOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
@@ -102,5 +105,6 @@ export const useOrderProductDB = () => {
     orderId,
     formatCurrency,
     mergedItems,
+    numberOrder,
   };
 };

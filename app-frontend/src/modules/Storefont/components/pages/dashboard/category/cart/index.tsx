@@ -15,12 +15,13 @@ function OrderProductDashBoard() {
     handleIncrease,
     calculatOrder,
     calculatorPrice,
-    orderId,
+    /* orderId, */
     formatCurrency,
     mergedItems,
     handleCheckOut,
     isModal,
     setIsModal,
+    numberOrder,
   } = useOrderProductDB();
 
   useEffect(() => {
@@ -101,7 +102,7 @@ function OrderProductDashBoard() {
             </div>
 
             <div className="bg-white rounded-lg shadow-2xl min-h-full p-10 h-fit">
-              <h2 className="text-xl font-bold mb-4 text-red-500 font-bold"> {orderId} Food</h2>
+              <h2 className="text-xl font-bold mb-4 text-red-500 font-bold"> {numberOrder} Food</h2>
               <div className="mb-4">
                 <p className="text-[16px] font-medium mb-1">Do you have a discount code?</p>
                 <div className="flex space-x-2">

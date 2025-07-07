@@ -28,6 +28,7 @@ function CheckOutPages() {
   const [showAddToBucketToast, setShowAddToBucketToast] = useState(false);
 
   const [addToBucketToastMessage] = useState("");
+
   const [loaded, setLoaded] = useState<CartTs[]>([]);
 
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
@@ -49,18 +50,20 @@ function CheckOutPages() {
     }
     setLoaded(Store);
   }, []);
-  const mergedItemsMap = new Map<string, CartTs>();
+  const mergedItemsMap = new Map<number, CartTs>();
 
   loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.name);
+    const existing = mergedItemsMap.get(item.id);
     if (existing) {
       existing.quantity += item.quantity;
     } else {
-      mergedItemsMap.set(item.name, { ...item });
+      mergedItemsMap.set(item.id, { ...item });
     }
   });
 
   const mergedItems = Array.from(mergedItemsMap.values());
+
+  const numberOfDifferentDishes = mergedItems.length;
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
@@ -73,31 +76,31 @@ function CheckOutPages() {
 
   const calculateOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
 
-  const orderId = mergedItems.reduce((sum, acc) => sum + acc.id, 0);
-
   const EightNameOrder = dishlist?.filter((item) => item.name.startsWith("Salad") || item.name.startsWith("Pepsi"));
 
-  const handleIncrease = useCallback((name: string) => {
-    const updatedCart = loaded.map((item) => (item.name === name ? { ...item, quantity: item.quantity + 1 } : item));
-
-    localStorage.setItem("storeCart", JSON.stringify(updatedCart));
-    setLoaded(updatedCart);
-    return updatedCart;
+  const handleIncrease = useCallback((id: number) => {
+    setLoaded((prevLoaded) => {
+      const updatedCart = prevLoaded.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+      localStorage.setItem("storeCart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   }, []);
 
-  const handleDecrease = useCallback((name: string) => {
-    const updateDecrease = loaded.map((item) =>
-      item.name === name
-        ? {
-            ...item,
-            quantity: Math.max(1, item.quantity - 1),
-          }
-        : item
-    );
-    setLoaded(updateDecrease);
-    localStorage.setItem("storeCart", JSON.stringify(updateDecrease));
-    return updateDecrease;
+  const handleDecrease = useCallback((id: number) => {
+    setLoaded((prevLoaded) => {
+      const updateDecrease = prevLoaded.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: Math.max(1, item.quantity - 1),
+            }
+          : item
+      );
+      localStorage.setItem("storeCart", JSON.stringify(updateDecrease));
+      return updateDecrease;
+    });
   }, []);
+
   const handleClickEightOrder = useCallback((itemToAdd: DishTs) => {
     setLoaded((prevCart) => {
       const isCheckLoaded = prevCart.findIndex((item) => item.id === itemToAdd.id);
@@ -113,7 +116,7 @@ function CheckOutPages() {
           price: itemToAdd.price,
           quantity: 1,
           note: "",
-          id: 1,
+          id: Number(itemToAdd.id),
         };
         updatedCart = [...prevCart, newCartEight];
         setOrderToastMessage("Add Dish Success");
@@ -164,14 +167,14 @@ function CheckOutPages() {
                       <div className="mt-4 md:mt-0 cursor-pointer flex items-center gap-4 flex-wrap">
                         <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
                           <button
-                            onClick={() => handleDecrease(item.name)}
+                            onClick={() => handleDecrease(item.id)}
                             className="w-8 h-8 cursor-pointer text-lg text-gray-600 hover:bg-gray-100"
                           >
                             −
                           </button>
                           <span className="w-10 text-center text-base font-semibold">{item.quantity}</span>
                           <button
-                            onClick={() => handleIncrease(item.name)}
+                            onClick={() => handleIncrease(item.id)}
                             className="w-8 h-8 text-lg text-gray-600 hover:bg-gray-100"
                           >
                             +
@@ -196,12 +199,12 @@ function CheckOutPages() {
                   >
                     <img src={item.images?.[0]?.image} className="w-36 h-36 object-cover rounded-md mb-2" />
                     <button
-                      className="cursor-pointer lg:text-[28px] lg:top-[-146px] lg:right-[-53px] relative top-1 right-1 w-8 h-8 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-bold flex items-center justify-center shadow"
+                      className="cursor-pointer text-[22px] font-bold lg:text-[28px] top-[-148px] right-[-50px] lg:top-[-146px] lg:right-[-53px] relative top-1 right-1 w-8 h-8 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-bold flex items-center justify-center shadow"
                       onClick={() => handleClickEightOrder(item)}
                     >
                       +
                     </button>
-                    <div className="flex items-baseline mt-0 ">
+                    <div className="lg:flex items-baseline mt-0 ">
                       <p className="text-md font-semibold text-center leading-tight mb-1">
                         {item.name.length > 24 ? item.name.substring(0, 24) + "..." : item.name}
                         {""}
@@ -215,7 +218,7 @@ function CheckOutPages() {
           </div>
 
           <div className="lg:col-span-1 md:col-span-1 lg:w-[320px]  lg:mt-10 w-full bg-white rounded-xl shadow-lg p-4 sm:p-6 space-y-6 border border-gray-200">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 border-b pb-3">{orderId} Dish</h3>
+            <h3 className="text-lg font-bold text-gray-800 mb-3 border-b pb-3">{numberOfDifferentDishes} Dish</h3>
 
             <div className="space-y-2 text-gray-800 font-semibold text-base">
               <div className="flex justify-between">
