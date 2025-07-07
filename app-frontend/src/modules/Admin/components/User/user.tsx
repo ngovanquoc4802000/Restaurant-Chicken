@@ -8,7 +8,9 @@ function User() {
   if (isLoading || !userList) return <div>Loading...</div>;
 
   if (isError) return <div>Error</div>;
+
   const sortUserList = [...userList].sort((a, b) => Number(a.id) - Number(b.id));
+
   return (
     <div className="user-list-container font-sans">
       <h3 className="text-center p-5 font-bold text-white bg-[#dc3545] text-2xl text-gray-600">User </h3>
