@@ -5,6 +5,7 @@ export interface CartTs {
   price: number;
   quantity: number;
   note: string;
+  uniqueId: string;
 }
 export type StoreCart = CartTs[];
 

@@ -1,0 +1,12 @@
+/* Trong một file CSS của bạn */
+@supports (-moz-appearance: none) {
+  /* Điều kiện để chỉ áp dụng cho Firefox */
+  .line-clamp-1-firefox {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1; /* Mặc dù không phải là chuẩn cho Firefox, đôi khi vẫn cần */
+    white-space: normal; /* Đảm bảo văn bản được xuống dòng */
+  }
+}

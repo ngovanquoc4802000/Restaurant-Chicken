@@ -54,7 +54,6 @@ function OrderProductDashBoard() {
                     key={item.id}
                     className="flex flex-col md:flex-row justify-between items-start md:items-center border border-gray-200 rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition duration-200"
                   >
-                    {/* Product Info */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1">
                       <img
                         src={item.image || ""}

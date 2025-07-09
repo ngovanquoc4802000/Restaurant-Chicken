@@ -1,9 +1,9 @@
 import { useMenuData } from "$/modules/Storefont/hooks/dashboard/useDashboard";
 import { MenuContext } from "$/modules/Storefont/contexts/menuContext";
-import type { RootState } from "$/modules/Storefont/store/store";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import type { RootState } from "$/modules/Storefont/store/store";
 import AppDownLoad from "./app-download";
 import Footer from "./footer";
 import Header from "./header";
@@ -11,8 +11,8 @@ import MenuAndMeal from "./menu/menu";
 import ModalLogin from "./modal/login";
 import OrderOptions from "./oder";
 import Carousel from "./slider/carousel";
-import "./styles.scss";
 import Welcome from "../main_page/welcome";
+import "./styles.scss";
 
 function Dashboard() {
   const { category, isLoading, error, findComboGroup, isOpen } = useMenuData();
