@@ -5,6 +5,7 @@ import type { DishTs } from "$/modules/Storefont/mockup/dishlist";
 import { useCallback, useEffect, useState } from "react";
 import Footer from "../../footer";
 import Header from "../../header";
+// Đảm bảo CartTs đã có uniqueId
 import type { CartTs, StoreCart } from "../storeCart";
 import SuccessToast from "../../modal/successToast";
 
@@ -21,16 +22,13 @@ function CheckOutPages() {
     handleInputChange,
     handleNoteChange,
   } = useProductDetailPages();
+
   const [, setShowSuccessOrderToast] = useState(false);
-
   const [, setOrderToastMessage] = useState("");
-
   const [showAddToBucketToast, setShowAddToBucketToast] = useState(false);
-
   const [addToBucketToastMessage] = useState("");
 
   const [loaded, setLoaded] = useState<CartTs[]>([]);
-
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
 
   useEffect(() => {
@@ -40,7 +38,10 @@ function CheckOutPages() {
       try {
         const parsedCart: unknown = JSON.parse(findCart);
         if (Array.isArray(parsedCart)) {
-          Store = parsedCart;
+          Store = parsedCart.map((item) => ({
+            ...item,
+            uniqueId: item.uniqueId || `${item.id}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          }));
         } else {
           console.log("No data in localStorage: " + Store);
         }
@@ -50,20 +51,10 @@ function CheckOutPages() {
     }
     setLoaded(Store);
   }, []);
-  const mergedItemsMap = new Map<number, CartTs>();
 
-  loaded.forEach((item) => {
-    const existing = mergedItemsMap.get(item.id);
-    if (existing) {
-      existing.quantity += item.quantity;
-    } else {
-      mergedItemsMap.set(item.id, { ...item });
-    }
-  });
+  const displayItems = loaded;
 
-  const mergedItems = Array.from(mergedItemsMap.values());
-
-  const numberOfDifferentDishes = mergedItems.length;
+  const numberOfDifferentDishes = displayItems.length;
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("vi-VN", {
@@ -72,24 +63,27 @@ function CheckOutPages() {
       maximumFractionDigits: 0,
     }).format(amount);
   };
-  const calculatorPrice = mergedItems.reduce((sum, acc) => sum + acc.price * acc.quantity * 1000, 0);
 
-  const calculateOrder = mergedItems.reduce((sum, acc) => sum + acc.quantity, 0);
+  const calculatorPrice = displayItems.reduce((sum, acc) => sum + acc.price * acc.quantity * 1000, 0);
+  const calculateOrder = displayItems.reduce((sum, acc) => sum + acc.quantity, 0);
 
   const EightNameOrder = dishlist?.filter((item) => item.name.startsWith("Salad") || item.name.startsWith("Pepsi"));
 
-  const handleIncrease = useCallback((id: number) => {
+  const handleIncrease = useCallback((uniqueId: string) => {
     setLoaded((prevLoaded) => {
-      const updatedCart = prevLoaded.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+      const updatedCart = prevLoaded.map((item) =>
+        item.uniqueId === uniqueId ? { ...item, quantity: item.quantity + 1 } : item
+      );
       localStorage.setItem("storeCart", JSON.stringify(updatedCart));
       return updatedCart;
     });
   }, []);
 
-  const handleDecrease = useCallback((id: number) => {
+  // handleDecrease giờ nhận `uniqueId`
+  const handleDecrease = useCallback((uniqueId: string) => {
     setLoaded((prevLoaded) => {
       const updateDecrease = prevLoaded.map((item) =>
-        item.id === id
+        item.uniqueId === uniqueId
           ? {
               ...item,
               quantity: Math.max(1, item.quantity - 1),
@@ -103,38 +97,34 @@ function CheckOutPages() {
 
   const handleClickEightOrder = useCallback((itemToAdd: DishTs) => {
     setLoaded((prevCart) => {
-      const isCheckLoaded = prevCart.findIndex((item) => item.id === itemToAdd.id);
-      let updatedCart;
-      if (isCheckLoaded > -1) {
-        updatedCart = prevCart.map((cartItem, index) =>
-          index === isCheckLoaded ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-        );
-      } else {
-        const newCartEight: CartTs = {
-          image: itemToAdd?.images?.[0].image,
-          name: itemToAdd.name,
-          price: itemToAdd.price,
-          quantity: 1,
-          note: "",
-          id: Number(itemToAdd.id),
-        };
-        updatedCart = [...prevCart, newCartEight];
-        setOrderToastMessage("Add Dish Success");
-        setShowSuccessOrderToast(true);
-      }
+      const newUniqueId = `${itemToAdd.id}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
+      const newCartEight: CartTs = {
+        image: itemToAdd?.images?.[0]?.image,
+        name: itemToAdd.name,
+        price: itemToAdd.price,
+        quantity: 1,
+        note: "",
+        id: Number(itemToAdd.id),
+        uniqueId: newUniqueId,
+      };
+
+      const updatedCart = [...prevCart, newCartEight];
+
+      setOrderToastMessage("Add Dish Success");
+      setShowSuccessOrderToast(true);
+
       localStorage.setItem("storeCart", JSON.stringify(updatedCart));
       return updatedCart;
     });
   }, []);
 
   if (isLoading || !dishlist) return <div>Loading...</div>;
-
   if (error) return `Error Product Details ${error}`;
 
   return (
     <div className="productDetail-container cursor-pointer">
       {isSuccess && <div>Success...</div>}
-
       {isError && <div>Error...</div>}
       {showAddToBucketToast && (
         <SuccessToast
@@ -148,17 +138,20 @@ function CheckOutPages() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 items-start">
           <div className="lg:col-span-2 md:col-span-1 md:mt-30 lg:mt-[-1rem] space-y-6">
             <h1 className="text-3xl mt-[2rem] lg:flex font-bold mb-6">My Shopping Cart</h1>
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200">
-              {mergedItems.length === 0 ? (
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6// Sử dụng displayItems border border-gray-200">
+              {displayItems.length === 0 ? (
                 <p className="text-gray-600 text-center py-8">Your cart is empty.</p>
               ) : (
                 <div className="space-y-4">
-                  {mergedItems.map((item) => (
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 rounded-lg bg-white border border-gray-200">
+                  {displayItems.map((item) => (
+                    <div
+                      key={item.uniqueId}
+                      className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 rounded-lg bg-white border border-gray-200"
+                    >
                       <img
                         src={item.image ?? ""}
                         alt={item.name}
-                        className="xl:w-40 xl:h-32 lg:w-40 lg:h-32 md:w-32 md:h-32 w-[300px] h-300px object-cover rounded-md shadow-sm flex-shrink-0"
+                        className="xl:w-40 xl:h-32 lg:w-40 lg:h-32 md:w-32 md:h-32 w-[300px] h-[300px] object-cover rounded-md shadow-sm flex-shrink-0"
                       />
                       <div className="flex-1 w-full text-center sm:text-left">
                         <h3 className="text-lg md:text-xl font-bold text-gray-900">{item.name}</h3>
@@ -167,14 +160,14 @@ function CheckOutPages() {
                       <div className="mt-4 md:mt-0 cursor-pointer flex items-center gap-4 flex-wrap">
                         <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
                           <button
-                            onClick={() => handleDecrease(item.id)}
+                            onClick={() => handleDecrease(item?.uniqueId)}
                             className="w-8 h-8 cursor-pointer text-lg text-gray-600 hover:bg-gray-100"
                           >
                             −
                           </button>
                           <span className="w-10 text-center text-base font-semibold">{item.quantity}</span>
                           <button
-                            onClick={() => handleIncrease(item.id)}
+                            onClick={() => handleIncrease(item.uniqueId)}
                             className="w-8 h-8 text-lg text-gray-600 hover:bg-gray-100"
                           >
                             +
@@ -229,7 +222,7 @@ function CheckOutPages() {
                 <span>Shipping fee: </span>
                 <span className="text-green-500">Free</span>
               </div>
-              <div className="flex hover:bg-gray-100  rounded-md justify-between text-xl lg:focus: font-bold border-t pt-3 mt-3">
+              <div className="flex hover:bg-gray-100 rounded-md justify-between text-xl lg:focus: font-bold border-t pt-3 mt-3">
                 <span>Total Payment:</span>
                 <span className="text-red-600">{`${formatCurrency(calculatorPrice)} đ`}</span>
               </div>

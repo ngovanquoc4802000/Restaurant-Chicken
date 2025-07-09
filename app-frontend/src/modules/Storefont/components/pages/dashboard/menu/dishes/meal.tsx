@@ -26,7 +26,7 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
   };
   const visibleItems = 1;
 
-  const translateX = `translateX(-${(50 / visibleItems) * startIndex}%)`;
+  const translateX = `translateX(-${(80 / visibleItems) * startIndex}%)`;
 
   return (
     <div className="xl:max-w-[1200px] xl:m-auto ">
@@ -38,7 +38,7 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
       </div>
       <div className="meal-suggestion-section__container flex items-center relative overflow-hidden">
         <Button
-          className="meal-suggestion-section__button meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
+          className="meal-suggestion-section__button cursor-pointer z-[1] meal-suggestion-section__button--prevabsolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
           onClick={previous}
           text="&lt;"
         />
@@ -50,12 +50,12 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
             {findComboGroup?.map((meal) => (
               <div
                 key={meal.id}
-                className="meal-suggestion-card w-[200px] shadow-lg rounded-[3px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4"
+                className="meal-suggestion-card ml-[0.5rem] w-[180px] shadow-lg rounded-[3px] p-4 transition-all duration-300 box-border flex-shrink-0 sm:w-[50%] md:w-1/3 lg:w-1/4"
               >
                 <div className="meal-suggestion-card__image">
                   <img className="meal__image w-full" src={meal.images[0]?.image || ""} alt={meal.title} />
                 </div>
-                <div className="meal-suggestion-card__info min-h-[200px] lg:min-h-[160px]">
+                <div className="meal-suggestion-card__info min-h-[250px] lg:min-h-[160px]">
                   <h3 className="font-semibold text-base">{meal.title}</h3>
                   <p className="text-sm">
                     {meal.price}
@@ -73,7 +73,7 @@ function MealSlider({ findComboGroup, category }: MealSliderTs) {
           </div>
         </div>
         <Button
-          className="meal-suggestion-section__button meal-suggestion-section__button--next  z-10 absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
+          className="meal-suggestion-section__button cursor-pointer top-[193px] meal-suggestion-section__button--next  z-[1] absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black font-bold rounded-full shadow-md hover:bg-gray-100 flex items-center justify-center"
           onClick={next}
           text="&gt;"
         />
