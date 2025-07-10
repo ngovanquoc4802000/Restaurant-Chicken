@@ -26,7 +26,7 @@ const DishList = () => {
   } = useDishlist();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const currentProduct = 10;
+  const currentProduct: number = 10;
 
   const filteredDishlist =
     value.trim() === ""
