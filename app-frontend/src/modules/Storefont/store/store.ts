@@ -1,8 +1,8 @@
+import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "../components/pages/features/modal";
 import userLoginReducer from "../components/pages/features/userLogin";
 import userRegister from "../components/pages/features/userRegister";
 import cartSlice from "../components/pages/features/cartSlice";
-import { configureStore } from "@reduxjs/toolkit";
 import updateLoginReducer from "../components/pages/features/updateLogin";
 import authReducer from "$/common/middleware/authApp";
 
