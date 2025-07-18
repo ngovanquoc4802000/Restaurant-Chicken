@@ -1,3 +1,5 @@
 node_modules
 backend/index.html
 backend/public/images/*
+
+.env
