@@ -1,7 +1,7 @@
 import { execute } from "@getvim/execute";
 import dotenv from "dotenv";
 import pool from "../database/connectdatabase.js";
-dotenv.config(); // Load environment variables
+dotenv.config(); 
 
 const username = process.env.DB_USER;
 const database = process.env.DB_NAME;

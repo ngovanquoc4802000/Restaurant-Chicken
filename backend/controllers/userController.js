@@ -8,21 +8,19 @@ import pool from "../database/connectdatabase.js";
 const JWTKey = process.env.JWT_SECRET;
 const JwtRefresh = process.env.JWT_REFRESH;
 
-// Helper function to generate MD5 hash
 const generateMD5 = (password) => {
   return createHash("md5").update(password).digest("hex");
 };
 
-// Helper function to get current timestamp in ISO format
 const formatDbTimestamp = () => {
   return new Date().toISOString();
 };
 
 export const getAllRegister = async (req, res) => {
-  let client; // Khai báo client
+  let client;
   try {
-    client = await pool.connect(); // Lấy client từ pool
-    const result = await client.query( // Sử dụng client.query
+    client = await pool.connect(); 
+    const result = await client.query( 
       `SELECT id, fullname, email, phone_number, address, create_at, status FROM "user"`
     );
 
@@ -47,13 +45,13 @@ export const getAllRegister = async (req, res) => {
     });
   } finally {
     if (client) {
-      client.release(); // Giải phóng client
+      client.release(); 
     }
   }
 };
 
 export const userAPIRegister = async (req, res) => {
-  let client; // Khai báo client
+  let client; 
   const {
     fullname,
     email,
@@ -78,10 +76,10 @@ export const userAPIRegister = async (req, res) => {
   }
 
   try {
-    client = await pool.connect(); // Lấy client từ pool
+    client = await pool.connect(); 
     const hashedPassword = generateMD5(password);
 
-    const existingUserResult = await client.query( // Sử dụng client.query
+    const existingUserResult = await client.query( 
       `SELECT id FROM "user" WHERE email = $1`,
       [email]
     );
@@ -92,7 +90,7 @@ export const userAPIRegister = async (req, res) => {
         .json({ success: false, message: "Email already exists." });
     }
 
-    const insertResult = await client.query( // Sử dụng client.query
+    const insertResult = await client.query( 
       `INSERT INTO "user" (fullname, email, phone_number, address, password, create_at, status)
         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email`,
       [
@@ -124,13 +122,13 @@ export const userAPIRegister = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in userAPIRegister:", error);
-    if (error.code === "23505") { // PostgreSQL unique violation error code
+    if (error.code === "23505") { 
       return res.status(409).send({
         success: false,
         message: "A user with this email already exists.",
         error: error.message,
       });
-    } else if (error.code === "23502") { // PostgreSQL not null violation error code
+    } else if (error.code === "23502") { 
       return res.status(400).send({
         success: false,
         message: `Missing required data: ${error.column} cannot be null.`,
@@ -144,13 +142,13 @@ export const userAPIRegister = async (req, res) => {
     });
   } finally {
     if (client) {
-      client.release(); // Giải phóng client
+      client.release(); 
     }
   }
 };
 
 export const updateApiRegister = async (req, res) => {
-  let client; // Khai báo client
+  let client; 
   const updateId = req.params.id;
   const { fullname, email, phone_number, address, password, status } = req.body;
 
@@ -164,7 +162,6 @@ export const updateApiRegister = async (req, res) => {
   let updateFields = [];
   let queryParams = [];
   let paramIndex = 1;
-  // const now = formatDbTimestamp(); // not used here
 
   if (fullname !== undefined) {
     updateFields.push(`fullname = $${paramIndex}`);
@@ -215,8 +212,8 @@ export const updateApiRegister = async (req, res) => {
   queryParams.push(updateId);
 
   try {
-    client = await pool.connect(); // Lấy client từ pool
-    const existingUserCheck = await client.query( // Sử dụng client.query
+    client = await pool.connect(); 
+    const existingUserCheck = await client.query( 
       `SELECT id FROM "user" WHERE id = $1`,
       [updateId]
     );
@@ -230,10 +227,9 @@ export const updateApiRegister = async (req, res) => {
     const updateQuery = `UPDATE "user" SET ${updateFields.join(
       ", "
     )} WHERE id = $${whereIdParamIndex} RETURNING *`;
-    const result = await client.query(updateQuery, queryParams); // Sử dụng client.query
+    const result = await client.query(updateQuery, queryParams); 
 
     if (result.rowCount === 0) {
-      // This means the user was found, but no rows were actually updated (data was same)
       return res.status(200).send({
         success: false,
         message: "User data was already up to date, no changes made.",
@@ -247,13 +243,13 @@ export const updateApiRegister = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in updateApiRegister:", error);
-    if (error.code === "23505") { // PostgreSQL unique violation error code
+    if (error.code === "23505") { 
       return res.status(409).send({
         success: false,
         message: "Update failed: The email provided already exists.",
         error: error.message,
       });
-    } else if (error.code === "23502") { // PostgreSQL not null violation error code
+    } else if (error.code === "23502") {
       return res.status(400).send({
         success: false,
         message: `Missing required data or null value provided for a NOT NULL column: ${
@@ -269,13 +265,13 @@ export const updateApiRegister = async (req, res) => {
     });
   } finally {
     if (client) {
-      client.release(); // Giải phóng client
+      client.release(); 
     }
   }
 };
 
 export const userAPILogin = async (req, res) => {
-  let client; // Khai báo client
+  let client;
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -285,10 +281,10 @@ export const userAPILogin = async (req, res) => {
     });
   }
   try {
-    client = await pool.connect(); // Lấy client từ pool
+    client = await pool.connect();
     const hashedPassword = generateMD5(password);
 
-    const result = await client.query( // Sử dụng client.query
+    const result = await client.query( 
       `SELECT id, fullname, email, rule FROM "user" WHERE email = $1 AND password = $2`,
       [email, hashedPassword]
     );
@@ -308,7 +304,6 @@ export const userAPILogin = async (req, res) => {
         rule: user.rule,
       };
 
-      // Promisify jwt.sign để sử dụng async/await (đã đúng)
       const signPromise = (payload, secret, options) => {
         return new Promise((resolve, reject) => {
           jwt.sign(payload, secret, options, (err, token) => {
@@ -320,7 +315,6 @@ export const userAPILogin = async (req, res) => {
       let accessToken;
       let refreshToken;
       try {
-        // Tạo Access Token
         accessToken = await signPromise(accessTokenPayload, JWTKey, {
           expiresIn: "1d",
         });
@@ -365,14 +359,13 @@ export const userAPILogin = async (req, res) => {
     });
   } finally {
     if (client) {
-      client.release(); // Giải phóng client
+      client.release(); 
     }
   }
 };
 
 export const refreshTokenAPI = async (req, res) => {
-  let client; // Khai báo client
-  // Nó trích xuất Refresh Token từ cookie.
+  let client; 
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
     console.log("No find refresh token");
@@ -391,15 +384,14 @@ export const refreshTokenAPI = async (req, res) => {
       });
     });
 
-    client = await pool.connect(); // Lấy client từ pool
-    const userResult = await client.query( // Sử dụng client.query
+    client = await pool.connect(); 
+    const userResult = await client.query( 
       `SELECT id, fullname, email, rule FROM "user" WHERE id = $1`,
       [decoded.sub]
     );
     if (userResult.rows.length === 0) {
       console.log(`User with ID ${decoded.sub} not found or deactivated.`);
       return res.status(403).json({
-        // 403 Forbidden
         success: false,
         message: "Invalid refresh token: User not found or deactivated.",
       });
@@ -422,7 +414,6 @@ export const refreshTokenAPI = async (req, res) => {
         }
       );
     });
-    // Đặt lại refresh token trong cookie (nếu cần thiết, thường không cần đặt lại nếu không có thay đổi)
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -466,7 +457,7 @@ export const refreshTokenAPI = async (req, res) => {
     });
   } finally {
     if (client) {
-      client.release(); // Giải phóng client
+      client.release(); 
     }
   }
 };
