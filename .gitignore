@@ -1,3 +1,8 @@
 backend/uploads/*
 backend/package-lock.json
 backend/.env
+backend/.env.vuongnq
+backend/pg-backup-postgres-2025-06-27.sql
+backend/generateSecrets.js
+backend/database/connectdatabase.js
+
