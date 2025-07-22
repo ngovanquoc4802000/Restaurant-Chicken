@@ -3,3 +3,6 @@ backend/index.html
 backend/public/images/*
 
 .env
+.env.vuongnq
+generateSecrets.js
+pg-backup-postgres-2025-06-27.sql
