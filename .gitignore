@@ -1,8 +1,10 @@
-backend/uploads/*
-backend/package-lock.json
+node_modules/
+backend/node_modules/
 backend/.env
 backend/.env.vuongnq
-backend/pg-backup-postgres-2025-06-27.sql
 backend/generateSecrets.js
+backend/pg-backup-postgres-2025-06-27.sql
+backend/restaurant_db_k1vr_full.sql
 backend/database/connectdatabase.js
-
+backend/public/images/ 
+backend/index.html 
